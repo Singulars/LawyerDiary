@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
 		C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LawyerDiary.xcdatamodel; sourceTree = "<group>"; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07572F31AE2F2B40017E0F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -93,6 +95,7 @@
 		9D64BD641AE2F87B001230C0 /* Model Interface */ = {
 			isa = PBXGroup;
 			children = (
+				9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */,
 			);
 			path = "Model Interface";
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 			);
@@ -534,6 +538,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */,
+			);
+			currentVersion = 9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */;
+			path = LawyerDiary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C07572E81AE2F2B40017E0F9 /* Project object */;
 }
