@@ -8,6 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */; };
+		9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */; };
+		9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */; };
+		9D64BD761AE304BB001230C0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD751AE304BB001230C0 /* Reachability.m */; };
+		9D64BD891AE30521001230C0 /* APIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD781AE30521001230C0 /* APIConnection.m */; };
+		9D64BD8A1AE30521001230C0 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7A1AE30521001230C0 /* Global.m */; };
+		9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7C1AE30521001230C0 /* LazyImageView.m */; };
+		9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */; };
+		9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD801AE30521001230C0 /* NSDate+Extra.m */; };
+		9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD821AE30521001230C0 /* SharedManager.m */; };
+		9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD841AE30521001230C0 /* UIImage+ColorImage.m */; };
+		9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD861AE30521001230C0 /* UIImage+ImageEffects.m */; };
+		9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD881AE30521001230C0 /* UITextField+Shake.m */; };
+		9D64BD951AE311CA001230C0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD941AE311CA001230C0 /* User.m */; };
+		9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D64BD961AE31660001230C0 /* CoreData.framework */; };
+		9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD991AE31ED7001230C0 /* Client.m */; };
+		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
+		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
+		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
 		C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
@@ -35,6 +53,40 @@
 
 /* Begin PBXFileReference section */
 		9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LawyerDiary.xcdatamodel; sourceTree = "<group>"; };
+		9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnDotum.ttf; sourceTree = "<group>"; };
+		9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnDotumBold.ttf; sourceTree = "<group>"; };
+		9D64BD741AE304BB001230C0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Reachability.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD751AE304BB001230C0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Reachability.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD771AE30521001230C0 /* APIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = APIConnection.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD781AE30521001230C0 /* APIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APIConnection.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD791AE30521001230C0 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Global.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD7A1AE30521001230C0 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Global.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD7B1AE30521001230C0 /* LazyImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LazyImageView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD7C1AE30521001230C0 /* LazyImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LazyImageView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD7D1AE30521001230C0 /* ManagedObjectCloner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ManagedObjectCloner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ManagedObjectCloner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD7F1AE30521001230C0 /* NSDate+Extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSDate+Extra.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD801AE30521001230C0 /* NSDate+Extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSDate+Extra.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD811AE30521001230C0 /* SharedManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SharedManager.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD821AE30521001230C0 /* SharedManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SharedManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD831AE30521001230C0 /* UIImage+ColorImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIImage+ColorImage.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD841AE30521001230C0 /* UIImage+ColorImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIImage+ColorImage.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD851AE30521001230C0 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD861AE30521001230C0 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD871AE30521001230C0 /* UITextField+Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "UITextField+Shake.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD881AE30521001230C0 /* UITextField+Shake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "UITextField+Shake.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		9D64BD921AE30537001230C0 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Constant.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9D64BD931AE311CA001230C0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = LawyerDiary/Model/User.h; sourceTree = SOURCE_ROOT; };
+		9D64BD941AE311CA001230C0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = LawyerDiary/Model/User.m; sourceTree = SOURCE_ROOT; };
+		9D64BD961AE31660001230C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9D64BD981AE31ED7001230C0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = LawyerDiary/Model/Client.h; sourceTree = SOURCE_ROOT; };
+		9D64BD991AE31ED7001230C0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Client.m; path = LawyerDiary/Model/Client.m; sourceTree = SOURCE_ROOT; };
+		9DE1E51C1AE3CC99001060F4 /* Home.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Home.h; sourceTree = "<group>"; };
+		9DE1E51D1AE3CC99001060F4 /* Home.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Home.m; sourceTree = "<group>"; };
+		9DE1E51F1AE3D4A5001060F4 /* Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
+		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
+		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
+		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07572F31AE2F2B40017E0F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -59,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */,
 				C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */,
 				C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
 				C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */,
@@ -81,6 +134,10 @@
 		9D64BD621AE2F87B001230C0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9DE1E51C1AE3CC99001060F4 /* Home.h */,
+				9DE1E51D1AE3CC99001060F4 /* Home.m */,
+				9DE1E51F1AE3D4A5001060F4 /* Register.h */,
+				9DE1E5201AE3D4A5001060F4 /* Register.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -88,6 +145,10 @@
 		9D64BD631AE2F87B001230C0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9D64BD931AE311CA001230C0 /* User.h */,
+				9D64BD941AE311CA001230C0 /* User.m */,
+				9D64BD981AE31ED7001230C0 /* Client.h */,
+				9D64BD991AE31ED7001230C0 /* Client.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -103,6 +164,7 @@
 		9D64BD651AE2F87B001230C0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9D64BD6E1AE300BD001230C0 /* Fonts */,
 				9D64BD661AE2F87B001230C0 /* Audios */,
 				9D64BD671AE2F87B001230C0 /* Images */,
 			);
@@ -126,6 +188,28 @@
 		9D64BD681AE2F87B001230C0 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9D64BD921AE30537001230C0 /* Constant.h */,
+				9D64BD771AE30521001230C0 /* APIConnection.h */,
+				9D64BD781AE30521001230C0 /* APIConnection.m */,
+				9D64BD791AE30521001230C0 /* Global.h */,
+				9D64BD7A1AE30521001230C0 /* Global.m */,
+				9D64BD7B1AE30521001230C0 /* LazyImageView.h */,
+				9D64BD7C1AE30521001230C0 /* LazyImageView.m */,
+				9D64BD7D1AE30521001230C0 /* ManagedObjectCloner.h */,
+				9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */,
+				9DE1E5221AE3D523001060F4 /* FFTextField.h */,
+				9DE1E5231AE3D523001060F4 /* FFTextField.m */,
+				9D64BD7F1AE30521001230C0 /* NSDate+Extra.h */,
+				9D64BD801AE30521001230C0 /* NSDate+Extra.m */,
+				9D64BD811AE30521001230C0 /* SharedManager.h */,
+				9D64BD821AE30521001230C0 /* SharedManager.m */,
+				9D64BD831AE30521001230C0 /* UIImage+ColorImage.h */,
+				9D64BD841AE30521001230C0 /* UIImage+ColorImage.m */,
+				9D64BD851AE30521001230C0 /* UIImage+ImageEffects.h */,
+				9D64BD861AE30521001230C0 /* UIImage+ImageEffects.m */,
+				9D64BD871AE30521001230C0 /* UITextField+Shake.h */,
+				9D64BD881AE30521001230C0 /* UITextField+Shake.m */,
+				9D64BD731AE304BB001230C0 /* Reachability */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -142,6 +226,24 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		9D64BD6E1AE300BD001230C0 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */,
+				9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9D64BD731AE304BB001230C0 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				9D64BD741AE304BB001230C0 /* Reachability.h */,
+				9D64BD751AE304BB001230C0 /* Reachability.m */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		C07572E71AE2F2B40017E0F9 = {
@@ -166,6 +268,7 @@
 		C07572F21AE2F2B40017E0F9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D64BD961AE31660001230C0 /* CoreData.framework */,
 				C07572F31AE2F2B40017E0F9 /* Foundation.framework */,
 				C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */,
 				C07572F71AE2F2B40017E0F9 /* UIKit.framework */,
@@ -300,7 +403,9 @@
 			files = (
 				C075730C1AE2F2B40017E0F9 /* Images.xcassets in Resources */,
 				C07572FE1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */,
+				9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */,
 				C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */,
+				9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,9 +424,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
+				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
+				9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
+				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
+				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
+				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
+				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
+				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
+				9D64BD951AE311CA001230C0 /* User.m in Sources */,
+				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
+				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
+				9D64BD891AE30521001230C0 /* APIConnection.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
+				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
+				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
+				9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
