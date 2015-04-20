@@ -533,6 +533,17 @@
     }
 }
 
+#pragma mark - Apply Corener Radius To View
++ (void)applyCornerRadiusToViews:(NSArray *)views withRadius:(CGFloat)radius borderColor:(UIColor *)color andBorderWidth:(CGFloat)width {
+    
+    for (UIView *view in views) {
+        [view.layer setCornerRadius:radius];
+        [view.layer setBorderColor:color.CGColor];
+        [view.layer setBorderWidth:width];
+        [view.layer setMasksToBounds:YES];
+    }
+}
+
 #pragma mark - Apply custom property to UIButton
 + (void)applyPropertiesToButtons:(NSArray *)buttons likeFont:(NSString *)btnFont fontSize:(CGFloat)btnFontSize fontNormalColor:(UIColor *)btnFontNormalColor fontHighlightedColor:(UIColor *)btnFontHighlightedColor borderColor:(UIColor *)btnBorderColor borderWidth:(CGFloat)btnBorderWidth cornerRadius:(CGFloat)btnCorenerRadius normalBackgroundColor:(UIColor *)btnNormalBackgroundColor andHighlightedBackgroundColor:(UIColor *)btnHighlightedBackgroundColor {
     
@@ -552,6 +563,97 @@
         [button setBackgroundImage:[UIImage imageWithColor:btnHighlightedBackgroundColor] forState:UIControlStateHighlighted];
         [button setBackgroundImage:[UIImage imageWithColor:btnHighlightedBackgroundColor] forState:UIControlStateSelected];
     }
+}
+
+#pragma mark - Set UINavigationBar Background Image With Color
++ (void)setNavigationBarBackGroundImageWithColor:(UIColor *)color ofNaigationBar:(UINavigationBar *)navBar
+{
+    
+    [navBar setBackgroundImage:[UIImage imageWithColor:color] forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+    navBar.shadowImage = [UIImage new];
+    navBar.translucent = NO;
+}
+
+#pragma mark - Set UITabbar Background Image With Color
++ (void)setBackGroundImageToTabBar:(UITabBar *)tabBar withImageColor:(UIColor *)color
+{
+    UIImage *tabBarImage;
+    tabBarImage = [[UIImage imageWithColor:color] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeStretch];
+    
+    [tabBar setBackgroundImage:tabBarImage];
+    [tabBar setShadowImage:[UIImage new]];
+}
+
+#pragma mark - Set LeftView To UITextField
++ (void)setLefViewOfFrame:(CGRect)frame toTextFields:(NSArray *)textFields
+{
+    for (UITextField *textField in textFields) {
+        UIView *leftView = [[UIView alloc] initWithFrame:frame];
+        [leftView setBackgroundColor:CLEAR_COLOR];
+        
+        [textField setLeftView:leftView];
+        [textField setLeftViewMode:UITextFieldViewModeAlways];
+    }
+}
+
+#pragma mark - Set RightView To UITextField
++ (void)setRightViewOfFrame:(CGRect)frame toTextFields:(NSArray *)textFields
+{
+    for (UITextField *textField in textFields) {
+        UIView *rightView = [[UIView alloc] initWithFrame:frame];
+        [rightView setBackgroundColor:BLACK_COLOR];
+        
+        [textField setRightView:rightView];
+        [textField setRightViewMode:UITextFieldViewModeAlways];
+    }
+}
+
+#pragma mark - Set Font To UiviewObject Array
++ (void)setFont:(NSString *)fontName withSize:(CGFloat)size color:(UIColor *)fontColor toUIViewType:(ViewObjectType)objType objectArr:(NSArray *)tfArr
+{
+    switch (objType) {
+        case TextField:
+            for (UITextField *tf in tfArr) {
+                [tf setFont:FONT_WITH_NAME_SIZE(fontName, size)];
+                [tf setTextColor:fontColor];
+            }
+            break;
+        case Label:
+            for (UILabel *lbl in tfArr) {
+                [lbl setFont:FONT_WITH_NAME_SIZE(fontName, size)];
+                [lbl setTextColor:fontColor];
+            }
+            break;
+        case TextView:
+            for (UITextView *tv in tfArr) {
+                [tv setFont:FONT_WITH_NAME_SIZE(fontName, size)];
+                [tv setTextColor:fontColor];
+            }
+            break;
+        default:
+            break;
+    }
+}
+
++ (NSAttributedString *)getAttributedString:(NSString *)str withFont:(NSString *)fontName fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor strokeColor:(UIColor *)strokeColor
+{
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:str attributes:@{NSFontAttributeName: FONT_WITH_NAME_SIZE(fontName, fontSize),
+                                                                                                       NSForegroundColorAttributeName: fontColor,
+                                                                                                       NSStrokeWidthAttributeName: @-4.f,
+                                                                                                       NSStrokeColorAttributeName: strokeColor
+                                                                                                       }];
+    return attributedString;
+}
+
+#pragma mark - Encode UIImage to base64 string
++ (NSString *)encodeToBase64String:(UIImage *)image {
+    return [UIImagePNGRepresentation(image) base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+}
+
+#pragma mark - Decode base64 string to UIImage
++ (UIImage *)decodeBase64ToImage:(NSString *)strEncodeData {
+    NSData *data = [[NSData alloc]initWithBase64EncodedString:strEncodeData options:NSDataBase64DecodingIgnoreUnknownCharacters];
+    return [UIImage imageWithData:data];
 }
 
 + (NSDictionary *)setNavigationBarTitleTextAttributesLikeFont:(NSString *)fontName fontColor:(UIColor *)color andFontSize:(CGFloat)fontSize andStrokeColor:(UIColor *)strokeColor
@@ -589,15 +691,6 @@
     [navBar setBackgroundImage:navBarImage forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
     
     [navBar setShadowImage:[UIImage new]];
-}
-
-+ (void)setBackGroundImageToTabBar:(UITabBar *)tabBar withImageColor:(UIColor *)color
-{
-    UIImage *tabBarImage;
-    tabBarImage = [[UIImage imageWithColor:color] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeStretch];
-    
-    [tabBar setBackgroundImage:tabBarImage];
-    [tabBar setShadowImage:[UIImage new]];
 }
 
 #pragma mark - Sync Contacts
@@ -832,32 +925,6 @@
     }
 }
 
-+ (NSAttributedString *)getAttributedString:(NSString *)str withFont:(NSString *)fontName fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor strokeColor:(UIColor *)strokeColor
-{
-//    NSLog(@"font family %@",[UIFont fontNamesForFamilyName:@"Hobo"]);
-    
-    @try {
-//        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
-//        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-//        paragraphStyle.alignment = NSTextAlignmentCenter;
-        
-        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:str attributes:@{
-                                                                                                           NSFontAttributeName: [UIFont fontWithName:fontName size:fontSize],
-                                                                                                           NSForegroundColorAttributeName: fontColor,
-                                                                                                           NSStrokeWidthAttributeName: [NSNumber numberWithFloat:-4.f],
-                                                                                                           NSStrokeColorAttributeName: strokeColor
-                                                                                                           }];
-        return attributedString;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception => %@", [exception debugDescription]);
-    }
-    @finally {
-        
-    }
-}
-
-
 + (NSAttributedString *)getAttributedString:(NSString *)str withFont:(NSString *)fontName fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor strokeColor:(UIColor *)strokeColor withLetterpressStyle:(BOOL)letterpressStyle
 {
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:str attributes:@{NSFontAttributeName: FONT_WITH_NAME_SIZE(fontName, fontSize),
@@ -894,24 +961,24 @@
     }
 }
 
-+ (void)setFont:(NSString *)font fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor toViewObjectType:(UIViewObjectType)viewObjType toObjects:(NSArray *)objects
++ (void)setFont:(NSString *)font fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor toViewObjectType:(ViewObjectType)viewObjType toObjects:(NSArray *)objects
 {
     switch (viewObjType) {
-        case ObjectTextField: {
+        case TextField: {
             for (UITextField *textField in objects) {
                 [textField setFont:FONT_WITH_NAME_SIZE(font, fontSize)];
                 [textField setTextColor:fontColor];
             }
         }
             break;
-        case ObjectLabel: {
+        case Label: {
             for (UILabel *lbl in objects) {
                 [lbl setFont:FONT_WITH_NAME_SIZE(font, fontSize)];
                 [lbl setTextColor:fontColor];
             }
         }
             break;
-        case ObjectTextView: {
+        case TextView: {
             for (UITextView *textView in objects) {
                 [textView setFont:FONT_WITH_NAME_SIZE(font, fontSize)];
                 [textView setTextColor:fontColor];

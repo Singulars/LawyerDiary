@@ -19,22 +19,14 @@
 @end
 
 @interface APIConnection : NSURLConnection
-{
-    NSMutableData *responseData;
-    
-    id <APIConnectionDelegate> delegate;
-    NSInteger curAction;
-}
-@property (nonatomic, retain) NSMutableData *responseData;
 
-@property (nonatomic, strong) id <APIConnectionDelegate> delegate;
-@property (nonatomic, readwrite) NSInteger curAction;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *receivedData;
+@property (nonatomic, readwrite) NSInteger action;
+@property (nonatomic, strong) id<APIConnectionDelegate>delegate;
 
 #pragma mark - Initiate the request
-- (id)initWithAction:(NSMutableDictionary *)params;
-- (id)initWithAction:(NSInteger)action withParmas:(NSDictionary *)params andMessage:(NSString *)message;
-- (id)initWithAction:(NSInteger)action withParmas:(NSDictionary *)params andMessage:(NSString *)message AndDelegate:(id<APIConnectionDelegate>)objDelegate;
-
+- (id)initWithAction:(NSInteger)apiAction andData:(NSDictionary *)dataDict;
 #pragma mark - POST Data
 - (void)postRequestJSONData:(NSDictionary *)postVars;
 - (void)postRequestJSONDataWithImage:(NSDictionary *)postVars;

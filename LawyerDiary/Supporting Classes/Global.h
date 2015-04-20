@@ -10,20 +10,18 @@
 #import "Constant.h"
 #import <AddressBook/AddressBook.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, ViewObjectType) {
+    TextField = 0,
+    Label,
+    TextView
+} ;
+
+typedef NS_ENUM(NSUInteger, ImageType) {
     JPG = 0,
     PNG,
     GIF,
     TIFF
-} ImageType ;
-
-typedef enum : NSInteger {
-    
-    ObjectTextField = 0,
-    ObjectLabel,
-    ObjectTextView
-    
-} UIViewObjectType;
+} ;
 
 @interface Global : NSObject
 
@@ -69,6 +67,9 @@ typedef enum : NSInteger {
 #pragma mark- Apply corner radius to views with color
 + (void)applyUIViewCornerRadiusToView:(NSArray *)views withRadius:(CGFloat)radius andColor:(UIColor *)color andBorderWidth:(CGFloat)width;
 
+#pragma mark - Apply Corener Radius To View
++ (void)applyCornerRadiusToViews:(NSArray *)views withRadius:(CGFloat)radius borderColor:(UIColor *)color andBorderWidth:(CGFloat)width;
+
 #pragma mark-
 #pragma mark Save Image To Local
 
@@ -113,6 +114,29 @@ typedef enum : NSInteger {
 + (void)setBackGroundImageToNavigationBar:(UINavigationBar *)navBar withImageColor:(UIColor *)color;
 + (void)setBackGroundImageToTabBar:(UITabBar *)tabBar withImageColor:(UIColor *)color;
 
+#pragma mark - Set UINavigationBar Background Image With Color
++ (void)setNavigationBarBackGroundImageWithColor:(UIColor *)color ofNaigationBar:(UINavigationBar *)navBar;
+
+#pragma mark - Set UITabbar Background Image With Color
++ (void)setBackGroundImageToTabBar:(UITabBar *)tabBar withImageColor:(UIColor *)color;
+
+#pragma mark - Set LeftView To UITextField
++ (void)setLefViewOfFrame:(CGRect)frame toTextFields:(NSArray *)textFields;
+
+#pragma mark - Set RightView To UITextField
++ (void)setRightViewOfFrame:(CGRect)frame toTextFields:(NSArray *)textFields;
+
+#pragma mark - Set Font To UiviewObject Array
++ (void)setFont:(NSString *)fontName withSize:(CGFloat)size color:(UIColor *)fontColor toUIViewType:(ViewObjectType)objType objectArr:(NSArray *)tfArr;
+
++ (NSAttributedString *)getAttributedString:(NSString *)str withFont:(NSString *)fontName fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor strokeColor:(UIColor *)strokeColor;
+
+#pragma mark - Encode UIImage to base64 string
++ (NSString *)encodeToBase64String:(UIImage *)image;
+
+#pragma mark - Decode base64 string to UIImage
++ (UIImage *)decodeBase64ToImage:(NSString *)strEncodeData;
+
 + (NSMutableArray *)getAllNewContactsFromContactList;
 
 + (ImageType)contentTypeForImageData:(NSData *)data;
@@ -127,7 +151,7 @@ typedef enum : NSInteger {
 
 + (void)setLeftViewOfSize:(CGSize)size toTextFields:(NSArray *)objects;
 
-+ (void)setFont:(NSString *)font fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor toViewObjectType:(UIViewObjectType)viewObjType toObjects:(NSArray *)objects;
++ (void)setFont:(NSString *)font fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor toViewObjectType:(ViewObjectType)viewObjType toObjects:(NSArray *)objects;
 
 + (UIImageView *)getImgViewOfRect:(CGRect)rect withImage:(UIImage *)img andBackgroundColor:(UIColor *)color;
 

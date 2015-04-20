@@ -10,8 +10,21 @@
 #import "APIConnection.h"
 #import "FFTextField.h"
 
+typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
+    LOGIN_VIEW = 0,
+    SIGN_UP_VIEW,
+    FORGOT_PASS_VIEW
+};
+
 @interface Register : UIViewController <UITableViewDataSource, UITableViewDelegate, APIConnectionDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
+    UINavigationBar *navBar;
+    IBOutlet UINavigationItem *navItem;
+    IBOutlet UIBarButtonItem *barBtnClose;
+    
+    IBOutlet UIImageView *imgViewBackground;
+    IBOutlet UIImageView *imgViewVisualEffect;
+    
     IBOutlet FFTextField *tfFirstName;
     IBOutlet FFTextField *tfLastName;
     IBOutlet FFTextField *tfEmail;
@@ -30,14 +43,13 @@
     IBOutlet UILabel *lblFooterView;
     UITextField *activeTextField;
     
-    IBOutlet UIView *viewAllowAPNSAccess;
-    IBOutlet UIButton *btnAllowAPNSAccess;
-    IBOutlet UIButton *btnAPNSSkip;
-    
     BOOL keyboardShown;
     BOOL isImageSet;
 }
+@property (nonatomic, strong) UIImage *imageFromPreviousScreen;
+@property (nonatomic, assign) VIEW_TYPE viewType;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) APIConnection *conObj;
 
 @end

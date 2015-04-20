@@ -10,105 +10,94 @@
 
 @implementation APIConnection
 
-@synthesize responseData;
+@synthesize connection;
+@synthesize receivedData;
+@synthesize action;
 @synthesize delegate;
-@synthesize curAction;
 
 #pragma mark - Initiate the request
-- (id)initWithAction:(NSMutableDictionary *)params
+- (id)initWithAction:(NSInteger)apiAction andData:(NSDictionary *)dataDict
 {
     self = [super init];
-    [self postRequestJSONData:params];
-    
-    return self;
-}
-
-- (id)initWithAction:(NSInteger)action withParmas:(NSDictionary *)params andMessage:(NSString *)message AndDelegate:(id<APIConnectionDelegate>)objDelegate
-{
-    self = [super init];
-    self.curAction = action;
-    self.delegate = objDelegate;
-    
-    
-    return self;
-}
-- (id)initWithAction:(NSInteger)action withParmas:(NSDictionary *)params andMessage:(NSString *)message
-{
-    self = [super init];
-
-    if(action == signUp)
-    {
-        [self postRequestJSONDataWithImage:params];
+    if (self) {
+        action = apiAction;
+        
+        switch (action) {
+//            case SignUp:
+//                [self postDataWithImage:dataDict];
+//                break;
+//            default:
+//                [self postJSONData:dataDict];
+//                break;
+        }
+        
     }
-    else
-    {
-        [self postRequestJSONData:params];
-    }
-    
-    self.curAction = action;
-    
     return self;
 }
 
-#pragma mark - POST Data With - JSON
+
+#pragma mark - Post Data - JSON
 #pragma mark -
-- (void)postRequestJSONData:(NSDictionary *)postVars
+- (void)postJSONData:(NSDictionary *)dataDict
 {
-    NSURL *url = [NSURL URLWithString:WEBSERVICE_CALL_URL];
-    
-    NSString *contentType = @"application/json";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    NSError *error;
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:dataDict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:WEBSERVICE_CALL_URL]];
     [request setHTTPMethod:@"POST"];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    NSError *err = nil;
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
     
-    NSData *body = [NSJSONSerialization dataWithJSONObject:postVars options:NSJSONWritingPrettyPrinted error:&err];
+    request.timeoutInterval = 60.0;
     
-    [request setHTTPBody:body];
-    [request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)body.length] forHTTPHeaderField: @"Content-Length"];
+    NSLog(@"%@", WEBSERVICE_CALL_URL);
     
-    [request setTimeoutInterval:kRequestTimeOut];
+    NSLog(@"Request : %@", [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding]);
     
-    NSString *someString = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"Request Data - %@", someString);
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }
 
-- (void)postRequestJSONDataWithImage:(NSDictionary *)postVars
+#pragma mark - Post Data With Image - JSON
+#pragma mark -
+- (void)postDataWithImage:(NSDictionary *)dataDict
 {
-    NSURL *url = [NSURL URLWithString:WEBSERVICE_CALL_URL];
+    NSMutableDictionary *mutableDataDict = [[NSMutableDictionary alloc] initWithDictionary:dataDict];
     
-    NSString *contentType = @"application/json";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    BOOL imageFound = NO;
+    for (NSString *key in mutableDataDict) {
+        if ([mutableDataDict[key] isKindOfClass:[UIImage class]]) {
+            imageFound = YES;
+            break;
+        }
+    }
+    
+    if (imageFound) {
+        NSString *base64Str = [Global encodeToBase64String:mutableDataDict[kAPIproPic]];
+        [mutableDataDict setObject:base64Str forKey:kAPIproPic];
+    }
+    
+    NSError *error;
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:mutableDataDict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:WEBSERVICE_CALL_URL]];
     [request setHTTPMethod:@"POST"];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    NSError *err = nil;
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
     
-    NSMutableDictionary *params=[[NSMutableDictionary alloc] initWithDictionary:postVars];
+    request.timeoutInterval = 60.0;
     
-    if ([postVars[kAPIproPic] isKindOfClass:[UIImage class]]) {
-        NSData *dataImage = UIImageJPEGRepresentation([postVars objectForKey:kAPIproPic], 1.0f);
-        [params setObject:[self base64forData:dataImage] forKey:kAPIproPic];
-    }
-    else {
-        [params removeObjectForKey:kAPIproPic];
-    }
+    NSLog(@"%@", WEBSERVICE_CALL_URL);
     
-    NSData *body = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&err];
+    NSLog(@"Request : %@", [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding]);
     
-    [request setHTTPBody:body];
-    [request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)body.length] forHTTPHeaderField: @"Content-Length"];
-    
-    [request setTimeoutInterval:kRequestTimeOut];
-    
-    NSString *someString = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"Request Data - %@", someString);
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
 }
 
@@ -156,62 +145,6 @@
     
 }
 
-
-- (void)postAsyncRequestJSONData:(NSDictionary *)postVars
-{
-    NSURL *url = [NSURL URLWithString:WEBSERVICE_CALL_URL];
-    
-    NSString *contentType = @"application/json";
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    NSError *err = nil;
-    
-    NSData *body = [NSJSONSerialization dataWithJSONObject:postVars options:NSJSONWritingPrettyPrinted error:&err];
-    
-    [request setHTTPBody:body];
-    [request addValue:[NSString stringWithFormat:@"%lu", (unsigned long)body.length] forHTTPHeaderField: @"Content-Length"];
-    
-    [request setTimeoutInterval:kRequestTimeOut];
-    
-    NSString *someString = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"Request Data - %@", someString);
-    
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    
-    NSData *resData = [NSURLConnection sendSynchronousRequest:request
-                                            returningResponse:&response
-                                                        error:&error];
-    
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        if (error) {
-            
-        }
-        else{
-            NSError *err = nil;
-            NSDictionary *dictResponse = [NSDictionary dictionaryWithDictionary:[NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingAllowFragments error:&err]];
-            NSLog(@"%@", dictResponse);
-            if([[dictResponse valueForKey:kAPIstatus] isEqualToString:RESPONSE_STATUS_OK])
-            {
-                if([delegate respondsToSelector:@selector(connectionDidFinishedForAction:andWithResponse:)])
-                {
-                    [delegate performSelector:@selector(connectionDidFinishedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:dictResponse];
-                }
-            }
-            else if([[dictResponse valueForKey:kAPIstatus] isEqualToString:RESPONSE_STATUS_ERR])
-            {
-                if([delegate respondsToSelector:@selector(connectionFailedForAction:andWithResponse:)])
-                {
-                    [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:dictResponse];
-                }
-            }
-        }
-    });
-    
-}
-
 - (NSString*)base64forData:(NSData*)theData
 {
     const uint8_t* input = (const uint8_t*)[theData bytes];
@@ -248,31 +181,27 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
     NSLog(@"%@",[error description]);
-    if (self.curAction == 4) {
-        ShareObj.isSearchingFriend = NO;
-        [ShareObj.arrSearchedFriends removeAllObjects];
-    }
     if([delegate respondsToSelector:@selector(connectionFailedForAction:andWithResponse:)])
     {
-        [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:error];
+        [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.action] withObject:error];
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    self.responseData = [[NSMutableData alloc] init];
+    self.receivedData = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    [self.responseData appendData:data];
+    [self.receivedData appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSError *err = nil;
     
-    NSDictionary *dictResponse = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:self.responseData options:NSJSONReadingAllowFragments error:&err]];
+    NSDictionary *dictResponse = [[NSDictionary alloc] initWithDictionary:[NSJSONSerialization JSONObjectWithData:self.receivedData options:NSJSONReadingAllowFragments error:&err]];
     NSLog(@"%@", dictResponse);
     
     if ([dictResponse count] > 0) {
@@ -280,14 +209,14 @@
         {
             if([delegate respondsToSelector:@selector(connectionDidFinishedForAction:andWithResponse:)])
             {
-                [delegate performSelector:@selector(connectionDidFinishedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:dictResponse];
+                [delegate performSelector:@selector(connectionDidFinishedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.action] withObject:dictResponse];
             }
         }
         else if([[dictResponse valueForKey:kAPIstatus] isEqualToString:RESPONSE_STATUS_ERR])
         {
             if([delegate respondsToSelector:@selector(connectionFailedForAction:andWithResponse:)])
             {
-                [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:dictResponse];
+                [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.action] withObject:dictResponse];
             }
         }
     }
@@ -295,7 +224,7 @@
     {
         if([delegate respondsToSelector:@selector(connectionFailedForAction:andWithResponse:)])
         {
-            [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.curAction] withObject:dictResponse];
+            [delegate performSelector:@selector(connectionFailedForAction:andWithResponse:) withObject:[NSNumber numberWithInteger:self.action] withObject:dictResponse];
         }
     }
 }

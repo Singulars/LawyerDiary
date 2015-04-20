@@ -11,8 +11,11 @@
 
 #import <CoreData/CoreData.h>
 #import <Social/Social.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 #import "AppDelegate.h"
+#import "Home.h"
+#import "Register.h"
 
 #import "User.h"
 #import "Client.h"
@@ -118,9 +121,7 @@ typedef enum : NSInteger {
 #pragma mark - Misc
 #pragma mark -
 
-#define ShakeShakes                         6
-#define ShakeDelta                          5.f
-#define ShakeSpeed                          0.05
+#define VIBRATE_DEVICE                      AudioServicesDisposeSystemSoundID(kSystemSoundID_Vibrate), AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
 
 #define kLastSyncContactDateOfUser          ShareObj.loginuserId
 #define kModifyDate                         @"ContactModifyDate"
@@ -139,7 +140,7 @@ typedef enum : NSInteger {
 
 #define SetStatusBarHidden(flag)             [[UIApplication sharedApplication] setStatusBarHidden:flag]
 
-#define userIntrectionEnable(value)         [APP_DELEGATE window].userInteractionEnabled = value
+#define UserIntrectionEnable(value)         [APP_DELEGATE window].userInteractionEnabled = value
 #define ShowNetworkIndicatorVisible(value)  [UIApplication sharedApplication].NetworkActivityIndicatorVisible=value
 #define ShowStatusBar(flag)                 [[UIApplication sharedApplication] setStatusBarHidden:!flag withAnimation:UIStatusBarAnimationFade];
 #define HideHomeNavigationBar(flag)         [[APP_DELEGATE homeNavController].navigationBar setHidden:flag]
@@ -154,6 +155,9 @@ typedef enum : NSInteger {
 #define CAPITALIZED_STRING(string)          [string capitalizedString]
 
 #define VIBRATE_DEVICE                      AudioServicesDisposeSystemSoundID(kSystemSoundID_Vibrate), AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+
+#define WARNING                 @"Warning!"
+#define ERROR                   @"Error!"
 
 #define APP_NAME                            @"Lawyer Diary"
 
@@ -217,14 +221,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kVibrateCellID                      @"VibrateID"
 #define kLogoutCellID                       @"LogoutID"
 
-#define APP_FONT                            @"Arial Rounded MT Bold"
-#define FONT_HELVETICA                      @"HelveticaNeue"
-#define FONT_HELVETICA_BOLD                 @"HelveticaNeue-Bold"
-#define FONT_HelveticaNeueCondensedBlack    @"HelveticaNeue-CondensedBlack"
-
-#define APP_FONT_HOBO_BT                    @"HoboBT-Regular"
-#define APP_FONT_LATO_REGULAR               @"Lato-Regular"
-#define APP_FONT_MYRIAD_PRO_REGULAR         @"MyriadPro-Regular"
+#define APP_FONT                            @"UnDotum"
 
 #define kCellIndex                          @"CellIndex"
 
@@ -275,6 +272,8 @@ otherButtonTitles:@"OK", nil] show];
 #define CLEARCOLOUR                   [UIColor clearColor]
 
 #define APP_TINT_COLOR                UICOLOR(43, 41, 42, 1)
+
+#define TABLEVIEW_SEPRATOR_COLOR     [UIColor colorWithRed:200.0f/255.0f green:199.0f/255.0f blue:204.0f/255.0f alpha:1.0f]
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 
@@ -341,6 +340,7 @@ otherButtonTitles:@"OK", nil] show];
 #define IMG_user_placeholder_50             @"user-placeholder-50"
 #define IMG_user_placeholder_80             @"user-placeholder-80"
 
+#define IMG_right_chevron                   @"right-chevron"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

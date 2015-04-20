@@ -26,6 +26,7 @@
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
+		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
 		C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
@@ -87,6 +88,7 @@
 		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
+		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07572F31AE2F2B40017E0F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -111,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */,
 				9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */,
 				C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */,
 				C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
@@ -268,6 +271,7 @@
 		C07572F21AE2F2B40017E0F9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */,
 				9D64BD961AE31660001230C0 /* CoreData.framework */,
 				C07572F31AE2F2B40017E0F9 /* Foundation.framework */,
 				C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */,

@@ -9,8 +9,9 @@
 #import "Home.h"
 
 @interface Home () <UIViewControllerTransitioningDelegate>
-
-
+{
+    BOOL viewAppeared;
+}
 @end
 
 @implementation Home
@@ -33,31 +34,39 @@
 {
     [super viewWillAppear:animated];
     
-    [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+    SetStatusBarLightContent(NO);
     
-    [lblTitle setAlpha:0.0];
-    [btnSignUp setAlpha:0.0];
-    [btnLogin setAlpha:0.0];
+    if (!viewAppeared) {
+        [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+        
+        [lblTitle setAlpha:0.0];
+        [btnSignUp setAlpha:0.0];
+        [btnLogin setAlpha:0.0];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    SetStatusBarHidden(NO);
-    
-    SetStatusBarLightContent(NO);
-    [self setNeedsStatusBarAppearanceUpdate];
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.4 animations:^{
-            [lblTitle setAlpha:1.0];
-            [btnSignUp setAlpha:1.0];
-            [btnLogin setAlpha:1.0];
+    if (!viewAppeared) {
+        SetStatusBarHidden(NO);
+        
+        SetStatusBarLightContent(NO);
+        [self setNeedsStatusBarAppearanceUpdate];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.4 animations:^{
+                [lblTitle setAlpha:1.0];
+                [btnSignUp setAlpha:1.0];
+                [btnLogin setAlpha:1.0];
+            }];
         }];
-    }];
+        
+        viewAppeared = YES;
+    }
 }
 
 #pragma mark - Action Methods
@@ -87,26 +96,25 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-//    UINavigationController *navController = segue.destinationViewController;
-//    Register *detailViewController = navController.viewControllers[0];
-//    
-//    if ([segue.identifier isEqualToString:@"SignUp"]) {
-//        [detailViewController setViewType:SIGN_UP_VIEW];
-//    }
-//    else if ([segue.identifier isEqualToString:@"LogIn"]) {
-//        [detailViewController setViewType:LOGIN_VIEW];
-//    }
-//    detailViewController.transitioningDelegate = self;
-//    detailViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-//    detailViewController.view.backgroundColor = [UIColor clearColor];
-//    
-//    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
-//    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
-//    
-//    UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    detailViewController.imageFromPreviousScreen = copied;
+    Register *detailViewController = segue.destinationViewController;
+    
+    if ([segue.identifier isEqualToString:@"SignUp"]) {
+        [detailViewController setViewType:SIGN_UP_VIEW];
+    }
+    else if ([segue.identifier isEqualToString:@"LogIn"]) {
+        [detailViewController setViewType:LOGIN_VIEW];
+    }
+    detailViewController.transitioningDelegate = self;
+    detailViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    detailViewController.view.backgroundColor = [UIColor clearColor];
+    
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
+    [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
+    
+    UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    detailViewController.imageFromPreviousScreen = copied;
 }
 
 
