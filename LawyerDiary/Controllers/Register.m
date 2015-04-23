@@ -685,12 +685,18 @@ shakeDirection:ShakeDirectionHorizontal];
     {
         [self showIndicator:YES forView:LOGIN_VIEW];
         
-//        NSDictionary *postDataDictionary = @{
-//                                             kAPIMode: kAPIlogIn,
-//                                             kAPIemail: tfEmail.text,
-//                                             kAPIpassword: tfPassword.text
-//                                             };
-//        [self sendRequestWithData:postDataDictionary forAction:LogIn];
+        NSDictionary *params = @{
+                                 kAPIMode: klogIn,
+                                 kAPIemail: tfEmail.text,
+                                 kAPIpassword: tfPassword.text
+                                 };
+        
+        [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
     }
     else {
         [self showAlertViewToastWithMsgType:InternetOffline];
@@ -719,15 +725,12 @@ shakeDirection:ShakeDirectionHorizontal];
                                  kAPIregistrationNo: @""
                                  };
         
-        NSLog(@"Request - %@", [params jsonStringWithPrettyPrint:YES]);
-        
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             
         }];
-//        [self sendRequestWithData:postDataDictionary forAction:SignUp];
     }
     else {
         [self showAlertViewToastWithMsgType:InternetOffline];

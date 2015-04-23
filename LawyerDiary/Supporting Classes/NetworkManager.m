@@ -12,17 +12,27 @@
 
 + (void)startPostOperationWithParams:(NSDictionary *)param success:(sucessCompletionHandler)successHandler failure:(failureCompletionHandler)failureHandler
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    [manager POST:WEBSERVICE_CALL_URL
-       parameters:param
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSLog(@"JSON: %@", responseObject);
-              successHandler(operation, responseObject);
-          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"Error: %@", error);
-              successHandler(operation, error);
-          }];
+    @try {
+        NSLog(@"Request - %@", [param jsonStringWithPrettyPrint:YES]);
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        [manager POST:WEBSERVICE_CALL_URL
+           parameters:param
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSLog(@"JSON: %@", responseObject);
+                  successHandler(operation, responseObject);
+              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  NSLog(@"Error: %@", error);
+                  successHandler(operation, error);
+              }];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception - %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
 }
 
 @end
