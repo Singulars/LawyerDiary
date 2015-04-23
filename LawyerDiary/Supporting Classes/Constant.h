@@ -20,6 +20,7 @@
 #import "User.h"
 #import "Client.h"
 
+#import "NetworkManager.h"
 #import "Reachability.h"
 #import "SharedManager.h"
 #import "APIConnection.h"
@@ -29,6 +30,9 @@
 #import "UIImage+ImageEffects.h"
 #import "UITextField+Shake.h"
 #import "ManagedObjectCloner.h"
+#import "NSDictionary+SJSONString.h"
+
+#import "NetworkManager.h"
 
 typedef enum : NSInteger {
     signUp = 0,
@@ -141,7 +145,7 @@ typedef enum : NSInteger {
 #define SetStatusBarHidden(flag)             [[UIApplication sharedApplication] setStatusBarHidden:flag]
 
 #define UserIntrectionEnable(value)         [APP_DELEGATE window].userInteractionEnabled = value
-#define ShowNetworkIndicatorVisible(value)  [UIApplication sharedApplication].NetworkActivityIndicatorVisible=value
+#define ShowNetworkIndicatorVisible(value)  [UIApplication sharedApplication].networkActivityIndicatorVisible=value
 #define ShowStatusBar(flag)                 [[UIApplication sharedApplication] setStatusBarHidden:!flag withAnimation:UIStatusBarAnimationFade];
 #define HideHomeNavigationBar(flag)         [[APP_DELEGATE homeNavController].navigationBar setHidden:flag]
 
@@ -309,6 +313,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIfirstName                       @"firstName"
 #define kAPIlastName                        @"lastName"
 #define kAPIemail                           @"email"
+#define kAPIpassword                        @"password"
 #define kAPImobile                          @"mobile"
 #define kAPIbirthdate                       @"birthdate"
 #define kAPIaddress                         @"address"

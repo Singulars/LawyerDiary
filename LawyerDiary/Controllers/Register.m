@@ -348,6 +348,7 @@ shakeDirection:ShakeDirectionHorizontal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateNormal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateHighlighted];
             
+            
             [Global applyPropertiesToButtons:@[btnLogin] likeFont:APP_FONT fontSize:25 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
             [Global applyPropertiesToButtons:@[btnSignup, btnForgotPass] likeFont:APP_FONT fontSize:18 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
@@ -378,6 +379,7 @@ shakeDirection:ShakeDirectionHorizontal];
         case FORGOT_PASS_VIEW: {
             [btnForgotPass setTitle:@"Reset" forState:UIControlStateNormal];
             [btnForgotPass setTitle:@"Reset" forState:UIControlStateHighlighted];
+            [btnForgotPass setTitle:@"" forState:UIControlStateHighlighted];
             
             [Global applyPropertiesToButtons:@[btnForgotPass] likeFont:APP_FONT fontSize:25 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
@@ -654,16 +656,34 @@ shakeDirection:ShakeDirectionHorizontal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
+- (void)showIndicator:(BOOL)flag forView:(VIEW_TYPE)viewType
+{
+    flag ? [indicator startAnimating] : [indicator stopAnimating];
+    switch (viewType) {
+        case LOGIN_VIEW: {
+            [btnLogin setSelected:flag];
+        }
+            break;
+        case SIGN_UP_VIEW: {
+            [btnSignup setSelected:flag];
+        }
+            break;
+        case FORGOT_PASS_VIEW: {
+            [btnForgotPass setSelected:flag];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
 #pragma mark - Make Login Request
 #pragma mark -
 - (void)makeLoginRequest
 {
-    NSLog(@"connected = %hhd", ShareObj.isInternetConnected);
-    
     if (ShareObj.isInternetConnected)
     {
-        [indicator startAnimating];
-        [btnLogin setSelected:YES];
+        [self showIndicator:YES forView:LOGIN_VIEW];
         
 //        NSDictionary *postDataDictionary = @{
 //                                             kAPIMode: kAPIlogIn,
@@ -686,15 +706,27 @@ shakeDirection:ShakeDirectionHorizontal];
         [indicator startAnimating];
         [btnSignup setSelected:YES];
         
-//        NSDictionary *postDataDictionary = @{
-//                                             kAPIMode: kAPIsignUp,
-//                                             kAPIproPic: isImageSet ? imgViewProPic.image : @"",
-//                                             kAPIemail: tfEmail.text,
-//                                             kAPIpassword: tfPassword.text,
-//                                             kAPIfirstName: tfFirstName.text,
-//                                             kAPIlastName: tfLastName.text,
-//                                             kAPImobile: tfMobile.text
-//                                             };
+        NSDictionary *params = @{
+                                 kAPIMode: ksignUp,
+                                 kAPIproPic: isImageSet ? [Global encodeToBase64String:imgViewProPic.image] : @"",
+                                 kAPIemail: tfEmail.text,
+                                 kAPIpassword: tfPassword.text,
+                                 kAPIfirstName: tfFirstName.text,
+                                 kAPIlastName: tfLastName.text,
+                                 kAPImobile: tfMobile.text,
+                                 kAPIbirthdate: tfBirthdate.text,
+                                 kAPIaddress: @"",
+                                 kAPIregistrationNo: @""
+                                 };
+        
+        NSLog(@"Request - %@", [params jsonStringWithPrettyPrint:YES]);
+        
+        [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
 //        [self sendRequestWithData:postDataDictionary forAction:SignUp];
     }
     else {
@@ -740,7 +772,7 @@ shakeDirection:ShakeDirectionHorizontal];
     
     CGFloat footerHeight;
     
-    footerHeight = 10;
+    footerHeight = 15;
     
     return footerHeight;
 }
@@ -1156,122 +1188,6 @@ shakeDirection:ShakeDirectionHorizontal];
     [conObj setDelegate:self];
 }
 
-#pragma mark - APIConnectionDelegate
-#pragma mark -
-- (void)connectionDidFailWithError:(id)result forAction:(NSNumber *)action
-{
-    ShowNetworkIndicatorVisible(NO);
-    UserIntrectionEnable(YES);
-    
-    [indicator stopAnimating];
-    
-    NSError *error;
-    NSDictionary *responseDict;
-    
-    if ([result isKindOfClass:[NSError class]]) {
-        [btnLogin setSelected:NO];
-        [btnSignup setSelected:NO];
-        [btnForgotPass setSelected:NO];
-        
-        error = result;
-        if (error.code == kCFURLErrorTimedOut) {
-            [self showAlertViewToastWithMsgType:RequestTimeOut];
-        }
-        else {
-            [self showAlertViewToastWithMsgType:SomethingWentWrong];
-        }
-    }
-    else if([result isKindOfClass:[NSDictionary class]]){
-        responseDict = result;
-        if ([responseDict count] > 0 || responseDict != nil) {
-//            switch (action.integerValue) {
-//                case LogIn: {
-//                    [btnLogin setSelected:NO];
-//                    [self showAlertViewToastWithMsgType:InvalidCredentials];
-//                }
-//                    break;
-//                case SignUp: {
-//                    [btnSignup setSelected:NO];
-//                    if ([result[kAPIstatus] isEqualToString:@"Email address already exists."]) {
-//                        [self showAlertViewToastWithMsgType:EmailExist];
-//                    }
-//                    else {
-//                        [self showAlertViewToastWithMsgType:SomethingWentWrong];
-//                    }
-//                }
-//                    break;
-//                case ForgotPassword: {
-//                    [btnForgotPass setSelected:NO];
-//                    if ([result[kAPIstatus] isEqualToString:@"Email not found."]) {
-//                        [self showAlertViewToastWithMsgType:InvalidEmail];
-//                    }
-//                    else {
-//                        [self showAlertViewToastWithMsgType:SomethingWentWrong];
-//                    }
-//                }
-//                    break;
-//                default:
-//                    break;
-//            }
-        }
-        else {
-            [btnLogin setSelected:NO];
-            [btnSignup setSelected:NO];
-            [btnForgotPass setSelected:NO];
-            
-            [self showAlertViewToastWithMsgType:SomethingWentWrong];
-        }
-    }
-    else {
-        [btnLogin setSelected:NO];
-        [btnSignup setSelected:NO];
-        [btnForgotPass setSelected:NO];
-        
-        [self showAlertViewToastWithMsgType:SomethingWentWrong];
-    }
-}
-
-- (void)connectionDidFinishLoadingWithResponse:(NSDictionary *)result forAction:(NSNumber *)action
-{
-    ShowNetworkIndicatorVisible(NO);
-    UserIntrectionEnable(YES);
-    
-    [indicator stopAnimating];
-    
-    if ([[result valueForKey:kAPIstatus] isEqualToString:RESPONSE_STATUS_OK]) {
-//        switch (action.integerValue) {
-//            case LogIn: {
-//                [btnLogin setSelected:NO];
-//                
-//                SHARED_OBJECT.loginuserId = [[result valueForKey:kAPIuser] valueForKey:kAPIuserId];
-//                
-//                [User saveUser:[result valueForKey:kAPIuser]];
-//                
-//                // Save USER OBJECT.
-//                SHARED_OBJECT.userObj = [User fetchUser:[[result valueForKey:kAPIuser] valueForKey:kAPIuserId]];
-//                
-//                if (SHARED_OBJECT.userObj != nil) {
-//                    NSLog(@"userId - %@", SHARED_OBJECT.userObj.userId);
-//                }
-//                
-//                [self saveUserInfo:result];
-//            }
-//                break;
-//            case SignUp: {
-//                [btnSignup setSelected:NO];
-//                [self showAlertViewToastWithMsgType:Signedup];
-//            }
-//                break;
-//            case ForgotPassword: {
-//                [btnForgotPass setSelected:NO];
-//                [self showAlertViewToastWithMsgType:PasswordSent];
-//            }
-//                break;
-//            default:
-//                break;
-//        }
-    }
-}
 
 #pragma mark - UITextFieldDelegate
 #pragma mark -
@@ -1330,7 +1246,7 @@ shakeDirection:ShakeDirectionHorizontal];
                 NSUInteger tag = [firstResponder tag];
                 NSUInteger nextTag = tag == SIGNUP_FIELDS_COUNT ? SIGNUP_FIELDS_COUNT : tag + 1;
                 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow: nextTag+1 inSection: 0];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:nextTag == 1 ? 0 : nextTag+1 inSection:0];
                 
                 UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 
@@ -1417,7 +1333,7 @@ shakeDirection:ShakeDirectionHorizontal];
         case LOGIN_VIEW: {
             while (index < LOGIN_FIELDS_COUNT) {
                 
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow: index inSection: 0];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection: 0];
                 
                 UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 
@@ -1439,7 +1355,7 @@ shakeDirection:ShakeDirectionHorizontal];
             break;
         case SIGN_UP_VIEW: {
             while (index <= SIGNUP_FIELDS_COUNT) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index+1 inSection: 0];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(index == 0 || index == 1) ? 0 : index inSection: 0];
                 
                 UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
                 

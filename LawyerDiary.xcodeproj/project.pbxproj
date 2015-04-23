@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		75E1EA0E510F4CDCB99649CB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8C1E5243ED64F381EB5D8A /* libPods.a */; };
 		9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */; };
 		9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */; };
 		9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */; };
@@ -26,6 +27,9 @@
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
+		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
+		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
+		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
 		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
@@ -88,6 +92,11 @@
 		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
+		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
+		C037665A1AE9768500ACA623 /* NSDictionary+SJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SJSONString.h"; sourceTree = "<group>"; };
+		C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SJSONString.m"; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07572F31AE2F2B40017E0F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -106,6 +115,9 @@
 		C075731A1AE2F2B40017E0F9 /* LawyerDiaryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LawyerDiaryTests-Info.plist"; sourceTree = "<group>"; };
 		C075731C1AE2F2B40017E0F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
+		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +130,7 @@
 				C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */,
 				C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
 				C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */,
+				75E1EA0E510F4CDCB99649CB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +226,10 @@
 				9D64BD871AE30521001230C0 /* UITextField+Shake.h */,
 				9D64BD881AE30521001230C0 /* UITextField+Shake.m */,
 				9D64BD731AE304BB001230C0 /* Reachability */,
+				C03766571AE96F8900ACA623 /* NetworkManager.h */,
+				C03766581AE96F8900ACA623 /* NetworkManager.m */,
+				C037665A1AE9768500ACA623 /* NSDictionary+SJSONString.h */,
+				C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */,
 			);
 			path = "Supporting Classes";
 			sourceTree = "<group>";
@@ -256,6 +273,7 @@
 				C07573181AE2F2B40017E0F9 /* LawyerDiaryTests */,
 				C07572F21AE2F2B40017E0F9 /* Frameworks */,
 				C07572F11AE2F2B40017E0F9 /* Products */,
+				CD28515BC07A3F7D00EF024A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +295,7 @@
 				C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */,
 				C07572F71AE2F2B40017E0F9 /* UIKit.framework */,
 				C07573121AE2F2B40017E0F9 /* XCTest.framework */,
+				DF8C1E5243ED64F381EB5D8A /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -286,6 +305,7 @@
 			children = (
 				C07573021AE2F2B40017E0F9 /* AppDelegate.h */,
 				C07573031AE2F2B40017E0F9 /* AppDelegate.m */,
+				C03766551AE96D0A00ACA623 /* Launch Screen.xib */,
 				C07573051AE2F2B40017E0F9 /* Main.storyboard */,
 				9D64BD621AE2F87B001230C0 /* Controllers */,
 				9D64BD631AE2F87B001230C0 /* Model */,
@@ -329,6 +349,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CD28515BC07A3F7D00EF024A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */,
+				F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -336,9 +365,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C07573221AE2F2B40017E0F9 /* Build configuration list for PBXNativeTarget "LawyerDiary" */;
 			buildPhases = (
+				8BB735C641E19809C84B4DC5 /* Check Pods Manifest.lock */,
 				C07572EC1AE2F2B40017E0F9 /* Sources */,
 				C07572ED1AE2F2B40017E0F9 /* Frameworks */,
 				C07572EE1AE2F2B40017E0F9 /* Resources */,
+				995B3E74B5475DA6DD06D242 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -410,6 +441,7 @@
 				9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */,
 				C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */,
 				9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */,
+				C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +454,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8BB735C641E19809C84B4DC5 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		995B3E74B5475DA6DD06D242 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C07572EC1AE2F2B40017E0F9 /* Sources */ = {
@@ -441,11 +506,13 @@
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
+				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
 				9D64BD891AE30521001230C0 /* APIConnection.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
 				9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */,
+				C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,7 +594,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -559,7 +626,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -567,6 +634,7 @@
 		};
 		C07573231AE2F2B40017E0F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -580,6 +648,7 @@
 		};
 		C07573241AE2F2B40017E0F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
