@@ -112,7 +112,6 @@ typedef NS_ENUM(NSUInteger, ImageType) {
 + (void)applyPropertiesToButtons:(NSArray *)buttons likeFont:(NSString *)btnFont fontSize:(CGFloat)btnFontSize fontNormalColor:(UIColor *)btnFontNormalColor fontHighlightedColor:(UIColor *)btnFontHighlightedColor borderColor:(UIColor *)btnBorderColor borderWidth:(CGFloat)btnBorderWidth cornerRadius:(CGFloat)btnCorenerRadius normalBackgroundColor:(UIColor *)btnNormalBackgroundColor andHighlightedBackgroundColor:(UIColor *)btnHighlightedBackgroundColor;
 
 + (void)setBackGroundImageToNavigationBar:(UINavigationBar *)navBar withImageColor:(UIColor *)color;
-+ (void)setBackGroundImageToTabBar:(UITabBar *)tabBar withImageColor:(UIColor *)color;
 
 #pragma mark - Set UINavigationBar Background Image With Color
 + (void)setNavigationBarBackGroundImageWithColor:(UIColor *)color ofNaigationBar:(UINavigationBar *)navBar;
@@ -128,8 +127,6 @@ typedef NS_ENUM(NSUInteger, ImageType) {
 
 #pragma mark - Set Font To UiviewObject Array
 + (void)setFont:(NSString *)fontName withSize:(CGFloat)size color:(UIColor *)fontColor toUIViewType:(ViewObjectType)objType objectArr:(NSArray *)tfArr;
-
-+ (NSAttributedString *)getAttributedString:(NSString *)str withFont:(NSString *)fontName fontSize:(CGFloat)fontSize fontColor:(UIColor *)fontColor strokeColor:(UIColor *)strokeColor;
 
 #pragma mark - Encode UIImage to base64 string
 + (NSString *)encodeToBase64String:(UIImage *)image;

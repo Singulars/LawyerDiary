@@ -75,7 +75,7 @@ Reachability *hostReach;
         [self registerForUserNotifications];
         
         NSString *userId = GetLoginUserId;
-        NSLog(@"%@", userId);
+        NSLog(@"userId - %@", userId);
         ShareObj.userId = userId;
         ShareObj.userObj = [User fetchUser:ShareObj.userId];
         

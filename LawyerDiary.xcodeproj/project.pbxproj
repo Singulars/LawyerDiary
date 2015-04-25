@@ -12,7 +12,6 @@
 		9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */; };
 		9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */; };
 		9D64BD761AE304BB001230C0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD751AE304BB001230C0 /* Reachability.m */; };
-		9D64BD891AE30521001230C0 /* APIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD781AE30521001230C0 /* APIConnection.m */; };
 		9D64BD8A1AE30521001230C0 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7A1AE30521001230C0 /* Global.m */; };
 		9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7C1AE30521001230C0 /* LazyImageView.m */; };
 		9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */; };
@@ -62,8 +61,6 @@
 		9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnDotumBold.ttf; sourceTree = "<group>"; };
 		9D64BD741AE304BB001230C0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Reachability.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9D64BD751AE304BB001230C0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Reachability.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9D64BD771AE30521001230C0 /* APIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = APIConnection.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		9D64BD781AE30521001230C0 /* APIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = APIConnection.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD791AE30521001230C0 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Global.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9D64BD7A1AE30521001230C0 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Global.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD7B1AE30521001230C0 /* LazyImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LazyImageView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -205,8 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				9D64BD921AE30537001230C0 /* Constant.h */,
-				9D64BD771AE30521001230C0 /* APIConnection.h */,
-				9D64BD781AE30521001230C0 /* APIConnection.m */,
 				9D64BD791AE30521001230C0 /* Global.h */,
 				9D64BD7A1AE30521001230C0 /* Global.m */,
 				9D64BD7B1AE30521001230C0 /* LazyImageView.h */,
@@ -507,7 +502,6 @@
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
-				9D64BD891AE30521001230C0 /* APIConnection.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
@@ -578,7 +572,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -596,6 +591,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -616,7 +612,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -627,6 +624,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -638,10 +636,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiary/LawyerDiary-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -652,10 +652,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiary/LawyerDiary-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -7,7 +7,6 @@
 //
 
 #import "Register.h"
-#import "APIConnection.h"
 
 #define LOGIN_FIELDS_COUNT  2
 #define SIGNUP_FIELDS_COUNT 5
@@ -42,8 +41,6 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 @end
 
 @implementation Register
-
-@synthesize conObj;
 
 #pragma mark - UIViewLifeCycle
 #pragma mark -
@@ -527,6 +524,7 @@ shakeDirection:ShakeDirectionHorizontal];
                 [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
                 [self.tableView endUpdates];
                 
+                [self.tableView beginUpdates];
                 [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1],
                                                          [NSIndexPath indexPathForRow:1 inSection:1],
                                                          [NSIndexPath indexPathForRow:0 inSection:0],
@@ -534,6 +532,7 @@ shakeDirection:ShakeDirectionHorizontal];
                                                          [NSIndexPath indexPathForRow:2 inSection:0]
                                                          ]
                                       withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
                 
                 [self updateTextFieldTag];
                 
@@ -567,12 +566,14 @@ shakeDirection:ShakeDirectionHorizontal];
                         [self.tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationTop];
                         [self.tableView endUpdates];
                         
+                        [self.tableView beginUpdates];
                         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1],
                                                                  [NSIndexPath indexPathForRow:1 inSection:1],
                                                                  [NSIndexPath indexPathForRow:0 inSection:0],
                                                                  [NSIndexPath indexPathForRow:1 inSection:0]
                                                                  ]
                                               withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [self.tableView endUpdates];
                     }
                         break;
                     case FORGOT_PASS_VIEW: {
@@ -586,11 +587,13 @@ shakeDirection:ShakeDirectionHorizontal];
                         [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
                         [self.tableView endUpdates];
                         
+                        [self.tableView beginUpdates];
                         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0],
                                                                  [NSIndexPath indexPathForRow:0 inSection:1],
                                                                  [NSIndexPath indexPathForRow:1 inSection:1]
                                                                  ]
                                               withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [self.tableView endUpdates];
                     }
                         break;
                     default:
@@ -745,11 +748,17 @@ shakeDirection:ShakeDirectionHorizontal];
         [indicator startAnimating];
         [btnForgotPass setSelected:YES];
         
-//        NSDictionary *postDataDictionary = @{
-//                                             kAPIMode: kAPIforgotPassword,
-//                                             kAPIemail: tfEmail.text
-//                                             };
-//        [self sendRequestWithData:postDataDictionary forAction:ForgotPassword];
+        NSDictionary *params = @{
+                                 kAPIMode: kforgotPassword,
+                                 kAPIemail: tfEmail.text,
+                                 };
+        
+        [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
     }
     else {
         [self showAlertViewToastWithMsgType:InternetOffline];
@@ -758,18 +767,6 @@ shakeDirection:ShakeDirectionHorizontal];
 
 #pragma mark - UITableViewDelegate / UITableViewDatasource
 #pragma mark -
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    
-//    CGFloat headerHeight;
-//    if (section == 0) {
-//        headerHeight = 1;
-//    }
-//    else {
-//        headerHeight = 1;
-//    }
-//    
-//    return headerHeight;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
@@ -902,6 +899,8 @@ shakeDirection:ShakeDirectionHorizontal];
                             }
                             [tfPassword setFrame:CGRectMake(0, 0, tfPassword.frame.size.width, tfPassword.frame.size.height)];
                             [cell.contentView addSubview:tfPassword];
+                            
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:WHITE_COLOR]];
                         }
                             break;
                         default:
@@ -920,9 +919,9 @@ shakeDirection:ShakeDirectionHorizontal];
                             [cell.contentView sendSubviewToBack:btnLogin];
                             [cell.contentView addSubview:btnLogin];
                             
-                            [indicator setFrame:CGRectMake(SCREEN_WIDTH(self.view)-50, (SCREEN_HEIGHT(self.view)/2)-10, 20, 20)];
-                            [cell.contentView addSubview:indicator];
-                            [cell.contentView bringSubviewToFront:indicator];
+                            [indicator setFrame:CGRectMake(SCREEN_WIDTH(btnLogin)-30, (SCREEN_HEIGHT(btnLogin)/2)-10, 20, 20)];
+                            [btnLogin addSubview:indicator];
+                            [btnLogin bringSubviewToFront:indicator];
                         }
                             break;
                         case 1: {
@@ -1035,9 +1034,9 @@ shakeDirection:ShakeDirectionHorizontal];
                             [cell.contentView sendSubviewToBack:btnSignup];
                             [cell.contentView addSubview:btnSignup];
                             
-                            [indicator setFrame:CGRectMake(SCREEN_WIDTH(self.view)-50, (SCREEN_HEIGHT(self.view)/2)-10, 20, 20)];
-                            [cell.contentView addSubview:indicator];
-                            [cell.contentView bringSubviewToFront:indicator];
+                            [indicator setFrame:CGRectMake(SCREEN_WIDTH(btnSignup)-30, (SCREEN_HEIGHT(btnSignup)/2)-10, 20, 20)];
+                            [btnSignup addSubview:indicator];
+                            [btnSignup bringSubviewToFront:indicator];
                         }
                             break;
                         case 1: {
@@ -1073,6 +1072,8 @@ shakeDirection:ShakeDirectionHorizontal];
                             }
                             [tfEmail setFrame:CGRectMake(0, 0, tfEmail.frame.size.width, tfEmail.frame.size.height)];
                             [cell.contentView addSubview:tfEmail];
+                            
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:WHITE_COLOR]];
                         }
                             break;
                         default:
@@ -1091,9 +1092,9 @@ shakeDirection:ShakeDirectionHorizontal];
                             [cell.contentView sendSubviewToBack:btnForgotPass];
                             [cell.contentView addSubview:btnForgotPass];
                             
-                            [indicator setFrame:CGRectMake((SCREEN_WIDTH(self.view)/2)-10, (SCREEN_HEIGHT(self.view)/2)-10, 20, 20)];
-                            [cell.contentView addSubview:indicator];
-                            [cell.contentView bringSubviewToFront:indicator];
+                            [indicator setFrame:CGRectMake((SCREEN_WIDTH(btnForgotPass)/2)-10, (SCREEN_HEIGHT(btnForgotPass)/2)-10, 20, 20)];
+                            [btnForgotPass addSubview:indicator];
+                            [btnForgotPass bringSubviewToFront:indicator];
                         }
                             break;
                         case 1: {
@@ -1179,18 +1180,6 @@ shakeDirection:ShakeDirectionHorizontal];
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
-
-#pragma mark - API Request
-#pragma mark -
-- (void)sendRequestWithData:(NSDictionary *)postDataDict forAction:(APIAction)action
-{
-    ShowNetworkIndicatorVisible(YES);
-    UserIntrectionEnable(NO);
-    
-    conObj = [[APIConnection alloc] initWithAction:action andData:postDataDict];
-    [conObj setDelegate:self];
-}
-
 
 #pragma mark - UITextFieldDelegate
 #pragma mark -

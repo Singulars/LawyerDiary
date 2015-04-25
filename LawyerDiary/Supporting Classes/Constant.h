@@ -23,7 +23,6 @@
 #import "NetworkManager.h"
 #import "Reachability.h"
 #import "SharedManager.h"
-#import "APIConnection.h"
 #import "Global.h"
 #import "UIImage+ColorImage.h"
 #import "NSDate+Extra.h"
