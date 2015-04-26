@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75E1EA0E510F4CDCB99649CB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8C1E5243ED64F381EB5D8A /* libPods.a */; };
 		9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */; };
 		9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */; };
 		9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */; };
@@ -23,6 +22,12 @@
 		9D64BD951AE311CA001230C0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD941AE311CA001230C0 /* User.m */; };
 		9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D64BD961AE31660001230C0 /* CoreData.framework */; };
 		9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD991AE31ED7001230C0 /* Client.m */; };
+		9DA2828D1AECCA1F00024121 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2828C1AECCA1F00024121 /* libPods.a */; };
+		9DA282961AECE48100024121 /* Cases.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282951AECE48000024121 /* Cases.m */; };
+		9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282981AECF9FC00024121 /* DrawerCell.m */; };
+		9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */; };
+		9DA2829F1AECFE3A00024121 /* Clients.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2829E1AECFE3A00024121 /* Clients.m */; };
+		9DA282A21AECFE4C00024121 /* Courts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282A11AECFE4C00024121 /* Courts.m */; };
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
@@ -83,6 +88,25 @@
 		9D64BD961AE31660001230C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		9D64BD981AE31ED7001230C0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = LawyerDiary/Model/Client.h; sourceTree = SOURCE_ROOT; };
 		9D64BD991AE31ED7001230C0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Client.m; path = LawyerDiary/Model/Client.m; sourceTree = SOURCE_ROOT; };
+		9D7808351AEC291F00F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		9D7808371AEC292500F72CFF /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		9D7808391AEC294600F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		9DA282821AECC89400024121 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		9DA282841AECC89A00024121 /* libPods-LLARingSpinnerView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-LLARingSpinnerView.a"; path = "Pods/../build/Debug-iphoneos/libPods-LLARingSpinnerView.a"; sourceTree = "<group>"; };
+		9DA282861AECC89E00024121 /* libPods-JVFloatingDrawer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-JVFloatingDrawer.a"; path = "Pods/../build/Debug-iphoneos/libPods-JVFloatingDrawer.a"; sourceTree = "<group>"; };
+		9DA282881AECC8A200024121 /* libPods-PureLayout.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PureLayout.a"; path = "Pods/../build/Debug-iphoneos/libPods-PureLayout.a"; sourceTree = "<group>"; };
+		9DA2828A1AECC96F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		9DA2828C1AECCA1F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		9DA282941AECE48000024121 /* Cases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cases.h; sourceTree = "<group>"; };
+		9DA282951AECE48000024121 /* Cases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cases.m; sourceTree = "<group>"; };
+		9DA282971AECF9FC00024121 /* DrawerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerCell.h; sourceTree = "<group>"; };
+		9DA282981AECF9FC00024121 /* DrawerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerCell.m; sourceTree = "<group>"; };
+		9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerTableViewController.h; sourceTree = "<group>"; };
+		9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerTableViewController.m; sourceTree = "<group>"; };
+		9DA2829D1AECFE3A00024121 /* Clients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clients.h; sourceTree = "<group>"; };
+		9DA2829E1AECFE3A00024121 /* Clients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clients.m; sourceTree = "<group>"; };
+		9DA282A01AECFE4C00024121 /* Courts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Courts.h; sourceTree = "<group>"; };
+		9DA282A11AECFE4C00024121 /* Courts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Courts.m; sourceTree = "<group>"; };
 		9DE1E51C1AE3CC99001060F4 /* Home.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Home.h; sourceTree = "<group>"; };
 		9DE1E51D1AE3CC99001060F4 /* Home.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Home.m; sourceTree = "<group>"; };
 		9DE1E51F1AE3D4A5001060F4 /* Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
@@ -122,12 +146,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DA2828D1AECCA1F00024121 /* libPods.a in Frameworks */,
 				C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */,
 				9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */,
 				C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */,
 				C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
 				C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */,
-				75E1EA0E510F4CDCB99649CB /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +175,14 @@
 				9DE1E51D1AE3CC99001060F4 /* Home.m */,
 				9DE1E51F1AE3D4A5001060F4 /* Register.h */,
 				9DE1E5201AE3D4A5001060F4 /* Register.m */,
+				9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */,
+				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
+				9DA282941AECE48000024121 /* Cases.h */,
+				9DA282951AECE48000024121 /* Cases.m */,
+				9DA2829D1AECFE3A00024121 /* Clients.h */,
+				9DA2829E1AECFE3A00024121 /* Clients.m */,
+				9DA282A01AECFE4C00024121 /* Courts.h */,
+				9DA282A11AECFE4C00024121 /* Courts.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -239,6 +271,8 @@
 		9D64BD6A1AE2F87B001230C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9DA282971AECF9FC00024121 /* DrawerCell.h */,
+				9DA282981AECF9FC00024121 /* DrawerCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -284,6 +318,15 @@
 		C07572F21AE2F2B40017E0F9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9DA2828C1AECCA1F00024121 /* libPods.a */,
+				9DA2828A1AECC96F00024121 /* libPods.a */,
+				9DA282881AECC8A200024121 /* libPods-PureLayout.a */,
+				9DA282861AECC89E00024121 /* libPods-JVFloatingDrawer.a */,
+				9DA282841AECC89A00024121 /* libPods-LLARingSpinnerView.a */,
+				9DA282821AECC89400024121 /* libPods-AFNetworking.a */,
+				9D7808391AEC294600F72CFF /* libPods.a */,
+				9D7808371AEC292500F72CFF /* libPods-AFNetworking.a */,
+				9D7808351AEC291F00F72CFF /* libPods.a */,
 				C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */,
 				9D64BD961AE31660001230C0 /* CoreData.framework */,
 				C07572F31AE2F2B40017E0F9 /* Foundation.framework */,
@@ -303,12 +346,12 @@
 				C03766551AE96D0A00ACA623 /* Launch Screen.xib */,
 				C07573051AE2F2B40017E0F9 /* Main.storyboard */,
 				9D64BD621AE2F87B001230C0 /* Controllers */,
+				9D64BD6A1AE2F87B001230C0 /* Views */,
 				9D64BD631AE2F87B001230C0 /* Model */,
 				9D64BD641AE2F87B001230C0 /* Model Interface */,
 				9D64BD651AE2F87B001230C0 /* Resources */,
 				9D64BD681AE2F87B001230C0 /* Supporting Classes */,
 				9D64BD691AE2F87B001230C0 /* Supporting Frameworks */,
-				9D64BD6A1AE2F87B001230C0 /* Views */,
 				C075730B1AE2F2B40017E0F9 /* Images.xcassets */,
 				C07572FA1AE2F2B40017E0F9 /* Supporting Files */,
 			);
@@ -488,15 +531,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */,
 				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
 				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
+				9DA282A21AECFE4C00024121 /* Courts.m in Sources */,
 				9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
+				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
 				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
+				9DA282961AECE48100024121 /* Cases.m in Sources */,
+				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
@@ -591,7 +639,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
+				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -624,7 +672,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
+				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -640,8 +688,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiary/LawyerDiary-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
+				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -657,8 +709,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiary/LawyerDiary-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25f2c8da-a89a-43f9-bf23-e25679c1d607";
+				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

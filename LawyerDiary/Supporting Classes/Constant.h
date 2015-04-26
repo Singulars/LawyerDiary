@@ -16,6 +16,10 @@
 #import "AppDelegate.h"
 #import "Home.h"
 #import "Register.h"
+#import "DrawerTableViewController.h"
+#import "Cases.h"
+#import "Clients.h"
+#import "Courts.h"
 
 #import "User.h"
 #import "Client.h"
@@ -31,7 +35,6 @@
 #import "ManagedObjectCloner.h"
 #import "NSDictionary+SJSONString.h"
 
-#import "NetworkManager.h"
 
 typedef enum : NSInteger {
     signUp = 0,

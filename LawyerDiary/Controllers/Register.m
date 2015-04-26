@@ -695,10 +695,21 @@ shakeDirection:ShakeDirectionHorizontal];
                                  };
         
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
+//            [self saveUserInfo:responseObject];
+            [APP_DELEGATE showHome];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [indicator stopAnimating];
             
+            if (error.code == kCFURLErrorTimedOut) {
+                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+            }
+            else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+            }
+            else {
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+            }
         }];
     }
     else {

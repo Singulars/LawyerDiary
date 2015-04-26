@@ -7,6 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "JVFloatingDrawerViewController.h"
+#import "JVFloatingDrawerSpringAnimator.h"
+
+static NSString * const kStoryboardName = @"Main";
+
+static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStoryboardID";
+
+static NSString * const kCasesViewControllerStoryboardID = @"Cases";
+static NSString * const kClientsViewControllerStoryboardID = @"Clients";
+static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
 
 Reachability *hostReach;
 
@@ -56,10 +66,10 @@ Reachability *hostReach;
         ShareObj.isInternetConnected = YES; // Connected via WWAN
     }
     
-    _storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _window.backgroundColor = [UIColor whiteColor];
+    
+    [self configureDrawerViewController];
     
     NSLog(@"isRegistered - %hhd", IsRegisteredForRemoteNotifications);
     
@@ -68,7 +78,7 @@ Reachability *hostReach;
     
     //    RemoveLoginUserId;
     
-    if (GetLoginUserId) {
+    if (!GetLoginUserId) {
         
         [self setLastActiveDateTime];
         
@@ -261,7 +271,7 @@ Reachability *hostReach;
 - (void)showLogIn
 {
     if (_registerNavController == nil) {
-        _registerNavController = [_storyboard instantiateViewControllerWithIdentifier:kRegisterNavController];
+        _registerNavController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kRegisterNavController];
     }
     
     [UIView transitionWithView:_window
@@ -273,31 +283,111 @@ Reachability *hostReach;
                         [_window setRootViewController:_registerNavController];
                         [UIView setAnimationsEnabled:oldState];
                     }
-                    completion:nil];
+                    completion:^(BOOL finished) {
+                        SetStatusBarLightContent(NO);
+                    }];
 }
 
 #pragma mark - Show Home
 #pragma mark -
 - (void)showHome
 {
-    if (_homeNavController == nil) {
-        _homeNavController = [_storyboard instantiateViewControllerWithIdentifier:kHomeNavController];
-    }
-    
     [UIView transitionWithView:_window
                       duration:0.5
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^(void) {
                         BOOL oldState = [UIView areAnimationsEnabled];
                         [UIView setAnimationsEnabled:NO];
-                        [_window setRootViewController:_homeNavController];
+                        [_window setRootViewController:self.drawerViewController];
+                        
                         [UIView setAnimationsEnabled:oldState];
                     }
-                    completion:^(BOOL finished) {
-                        SetStatusBarLightContent(NO);
-                    }];
+                    completion:nil];
 }
 
+#pragma mark - Drawer View Controllers
+
+- (JVFloatingDrawerViewController *)drawerViewController {
+    if (!_drawerViewController) {
+        _drawerViewController = [[JVFloatingDrawerViewController alloc] init];
+    }
+    
+    return _drawerViewController;
+}
+
+- (UIStoryboard *)mainStoryboard {
+    if(!_mainStoryboard) {
+        _mainStoryboard = [UIStoryboard storyboardWithName:kStoryboardName bundle:nil];
+    }
+    
+    return _mainStoryboard;
+}
+
+#pragma mark Sides
+
++ (AppDelegate *)globalDelegate {
+    return (AppDelegate *)[UIApplication sharedApplication].delegate;
+}
+
+- (UIViewController *)leftDrawerViewController {
+    if (!_leftDrawerViewController) {
+        _leftDrawerViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kLeftDrawerStoryboardID];
+    }
+    
+    return _leftDrawerViewController;
+}
+
+- (JVFloatingDrawerSpringAnimator *)drawerAnimator {
+    if (!_drawerAnimator) {
+        _drawerAnimator = [[JVFloatingDrawerSpringAnimator alloc] init];
+        
+        [_drawerAnimator setInitialSpringVelocity:5.0];
+        [_drawerAnimator setSpringDamping:3.0];
+        [_drawerAnimator setAnimationDelay:0.0];
+        [_drawerAnimator setAnimationDuration:0.5];
+    }
+    
+    return _drawerAnimator;
+}
+
+- (void)configureDrawerViewController {
+    self.drawerViewController.leftViewController = self.leftDrawerViewController;
+    self.drawerViewController.centerViewController = self.casesViewController;
+    
+    self.drawerViewController.animator = self.drawerAnimator;
+    
+    self.drawerViewController.backgroundImage = [UIImage imageWithColor:UICOLOR(239, 239, 239, 1)];
+}
+
+- (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
+    [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
+}
+
+#pragma mark Center
+
+- (Cases *)casesViewController {
+    if (!_casesViewController) {
+        _casesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
+    }
+    
+    return _casesViewController;
+}
+
+- (Clients *)clientsViewController {
+    if (!_clientsViewController) {
+        _clientsViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
+    }
+    
+    return _clientsViewController;
+}
+
+- (Courts *)courtsViewController {
+    if (!_courtsViewController) {
+        _courtsViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
+    }
+    
+    return _courtsViewController;
+}
 
 #pragma mark - Core Data stack
 

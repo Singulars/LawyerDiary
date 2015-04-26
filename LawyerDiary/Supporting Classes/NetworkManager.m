@@ -24,7 +24,7 @@
                   successHandler(operation, responseObject);
               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   NSLog(@"Error: %@", error);
-                  successHandler(operation, error);
+                  failureHandler(operation, error);
               }];
     }
     @catch (NSException *exception) {
