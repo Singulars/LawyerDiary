@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD6B1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld */; };
 		9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */; };
-		9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */; };
+		9D64BD721AE300FD001230C0 /* UnDotum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotum-Bold.ttf */; };
 		9D64BD761AE304BB001230C0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD751AE304BB001230C0 /* Reachability.m */; };
 		9D64BD8A1AE30521001230C0 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7A1AE30521001230C0 /* Global.m */; };
 		9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7C1AE30521001230C0 /* LazyImageView.m */; };
@@ -31,6 +31,7 @@
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
+		C030D35C1AF008C200B121D9 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = C030D35B1AF008C200B121D9 /* Profile.m */; };
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
@@ -63,7 +64,7 @@
 /* Begin PBXFileReference section */
 		9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LawyerDiary.xcdatamodel; sourceTree = "<group>"; };
 		9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnDotum.ttf; sourceTree = "<group>"; };
-		9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UnDotumBold.ttf; sourceTree = "<group>"; };
+		9D64BD701AE300FD001230C0 /* UnDotum-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "UnDotum-Bold.ttf"; sourceTree = "<group>"; };
 		9D64BD741AE304BB001230C0 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Reachability.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9D64BD751AE304BB001230C0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Reachability.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD791AE30521001230C0 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Global.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -113,6 +114,8 @@
 		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
+		C030D35A1AF008C200B121D9 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		C030D35B1AF008C200B121D9 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
@@ -183,6 +186,8 @@
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				9DA282A01AECFE4C00024121 /* Courts.h */,
 				9DA282A11AECFE4C00024121 /* Courts.m */,
+				C030D35A1AF008C200B121D9 /* Profile.h */,
+				C030D35B1AF008C200B121D9 /* Profile.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -281,7 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				9D64BD6F1AE300FD001230C0 /* UnDotum.ttf */,
-				9D64BD701AE300FD001230C0 /* UnDotumBold.ttf */,
+				9D64BD701AE300FD001230C0 /* UnDotum-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -476,7 +481,7 @@
 			files = (
 				C075730C1AE2F2B40017E0F9 /* Images.xcassets in Resources */,
 				C07572FE1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */,
-				9D64BD721AE300FD001230C0 /* UnDotumBold.ttf in Resources */,
+				9D64BD721AE300FD001230C0 /* UnDotum-Bold.ttf in Resources */,
 				C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */,
 				9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */,
 				C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */,
@@ -542,6 +547,7 @@
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
+				C030D35C1AF008C200B121D9 /* Profile.m in Sources */,
 				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
 				9DA282961AECE48100024121 /* Cases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,

@@ -11,13 +11,15 @@
 #import "JVFloatingDrawerViewController.h"
 
 typedef NS_ENUM(NSUInteger, TableCellIndex) {
-    kCellCaseCellIndex      = 0,
-    kCellClientCellIndex    = 1,
-    kCellCourtIndex         = 2
+    kCellProfileIndex   = 0,
+    kCellCaseIndex      = 1,
+    kCellClientIndex    = 2,
+    kCellCourtIndex         = 3
 };
 
-//static const CGFloat kJVTableViewTopInset = 80.0;
+static const CGFloat kJVTableViewTopInset = 0.0;
 static NSString * const kDrawerCellReuseIdentifier = @"DrawerCellReuseIdentifier";
+static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifier";
 
 @interface DrawerTableViewController ()
 
@@ -28,74 +30,100 @@ static NSString * const kDrawerCellReuseIdentifier = @"DrawerCellReuseIdentifier
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.tableView.backgroundColor = [UIColor clearColor];
-//    self.tableView.contentInset = UIEdgeInsetsMake(kJVTableViewTopInset, 0.0, 0.0, 0.0);
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.contentInset = UIEdgeInsetsMake(kJVTableViewTopInset, 0.0, 0.0, 0.0);
     self.clearsSelectionOnViewWillAppear = NO;
     
     [imgViewHeader setTintColor:APP_TINT_COLOR];
     [imgViewHeader setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"app-icon", kImageRenderModeTemplate)];
+    
+    [lblUsername setText:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
+    
+    [Global applyCornerRadiusToViews:@[imgeViewProfile] withRadius:imgeViewProfile.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
+    
+    [imgeViewProfile setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgeViewProfile) withPlaceholderImageName:IMG_user_placeholder_80];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCellCaseCellIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCellCaseIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 #pragma mark - Table View Data Source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 110.0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return tableHeaderView;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 110.0;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    return tableHeaderView;
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat rowHeight = 0;
+    if (indexPath.row == 0) {
+        rowHeight = 80;
+    }
+    else {
+        rowHeight = 60;
+    }
+    return rowHeight;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DrawerCell *cell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
+    DrawerCell *menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
     
     switch (indexPath.row) {
-        case kCellCaseCellIndex: {
-            cell.titleText = @"Cases";
-            cell.iconImage = [UIImage imageNamed:@"icon-cases"];
+        case kCellProfileIndex: {
+            return cellProfile;
         }
             break;
-        case kCellClientCellIndex: {
-            cell.titleText = @"Clients";
-            cell.iconImage = [UIImage imageNamed:@"icon-clients"];
+        case kCellCaseIndex: {
+            menuCell.titleText = @"Cases";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-cases"];
+        }
+            break;
+        case kCellClientIndex: {
+            menuCell.titleText = @"Clients";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-clients"];
         }
             break;
         case kCellCourtIndex: {
-            cell.titleText = @"Courts";
-            cell.iconImage = [UIImage imageNamed:@"icon-courts"];
+            menuCell.titleText = @"Courts";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-courts"];
         }
             break;
         default:
             break;
     }
         
-    return cell;
+    return menuCell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UIViewController *destinationViewController = nil;
     
     switch (indexPath.row) {
-        case kCellCaseCellIndex: {
+        case kCellProfileIndex: {
+            destinationViewController = [APP_DELEGATE profileViewController];
+        }
+            break;
+        case kCellCaseIndex: {
             destinationViewController = [APP_DELEGATE casesViewController];
         }
             break;
-        case kCellClientCellIndex: {
+        case kCellClientIndex: {
             destinationViewController = [APP_DELEGATE clientsViewController];
         }
             break;

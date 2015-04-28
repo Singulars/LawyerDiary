@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
     FORGOT_PASS_VIEW
 };
 
-@interface Register : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface Register : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate>
 {
     UINavigationBar *navBar;
     IBOutlet UINavigationItem *navItem;

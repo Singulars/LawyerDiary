@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>0371279B-8C22-4B99-BA27-ABBA926BFAC4</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>1E69235D79110811F1B60CF19527D724530ECD64</key>
+		<string>https://github.com/Singulars/LawyerDiary.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LawyerDiary.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>1E69235D79110811F1B60CF19527D724530ECD64</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Singulars/LawyerDiary.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>1E69235D79110811F1B60CF19527D724530ECD64</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>1E69235D79110811F1B60CF19527D724530ECD64</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LawyerDiary</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -17,6 +17,8 @@
 
 - (void)awakeFromNib {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    self.titleLabel.textColor = APP_TINT_COLOR;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

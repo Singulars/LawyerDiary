@@ -20,9 +20,11 @@
 @property (nonatomic, retain) NSString * birthdate;
 @property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSString * registrationNo;
+@property (nonatomic, retain) NSNumber * isVerified;
+@property (nonatomic, retain) NSString * proPic;
 
 + (User *)saveUser:(NSDictionary *)dataDict;
-+ (BOOL)deleteUser:(NSString *)userId;
-+ (User *)fetchUser:(NSString *)userId;
++ (BOOL)deleteUser:(NSNumber *)userId;
++ (User *)fetchUser:(NSNumber *)userId;
 
 @end

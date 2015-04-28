@@ -35,7 +35,6 @@
 @property (nonatomic, strong) NSMutableArray *arrSearchedFriends;
 @property (nonatomic, strong) NSMutableArray *arrContacts;
 
-@property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) User *userObj;
 
 + (SharedManager *)sharedManger;

@@ -773,7 +773,7 @@
 
 + (NSMutableArray *)fetchContactsArray:(ABAddressBookRef)addressBook
 {
-    NSMutableArray *arrContacts = [[NSMutableArray alloc] initWithArray:[Client fetchContatctsOfNotRegisteredUsersForUser:USER_ID_OBJ]];
+    NSMutableArray *arrContacts = [[NSMutableArray alloc] initWithArray:[Client fetchContatctsOfNotRegisteredUsersForUser:USER_ID]];
     NSMutableArray *arrUsers = [[NSMutableArray alloc] init];
     
     NSMutableArray *thePeople = (__bridge  NSMutableArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);

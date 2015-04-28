@@ -546,7 +546,16 @@ shakeDirection:ShakeDirectionHorizontal];
                 //                [self showAllowAPNSAccessView:YES];
                 
                 if ([self validateTextFieldValues]) {
-                    [self makeLoginRequest];
+                    
+                    [APP_DELEGATE registerForUserNotifications:^(BOOL success) {
+                       
+                        if (success) {
+                            [self makeLoginRequest];
+                        }
+                        else {
+                            MY_ALERT(APP_NAME, @"You refused to allow \"Lawyer Diary App\" to send you notifications. You can change the preference by navigating to phone Settings > Find the Lawyer Diary App > Switch on Notification", self);
+                        }
+                    }];
                 }
             }
             else {
@@ -691,15 +700,31 @@ shakeDirection:ShakeDirectionHorizontal];
         NSDictionary *params = @{
                                  kAPIMode: klogIn,
                                  kAPIemail: tfEmail.text,
-                                 kAPIpassword: tfPassword.text
+                                 kAPIpassword: tfPassword.text,
+                                 kAPIdeviceToken: ShareObj.deviceToken,
+                                 kAPIdeviceType: @0
                                  };
         
+        UserIntrectionEnable(NO);
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            [self saveUserInfo:responseObject];
-            [APP_DELEGATE showHome];
+            [indicator stopAnimating];
+            UserIntrectionEnable(YES);
+            
+            if (responseObject == nil) {
+                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+            }
+            else {
+                if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
+                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                }
+                else {
+                    [self saveUserInfo:responseObject];
+                }
+            }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
+            UserIntrectionEnable(YES);
             
             if (error.code == kCFURLErrorTimedOut) {
                 MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
@@ -739,11 +764,38 @@ shakeDirection:ShakeDirectionHorizontal];
                                  kAPIregistrationNo: @""
                                  };
         
+        UserIntrectionEnable(NO);
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [indicator stopAnimating];
+            UserIntrectionEnable(YES);
             
+            if (responseObject == nil) {
+                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+            }
+            else {
+                if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
+                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                }
+                else {
+                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                }
+            }
+            
+            [btnLogin sendActionsForControlEvents:UIControlEventTouchDragInside];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [indicator stopAnimating];
+            UserIntrectionEnable(YES);
             
+            if (error.code == kCFURLErrorTimedOut) {
+                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+            }
+            else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+            }
+            else {
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+            }
         }];
     }
     else {
@@ -764,11 +816,36 @@ shakeDirection:ShakeDirectionHorizontal];
                                  kAPIemail: tfEmail.text,
                                  };
         
+        UserIntrectionEnable(NO);
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [indicator stopAnimating];
+            UserIntrectionEnable(YES);
             
+            if (responseObject == nil) {
+                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+            }
+            else {
+                if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
+                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                }
+                else {
+                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                }
+            }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [indicator stopAnimating];
+            UserIntrectionEnable(YES);
             
+            if (error.code == kCFURLErrorTimedOut) {
+                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+            }
+            else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+            }
+            else {
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+            }
         }];
     }
     else {
@@ -1177,6 +1254,15 @@ shakeDirection:ShakeDirectionHorizontal];
     }
 }
 
+#pragma mark - UIAlertViewDelegate
+#pragma mark -
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self makeLoginRequest];
+    }
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 #pragma mark -
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
@@ -1400,20 +1486,24 @@ shakeDirection:ShakeDirectionHorizontal];
 #pragma mark -
 - (void)saveUserInfo:(NSDictionary *)userDic
 {
-    NSString *userId = [[userDic valueForKey:kAPIuser] valueForKey:kAPIuserId];
-    SetLoginUserId(userId);
-    SetLoginUserPassword(tfPassword.text);
-    
-    ShareObj.loginuserId = GetLoginUserId;
-    ShareObj.currentPassword = GetLoginUserPassword;
-//    ShareObj.serverDateTime = userDic[kAPIserverDateTime];
-    
-//    if (IsRegisteredForRemoteNotifications) {
-//        [APP_DELEGATE showHome];
-//    }
-//    else {
-//        [self showAllowAPNSAccessView:YES];
-//    }
+    @try {
+        NSString *userId = [[userDic valueForKey:kAPIuserDetail] valueForKey:kAPIuserId];
+        SetLoginUserId(userId);
+        SetLoginUserPassword(tfPassword.text);
+        
+        ShareObj.loginuserId = GetLoginUserId;
+        ShareObj.currentPassword = GetLoginUserPassword;
+        
+        ShareObj.userObj = [User saveUser:userDic[kAPIuserDetail]];
+        
+        [APP_DELEGATE showHome];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
 }
 
 #pragma mark - Memory Management

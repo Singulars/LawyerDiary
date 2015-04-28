@@ -19,96 +19,134 @@
 @dynamic birthdate;
 @dynamic address;
 @dynamic registrationNo;
+@dynamic isVerified;
+@synthesize proPic;
 
 + (User *)saveUser:(NSDictionary *)dataDict {
-    NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-    
-    User *obj = [self fetchUser:[dataDict objectForKey:kAPIuserId]];
-    
-    if (obj != nil) {
-        @try {
-            [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : @""];
-            [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
-            [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
-            [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
-            [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
-            [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
-            [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
-            [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
+    @try {
+        
+        for (NSString *key in dataDict) {
+            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
         }
-        @catch (NSException *exception) {
-            NSLog(@"%@", [exception debugDescription]);
+        
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        
+        User *obj = [self fetchUser:[dataDict objectForKey:kAPIuserId]];
+        
+        if (obj != nil) {
+            @try {
+                [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : @0];
+                [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
+                [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
+                [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
+                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
+                [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
+                [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
+                [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
+                [obj setIsVerified:dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
+                [obj setProPic:NSStringf(@"%@_%@", obj.userId, obj.firstName)];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
         }
-        @finally {
-            
+        else {
+            obj = [NSEntityDescription insertNewObjectForEntityForName:kUser inManagedObjectContext:context];
+            @try {
+                [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : @0];
+                [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
+                [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
+                [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
+                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
+                [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
+                [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
+                [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
+                [obj setIsVerified:dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
+                [obj setProPic:NSStringf(@"%@_%@", obj.userId, obj.firstName)];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
+        }
+        
+        // Save the context.
+        NSError *error = nil;
+        if ([context save:&error]) {
+            NSLog(@"User saved succesfully");
+            return obj;
+        }
+        else {
+            NSLog(@"User save failed! %@, %@", error, [error userInfo]);
+            return nil;
         }
     }
-    else {
-        obj = [NSEntityDescription insertNewObjectForEntityForName:kUser inManagedObjectContext:context];
-        @try {
-            [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : @""];
-            [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
-            [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
-            [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
-            [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
-            [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
-            [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
-            [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", [exception debugDescription]);
-        }
-        @finally {
-            
-        }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
     }
-    
-    // Save the context.
-    NSError *error = nil;
-    if ([context save:&error]) {
-        NSLog(@"User saved succesfully");
-        return obj;
-    }
-    else {
-        NSLog(@"User save failed! %@, %@", error, [error userInfo]);
-        return nil;
+    @finally {
+        
     }
 }
 
-+ (BOOL)deleteUser:(NSString *)userId {
-    NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-    User *obj = [self fetchUser:userId];
-    [context deleteObject:obj];
-    
-    NSError *error = nil;
-    // Save the context.
-    if ([context save:&error]) {
-        NSLog(@"User deleted succesfully");
-        return YES;
++ (BOOL)deleteUser:(NSNumber *)userId {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        User *obj = [self fetchUser:userId];
+        [context deleteObject:obj];
+        
+        NSError *error = nil;
+        // Save the context.
+        if ([context save:&error]) {
+            NSLog(@"User deleted succesfully");
+            return YES;
+        }
+        else {
+            NSLog(@"User deletion failed! %@, %@", error, [error userInfo]);
+            return YES;
+        }
     }
-    else {
-        NSLog(@"User deletion failed! %@, %@", error, [error userInfo]);
-        return YES;
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
-+ (User *)fetchUser:(NSString *)userId {
-    NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kUser inManagedObjectContext:context];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];
-    // Set example predicate and sort orderings...
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
-    [request setPredicate:predicate];
-    
-    NSError *error;
-    NSArray *objArr = [context executeFetchRequest:request error:&error];
-    
-    if ([objArr count] > 0)
-        return objArr[0];
-    else
-        return nil;
++ (User *)fetchUser:(NSNumber *)userId {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kUser inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
+        [request setPredicate:predicate];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0)
+            return objArr[0];
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
 }
 
 @end

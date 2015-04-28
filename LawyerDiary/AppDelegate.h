@@ -12,14 +12,19 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
+#import "Profile.h";
 
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;
 
 extern Reachability *hostReach;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    getDeviceTokenCompletionHandler getDeviceTokenHandler;
+}
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
@@ -38,7 +43,9 @@ extern Reachability *hostReach;
 @property (nonatomic, strong) Cases *casesViewController;
 @property (nonatomic, strong) Clients *clientsViewController;
 @property (nonatomic, strong) Courts *courtsViewController;
+@property (nonatomic, strong) Profile *profileViewController;
 
+- (void)registerForUserNotifications:(getDeviceTokenCompletionHandler)completionHandler;
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated;
 

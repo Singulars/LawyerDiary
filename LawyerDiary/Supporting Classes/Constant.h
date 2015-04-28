@@ -20,6 +20,7 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
+#import "Profile.h"
 
 #import "User.h"
 #import "Client.h"
@@ -179,10 +180,11 @@ typedef enum : NSInteger {
 
 #define USER_ID                       ShareObj.userObj.userId
 #define USER_OBJECT                   ShareObj.userObj
-#define USER_ID_OBJ                   ShareObj.userObj.userId
 
 #define SCREEN_HEIGHT(view)           view.bounds.size.height
 #define SCREEN_WIDTH(view)            view.bounds.size.width
+
+#define VIEWSIZE(view)                     CGSizeMake(view.frame.size.width, view.frame.size.height)
 
 #define kInviteFriendsAppURL                @"http://www.app.com"
 #define kInviteFriendsInitialText           @"- I am using Lawyer Diary, download from bottom URL\n"
@@ -228,6 +230,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kLogoutCellID                       @"LogoutID"
 
 #define APP_FONT                            @"UnDotum"
+#define APP_FONT_BOLD                       @"UnDotum-Bold"
 
 #define kCellIndex                          @"CellIndex"
 
@@ -277,7 +280,8 @@ otherButtonTitles:@"OK", nil] show];
 #define GROUP_TABLEVIEW_COLOR         [UIColor colorWithRed:238.0f/255.0f green:238.0f/255.0f blue:244.0f/255.0f alpha:1.0f]
 #define CLEARCOLOUR                   [UIColor clearColor]
 
-#define APP_TINT_COLOR                UICOLOR(43, 41, 42, 1)
+//#define APP_TINT_COLOR                UICOLOR(43, 41, 42, 1)
+#define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
 
 #define TABLEVIEW_SEPRATOR_COLOR     [UIColor colorWithRed:200.0f/255.0f green:199.0f/255.0f blue:204.0f/255.0f alpha:1.0f]
 
@@ -292,7 +296,7 @@ otherButtonTitles:@"OK", nil] show];
 #define WEBSERVICE_CALL_URL                 [HOST_URL stringByAppendingString:API_PATH]
 #define PRO_PIC_URL                         [HOST_URL stringByAppendingString:PRO_PIC_URL_PATH]
 
-#define GetProPicURLForUser(fileName, userId)   [NSString stringWithFormat:@"%@%@%@", PRO_PIC_URL, userId, fileName]
+#define GetProPicURLForUser(userId)   [NSString stringWithFormat:@"%@%@_big.png", PRO_PIC_URL, userId]
 
 #define kRequestTimeOut                     60.0f
 
@@ -304,7 +308,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIstatus                          @"status"
 #define kAPImessage                         @"message"
 
-#define kAPIuser                            @"user"
+#define kAPIuserDetail                      @"userDetail"
 
 #define RESPONSE_STATUS_OK                  @"OK"
 #define RESPONSE_STATUS_ERR                 @"ERROR"
@@ -321,6 +325,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIaddress                         @"address"
 #define kAPIregistrationNo                  @"registrationNo"
 #define kAPIproPic                          @"proPic"
+#define kAPIisVerified                      @"isVerified"
 
 #define kAPIdeviceToken                     @"deviceToken"
 #define kAPIdeviceType                      @"deviceType"
@@ -348,6 +353,7 @@ otherButtonTitles:@"OK", nil] show];
 #define IMG_user_placeholder_80             @"user-placeholder-80"
 
 #define IMG_right_chevron                   @"right-chevron"
+#define IMG_row_disclosure                  @"row-disclosure"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

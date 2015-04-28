@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LazyImageView.h"
 
 @interface DrawerTableViewController : UITableViewController
 {
     IBOutlet UIView *tableHeaderView;
     IBOutlet UIImageView *imgViewHeader;
+    
+    IBOutlet UITableViewCell *cellProfile;
+    IBOutlet LazyImageView *imgeViewProfile;
+    IBOutlet UILabel *lblUsername;
 }
 @end

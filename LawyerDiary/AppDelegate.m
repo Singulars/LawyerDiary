@@ -17,6 +17,7 @@ static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStor
 static NSString * const kCasesViewControllerStoryboardID = @"Cases";
 static NSString * const kClientsViewControllerStoryboardID = @"Clients";
 static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
+static NSString * const kProfileViewControllerStoryboardID = @"Profile";
 
 Reachability *hostReach;
 
@@ -69,8 +70,6 @@ Reachability *hostReach;
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _window.backgroundColor = [UIColor whiteColor];
     
-    [self configureDrawerViewController];
-    
     NSLog(@"isRegistered - %hhd", IsRegisteredForRemoteNotifications);
     
     [self getCurrentNotificationSettings];
@@ -78,16 +77,16 @@ Reachability *hostReach;
     
     //    RemoveLoginUserId;
     
-    if (!GetLoginUserId) {
+    if (GetLoginUserId) {
         
         [self setLastActiveDateTime];
         
-        [self registerForUserNotifications];
-        
-        NSString *userId = GetLoginUserId;
+        NSNumber *userId = GetLoginUserId;
         NSLog(@"userId - %@", userId);
-        ShareObj.userId = userId;
-        ShareObj.userObj = [User fetchUser:ShareObj.userId];
+        ShareObj.loginuserId = userId;
+        ShareObj.userObj = [User fetchUser:ShareObj.loginuserId];
+        
+        NSLog(@"user => %@", ShareObj.userObj);
         
         [self showHome];
     }
@@ -167,8 +166,10 @@ Reachability *hostReach;
 
 #pragma - Register For Remote Notificatios
 #pragma - mark
-- (void)registerForUserNotifications
+- (void)registerForUserNotifications:(getDeviceTokenCompletionHandler)completionHandler
 {
+    getDeviceTokenHandler = [completionHandler copy];
+    
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
         
@@ -194,12 +195,14 @@ Reachability *hostReach;
     
     NSLog(@"token - %@",token);
     [ShareObj setDeviceToken:token];
+    getDeviceTokenHandler(YES);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
     [ShareObj setDeviceToken:@""];
     NSLog(@"%s ==> %@",__FUNCTION__,error);
+    getDeviceTokenHandler(NO);
 }
 
 #ifdef __IPHONE_8_0
@@ -292,6 +295,8 @@ Reachability *hostReach;
 #pragma mark -
 - (void)showHome
 {
+    [self configureDrawerViewController];
+    
     [UIView transitionWithView:_window
                       duration:0.5
                        options:UIViewAnimationOptionTransitionCrossDissolve
@@ -387,6 +392,14 @@ Reachability *hostReach;
     }
     
     return _courtsViewController;
+}
+
+- (Profile *)profileViewController {
+    if (!_profileViewController) {
+        _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
+    }
+    
+    return _profileViewController;
 }
 
 #pragma mark - Core Data stack

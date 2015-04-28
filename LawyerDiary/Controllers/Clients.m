@@ -18,6 +18,9 @@
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setTintColor:WHITE_COLOR];
+    [self.navigationController.navigationBar setBarTintColor:APP_TINT_COLOR];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
 }
 
 #pragma mark - Actions

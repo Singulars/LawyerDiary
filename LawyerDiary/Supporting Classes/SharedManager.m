@@ -57,7 +57,7 @@ static SharedManager *sharedManager;
     {
         @try {
             NSDictionary *postDataDict = @{kAPIMode: kresetNotificationCount,
-                                           kAPIuserId: USER_ID_OBJ
+                                           kAPIuserId: USER_ID
                                            };
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
             dispatch_async(queue, ^{
