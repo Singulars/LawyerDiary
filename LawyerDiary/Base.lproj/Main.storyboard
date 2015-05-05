@@ -924,17 +924,6 @@ registered email.</string>
                     <view key="view" contentMode="scaleToFill" id="UTn-mr-UU1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hg7-wn-eVH">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="j5t-y6-GmT" id="FTQ-0D-TG5"/>
-                                    <outlet property="delegate" destination="j5t-y6-GmT" id="NJb-nI-1Tq"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="User" id="6ba-rQ-XFG" userLabel="User Priofile">
@@ -961,7 +950,6 @@ registered email.</string>
                         <outlet property="imgViewRowDisclosure" destination="XY3-HF-3CF" id="C2S-Xr-Y0z"/>
                         <outlet property="lblChnagePass" destination="JJa-H1-hj6" id="a90-1A-MMh"/>
                         <outlet property="pickerBirthdate" destination="CET-le-5qp" id="6u5-Wq-Qnj"/>
-                        <outlet property="tableView" destination="hg7-wn-eVH" id="Fkt-yE-oQW"/>
                         <outlet property="tfBirthdate" destination="eEv-90-Zw1" id="xvo-TA-crs"/>
                         <outlet property="tfCurrentPass" destination="hLs-yH-3GW" id="M7m-Cr-q4J"/>
                         <outlet property="tfEmail" destination="KnG-J6-HWy" id="ZNa-xN-lgV"/>

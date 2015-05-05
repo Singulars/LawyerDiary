@@ -17,7 +17,7 @@ static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStor
 static NSString * const kCasesViewControllerStoryboardID = @"Cases";
 static NSString * const kClientsViewControllerStoryboardID = @"Clients";
 static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
-static NSString * const kProfileViewControllerStoryboardID = @"ProfileVC";
+static NSString * const kProfileViewControllerStoryboardID = @"ViewControllerVC";
 
 Reachability *hostReach;
 
@@ -400,6 +400,15 @@ Reachability *hostReach;
     }
     
     return _profileViewController;
+}
+
+- (ViewController *)viewController
+{
+    if (!_viewController) {
+        _viewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
+    }
+    return _viewController;
+    
 }
 
 #pragma mark - Core Data stack

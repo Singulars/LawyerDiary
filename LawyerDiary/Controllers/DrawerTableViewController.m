@@ -109,7 +109,7 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     
     switch (indexPath.row) {
         case kCellProfileIndex: {
-            destinationViewController = [APP_DELEGATE profileViewController];
+            destinationViewController = [APP_DELEGATE viewController];
         }
             break;
         case kCellCaseIndex: {
