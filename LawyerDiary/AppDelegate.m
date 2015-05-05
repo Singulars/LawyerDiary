@@ -394,7 +394,7 @@ Reachability *hostReach;
     return _courtsViewController;
 }
 
-- (Profile *)profileViewController {
+- (ProfileView *)profileViewController {
     if (!_profileViewController) {
         _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
     }

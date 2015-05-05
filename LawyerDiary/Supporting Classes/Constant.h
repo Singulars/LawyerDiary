@@ -20,7 +20,7 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
-#import "Profile.h"
+#import "ProfileView.h"
 
 #import "CourtCell.h"
 
