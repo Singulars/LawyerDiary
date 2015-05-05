@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Courts : UIViewController
+@interface Courts : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    IBOutlet UILabel *lblErrorMsg;
+    IBOutlet UIBarButtonItem *barBtnSync;
+    
+    IBOutlet UIView *viewAddCourt;
+    IBOutlet UIButton *btnAddCourt;
+}
+
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @end

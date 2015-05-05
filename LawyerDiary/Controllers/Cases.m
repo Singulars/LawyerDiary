@@ -7,8 +7,10 @@
 //
 
 #import "Cases.h"
+#import <LLARingSpinnerView/LLARingSpinnerView.h>
 
 @interface Cases ()
+@property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @end
 
 @implementation Cases
@@ -25,6 +27,19 @@
     [self.navigationController.navigationBar setBarTintColor:APP_TINT_COLOR];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
+    
+    self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
+    [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
+    [self.spinnerView setHidesWhenStopped:YES];
+    [self.spinnerView setTintColor:APP_TINT_COLOR];
+    [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
+    [self.view addSubview:self.spinnerView];
+    
+    [self.spinnerView startAnimating];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.spinnerView stopAnimating];
+    });
 }
 
 #pragma mark - Actions

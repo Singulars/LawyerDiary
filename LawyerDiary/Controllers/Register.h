@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
     BOOL keyboardShown;
     BOOL isImageSet;
 }
+
 @property (nonatomic, strong) UIImage *imageFromPreviousScreen;
 @property (nonatomic, assign) VIEW_TYPE viewType;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

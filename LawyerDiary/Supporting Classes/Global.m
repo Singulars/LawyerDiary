@@ -420,6 +420,7 @@
     return retDate;
 }
 
+
 + (NSDate *)getCoreDateFromString:(NSString *)dateStr
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -1048,35 +1049,136 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
     }
 }
 
-/*
-+ (BOOL)saveDictionaryWords
++ (void)showNotificationWithTitle:(NSString *)notificationTitle titleColor:(UIColor *)tColor backgroundColor:(UIColor *)bgColor forDuration:(float)duration
 {
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"ENABLE" ofType:@"txt"];
+    NSMutableDictionary *options = [@{kCRToastNotificationTypeKey               : @(CRToastTypeStatusBar),
+                                      kCRToastNotificationPresentationTypeKey   : @(CRToastPresentationTypeCover),
+                                      kCRToastUnderStatusBarKey                 : @(NO),
+                                      kCRToastTextKey                           : notificationTitle,
+                                      kCRToastTextAlignmentKey                  : @(NSTextAlignmentCenter),
+                                      kCRToastTimeIntervalKey                   : @(duration),
+                                      kCRToastAnimationInTypeKey                : @(CRToastAnimationTypeSpring),
+                                      kCRToastAnimationOutTypeKey               : @(CRToastAnimationTypeSpring),
+                                      kCRToastAnimationInDirectionKey           : @(CRToastAnimationDirectionTop),
+                                      kCRToastAnimationOutDirectionKey          : @(CRToastAnimationDirectionTop),
+                                      kCRToastBackgroundColorKey                : bgColor,
+                                      kCRToastTextColorKey                      : tColor
+                                      } mutableCopy];
     
-    // Read the contents of the file into a string.
-    NSError *error = nil;
-    NSString *fileContentsString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-    NSArray *arrWords = [fileContentsString componentsSeparatedByString:@"\n"];
+    [CRToastManager showNotificationWithOptions:options
+                                 apperanceBlock:^(void) {
+                                     NSLog(@"Appeared");
+                                 }
+                                completionBlock:^(void) {
+                                    NSLog(@"Completed");
+                                }];
+}
+
++ (NSString *)currentDate
+{
+    NSString *myFormat = @"yyyy-MM-dd";
     
-    // Make sure that the file has been read, log an error if it hasn't.
-    if (!fileContentsString) {
-        NSLog(@"Error reading file");
-        
-        return NO;
-    }
-    else {
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            for (int i = 0; i < arrWords.count; i++) {
-                [DictionaryWord saveWord:arrWords[i] withIndex:@(i)];
-                
-                NSLog(@"%d saved!", i);
-            }
-        });
-        
+    NSDateFormatter *df2 = [[NSDateFormatter alloc] init];
+    [df2 setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df2 setDateFormat:myFormat];
+    NSString *retDateStr = [df2 stringFromDate:[NSDate date]];
+    
+    return retDateStr;
+}
+
++ (NSString *)currentYear
+{
+    NSString *myFormat = @"yyyy";
+    
+    NSDateFormatter *df2 = [[NSDateFormatter alloc] init];
+    [df2 setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df2 setDateFormat:myFormat];
+    NSString *retDateStr = [df2 stringFromDate:[NSDate date]];
+    
+    return retDateStr;
+}
+
++ (NSString *)currentDateTime
+{
+    NSString *myFormat = @"yyyy-MM-dd hh:mm:ss";
+    
+    NSDateFormatter *df2 = [[NSDateFormatter alloc] init];
+    [df2 setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df2 setDateFormat:myFormat];
+    NSString *retDateStr = [df2 stringFromDate:[NSDate date]];
+    
+    return retDateStr;
+}
+
++ (NSString *)formatDateToCore:(NSDate *)date
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setFormatterBehavior:NSDateFormatterBehavior10_4];
+    [df setDateFormat:@"yyyy-MM-dd"];
+    NSString *retDate = [df stringFromDate:date];
+    
+    return retDate;
+}
+
++ (NSString *)getDateStringFromDate:(NSDate *)date ofFormat:(NSString *)dateFormat
+{
+    NSString *dateStr;
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [df setTimeZone:timeZone];
+    [df setDateFormat:dateFormat];
+    
+    dateStr = [df stringFromDate:date];
+    return dateStr;
+}
+
++ (NSString *)getDateStringOfFormat:(NSString *)dateFormat fromDateString:(NSString *)dateString ofFormat:(NSString *)datStringFormat
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [df setTimeZone:timeZone];
+    [df setDateFormat:datStringFormat];
+    
+    NSDate *date = [df dateFromString:dateString];
+    
+    NSDateFormatter *df1 = [[NSDateFormatter alloc] init];
+    [df1 setTimeZone:timeZone];
+    [df1 setDateFormat:dateFormat];
+    
+    NSString *retDateStr = [df1 stringFromDate:date];
+    
+    return retDateStr;
+}
+
++ (NSDate *)getDatefromDateString:(NSString *)dateString ofFormat:(NSString *)datStringFormat
+{
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [df setTimeZone:timeZone];
+    [df setDateFormat:datStringFormat];
+    
+    NSDate *date = [df dateFromString:dateString];
+    
+    return date;
+}
+
++ (BOOL)isImageExist:(NSString *)fn
+{
+    NSString *fileName = [fn stringByDeletingPathExtension];
+    
+    NSString *originaljpegFileName = [IMG_DIR_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.jpg", [fileName lastPathComponent]]];
+    NSString *originalpngFileName = [IMG_DIR_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", [fileName lastPathComponent]]];
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:originaljpegFileName]) {
         return YES;
     }
+    else if ([[NSFileManager defaultManager] fileExistsAtPath:originalpngFileName]) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
 }
-*/
 
 @end

@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, ImageType) {
 
 @interface Global : NSObject
 
+
 #pragma mark - Fade In/Out View
 + (void)fadeInView:(UIView *)view;
 
@@ -161,5 +162,16 @@ NSString *NSStringf(NSString *format, ...);
 + (bool)isThis:(CGSize)aa biggerThanThis:(CGSize)bb;
 
 void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFloat peakAngle, CGFloat sideAngle, CGColorRef colorRef);
+
++ (void)showNotificationWithTitle:(NSString *)notificationTitle titleColor:(UIColor *)tColor backgroundColor:(UIColor *)bgColor forDuration:(float)duration;
+
++ (NSString *)currentDate;
++ (NSString *)currentYear;
++ (NSString *)currentDateTime;
++ (NSString *)formatDateToCore:(NSDate *)date;
++ (NSString *)getDateStringFromDate:(NSDate *)date ofFormat:(NSString *)dateFormat;
++ (NSString *)getDateStringOfFormat:(NSString *)dateFormat fromDateString:(NSString *)dateString ofFormat:(NSString *)datStringFormat;
++ (NSDate *)getDatefromDateString:(NSString *)dateString ofFormat:(NSString *)datStringFormat;
++ (BOOL)isImageExist:(NSString *)fn;
 
 @end

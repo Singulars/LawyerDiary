@@ -80,18 +80,26 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [imgViewProPic addGestureRecognizer:tapGesture];
     
     [tfEmail setAttributedPlaceholder:[Global getAttributedString:@"Email" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
-    [tfPassword setAttributedPlaceholder:[Global getAttributedString:@"Password" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
+    [tfPassword setAttributedPlaceholder:[Global getAttributedString:@"Password" withFont:@"HelveticaNeue" fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     [tfFirstName setAttributedPlaceholder:[Global getAttributedString:@"First Name" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     [tfLastName setAttributedPlaceholder:[Global getAttributedString:@"Last Name" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     [tfMobile setAttributedPlaceholder:[Global getAttributedString:@"Mobile" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     
-    [Global setFont:APP_FONT withSize:18 color:APP_TINT_COLOR toUIViewType:TextField objectArr:@[tfEmail, tfPassword, tfFirstName, tfLastName, tfMobile, tfBirthdate]];
+    [Global setFont:APP_FONT withSize:18 color:APP_TINT_COLOR toUIViewType:TextField objectArr:@[tfEmail, tfFirstName, tfLastName, tfMobile, tfBirthdate]];
+    
+    [Global setFont:@"HelveticaNeue" withSize:18 color:APP_TINT_COLOR toUIViewType:TextField objectArr:@[tfPassword]];
     
     
     [lblFooterView setFont:FONT_WITH_NAME_SIZE(APP_FONT, 11)];
     [lblFooterView setTextColor:APP_TINT_COLOR];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldValueChanged) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    [btnLogin setTitle:@"Log in" forState:UIControlStateNormal];
+    [btnLogin setTitle:@"Loging in" forState:UIControlStateSelected];
+    
+    [btnSignup setTitle:@"Sign up" forState:UIControlStateNormal];
+    [btnSignup setTitle:@"Signing up" forState:UIControlStateSelected];
     
 //    [tfEmail setText:@"nareshkharecha@gmail.com"];
 //    [tfPassword setText:@"nareshnaresh"];
@@ -140,10 +148,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 #pragma mark -
 - (void)shakeTextField:(UITextField *)tf
 {
-    [tf shake:ShakeShakes
-    withDelta:ShakeDelta
-     andSpeed:ShakeSpeed
-shakeDirection:ShakeDirectionHorizontal];
+    [tf shake:ShakeShakes withDelta:ShakeDelta andSpeed:ShakeSpeed shakeDirection:ShakeDirectionHorizontal];
 }
 
 #pragma mark - KeyboardNotification
@@ -168,14 +173,17 @@ shakeDirection:ShakeDirectionHorizontal];
     
     NSDictionary *userInfo = [aNotification userInfo];
     
+    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
     NSValue *animationDurationValue = userInfo[UIKeyboardAnimationDurationUserInfoKey];
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:animationDuration];
-    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, KEYBOARD_HEIGHT + TOOLBAR_HEIGHT, 0)];
-    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (keyboardSize.height), 0.0);
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
     [UIView commitAnimations];
     
     keyboardShown = YES;
@@ -202,7 +210,7 @@ shakeDirection:ShakeDirectionHorizontal];
 #pragma mark - Misc
 #pragma mark -
 
-- (void)showAlertViewToastWithMsgType:(AlertMsgType)msgType
+- (NSString *)getAlertMessageType:(AlertMsgType)msgType
 {
     NSString *strAlertMsg;
     switch (msgType) {
@@ -242,6 +250,7 @@ shakeDirection:ShakeDirectionHorizontal];
         default:
             break;
     }
+    return strAlertMsg;
 }
 
 - (void)textFieldValueChanged
@@ -346,9 +355,9 @@ shakeDirection:ShakeDirectionHorizontal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateHighlighted];
             
             
-            [Global applyPropertiesToButtons:@[btnLogin] likeFont:APP_FONT fontSize:25 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+            [Global applyPropertiesToButtons:@[btnLogin] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
-            [Global applyPropertiesToButtons:@[btnSignup, btnForgotPass] likeFont:APP_FONT fontSize:18 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
+            [Global applyPropertiesToButtons:@[btnSignup, btnForgotPass] likeFont:APP_FONT fontSize:17 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
             
             [btnLogin setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
             
@@ -362,9 +371,9 @@ shakeDirection:ShakeDirectionHorizontal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateNormal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateHighlighted];
             
-            [Global applyPropertiesToButtons:@[btnSignup] likeFont:APP_FONT fontSize:25 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+            [Global applyPropertiesToButtons:@[btnSignup] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
-            [Global applyPropertiesToButtons:@[btnLogin, btnForgotPass] likeFont:APP_FONT fontSize:18 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
+            [Global applyPropertiesToButtons:@[btnLogin, btnForgotPass] likeFont:APP_FONT fontSize:17 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
             
             [lblFooterView setText:@""];
             
@@ -376,11 +385,11 @@ shakeDirection:ShakeDirectionHorizontal];
         case FORGOT_PASS_VIEW: {
             [btnForgotPass setTitle:@"Reset" forState:UIControlStateNormal];
             [btnForgotPass setTitle:@"Reset" forState:UIControlStateHighlighted];
-            [btnForgotPass setTitle:@"" forState:UIControlStateHighlighted];
+            [btnForgotPass setTitle:@"" forState:UIControlStateSelected];
             
-            [Global applyPropertiesToButtons:@[btnForgotPass] likeFont:APP_FONT fontSize:25 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+            [Global applyPropertiesToButtons:@[btnForgotPass] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
-            [Global applyPropertiesToButtons:@[btnLogin, btnSignup] likeFont:APP_FONT fontSize:18 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
+            [Global applyPropertiesToButtons:@[btnLogin, btnSignup] likeFont:APP_FONT fontSize:17 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
             
             [lblFooterView setText:@"New password will be sent to your registered email."];
             
@@ -406,7 +415,7 @@ shakeDirection:ShakeDirectionHorizontal];
     [tfMobile setText:@""];
     [tfBirthdate setText:@""];
     
-    [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_placeholder_80)];
+    [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
 }
 
 - (BOOL)validateTextFieldValues
@@ -693,9 +702,10 @@ shakeDirection:ShakeDirectionHorizontal];
 #pragma mark -
 - (void)makeLoginRequest
 {
-    if (ShareObj.isInternetConnected)
+    if (IS_INTERNET_CONNECTED)
     {
         [self showIndicator:YES forView:LOGIN_VIEW];
+        [btnLogin setSelected:YES];
         
         NSDictionary *params = @{
                                  kAPIMode: klogIn,
@@ -709,6 +719,7 @@ shakeDirection:ShakeDirectionHorizontal];
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnLogin setSelected:NO];
             
             if (responseObject == nil) {
                 MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
@@ -725,6 +736,7 @@ shakeDirection:ShakeDirectionHorizontal];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnLogin setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
                 MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
@@ -738,7 +750,7 @@ shakeDirection:ShakeDirectionHorizontal];
         }];
     }
     else {
-        [self showAlertViewToastWithMsgType:InternetOffline];
+        [Global showNotificationWithTitle:[self getAlertMessageType:InternetOffline] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -746,7 +758,7 @@ shakeDirection:ShakeDirectionHorizontal];
 #pragma mark -
 - (void)makeSignupRequest
 {
-    if (ShareObj.isInternetConnected)
+    if (IS_INTERNET_CONNECTED)
     {
         [indicator startAnimating];
         [btnSignup setSelected:YES];
@@ -768,6 +780,7 @@ shakeDirection:ShakeDirectionHorizontal];
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnSignup setSelected:NO];
             
             if (responseObject == nil) {
                 MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
@@ -786,6 +799,7 @@ shakeDirection:ShakeDirectionHorizontal];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnSignup setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
                 MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
@@ -799,7 +813,7 @@ shakeDirection:ShakeDirectionHorizontal];
         }];
     }
     else {
-        [self showAlertViewToastWithMsgType:InternetOffline];
+        [Global showNotificationWithTitle:[self getAlertMessageType:InternetOffline] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -807,7 +821,7 @@ shakeDirection:ShakeDirectionHorizontal];
 #pragma mark -
 - (void)makeResetPassword
 {
-    if (ShareObj.isInternetConnected) {
+    if (IS_INTERNET_CONNECTED) {
         [indicator startAnimating];
         [btnForgotPass setSelected:YES];
         
@@ -820,6 +834,7 @@ shakeDirection:ShakeDirectionHorizontal];
         [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnForgotPass setSelected:NO];
             
             if (responseObject == nil) {
                 MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
@@ -836,6 +851,7 @@ shakeDirection:ShakeDirectionHorizontal];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
             UserIntrectionEnable(YES);
+            [btnForgotPass setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
                 MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
@@ -849,7 +865,7 @@ shakeDirection:ShakeDirectionHorizontal];
         }];
     }
     else {
-        [self showAlertViewToastWithMsgType:InternetOffline];
+        [Global showNotificationWithTitle:[self getAlertMessageType:InternetOffline] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -1233,7 +1249,7 @@ shakeDirection:ShakeDirectionHorizontal];
     picker.allowsEditing = YES;
     
     if (buttonIndex == 0 && isImageSet) {
-        [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_placeholder_80)];
+        [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
         isImageSet = NO;
     }
     else if ((buttonIndex == 0 && !isImageSet) ||
@@ -1290,7 +1306,7 @@ shakeDirection:ShakeDirectionHorizontal];
     activeTextField = textField;
 }
 
--(BOOL)textFieldShouldReturn:(UITextField*)textField;
+-(BOOL)textFieldShouldReturn:(UITextField*)textField
 {
     switch (_viewType) {
         case LOGIN_VIEW: {

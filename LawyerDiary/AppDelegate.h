@@ -12,7 +12,7 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
-#import "Profile.h";
+#import "Profile.h"
 
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;

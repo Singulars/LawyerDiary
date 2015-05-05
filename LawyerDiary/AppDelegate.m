@@ -17,7 +17,7 @@ static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStor
 static NSString * const kCasesViewControllerStoryboardID = @"Cases";
 static NSString * const kClientsViewControllerStoryboardID = @"Clients";
 static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
-static NSString * const kProfileViewControllerStoryboardID = @"Profile";
+static NSString * const kProfileViewControllerStoryboardID = @"ProfileVC";
 
 Reachability *hostReach;
 

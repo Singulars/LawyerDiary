@@ -41,7 +41,7 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     
     [Global applyCornerRadiusToViews:@[imgeViewProfile] withRadius:imgeViewProfile.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
     
-    [imgeViewProfile setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgeViewProfile) withPlaceholderImageName:IMG_user_placeholder_80];
+    [imgeViewProfile setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgeViewProfile) withPlaceholderImageName:IMG_user_avatar_80];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -50,16 +50,6 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
 }
 
 #pragma mark - Table View Data Source
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return 110.0;
-//}
-//
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    return tableHeaderView;
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -82,7 +72,10 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DrawerCell *menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
+    DrawerCell *menuCell;
+    if (indexPath.row != 0) {
+         menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
+    }
     
     switch (indexPath.row) {
         case kCellProfileIndex: {
@@ -101,7 +94,7 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
             break;
         case kCellCourtIndex: {
             menuCell.titleText = @"Courts";
-            menuCell.iconImage = [UIImage imageNamed:@"icon-courts"];
+            menuCell.iconImage = [UIImage imageNamed:@"icon-court-small"];
         }
             break;
         default:

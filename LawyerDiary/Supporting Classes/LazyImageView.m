@@ -56,7 +56,7 @@
 {
     if ([fileName isEqualToString:@""]) {
         
-        UIImage *placeHolderImg = IMAGE_WITH_NAME(IMG_user_placeholder_80);
+        UIImage *placeHolderImg = IMAGE_WITH_NAME(IMG_user_avatar_80);
         
         UIImage *resizedImage = [Global resizeImage:placeHolderImg withWidth:size.width withHeight:size.height];
         
@@ -85,9 +85,9 @@
             }
             else {
                 UIImage *image = [UIImage imageWithContentsOfFile:originaljpegFileName];
-                CGRect imgRect = CGRectMake(0, 0, image.size.width, image.size.width);
+                CGRect imgRect = CGRectMake(0, 0, image.size.width*2, image.size.width*2);
                 UIImage *croppedImage = [Global cropImage:image WithSize:imgRect];
-                UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width withHeight:imgSize.width];
+                UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width*2 withHeight:imgSize.width*2];
                 
                 [UIImageJPEGRepresentation(resizedImage, 1.0f) writeToFile:[IMG_DIR_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%0.f.jpg", [self.fileName lastPathComponent], imgSize.width]] atomically:YES];
                 
@@ -109,9 +109,9 @@
             }
             else {
                 UIImage *image = [UIImage imageWithContentsOfFile:originalpngFileName];
-                CGRect imgRect = CGRectMake(0, 0, image.size.width, image.size.width);
+                CGRect imgRect = CGRectMake(0, 0, image.size.width*2, image.size.width*2);
                 UIImage *croppedImage = [Global cropImage:image WithSize:imgRect];
-                UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width withHeight:imgSize.width];
+                UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width*2 withHeight:imgSize.width*2];
                 
                 [UIImagePNGRepresentation(resizedImage) writeToFile:[IMG_DIR_PATH stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_.png", [self.fileName lastPathComponent]]] atomically:YES];
                 
@@ -189,11 +189,11 @@
             [Global addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:IMG_DIR_PATH] skip:YES];
         }
         
-        CGRect imgRect = CGRectMake(0, 0, image.size.width, image.size.width);
+        CGRect imgRect = CGRectMake(0, 0, image.size.width*2, image.size.width*2);
         
         UIImage *croppedImage = [Global cropImage:image WithSize:imgRect];
         
-        UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width withHeight:imgSize.height];
+        UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width*2 withHeight:imgSize.height*2];
         
         
         switch (imageType) {

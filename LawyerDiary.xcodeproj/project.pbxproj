@@ -31,11 +31,13 @@
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
-		C030D35C1AF008C200B121D9 /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = C030D35B1AF008C200B121D9 /* Profile.m */; };
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
 		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
+		C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C060C2251AF66FD0009BA8B4 /* CourtDetail.m */; };
+		C067C0541AF40528004FE159 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0531AF40528004FE159 /* Court.m */; };
+		C067C0571AF40736004FE159 /* CourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0561AF40736004FE159 /* CourtCell.m */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
 		C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
@@ -49,6 +51,7 @@
 		C07573151AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
+		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,14 +117,18 @@
 		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
-		C030D35A1AF008C200B121D9 /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
-		C030D35B1AF008C200B121D9 /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C037665A1AE9768500ACA623 /* NSDictionary+SJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SJSONString.h"; sourceTree = "<group>"; };
 		C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SJSONString.m"; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
+		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
+		C067C0521AF40528004FE159 /* Court.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Court.h; sourceTree = "<group>"; };
+		C067C0531AF40528004FE159 /* Court.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Court.m; sourceTree = "<group>"; };
+		C067C0551AF40736004FE159 /* CourtCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtCell.h; sourceTree = "<group>"; };
+		C067C0561AF40736004FE159 /* CourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtCell.m; sourceTree = "<group>"; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07572F31AE2F2B40017E0F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -139,6 +146,8 @@
 		C075731A1AE2F2B40017E0F9 /* LawyerDiaryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LawyerDiaryTests-Info.plist"; sourceTree = "<group>"; };
 		C075731C1AE2F2B40017E0F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
+		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
+		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,8 +195,8 @@
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				9DA282A01AECFE4C00024121 /* Courts.h */,
 				9DA282A11AECFE4C00024121 /* Courts.m */,
-				C030D35A1AF008C200B121D9 /* Profile.h */,
-				C030D35B1AF008C200B121D9 /* Profile.m */,
+				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
+				C060C2251AF66FD0009BA8B4 /* CourtDetail.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -199,6 +208,8 @@
 				9D64BD941AE311CA001230C0 /* User.m */,
 				9D64BD981AE31ED7001230C0 /* Client.h */,
 				9D64BD991AE31ED7001230C0 /* Client.m */,
+				C067C0521AF40528004FE159 /* Court.h */,
+				C067C0531AF40528004FE159 /* Court.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -238,6 +249,7 @@
 		9D64BD681AE2F87B001230C0 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C07CEC1D1AF21A730058C25C /* CRToast */,
 				9D64BD921AE30537001230C0 /* Constant.h */,
 				9D64BD791AE30521001230C0 /* Global.h */,
 				9D64BD7A1AE30521001230C0 /* Global.m */,
@@ -278,6 +290,8 @@
 			children = (
 				9DA282971AECF9FC00024121 /* DrawerCell.h */,
 				9DA282981AECF9FC00024121 /* DrawerCell.m */,
+				C067C0551AF40736004FE159 /* CourtCell.h */,
+				C067C0561AF40736004FE159 /* CourtCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -390,6 +404,15 @@
 				C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C07CEC1D1AF21A730058C25C /* CRToast */ = {
+			isa = PBXGroup;
+			children = (
+				C07CEC1E1AF21A7F0058C25C /* CRToast.h */,
+				C07CEC1F1AF21A7F0058C25C /* CRToast.m */,
+			);
+			path = CRToast;
 			sourceTree = "<group>";
 		};
 		CD28515BC07A3F7D00EF024A /* Pods */ = {
@@ -537,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */,
+				C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */,
 				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
 				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
 				9DA282A21AECFE4C00024121 /* Courts.m in Sources */,
@@ -545,15 +569,17 @@
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
+				C067C0541AF40528004FE159 /* Court.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
-				C030D35C1AF008C200B121D9 /* Profile.m in Sources */,
 				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
 				9DA282961AECE48100024121 /* Cases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
+				C067C0571AF40736004FE159 /* CourtCell.m in Sources */,
+				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
@@ -645,7 +671,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
+				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -678,7 +704,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
+				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -699,7 +725,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
+				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -720,7 +746,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a747dd5c-761d-449e-ba58-7163c8bdfcb4";
+				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

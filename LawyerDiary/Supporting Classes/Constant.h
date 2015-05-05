@@ -22,8 +22,11 @@
 #import "Courts.h"
 #import "Profile.h"
 
+#import "CourtCell.h"
+
 #import "User.h"
 #import "Client.h"
+#import "Court.h"
 
 #import "NetworkManager.h"
 #import "Reachability.h"
@@ -35,6 +38,8 @@
 #import "UITextField+Shake.h"
 #import "ManagedObjectCloner.h"
 #import "NSDictionary+SJSONString.h"
+#import "CRToast.h"
+#import <LLARingSpinnerView/LLARingSpinnerView.h>
 
 
 typedef enum : NSInteger {
@@ -61,6 +66,45 @@ typedef enum : NSInteger {
     kImageRenderModeAutomatic
 } ImageRenderMode;
 
+#define UserDefaults                        [NSUserDefaults standardUserDefaults]
+#define NotificationCenter                  [NSNotificationCenter defaultCenter]
+#define SharedApplication                   [UIApplication sharedApplication]
+#define Bundle                              [NSBundle mainBundle]
+#define BundlePath                          [NSBundle mainBundle]
+#define MainScreen                          [UIScreen mainScreen]
+#define ShowNetworkActivityIndicator()      [UIApplication sharedApplication].networkActivityIndicatorVisible = YES
+#define HideNetworkActivityIndicator()      [UIApplication sharedApplication].networkActivityIndicatorVisible = NO
+#define NetworkActivityIndicatorVisible(x)  [UIApplication sharedApplication].networkActivityIndicatorVisible = x
+#define NavBar                              self.navigationController.navigationBar
+#define TabBar                              self.tabBarController.tabBar
+#define NavBarHeight                        self.navigationController.navigationBar.bounds.size.height
+#define TabBarHeight                        self.tabBarController.tabBar.bounds.size.height
+#define ScreenWidth                         [[UIScreen mainScreen] bounds].size.width
+#define ScreenHeight                        [[UIScreen mainScreen] bounds].size.height
+#define TouchHeightDefault                  44
+#define TouchHeightSmall                    32
+#define ViewWidth(v)                        v.frame.size.width
+#define ViewHeight(v)                       v.frame.size.height
+#define ViewX(v)                            v.frame.origin.x
+#define ViewY(v)                            v.frame.origin.y
+#define SelfViewWidth                       self.view.bounds.size.width
+#define SelfViewHeight                      self.view.bounds.size.height
+#define RectX(f)                            f.origin.x
+#define RectY(f)                            f.origin.y
+#define RectWidth(f)                        f.size.width
+#define RectHeight(f)                       f.size.height
+#define RectSetWidth(f, w)                  CGRectMake(RectX(f), RectY(f), w, RectHeight(f))
+#define RectSetHeight(f, h)                 CGRectMake(RectX(f), RectY(f), RectWidth(f), h)
+#define RectSetX(f, x)                      CGRectMake(x, RectY(f), RectWidth(f), RectHeight(f))
+#define RectSetY(f, y)                      CGRectMake(RectX(f), y, RectWidth(f), RectHeight(f))
+#define RectSetSize(f, w, h)                CGRectMake(RectX(f), RectY(f), w, h)
+#define RectSetOrigin(f, x, y)              CGRectMake(x, y, RectWidth(f), RectHeight(f))
+#define DATE_COMPONENTS                     NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit
+#define TIME_COMPONENTS                     NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit
+#define FlushPool(p)                        [p drain]; p = [[NSAutoreleasePool alloc] init]
+#define RGB(r, g, b)                        [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
+#define RGBA(r, g, b, a)                    [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#define HEXCOLOR(c)                         [UIColor colorWithRed:((c>>16)&0xFF)/255.0 green:((c>>8)&0xFF)/255.0 blue:(c&0xFF)/255.0 alpha:1.0];
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//
 
@@ -139,9 +183,9 @@ typedef enum : NSInteger {
 
 #define DefaultDateTime                     @"2000-01-01 12:00:00"
 
-#define DefaultBirthdateFormat              @"MMMM dd, yyyy"
+#define DefaultBirthdateFormat              @"d MMM, yyyy"
 
-#define ServerBirthdateFormat               @"MM/dd/yyyy"
+#define ServerBirthdateFormat               @"yyyy-MM-dd"
 
 #define SetStatusBarLightContent(flag)       [[UIApplication sharedApplication] setStatusBarStyle:flag ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault]
 
@@ -168,11 +212,6 @@ typedef enum : NSInteger {
 
 #define APP_NAME                            @"Lawyer Diary"
 
-#define KEYBOARD_HEIGHT         216
-#define TOOLBAR_HEIGHT          44
-#define NAVBAR_HEIGHT           44
-#define TABBAR_HEIGHT           49
-
 #define IsRegisteredForRemoteNotifications  [[UIApplication sharedApplication] isRegisteredForRemoteNotifications]
 
 #define APP_DELEGATE                  (AppDelegate *)[[UIApplication sharedApplication] delegate]
@@ -189,18 +228,15 @@ typedef enum : NSInteger {
 #define kInviteFriendsAppURL                @"http://www.app.com"
 #define kInviteFriendsInitialText           @"- I am using Lawyer Diary, download from bottom URL\n"
 
-#define kSOMETHING_WENT_WRONG               @"Something went wrong!! Please try again later."
+#define kSOMETHING_WENT_WRONG               @"Something went wrong! Please try again later."
 #define kREQUEST_TIME_OUT                   @"Request time out!\nPlease try agin later."
 #define kCHECK_INTERNET                     @"You are not connected to the internet!"
 
 #define SCREENWIDTH                         [[UIScreen mainScreen] bounds].size.width
 #define SCREENHEIGHT                        [[UIScreen mainScreen] bounds].size.height
-#define NAVHIEGHT                           44.0
-#define KEYBOARDHEIGHT                      216.0
-#define NAVBARHEIGHT                        64.0f
 #define EDGEZEROINSET                       UIEdgeInsetsMake(0, 0, 0, 0)
-#define TOOLBARHEIGHT                       44.0
-#define TABBARHEIGHT                        49.0
+
+#define IS_INTERNET_CONNECTED               ShareObj.isInternetConnected
 
 #define WORD_CELL_SIZE     35.0
 
@@ -279,9 +315,13 @@ otherButtonTitles:@"OK", nil] show];
 #define CLEAR_COLOR                   [UIColor colorWithRed:0.0f/255.0f green:0.0f/255.0f blue:0.0f/255.0f alpha:0.0f]
 #define GROUP_TABLEVIEW_COLOR         [UIColor colorWithRed:238.0f/255.0f green:238.0f/255.0f blue:244.0f/255.0f alpha:1.0f]
 #define CLEARCOLOUR                   [UIColor clearColor]
+#define APP_RED_COLOR                 UICOLOR(220, 37, 47,1)
+#define APP_GREEN_COLOR               [UIColor colorWithRed:81.0f/255.0f green:182.0f/255.0f blue:79.0f/255.0f alpha:1.0f]
 
 //#define APP_TINT_COLOR                UICOLOR(43, 41, 42, 1)
 #define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
+
+#define APP_TINT_COLOR_LIGHT                UICOLOR(108, 125, 155, 1)
 
 #define TABLEVIEW_SEPRATOR_COLOR     [UIColor colorWithRed:200.0f/255.0f green:199.0f/255.0f blue:204.0f/255.0f alpha:1.0f]
 
@@ -326,16 +366,24 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIregistrationNo                  @"registrationNo"
 #define kAPIproPic                          @"proPic"
 #define kAPIisVerified                      @"isVerified"
+#define kAPIcourtId                         @"courtId"
+#define kAPIcourtName                       @"courtName"
+#define kAPIcourtCity                       @"courtCity"
+#define kAPImegistrateName                  @"megistrateName"
+#define kAPIdateTime                        @"dateTime"
 
 #define kAPIdeviceToken                     @"deviceToken"
 #define kAPIdeviceType                      @"deviceType"
 
+#define kAPIcourData                        @"courtData"
 
 // mode keys
 #define ksignUp                             @"signUp"
 #define klogIn                              @"logIn"
 #define kforgotPassword                     @"forgotPassword"
 #define ksyncContacts                       @"syncContacts"
+#define kloadCourts                         @"loadCourts"
+#define ksaveCourt                          @"saveCourt"
 
 
 #define kgetServerDateTime                  @"getServerDateTime"
@@ -348,12 +396,14 @@ otherButtonTitles:@"OK", nil] show];
 
 #define IMG_placeholder                     @"placeholder"
 
-#define IMG_user_placeholder_36             @"user-placeholder-36"
-#define IMG_user_placeholder_50             @"user-placeholder-50"
-#define IMG_user_placeholder_80             @"user-placeholder-80"
+#define IMG_user_avatar_36             @"user-avatar-80"
+#define IMG_user_avatar_50             @"user-avatar-80"
+#define IMG_user_avatar_80             @"user-avatar-80"
 
 #define IMG_right_chevron                   @"right-chevron"
 #define IMG_row_disclosure                  @"row-disclosure"
+
+#define IMG_btn_add                         @"btn-add"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 
@@ -371,6 +421,7 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kUser                               @"User"
 #define kClient                             @"Client"
+#define kCourt                              @"Court"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

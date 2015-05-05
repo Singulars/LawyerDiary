@@ -40,7 +40,7 @@
                 [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
                 [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
                 [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
-                [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
+                [obj setBirthdate:dataDict[kAPIbirthdate] ? [Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:dataDict[kAPIbirthdate] ofFormat:ServerBirthdateFormat] : @""];
                 [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
                 [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
                 [obj setIsVerified:dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
@@ -61,7 +61,7 @@
                 [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
                 [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
                 [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
-                [obj setBirthdate:dataDict[kAPIbirthdate] ? dataDict[kAPIbirthdate]: @""];
+                [obj setBirthdate:dataDict[kAPIbirthdate] ? [Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:dataDict[kAPIbirthdate] ofFormat:ServerBirthdateFormat]: @""];
                 [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
                 [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
                 [obj setIsVerified:dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
