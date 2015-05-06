@@ -34,6 +34,7 @@
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
+		C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = C03D2ED91AFA9BE40000665E /* Profile.m */; };
 		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
 		C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C060C2251AF66FD0009BA8B4 /* CourtDetail.m */; };
 		C067C0541AF40528004FE159 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0531AF40528004FE159 /* Court.m */; };
@@ -52,7 +53,6 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
-		C0B2172B1AF948BD00E4BEDB /* ProfileView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B2172A1AF948BD00E4BEDB /* ProfileView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +123,8 @@
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C037665A1AE9768500ACA623 /* NSDictionary+SJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SJSONString.h"; sourceTree = "<group>"; };
 		C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SJSONString.m"; sourceTree = "<group>"; };
+		C03D2ED81AFA9BE40000665E /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
+		C03D2ED91AFA9BE40000665E /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
 		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
@@ -149,8 +151,6 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
-		C0B217291AF948BD00E4BEDB /* ProfileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileView.h; sourceTree = "<group>"; };
-		C0B2172A1AF948BD00E4BEDB /* ProfileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileView.m; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -200,8 +200,8 @@
 				9DA282A11AECFE4C00024121 /* Courts.m */,
 				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
 				C060C2251AF66FD0009BA8B4 /* CourtDetail.m */,
-				C0B217291AF948BD00E4BEDB /* ProfileView.h */,
-				C0B2172A1AF948BD00E4BEDB /* ProfileView.m */,
+				C03D2ED81AFA9BE40000665E /* Profile.h */,
+				C03D2ED91AFA9BE40000665E /* Profile.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -585,10 +585,10 @@
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				C067C0571AF40736004FE159 /* CourtCell.m in Sources */,
 				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
+				C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
-				C0B2172B1AF948BD00E4BEDB /* ProfileView.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
 				9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */,

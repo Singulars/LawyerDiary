@@ -12,8 +12,7 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
-#import "ProfileView.h"
-#import "ViewController.h"
+#import "Profile.h"
 
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;
@@ -44,8 +43,7 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 @property (nonatomic, strong) Cases *casesViewController;
 @property (nonatomic, strong) Clients *clientsViewController;
 @property (nonatomic, strong) Courts *courtsViewController;
-@property (nonatomic, strong) ProfileView *profileViewController;
-@property (nonatomic, strong) ViewController *viewController;
+@property (nonatomic, strong) Profile *profileViewController;
 
 - (void)registerForUserNotifications:(getDeviceTokenCompletionHandler)completionHandler;
 

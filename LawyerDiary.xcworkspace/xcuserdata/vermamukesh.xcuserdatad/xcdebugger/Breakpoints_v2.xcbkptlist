@@ -10,13 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LawyerDiary/Controllers/Profile.m"
-            timestampString = "452544508.989045"
+            timestampString = "452633059.777238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
+            startingLineNumber = "1064"
+            endingLineNumber = "1064">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,13 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LawyerDiary/Controllers/Profile.m"
-            timestampString = "452544508.989045"
+            timestampString = "452633059.777238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
-            landmarkName = "-tableView:heightForRowAtIndexPath:"
-            landmarkType = "5">
+            startingLineNumber = "993"
+            endingLineNumber = "993">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +38,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LawyerDiary/Controllers/Profile.m"
-            timestampString = "452544508.989045"
+            timestampString = "452633059.777238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "-tableView:viewForHeaderInSection:"
-            landmarkType = "5">
+            startingLineNumber = "947"
+            endingLineNumber = "947">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,45 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LawyerDiary/Controllers/Profile.m"
-            timestampString = "452543934.965701"
+            timestampString = "452633059.777238"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/Courts.m"
-            timestampString = "452544193.049552"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/Clients.m"
-            timestampString = "452544207.072654"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "5">
+            startingLineNumber = "754"
+            endingLineNumber = "754">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

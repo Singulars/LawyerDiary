@@ -1,12 +1,12 @@
 //
-//  ProfileView.m
+//  Profile.m
 //  LawyerDiary
 //
-//  Created by Naresh on 06/05/15.
+//  Created by Verma Mukesh on 07/05/15.
 //  Copyright (c) 2015 Singularsllp. All rights reserved.
 //
 
-#import "ProfileView.h"
+#import "Profile.h"
 
 #define degreesToRadians(degrees) (M_PI * degrees / 180.0)
 
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     kActiveSectionFirmInfo,
 };
 
-@interface ProfileView () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface Profile () <UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     BOOL isPasswordSectionExpanded;
     BOOL isPickerVisible;
@@ -44,13 +44,14 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 
 @end
 
-@implementation ProfileView
+@implementation Profile
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setTintColor:WHITE_COLOR];
-    [self.navigationController.navigationBar setBarTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
@@ -71,9 +72,6 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [tfBirthdate setText:USER_OBJECT.birthdate];
     [tfRegNo setText:USER_OBJECT.registrationNo];
     [tvAddress setText:USER_OBJECT.address];
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [imgViewRowDisclosure setTintColor:APP_TINT_COLOR];
     [imgViewRowDisclosure setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_row_disclosure, kImageRenderModeTemplate)];
@@ -106,6 +104,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewTaped:)];
     [imgViewProPic addGestureRecognizer:tapGesture];
+
 }
 
 - (void)imgViewTaped:(id)sender {
@@ -232,11 +231,6 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     [tfCurrentPass setFont:[UIFont fontWithName:!tfCurrentPass.isSecureTextEntry ? APP_FONT : @"HelveticaNeue" size:tfCurrentPass.font.pointSize]];
     [tfNewPass setFont:[UIFont fontWithName:!tfCurrentPass.isSecureTextEntry ? APP_FONT : @"HelveticaNeue" size:tfNewPass.font.pointSize]];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -510,8 +504,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:2]];
-    CGRect newFrame = CGRectMake(ViewX(cell), ViewY(cell), ViewWidth(cell), ViewHeight(cell)*2);
-    [self.tableView scrollRectToVisible:newFrame animated:YES];
+    [self.tableView scrollRectToVisible:cell.frame animated:YES];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -730,6 +723,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     @finally {
         
     }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 /*

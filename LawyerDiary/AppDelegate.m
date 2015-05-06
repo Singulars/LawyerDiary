@@ -17,7 +17,7 @@ static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStor
 static NSString * const kCasesViewControllerStoryboardID = @"Cases";
 static NSString * const kClientsViewControllerStoryboardID = @"Clients";
 static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
-static NSString * const kProfileViewControllerStoryboardID = @"ViewControllerVC";
+static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
 
 Reachability *hostReach;
 
@@ -361,7 +361,7 @@ Reachability *hostReach;
     
     self.drawerViewController.animator = self.drawerAnimator;
     
-    self.drawerViewController.backgroundImage = [UIImage imageWithColor:UICOLOR(239, 239, 239, 1)];
+    self.drawerViewController.backgroundImage = [UIImage imageWithColor:GROUP_TABLEVIEW_COLOR];
 }
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
@@ -394,21 +394,12 @@ Reachability *hostReach;
     return _courtsViewController;
 }
 
-- (ProfileView *)profileViewController {
+- (Profile *)profileViewController {
     if (!_profileViewController) {
         _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
     }
     
     return _profileViewController;
-}
-
-- (ViewController *)viewController
-{
-    if (!_viewController) {
-        _viewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
-    }
-    return _viewController;
-    
 }
 
 #pragma mark - Core Data stack

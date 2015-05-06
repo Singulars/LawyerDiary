@@ -1,8 +1,8 @@
 //
-//  ProfileView.h
+//  Profile.h
 //  LawyerDiary
 //
-//  Created by Naresh on 06/05/15.
+//  Created by Verma Mukesh on 07/05/15.
 //  Copyright (c) 2015 Singularsllp. All rights reserved.
 //
 
@@ -11,7 +11,7 @@
 #import "LazyImageView.h"
 #import "FFTextField.h"
 
-@interface ProfileView : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface Profile : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate>
 {
     IBOutlet UITableViewCell *cellFirst;
     IBOutlet UITableViewCell *cellEmail;
@@ -45,7 +45,5 @@
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
-
-@property (nonatomic, readwrite) BOOL loadView;
 
 @end

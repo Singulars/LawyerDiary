@@ -24,7 +24,8 @@
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setTintColor:WHITE_COLOR];
-    [self.navigationController.navigationBar setBarTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
@@ -260,7 +261,12 @@
                 [tfMegistrate becomeFirstResponder];
             }
             else {
-                
+                if (tfCourt.text.length == 0 || tfMegistrate.text.length == 0 || tfCity.text.length == 0) {
+                    [Global showNotificationWithTitle:@"Court detail can't be blanked!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    [self saveCourt];
+                }
             }
         }
             break;
