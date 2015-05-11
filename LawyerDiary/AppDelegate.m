@@ -196,6 +196,7 @@ Reachability *hostReach;
     NSLog(@"token - %@",token);
     [ShareObj setDeviceToken:token];
     getDeviceTokenHandler(YES);
+    getDeviceTokenHandler = nil;
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
@@ -203,6 +204,7 @@ Reachability *hostReach;
     [ShareObj setDeviceToken:@""];
     NSLog(@"%s ==> %@",__FUNCTION__,error);
     getDeviceTokenHandler(NO);
+    getDeviceTokenHandler = nil;
 }
 
 #ifdef __IPHONE_8_0
