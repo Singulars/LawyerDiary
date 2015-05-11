@@ -774,7 +774,7 @@
 
 + (NSMutableArray *)fetchContactsArray:(ABAddressBookRef)addressBook
 {
-    NSMutableArray *arrContacts = [[NSMutableArray alloc] initWithArray:[Client fetchContatctsOfNotRegisteredUsersForUser:USER_ID]];
+    NSMutableArray *arrContacts = [[NSMutableArray alloc] initWithArray:[RegisteredUsers fetchContatctsOfNotRegisteredUsersForUser:USER_ID]];
     NSMutableArray *arrUsers = [[NSMutableArray alloc] init];
     
     NSMutableArray *thePeople = (__bridge  NSMutableArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
@@ -807,7 +807,7 @@
                 
                 if ([strPhone length]>0) {
                     
-                    Client *userObject = [Client fetchClientByMobileNo:strPhone forUser:ShareObj.loginuserId];
+                    RegisteredUsers *userObject = [RegisteredUsers fetchClientByMobileNo:strPhone forUser:ShareObj.loginuserId];
                     
                     if (![strPhone isEqualToString:ShareObj.userObj.mobile] && userObject==nil) {
                         NSDate *modifyDate = (__bridge NSDate *)ABRecordCopyValue(person, kABPersonModificationDateProperty);
@@ -850,7 +850,7 @@
     [dic setObject:lastSyncDate forKey:kLastSyncContactDateOfUser];
     [self setValueToPlist:dic];
     NSLog(@"contacts => %@", arrUsers);
-    [Client addUserRecordsDuringSyncContacts:arrUsers];
+    [RegisteredUsers addUserRecordsDuringSyncContacts:arrUsers];
     return arrContacts;
 }
 

@@ -35,7 +35,7 @@
         
         if (obj != nil) {
             @try {
-                [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : @0];
+                [obj setUserId:dataDict[kAPIuserId] ? dataDict[kAPIuserId] : !USER_ID ? @0 : USER_ID];
                 [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
                 [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
                 [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
@@ -43,7 +43,7 @@
                 [obj setBirthdate:dataDict[kAPIbirthdate] ? [Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:dataDict[kAPIbirthdate] ofFormat:ServerBirthdateFormat] : @""];
                 [obj setAddress:dataDict[kAPIaddress] ? dataDict[kAPIaddress]: @""];
                 [obj setRegistrationNo:dataDict[kAPIregistrationNo] ? dataDict[kAPIregistrationNo] : @""];
-                [obj setIsVerified:dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
+                [obj setIsVerified:[obj.isVerified isEqualToNumber:@0] || [obj.isVerified isEqualToNumber:@1] ? obj.isVerified : dataDict[kAPIisVerified] ? dataDict[kAPIisVerified] : @3];
                 [obj setProPic:NSStringf(@"%@_%@", obj.userId, obj.firstName)];
             }
             @catch (NSException *exception) {

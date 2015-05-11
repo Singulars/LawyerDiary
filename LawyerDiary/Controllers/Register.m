@@ -69,7 +69,9 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [navBar setTitleTextAttributes:[Global getTextAttributesForFont:APP_FONT fontSize:20 fontColor:WHITE_COLOR strokeColor:CLEAR_COLOR]];
     [navBar setTintColor:WHITE_COLOR];
     
-    [self setUpView];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        [self setUpView];
+    }
     
     [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:35 borderColor:APP_TINT_COLOR andBorderWidth:1.5];
     
@@ -100,6 +102,9 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     
     [btnSignup setTitle:@"Sign up" forState:UIControlStateNormal];
     [btnSignup setTitle:@"Signing up" forState:UIControlStateSelected];
+    
+    
+    [datePicker setMaximumDate:[NSDate date]];
     
 //    [tfEmail setText:@"nareshkharecha@gmail.com"];
 //    [tfPassword setText:@"nareshnaresh"];
@@ -722,7 +727,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnLogin setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -771,7 +776,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                                  kAPIfirstName: tfFirstName.text,
                                  kAPIlastName: tfLastName.text,
                                  kAPImobile: tfMobile.text,
-                                 kAPIbirthdate: tfBirthdate.text,
+                                 kAPIbirthdate: [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfBirthdate.text ofFormat:DefaultBirthdateFormat],
                                  kAPIaddress: @"",
                                  kAPIregistrationNo: @""
                                  };
@@ -783,7 +788,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnSignup setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -794,7 +799,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                 }
             }
             
-            [btnLogin sendActionsForControlEvents:UIControlEventTouchDragInside];
+            [btnLogin sendActionsForControlEvents:UIControlEventTouchUpInside];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
@@ -837,7 +842,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnForgotPass setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -847,6 +852,8 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                     MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
                 }
             }
+            
+            [btnLogin sendActionsForControlEvents:UIControlEventTouchUpInside];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
@@ -902,6 +909,9 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
         case SIGN_UP_VIEW: {
             if (indexPath.section == 0 && indexPath.row == 0) {
                 rowHeight = 88;
+            }
+           else if (indexPath.section == 0 && indexPath.row == 4) {
+                rowHeight = (isPickerShown)?206:44;
             }
             else {
                 rowHeight = 44;
@@ -1119,7 +1129,14 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
                             [tfBirthdate setFrame:CGRectMake(0, 0, tfBirthdate.frame.size.width, tfBirthdate.frame.size.height)];
+                            [datePicker setFrame:CGRectMake(0, tfBirthdate.frame.size.height, ViewWidth(cell), datePicker.frame.size.height)];
+                            [cell.contentView addSubview:datePicker];
                             [cell.contentView addSubview:tfBirthdate];
+                            [cell setClipsToBounds:YES];
+                            
+                            [btnDone setFrame:CGRectMake(ViewWidth(cell) - (ViewWidth(btnDone)+10), 5, ViewWidth(btnDone), ViewHeight(btnDone))];
+                            [btnDone setHidden:YES];
+                            [cell.contentView addSubview:btnDone];
                         }
                             break;
                         default:
@@ -1300,6 +1317,25 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 {
     return YES;
 }
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField==tfBirthdate) {
+        
+        if (tfBirthdate.text.length > 0) {
+            [datePicker setDate:[Global getDatefromDateString:tfBirthdate.text ofFormat:DefaultBirthdateFormat]];
+        }
+        
+        [btnDone setHidden:NO];
+        
+        [activeTextField resignFirstResponder];
+        
+        isPickerShown=TRUE;
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        return NO;
+    }
+    return YES;
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -1346,6 +1382,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
         }
             break;
         case SIGN_UP_VIEW: {
+            
             id firstResponder = [self getFirstResponder];
             if ([firstResponder isKindOfClass:[UITextField class]]) {
                 NSUInteger tag = [firstResponder tag];
@@ -1528,5 +1565,20 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)btnDoneTaped:(id)sender
+{
+    [tfBirthdate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+    
+    [btnDone setHidden:YES];
+    
+    isPickerShown = FALSE;
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+}
+
+- (IBAction)DatePickerValueChanged:(id)sender {
+    [tfBirthdate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
 }
 @end

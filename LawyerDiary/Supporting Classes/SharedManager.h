@@ -41,4 +41,6 @@
 - (void)getCurrentServerDateTime;
 
 - (void)resetNotificationBadgeCount;
+
+- (void)saveProfileData:(NSDictionary *)params forAction:(NSInteger)action;
 @end

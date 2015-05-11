@@ -24,7 +24,7 @@
 #import "CourtCell.h"
 
 #import "User.h"
-#import "Client.h"
+#import "RegisteredUsers.h"
 #import "Court.h"
 
 #import "NetworkManager.h"
@@ -228,7 +228,7 @@ typedef enum : NSInteger {
 #define kInviteFriendsInitialText           @"- I am using Lawyer Diary, download from bottom URL\n"
 
 #define kSOMETHING_WENT_WRONG               @"Something went wrong! Please try again later."
-#define kREQUEST_TIME_OUT                   @"Request time out!\nPlease try agin later."
+#define kREQUEST_TIME_OUT                   @"Request time out! Please try agin later."
 #define kCHECK_INTERNET                     @"You are not connected to the internet!"
 
 #define SCREENWIDTH                         [[UIScreen mainScreen] bounds].size.width
@@ -383,6 +383,7 @@ otherButtonTitles:@"OK", nil] show];
 #define ksyncContacts                       @"syncContacts"
 #define kloadCourts                         @"loadCourts"
 #define ksaveCourt                          @"saveCourt"
+#define kupdateProfile                      @"updateProfile"
 
 
 #define kgetServerDateTime                  @"getServerDateTime"

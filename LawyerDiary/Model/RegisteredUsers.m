@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Singularsllp. All rights reserved.
 //
 
-#import "Client.h"
+#import "RegisteredUsers.h"
 
 
-@implementation Client
+@implementation RegisteredUsers
 
 @dynamic userId;
 @dynamic clientId;
@@ -38,7 +38,7 @@
         
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
-        [objects enumerateObjectsUsingBlock:^(Client *obj, NSUInteger idx, BOOL *stop) {
+        [objects enumerateObjectsUsingBlock:^(RegisteredUsers *obj, NSUInteger idx, BOOL *stop) {
             [arrContacts addObject:obj.mobile];
         }];
         return arrContacts;
@@ -101,7 +101,7 @@
     }
 }
 
-+ (Client *)fetchClientByMobileNo:(NSString *)mobileNo forUser:(NSNumber *)userId {
++ (RegisteredUsers *)fetchClientByMobileNo:(NSString *)mobileNo forUser:(NSNumber *)userId {
     
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
@@ -138,7 +138,7 @@
             
             NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
             
-            Client *obj = [NSEntityDescription insertNewObjectForEntityForName:kClient inManagedObjectContext:context];
+            RegisteredUsers *obj = [NSEntityDescription insertNewObjectForEntityForName:kClient inManagedObjectContext:context];
             if(obj != nil)
             {
                 @try {

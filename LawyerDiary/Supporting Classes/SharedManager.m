@@ -200,4 +200,34 @@ static SharedManager *sharedManager;
     }
 }
 
+- (void)saveProfileData:(NSDictionary *)params forAction:(NSInteger)action
+{
+    [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (responseObject == nil) {
+            
+        }
+        else {
+            if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                
+            }
+            else {
+                
+            }
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (error.code == kCFURLErrorTimedOut) {
+            [Global showNotificationWithTitle:@"Profile update request timed out." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else if (error.code == kCFURLErrorNetworkConnectionLost) {
+            [Global showNotificationWithTitle:@"Profile update failed. Network connection lost!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [Global showNotificationWithTitle:@"Profile update failed. Try again later!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+    }];
+}
+
 @end

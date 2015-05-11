@@ -37,10 +37,15 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     UIButton *btnPasswordToggle;
     
     BOOL isImageSet;
+    BOOL isImageRemoved;
     BOOL isPasswordChanged;
     
     NSString *newPassword;
+    
+    UIActivityIndicatorView *indicator;
 }
+
+@property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 
 @end
 
@@ -54,6 +59,8 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
+    
+    [self setBarButton:SaveBarButton];
     
     [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:imgViewProPic.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
     
@@ -72,6 +79,8 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [tfBirthdate setText:USER_OBJECT.birthdate];
     [tfRegNo setText:USER_OBJECT.registrationNo];
     [tvAddress setText:USER_OBJECT.address];
+    
+    [pickerBirthdate setMaximumDate:[NSDate date]];
     
     [imgViewRowDisclosure setTintColor:APP_TINT_COLOR];
     [imgViewRowDisclosure setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_row_disclosure, kImageRenderModeTemplate)];
@@ -104,13 +113,46 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgViewTaped:)];
     [imgViewProPic addGestureRecognizer:tapGesture];
+    
+    self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
+    [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
+    [self.spinnerView setHidesWhenStopped:YES];
+    [self.spinnerView setTintColor:WHITE_COLOR];
+    [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
+    [self.view addSubview:self.spinnerView];
 
+}
+
+#pragma mark - Misc
+#pragma mark -
+- (void)setBarButton:(UIBarButton)barBtnType
+{
+    switch (barBtnType) {
+        case SaveBarButton: {
+            barBtnSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(barBtnSaveTaped:)];
+            [barBtnSave setTintColor:WHITE_COLOR];
+            [self.navigationItem setRightBarButtonItem:barBtnSave];
+            
+            UserIntrectionEnable(YES);
+        }
+            break;
+        case IndicatorBarButton: {
+            barBtnSave = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
+            [barBtnSave setTintColor:WHITE_COLOR];
+            [self.navigationItem setRightBarButtonItem:barBtnSave];
+            [self.spinnerView startAnimating];
+            
+            UserIntrectionEnable(NO);
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)imgViewTaped:(id)sender {
     [activeTextField resignFirstResponder];
     [tvAddress resignFirstResponder];
-    
     
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:isImageSet ? @"Remove Picture" : nil otherButtonTitles:@"Take From Camera", @"Take From Library", nil];
     
@@ -128,6 +170,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     if (buttonIndex == 0 && isImageSet) {
         [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
         isImageSet = NO;
+        isImageRemoved = YES;
     }
     else if ((buttonIndex == 0 && !isImageSet) ||
              (buttonIndex == 1 && isImageSet))
@@ -154,6 +197,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     imgViewProPic.image = chosenImage;
     
     isImageSet = YES;
+    isImageRemoved = NO;
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
@@ -213,9 +257,144 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 
 #pragma mark - Actions
 
-- (IBAction)btnSaveTaped:(id)sender
+- (IBAction)barBtnSaveTaped:(id)sender
 {
-    
+    @try {
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        params[kAPIMode] = kupdateProfile;
+        params[kAPIuserId] = USER_ID,
+        params[kAPIproPic] = isImageSet ? [Global encodeToBase64String:imgViewProPic.image] : @"";
+        params[kAPIpassword] = tfNewPass.text;
+        params[kAPIfirstName] = tfFirstName.text;
+        params[kAPIlastName] = tfLastName.text;
+        params[kAPIbirthdate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfBirthdate.text ofFormat:DefaultBirthdateFormat];
+        params[kAPIaddress] = tvAddress.text;
+        params[kAPIregistrationNo] = tfRegNo.text;
+        
+        if (isPasswordSectionExpanded) {
+            NSArray *indexPathToBeDeleted = @[
+                                              [NSIndexPath indexPathForRow:1 inSection:1],
+                                              [NSIndexPath indexPathForRow:0 inSection:1],
+                                              ];
+            NSArray *indexPathToBeAdded = @[
+                                            [NSIndexPath indexPathForRow:0 inSection:1],
+                                            ];
+            
+            isPasswordSectionExpanded = NO;
+            
+            [self.tableView beginUpdates];
+            [self.tableView deleteRowsAtIndexPaths:indexPathToBeDeleted withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView insertRowsAtIndexPaths:indexPathToBeAdded withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+            
+            [UIView animateWithDuration:0.2 animations:^{
+                imgViewRowDisclosure.transform = CGAffineTransformIdentity;
+            }];
+        }
+        
+        if (isPickerVisible) { [btnDone sendActionsForControlEvents:UIControlEventTouchUpInside]; };
+        
+        if (!isPasswordChanged) { [params removeObjectForKey:kAPIpassword]; };
+        if ((isImageSet && !isImageRemoved) || (!isImageSet && isImageRemoved)) { [params removeObjectForKey:kAPIproPic]; };
+        
+        if (![tfCurrentPass.text isEqualToString:@""] && ![tfCurrentPass.text isEqualToString:nil]) {
+            if (![tfCurrentPass.text isEqualToString:GetLoginUserPassword]) {
+                [Global showNotificationWithTitle:@"Current password doesn't match!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                return;
+            }
+            else if ([tfNewPass.text length] < 8 && [tfNewPass.text length] <= 25) {
+                [Global showNotificationWithTitle:@"Password should be 8 characters long!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                return;
+            }
+            else if ([tfNewPass.text length] > 25) {
+                [Global showNotificationWithTitle:@"Password should be less than 25 characters!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                return;
+            }
+            else {
+                params[kAPIpassword] = tfNewPass.text;
+                
+                isPasswordChanged = YES;
+            }
+        }
+        
+        [self setBarButton:IndicatorBarButton];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    
+                    if (responseObject == nil) {
+                        MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:2];
+                        }
+                        else {
+                            
+                            @try {
+                                
+                                if (isPasswordChanged) { SetLoginUserPassword(tfNewPass.text); ShareObj.currentPassword = GetLoginUserPassword; };
+                                
+                                NSDictionary *resultDic = responseObject[@"user"];
+                                
+                                NSDictionary *result = @{
+                                                         kAPIuserId : resultDic[@"userid"],
+                                                         kAPIfirstName: resultDic[@"firstname"],
+                                                         kAPIlastName: resultDic[@"lastname"],
+                                                         kAPIbirthdate: resultDic[kAPIbirthdate],
+                                                         kAPIemail: resultDic[@"emailId"],
+                                                         kAPImobile: resultDic[kAPImobile],
+                                                         kAPIregistrationNo: resultDic[kAPIregistrationNo],
+                                                         kAPIaddress: resultDic[kAPIaddress]
+                                                         };
+                                
+                                ShareObj.userObj = [User saveUser:result];
+                                
+                                [Global showNotificationWithTitle:@"Profile updated successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                
+                                [self setBarButton:SaveBarButton];
+                                
+                                if (isImageSet) { ShareObj.shouldDownloadImages = YES; };
+                                
+                            }
+                            @catch (NSException *exception) {
+                                NSLog(@"Exception => %@", [exception debugDescription]);
+                            }
+                            @finally {
+                                
+                            }
+                        }
+                    }
+                });
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+                [self setBarButton:SaveBarButton];
+                
+                if (error.code == kCFURLErrorTimedOut) {
+                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+            }];
+
+        });
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
 }
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
@@ -638,6 +817,8 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
                     [UIView animateWithDuration:0.2 animations:^{
                         imgViewRowDisclosure.transform = CGAffineTransformIdentity;
                     }];
+                    
+                    isPasswordChanged = YES;
                     
                     [btnPasswordToggle setSelected:NO];
                     [btnPasswordToggle setHidden:YES];

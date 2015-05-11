@@ -176,7 +176,7 @@
                 
                 [self showIndicator:NO];
                 if (responseObject == nil) {
-                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {

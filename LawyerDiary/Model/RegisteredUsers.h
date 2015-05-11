@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface Client : NSManagedObject
+@interface RegisteredUsers : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * clientId;
@@ -27,7 +27,7 @@
 + (NSArray *)fetchClientsWhoAreNotFriendOfUser:(NSNumber *)userId;
 + (NSArray *)fetchNotRegisteredClientsForUser:(NSNumber *)userId;
 
-+ (Client *)fetchClientByMobileNo:(NSString *)mobileNo forUser:(NSNumber *)userId;
++ (RegisteredUsers *)fetchClientByMobileNo:(NSString *)mobileNo forUser:(NSNumber *)userId;
 + (BOOL)addUserRecordsDuringSyncContacts:(NSArray *)arrRecords;
 
 @end

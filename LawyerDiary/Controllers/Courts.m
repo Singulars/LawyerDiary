@@ -77,7 +77,7 @@
                 [self showSpinner:NO withError:NO];
                 
                 if (responseObject == nil) {
-                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
@@ -101,10 +101,10 @@
                     [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else {
-                    MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
             }];
         }
@@ -161,6 +161,7 @@
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
+    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 

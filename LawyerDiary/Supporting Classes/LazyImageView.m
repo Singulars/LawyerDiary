@@ -49,7 +49,7 @@
 - (void)setDefaultImage
 {
     [self.connection cancel];
-    [self setImage:[UIImage imageNamed:IMG_placeholder]];
+    [self setImage:[UIImage imageNamed:IMG_user_avatar_80]];
 }
 
 - (void)setImageWithURL:(NSString *)urlString withName:(NSString *)fileName andSize:(CGSize)size withPlaceholderImageName:(NSString *)placeholder
@@ -177,6 +177,10 @@
                 break;
         }
 //        NSString *fileExistPath = [IMG_DIR_PATH stringByAppendingPathComponent:fileName];
+        if (imageType != JPG || imageType != PNG) {
+            [self setDefaultImage];
+            return;
+        }
         
         // Set New Image
         UIImage *image = [UIImage imageWithData:self.imageData];
@@ -194,7 +198,6 @@
         UIImage *croppedImage = [Global cropImage:image WithSize:imgRect];
         
         UIImage *resizedImage = [Global resizeImage:croppedImage withWidth:imgSize.width*2 withHeight:imgSize.height*2];
-        
         
         switch (imageType) {
             case JPG: {

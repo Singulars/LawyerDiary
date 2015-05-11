@@ -21,7 +21,7 @@
 		9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD881AE30521001230C0 /* UITextField+Shake.m */; };
 		9D64BD951AE311CA001230C0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD941AE311CA001230C0 /* User.m */; };
 		9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D64BD961AE31660001230C0 /* CoreData.framework */; };
-		9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD991AE31ED7001230C0 /* Client.m */; };
+		9D64BD9A1AE31ED7001230C0 /* RegisteredUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */; };
 		9DA2828D1AECCA1F00024121 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2828C1AECCA1F00024121 /* libPods.a */; };
 		9DA282961AECE48100024121 /* Cases.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282951AECE48000024121 /* Cases.m */; };
 		9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282981AECF9FC00024121 /* DrawerCell.m */; };
@@ -91,8 +91,8 @@
 		9D64BD931AE311CA001230C0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = LawyerDiary/Model/User.h; sourceTree = SOURCE_ROOT; };
 		9D64BD941AE311CA001230C0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = LawyerDiary/Model/User.m; sourceTree = SOURCE_ROOT; };
 		9D64BD961AE31660001230C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		9D64BD981AE31ED7001230C0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Client.h; path = LawyerDiary/Model/Client.h; sourceTree = SOURCE_ROOT; };
-		9D64BD991AE31ED7001230C0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Client.m; path = LawyerDiary/Model/Client.m; sourceTree = SOURCE_ROOT; };
+		9D64BD981AE31ED7001230C0 /* RegisteredUsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredUsers.h; path = LawyerDiary/Model/RegisteredUsers.h; sourceTree = SOURCE_ROOT; };
+		9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisteredUsers.m; path = LawyerDiary/Model/RegisteredUsers.m; sourceTree = SOURCE_ROOT; };
 		9D7808351AEC291F00F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		9D7808371AEC292500F72CFF /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		9D7808391AEC294600F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -211,8 +211,8 @@
 			children = (
 				9D64BD931AE311CA001230C0 /* User.h */,
 				9D64BD941AE311CA001230C0 /* User.m */,
-				9D64BD981AE31ED7001230C0 /* Client.h */,
-				9D64BD991AE31ED7001230C0 /* Client.m */,
+				9D64BD981AE31ED7001230C0 /* RegisteredUsers.h */,
+				9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */,
 				C067C0521AF40528004FE159 /* Court.h */,
 				C067C0531AF40528004FE159 /* Court.m */,
 			);
@@ -591,7 +591,7 @@
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
-				9D64BD9A1AE31ED7001230C0 /* Client.m in Sources */,
+				9D64BD9A1AE31ED7001230C0 /* RegisteredUsers.m in Sources */,
 				C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -677,7 +677,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
+				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -710,7 +710,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
+				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -731,7 +731,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
+				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -752,7 +752,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bc8f8d9c-c449-4dd8-8f2d-7178e229f572";
+				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -24,6 +24,7 @@ typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
     IBOutlet UIImageView *imgViewBackground;
     IBOutlet UIImageView *imgViewVisualEffect;
     
+    IBOutlet UIDatePicker *datePicker;
     IBOutlet FFTextField *tfFirstName;
     IBOutlet FFTextField *tfLastName;
     IBOutlet FFTextField *tfEmail;
@@ -44,10 +45,14 @@ typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
     
     BOOL keyboardShown;
     BOOL isImageSet;
+    BOOL isPickerShown;
+    
+    IBOutlet UIButton *btnDone;
 }
 
 @property (nonatomic, strong) UIImage *imageFromPreviousScreen;
 @property (nonatomic, assign) VIEW_TYPE viewType;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+- (IBAction)DatePickerValueChanged:(id)sender;
 
 @end
