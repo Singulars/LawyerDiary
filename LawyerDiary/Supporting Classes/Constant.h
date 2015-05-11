@@ -317,8 +317,8 @@ otherButtonTitles:@"OK", nil] show];
 #define APP_RED_COLOR                 UICOLOR(220, 37, 47,1)
 #define APP_GREEN_COLOR               [UIColor colorWithRed:81.0f/255.0f green:182.0f/255.0f blue:79.0f/255.0f alpha:1.0f]
 
-//#define APP_TINT_COLOR                UICOLOR(43, 41, 42, 1)
-#define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
+#define APP_TINT_COLOR                UICOLOR(48, 56, 73, 1)
+//#define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
 
 #define APP_TINT_COLOR_LIGHT                UICOLOR(108, 125, 155, 1)
 

@@ -48,6 +48,8 @@
         [tfMegistrate setText:courtObj.megistrateName];
         [tfCity setText:courtObj.courtCity];
     }
+    
+    [btnSave setBackgroundColor:APP_TINT_COLOR];
 }
 
 #pragma mark - UIKeyboardNOtifications

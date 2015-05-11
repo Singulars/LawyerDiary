@@ -21,6 +21,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [lblTitle setTextColor:APP_TINT_COLOR];
+    
 //    NSLog(@"font fmily %@", [UIFont fontNamesForFamilyName:@"Milano-regular"]);
     [imgViewLogo setTintColor:APP_TINT_COLOR];
     [imgViewLogo setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"app-icon", kImageRenderModeTemplate)];

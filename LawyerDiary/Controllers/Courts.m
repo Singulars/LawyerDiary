@@ -29,7 +29,7 @@
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
-    
+    [btnAddCourt setBackgroundColor:APP_TINT_COLOR];
     [btnAddCourt setTintColor:WHITE_COLOR];
     [btnAddCourt setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_btn_add, kImageRenderModeTemplate) forState:UIControlStateNormal];
     
