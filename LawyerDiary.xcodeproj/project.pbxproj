@@ -53,6 +53,7 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
+		C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAF8CE1B013248005F8EB0 /* Client.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,8 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
+		C0CAF8CD1B013248005F8EB0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		C0CAF8CE1B013248005F8EB0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 				9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */,
 				C067C0521AF40528004FE159 /* Court.h */,
 				C067C0531AF40528004FE159 /* Court.m */,
+				C0CAF8CD1B013248005F8EB0 /* Client.h */,
+				C0CAF8CE1B013248005F8EB0 /* Client.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -578,6 +583,7 @@
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
 				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
+				C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */,
 				9DA282961AECE48100024121 /* Cases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
