@@ -258,16 +258,12 @@ Reachability *hostReach;
         if ([[lastActiveDateTime dateByAddingMinutes:5] compare:[NSDate date]] == NSOrderedAscending) {
             SetLastActiveTime([NSDate date]);
             
-            ShareObj.shouldDownloadImages = YES;
         }
         else {
-            ShareObj.shouldDownloadImages = NO;
         }
     }
     else {
         SetLastActiveTime([NSDate date]);
-        
-        ShareObj.shouldDownloadImages = YES;
     }
 }
 

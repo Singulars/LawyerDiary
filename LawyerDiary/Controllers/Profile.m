@@ -72,22 +72,10 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [tfRegNo setTag:kTagRegNo];
     [tvAddress setTag:kTagAdress];
     
-    [tfFirstName setText:USER_OBJECT.firstName];
-    [tfLastName setText:USER_OBJECT.lastName];
-    [tfEmail setText:USER_OBJECT.email];
-    [tfMobile setText:USER_OBJECT.mobile];
-    [tfBirthdate setText:USER_OBJECT.birthdate];
-    [tfRegNo setText:USER_OBJECT.registrationNo];
-    [tvAddress setText:USER_OBJECT.address];
-    
     [pickerBirthdate setMaximumDate:[NSDate date]];
     
     [imgViewRowDisclosure setTintColor:APP_TINT_COLOR];
     [imgViewRowDisclosure setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_row_disclosure, kImageRenderModeTemplate)];
-    
-    [self setTitle:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
-    [imgViewProPic setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgViewProPic) withPlaceholderImageName:IMG_user_avatar_80];
-    isImageSet = [Global isImageExist:USER_OBJECT.proPic];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -120,11 +108,36 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [self.spinnerView setTintColor:WHITE_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
-
+    
+    [self setUserDetail];
 }
 
 #pragma mark - Misc
 #pragma mark -
+
+- (void)setUserDetail
+{
+    @try {
+        [tfFirstName setText:USER_OBJECT.firstName];
+        [tfLastName setText:USER_OBJECT.lastName];
+        [tfEmail setText:USER_OBJECT.email];
+        [tfMobile setText:USER_OBJECT.mobile];
+        [tfBirthdate setText:USER_OBJECT.birthdate];
+        [tfRegNo setText:USER_OBJECT.registrationNo];
+        [tvAddress setText:USER_OBJECT.address];
+        
+        [self setTitle:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
+        [imgViewProPic setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgViewProPic) withPlaceholderImageName:IMG_user_avatar_80];
+        isImageSet = [Global isImageExist:USER_OBJECT.proPic];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Execption => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
 - (void)setBarButton:(UIBarButton)barBtnType
 {
     switch (barBtnType) {
@@ -359,7 +372,8 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
                                 
                                 [self setBarButton:SaveBarButton];
                                 
-                                if (isImageSet) { ShareObj.shouldDownloadImages = YES; };
+                                ShareObj.shouldDownloadImages = YES;
+                                [self setUserDetail];
                                 
                             }
                             @catch (NSException *exception) {

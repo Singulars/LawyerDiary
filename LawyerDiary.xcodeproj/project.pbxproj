@@ -12,7 +12,6 @@
 		9D64BD721AE300FD001230C0 /* UnDotum-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D64BD701AE300FD001230C0 /* UnDotum-Bold.ttf */; };
 		9D64BD761AE304BB001230C0 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD751AE304BB001230C0 /* Reachability.m */; };
 		9D64BD8A1AE30521001230C0 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7A1AE30521001230C0 /* Global.m */; };
-		9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7C1AE30521001230C0 /* LazyImageView.m */; };
 		9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */; };
 		9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD801AE30521001230C0 /* NSDate+Extra.m */; };
 		9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD821AE30521001230C0 /* SharedManager.m */; };
@@ -74,8 +73,6 @@
 		9D64BD751AE304BB001230C0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Reachability.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD791AE30521001230C0 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Global.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9D64BD7A1AE30521001230C0 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Global.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9D64BD7B1AE30521001230C0 /* LazyImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LazyImageView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		9D64BD7C1AE30521001230C0 /* LazyImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LazyImageView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD7D1AE30521001230C0 /* ManagedObjectCloner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ManagedObjectCloner.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ManagedObjectCloner.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9D64BD7F1AE30521001230C0 /* NSDate+Extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSDate+Extra.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -263,8 +260,6 @@
 				9D64BD921AE30537001230C0 /* Constant.h */,
 				9D64BD791AE30521001230C0 /* Global.h */,
 				9D64BD7A1AE30521001230C0 /* Global.m */,
-				9D64BD7B1AE30521001230C0 /* LazyImageView.h */,
-				9D64BD7C1AE30521001230C0 /* LazyImageView.m */,
 				9D64BD7D1AE30521001230C0 /* ManagedObjectCloner.h */,
 				9D64BD7E1AE30521001230C0 /* ManagedObjectCloner.m */,
 				9DE1E5221AE3D523001060F4 /* FFTextField.h */,
@@ -582,7 +577,6 @@
 				C067C0541AF40528004FE159 /* Court.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
-				9D64BD8B1AE30521001230C0 /* LazyImageView.m in Sources */,
 				C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */,
 				9DA282961AECE48100024121 /* Cases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
@@ -683,7 +677,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
+				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -716,7 +710,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
+				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -737,7 +731,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
+				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -758,7 +752,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "08f6b5a6-b0de-40e6-ab12-aee8fb90f311";
+				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
