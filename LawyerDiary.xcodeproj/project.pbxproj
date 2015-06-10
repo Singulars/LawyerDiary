@@ -53,6 +53,10 @@
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
 		C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAF8CE1B013248005F8EB0 /* Client.m */; };
+		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
+		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
+		C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */; };
+		C0DCAAFE1B28203F00A2335F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAFA1B28203F00A2335F /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +155,10 @@
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
 		C0CAF8CD1B013248005F8EB0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		C0CAF8CE1B013248005F8EB0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
+		C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
+		C0DCAAFA1B28203F00A2335F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -322,6 +330,10 @@
 		C07572E71AE2F2B40017E0F9 = {
 			isa = PBXGroup;
 			children = (
+				C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */,
+				C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */,
+				C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */,
+				C0DCAAFA1B28203F00A2335F /* Default@2x.png */,
 				C07572F91AE2F2B40017E0F9 /* LawyerDiary */,
 				C07573181AE2F2B40017E0F9 /* LawyerDiaryTests */,
 				C07572F21AE2F2B40017E0F9 /* Frameworks */,
@@ -509,10 +521,14 @@
 			files = (
 				C075730C1AE2F2B40017E0F9 /* Images.xcassets in Resources */,
 				C07572FE1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */,
+				C0DCAAFE1B28203F00A2335F /* Default@2x.png in Resources */,
 				9D64BD721AE300FD001230C0 /* UnDotum-Bold.ttf in Resources */,
 				C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */,
 				9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */,
+				C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */,
+				C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */,
 				C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */,
+				C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
