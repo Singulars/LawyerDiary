@@ -727,7 +727,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnLogin setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -744,13 +744,13 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnLogin setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
-                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+                [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
         }];
     }
@@ -788,7 +788,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnSignup setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -807,13 +807,13 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnSignup setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
-                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+                [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
         }];
     }
@@ -842,7 +842,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnForgotPass setSelected:NO];
             
             if (responseObject == nil) {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
@@ -861,13 +861,13 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnForgotPass setSelected:NO];
             
             if (error.code == kCFURLErrorTimedOut) {
-                MY_ALERT(APP_NAME, kREQUEST_TIME_OUT, nil);
+                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                MY_ALERT(APP_NAME, kCHECK_INTERNET, nil);
+                [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
             else {
-                MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }
         }];
     }

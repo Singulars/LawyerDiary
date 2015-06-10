@@ -41,6 +41,8 @@
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
 #import "UIKit+AFNetworking.h"
 
+#import "ClusterPrePermissions.h"
+
 
 typedef enum : NSInteger {
     signUp = 0,

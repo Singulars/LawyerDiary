@@ -12,17 +12,11 @@
 @implementation Client
 
 @dynamic clientId;
-@dynamic clientFirstName;
+@dynamic firstName;
+@dynamic lastName;
 @dynamic mobile;
-@dynamic clientLastName;
-@dynamic oppositionFirstName;
-@dynamic oppositionLastName;
-@dynamic oppositionLawyerName;
 @dynamic email;
-@dynamic courtId;
-@dynamic lastHeardDate;
-@dynamic nextHearingDate;
-@dynamic caseNo;
 @dynamic address;
+
 
 @end

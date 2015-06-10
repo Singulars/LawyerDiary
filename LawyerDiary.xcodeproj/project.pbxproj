@@ -35,6 +35,8 @@
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
 		C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = C03D2ED91AFA9BE40000665E /* Profile.m */; };
 		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
+		C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8DF1B2852E4007BD697 /* ClientDetail.m */; };
+		C05CF8E31B285411007BD697 /* ClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8E21B285411007BD697 /* ClientCell.m */; };
 		C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C060C2251AF66FD0009BA8B4 /* CourtDetail.m */; };
 		C067C0541AF40528004FE159 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0531AF40528004FE159 /* Court.m */; };
 		C067C0571AF40736004FE159 /* CourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0561AF40736004FE159 /* CourtCell.m */; };
@@ -57,6 +59,7 @@
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
 		C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */; };
 		C0DCAAFE1B28203F00A2335F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAFA1B28203F00A2335F /* Default@2x.png */; };
+		C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DCAB011B282B6000A2335F /* ClusterPrePermissions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +131,10 @@
 		C03D2ED81AFA9BE40000665E /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
 		C03D2ED91AFA9BE40000665E /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C05CF8DE1B2852E4007BD697 /* ClientDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetail.h; sourceTree = "<group>"; };
+		C05CF8DF1B2852E4007BD697 /* ClientDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetail.m; sourceTree = "<group>"; };
+		C05CF8E11B285411007BD697 /* ClientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCell.h; sourceTree = "<group>"; };
+		C05CF8E21B285411007BD697 /* ClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCell.m; sourceTree = "<group>"; };
 		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
 		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
 		C067C0521AF40528004FE159 /* Court.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Court.h; sourceTree = "<group>"; };
@@ -159,6 +166,8 @@
 		C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		C0DCAAFA1B28203F00A2335F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		C0DCAB001B282B6000A2335F /* ClusterPrePermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterPrePermissions.h; sourceTree = "<group>"; };
+		C0DCAB011B282B6000A2335F /* ClusterPrePermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterPrePermissions.m; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -204,6 +213,8 @@
 				9DA282951AECE48000024121 /* Cases.m */,
 				9DA2829D1AECFE3A00024121 /* Clients.h */,
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
+				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
+				C05CF8DF1B2852E4007BD697 /* ClientDetail.m */,
 				9DA282A01AECFE4C00024121 /* Courts.h */,
 				9DA282A11AECFE4C00024121 /* Courts.m */,
 				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
@@ -264,6 +275,7 @@
 		9D64BD681AE2F87B001230C0 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C0DCAAFF1B282B6000A2335F /* ClusterPrePermissions */,
 				C07CEC1D1AF21A730058C25C /* CRToast */,
 				9D64BD921AE30537001230C0 /* Constant.h */,
 				9D64BD791AE30521001230C0 /* Global.h */,
@@ -305,6 +317,8 @@
 				9DA282981AECF9FC00024121 /* DrawerCell.m */,
 				C067C0551AF40736004FE159 /* CourtCell.h */,
 				C067C0561AF40736004FE159 /* CourtCell.m */,
+				C05CF8E11B285411007BD697 /* ClientCell.h */,
+				C05CF8E21B285411007BD697 /* ClientCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -430,6 +444,15 @@
 				C07CEC1F1AF21A7F0058C25C /* CRToast.m */,
 			);
 			path = CRToast;
+			sourceTree = "<group>";
+		};
+		C0DCAAFF1B282B6000A2335F /* ClusterPrePermissions */ = {
+			isa = PBXGroup;
+			children = (
+				C0DCAB001B282B6000A2335F /* ClusterPrePermissions.h */,
+				C0DCAB011B282B6000A2335F /* ClusterPrePermissions.m */,
+			);
+			path = ClusterPrePermissions;
 			sourceTree = "<group>";
 		};
 		CD28515BC07A3F7D00EF024A /* Pods */ = {
@@ -586,6 +609,7 @@
 				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
 				9DA282A21AECFE4C00024121 /* Courts.m in Sources */,
 				9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */,
+				C05CF8E31B285411007BD697 /* ClientCell.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
@@ -600,9 +624,11 @@
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				C067C0571AF40736004FE159 /* CourtCell.m in Sources */,
+				C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */,
 				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
 				C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
+				C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
@@ -693,7 +719,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
+				PROVISIONING_PROFILE = "85af2e88-9824-459d-addd-5defbbe6016d";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -726,7 +752,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
+				PROVISIONING_PROFILE = "85af2e88-9824-459d-addd-5defbbe6016d";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -747,7 +773,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
+				PROVISIONING_PROFILE = "85af2e88-9824-459d-addd-5defbbe6016d";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -768,7 +794,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd163bb1-40e7-49d0-8643-58e1cfc04676";
+				PROVISIONING_PROFILE = "85af2e88-9824-459d-addd-5defbbe6016d";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

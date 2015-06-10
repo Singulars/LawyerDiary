@@ -51,21 +51,22 @@
 {
     [super viewDidAppear:animated];
     
-    if (viewAppeared) {
+    if (!viewAppeared) {
         SetStatusBarHidden(NO);
         
         SetStatusBarLightContent(NO);
         [self setNeedsStatusBarAppearanceUpdate];
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.4 animations:^{
-                [lblTitle setAlpha:1.0];
-                [btnSignUp setAlpha:1.0];
-                [btnLogin setAlpha:1.0];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5 animations:^{
+                [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.4 animations:^{
+                    [lblTitle setAlpha:1.0];
+                    [btnSignUp setAlpha:1.0];
+                    [btnLogin setAlpha:1.0];
+                }];
             }];
-        }];
+        });
         
         viewAppeared = YES;
     }

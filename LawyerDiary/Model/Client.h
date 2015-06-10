@@ -13,17 +13,17 @@
 @interface Client : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * clientId;
-@property (nonatomic, retain) NSString * clientFirstName;
+@property (nonatomic, retain) NSString * firstName;
+@property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSString * mobile;
-@property (nonatomic, retain) NSString * clientLastName;
-@property (nonatomic, retain) NSString * oppositionFirstName;
-@property (nonatomic, retain) NSString * oppositionLastName;
-@property (nonatomic, retain) NSString * oppositionLawyerName;
 @property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSNumber * courtId;
-@property (nonatomic, retain) NSString * lastHeardDate;
-@property (nonatomic, retain) NSString * nextHearingDate;
-@property (nonatomic, retain) NSNumber * caseNo;
 @property (nonatomic, retain) NSString * address;
+@property (nonatomic, readwrite) NSNumber *isPlannerAppUser;
+
++ (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
++ (BOOL)deleteClient:(NSNumber *)courtId;
++ (BOOL)deleteCourtsForUser:(NSNumber *)userId;
++ (Client *)fetchCourt:(NSNumber *)courtId;
++ (NSArray *)fetchClients:(NSNumber *)userId;
 
 @end
