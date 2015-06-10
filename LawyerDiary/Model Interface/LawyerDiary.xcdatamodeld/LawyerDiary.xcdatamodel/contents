@@ -15,6 +15,7 @@
         <attribute name="oppositionLastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="oppositionLawyerName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="ContactsData" syncable="YES"/>
     <entity name="Court" representedClassName="Court" syncable="YES">
         <attribute name="courtCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="courtId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -47,9 +48,10 @@
         <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="RegisteredUsers" positionX="-54" positionY="54" width="128" height="180"/>
-        <element name="Court" positionX="-54" positionY="90" width="128" height="135"/>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="Client" positionX="-54" positionY="90" width="128" height="240"/>
+        <element name="Court" positionX="-54" positionY="90" width="128" height="135"/>
+        <element name="RegisteredUsers" positionX="-54" positionY="54" width="128" height="180"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="ContactsData" positionX="-54" positionY="135" width="128" height="45"/>
     </elements>
 </model>

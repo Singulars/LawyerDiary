@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#import "LazyImageView.h"
 #import "FFTextField.h"
 
 @interface Profile : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate>
@@ -24,7 +22,8 @@
     IBOutlet UITableViewCell *cellAdress;
     IBOutlet UITableViewCell *cellPicker;
     
-    IBOutlet LazyImageView *imgViewProPic;
+    IBOutlet UIImageView *imgViewProPic;
+    
     IBOutlet FFTextField *tfFirstName;
     IBOutlet FFTextField *tfLastName;
     IBOutlet FFTextField *tfEmail;

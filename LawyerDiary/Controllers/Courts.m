@@ -35,7 +35,7 @@
     
     [Global applyCornerRadiusToViews:@[btnAddCourt] withRadius:ViewHeight(btnAddCourt)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
     
-    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 80, 0, 0)];
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -179,7 +179,7 @@
 #pragma mark -
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80.f;
+    return 60.f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -206,7 +206,7 @@
     UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     CourtDetail *courtDetailVC = navController.viewControllers[0];
     [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
-    [self presentViewController:navController animated:YES completion:nil];
+    [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

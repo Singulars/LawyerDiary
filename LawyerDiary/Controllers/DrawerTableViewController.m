@@ -37,16 +37,21 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     [imgViewHeader setTintColor:APP_TINT_COLOR];
     [imgViewHeader setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"app-icon", kImageRenderModeTemplate)];
     
-    [lblUsername setText:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
-    
-    [Global applyCornerRadiusToViews:@[imgeViewProfile] withRadius:imgeViewProfile.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
-    
-    [imgeViewProfile setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgeViewProfile) withPlaceholderImageName:IMG_user_avatar_80];
+    [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:imgViewProPic.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCellCaseIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
+    
+    [self updateUserDetail];
+}
+
+- (void)updateUserDetail
+{
+    [lblUsername setText:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
+    
+    [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
 }
 
 #pragma mark - Table View Data Source

@@ -2,23 +2,23 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "splash-4.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "splash-5.png"
+      "filename" : "Default@2x.png"
     },
     {
       "idiom" : "iphone",
+      "filename" : "Default-568h@2x.png",
       "subtype" : "retina4",
       "scale" : "2x"
     },
     {
       "idiom" : "iphone",
       "scale" : "3x",
-      "filename" : "splash-6 plus.png"
+      "filename" : "Default-736h@3x.png"
     }
   ],
   "info" : {

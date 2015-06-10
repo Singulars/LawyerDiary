@@ -420,7 +420,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [tfMobile setText:@""];
     [tfBirthdate setText:@""];
     
-    [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
+    [imgViewProPic setImage:image_placeholder_80];
 }
 
 - (BOOL)validateTextFieldValues
@@ -999,7 +999,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfEmail setFrame:CGRectMake(0, 0, tfEmail.frame.size.width, tfEmail.frame.size.height)];
+                            [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
 
                             [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
@@ -1011,7 +1011,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfPassword setFrame:CGRectMake(0, 0, tfPassword.frame.size.width, tfPassword.frame.size.height)];
+                            [tfPassword setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfPassword];
                             
                             [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:WHITE_COLOR]];
@@ -1029,7 +1029,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [btnLogin setFrame:CGRectMake(0, 5, 290, 40)];
+                            [btnLogin setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView sendSubviewToBack:btnLogin];
                             [cell.contentView addSubview:btnLogin];
                             
@@ -1044,8 +1044,8 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [btnForgotPass setFrame:CGRectMake(0, 5, 160, 30)];
-                            [btnSignup setFrame:CGRectMake(210, 5, 80, 30)];
+                            [btnForgotPass setFrame:CGRectMake(0, 0, 160, ViewHeight(cell))];
+                            [btnSignup setFrame:CGRectMake(ViewWidth(cell)-80, 5, 80, ViewHeight(cell))];
                             [cell.contentView addSubview:btnForgotPass];
                             [cell.contentView addSubview:btnSignup];
                         }
@@ -1075,12 +1075,12 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             
                             [cell.contentView addSubview:imgViewProPic];
                             
-                            [tfFirstName setFrame:CGRectMake(80, 0, tfFirstName.frame.size.width, tfFirstName.frame.size.height)];
+                            [tfFirstName setFrame:CGRectMake(80, 0, ViewWidth(cell)-(ViewWidth(imgViewProPic)+18), ViewHeight(cell)/2)];
                             [cell.contentView addSubview:tfFirstName];
                             
                             [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(88, 43, tfFirstName.frame.size.width+15, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                             
-                            [tfLastName setFrame:CGRectMake(80, 44, tfLastName.frame.size.width, tfLastName.frame.size.height)];
+                            [tfLastName setFrame:CGRectMake(80, 44, ViewWidth(cell)-(ViewWidth(imgViewProPic)+18), ViewHeight(cell)/2)];
                             [cell.contentView addSubview:tfLastName];
                             
                             [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
@@ -1092,10 +1092,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfEmail setFrame:CGRectMake(0, 0, tfEmail.frame.size.width, tfEmail.frame.size.height)];
+                            [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                         }
                             break;
                         case 2: {
@@ -1104,10 +1104,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfPassword setFrame:CGRectMake(0, 0, tfPassword.frame.size.width, tfPassword.frame.size.height)];
+                            [tfPassword setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfPassword];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                         }
                             break;
                         case 3: {
@@ -1116,10 +1116,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfMobile setFrame:CGRectMake(0, 0, tfMobile.frame.size.width, tfMobile.frame.size.height)];
+                            [tfMobile setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfMobile];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                         }
                             break;
                         case 4: {
@@ -1128,13 +1128,13 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfBirthdate setFrame:CGRectMake(0, 0, tfBirthdate.frame.size.width, tfBirthdate.frame.size.height)];
+                            [tfBirthdate setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [datePicker setFrame:CGRectMake(0, tfBirthdate.frame.size.height, ViewWidth(cell), datePicker.frame.size.height)];
                             [cell.contentView addSubview:datePicker];
                             [cell.contentView addSubview:tfBirthdate];
                             [cell setClipsToBounds:YES];
                             
-                            [btnDone setFrame:CGRectMake(ViewWidth(cell) - (ViewWidth(btnDone)+10), 5, ViewWidth(btnDone), ViewHeight(btnDone))];
+                            [btnDone setFrame:CGRectMake(ViewWidth(cell) - (ViewWidth(btnDone)), 5, ViewWidth(btnDone), ViewHeight(btnDone))];
                             [btnDone setHidden:YES];
                             [cell.contentView addSubview:btnDone];
                         }
@@ -1151,7 +1151,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [btnSignup setFrame:CGRectMake(0, 0, 290, 40)];
+                            [btnSignup setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView sendSubviewToBack:btnSignup];
                             [cell.contentView addSubview:btnSignup];
                             
@@ -1167,7 +1167,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
                             //                            [btnForgotPass setFrame:CGRectMake(20, 0, 160, 30)];
-                            [btnLogin setFrame:CGRectMake(220, 5, 70, 30)];
+                            [btnLogin setFrame:CGRectMake(ViewWidth(cell)-70, 0, 70, ViewHeight(cell))];
                             //                            [cell.contentView addSubview:btnForgotPass];
                             [cell.contentView addSubview:btnLogin];
                         }
@@ -1191,10 +1191,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [tfEmail setFrame:CGRectMake(0, 0, tfEmail.frame.size.width, tfEmail.frame.size.height)];
+                            [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:WHITE_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:WHITE_COLOR]];
                         }
                             break;
                         default:
@@ -1209,7 +1209,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [btnForgotPass setFrame:CGRectMake(0, 0, 290, 40)];
+                            [btnForgotPass setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView sendSubviewToBack:btnForgotPass];
                             [cell.contentView addSubview:btnForgotPass];
                             
@@ -1224,8 +1224,8 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             if (cell == nil) {
                                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
                             }
-                            [btnSignup setFrame:CGRectMake(0, 5, 80, 30)];
-                            [btnLogin setFrame:CGRectMake(220, 5, 70, 30)];
+                            [btnSignup setFrame:CGRectMake(0, 0, 80, ViewHeight(cell))];
+                            [btnLogin setFrame:CGRectMake(ViewWidth(cell)-70, 5, 70, ViewHeight(cell))];
                             [cell.contentView addSubview:btnSignup];
                             [cell.contentView addSubview:btnLogin];
                         }
@@ -1266,7 +1266,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     picker.allowsEditing = YES;
     
     if (buttonIndex == 0 && isImageSet) {
-        [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
+        [imgViewProPic setImage:image_placeholder_80];
         isImageSet = NO;
     }
     else if ((buttonIndex == 0 && !isImageSet) ||

@@ -47,6 +47,8 @@
         [tfCourt setText:courtObj.courtName];
         [tfMegistrate setText:courtObj.megistrateName];
         [tfCity setText:courtObj.courtCity];
+        
+        [self.navigationItem setRightBarButtonItem:nil];
     }
     
     [btnSave setBackgroundColor:APP_TINT_COLOR];

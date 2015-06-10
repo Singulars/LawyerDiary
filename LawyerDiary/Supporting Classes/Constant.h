@@ -39,6 +39,7 @@
 #import "NSDictionary+SJSONString.h"
 #import "CRToast.h"
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
+#import "UIKit+AFNetworking.h"
 
 
 typedef enum : NSInteger {
@@ -216,6 +217,8 @@ typedef enum : NSInteger {
 #define APP_DELEGATE                  (AppDelegate *)[[UIApplication sharedApplication] delegate]
 #define ShareObj                      [SharedManager sharedManger]
 
+#define image_url_request(imageURL)         [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60]]
+
 #define USER_ID                       ShareObj.userObj.userId
 #define USER_OBJECT                   ShareObj.userObj
 
@@ -329,7 +332,8 @@ otherButtonTitles:@"OK", nil] show];
 #pragma mark - API Management
 #pragma mark -
 
-#define HOST_URL                            @"http://singulars.co.in/"
+//#define HOST_URL                            @"http://singulars.co.in/"
+#define HOST_URL                            @"http://www.webegins.com/"
 #define API_PATH                            @"lawyer/webservice.php"
 #define PRO_PIC_URL_PATH                    @"lawyer/profilePic/"
 #define WEBSERVICE_CALL_URL                 [HOST_URL stringByAppendingString:API_PATH]
@@ -394,11 +398,9 @@ otherButtonTitles:@"OK", nil] show];
 #pragma mark - Images
 #pragma mark -
 
-#define IMG_placeholder                     @"placeholder"
-
-#define IMG_user_avatar_36             @"user-avatar-80"
-#define IMG_user_avatar_50             @"user-avatar-80"
-#define IMG_user_avatar_80             @"user-avatar-80"
+#define image_placeholder_36                [UIImage imageNamed:@"user-avatar-80"]
+#define image_placeholder_50                [UIImage imageNamed:@"user-avatar-80"]
+#define image_placeholder_80                [UIImage imageNamed:@"user-avatar-80"]
 
 #define IMG_right_chevron                   @"right-chevron"
 #define IMG_row_disclosure                  @"row-disclosure"

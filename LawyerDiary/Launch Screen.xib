@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" launchScreen="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
@@ -10,15 +10,26 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-ey-oOy">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="m1N-ey-oOy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5tk-n6-t5d"/>
+                <constraint firstAttribute="trailing" secondItem="m1N-ey-oOy" secondAttribute="trailing" id="E4J-O8-TZW"/>
+                <constraint firstAttribute="bottom" secondItem="m1N-ey-oOy" secondAttribute="bottom" id="FlY-By-1nr"/>
+                <constraint firstAttribute="centerY" secondItem="m1N-ey-oOy" secondAttribute="centerY" id="a2F-mY-sTZ"/>
+                <constraint firstItem="m1N-ey-oOy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eT5-kl-Qe8"/>
+                <constraint firstAttribute="centerX" secondItem="m1N-ey-oOy" secondAttribute="centerX" id="noU-nw-2lp"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-            <point key="canvasLocation" x="595" y="347"/>
+            <point key="canvasLocation" x="517" y="222"/>
         </view>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
+    <resources>
+        <image name="splash" width="320" height="480"/>
+    </resources>
 </document>

@@ -51,7 +51,7 @@
 {
     [super viewDidAppear:animated];
     
-    if (!viewAppeared) {
+    if (viewAppeared) {
         SetStatusBarHidden(NO);
         
         SetStatusBarLightContent(NO);

@@ -772,6 +772,129 @@
     return arrContacts;
 }
 
+//+ (NSArray *)getAllContacts {
+//    
+//    CFErrorRef *error = nil;
+//    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
+//    ABRecordRef source = ABAddressBookCopyDefaultSource(addressBook);
+//    CFArrayRef allPeople = (ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBook, source, kABPersonSortByFirstName));
+//    //CFIndex nPeople = ABAddressBookGetPersonCount(addressBook);
+//    CFIndex nPeople = CFArrayGetCount(allPeople); // bugfix who synced contacts with facebook
+//    NSMutableArray* items = [NSMutableArray arrayWithCapacity:nPeople];
+//    
+//    if (!allPeople || !nPeople) {
+//        NSLog(@"people nil");
+//    }
+//    
+//    
+//    for (int i = 0; i < nPeople; i++) {
+//        
+//        @autoreleasepool {
+//            
+//            //data model
+//            ContactsData *contacts = [ContactsData new];
+//            
+//            ABRecordRef person = CFArrayGetValueAtIndex(allPeople, i);
+//            
+//            //get First Name
+//            CFStringRef firstName = (CFStringRef)ABRecordCopyValue(person,kABPersonFirstNameProperty);
+//            contacts.firstNames = [(__bridge NSString*)firstName copy];
+//            
+//            if (firstName != NULL) {
+//                CFRelease(firstName);
+//            }
+//            
+//            
+//            //get Last Name
+//            CFStringRef lastName = (CFStringRef)ABRecordCopyValue(person,kABPersonLastNameProperty);
+//            contacts.lastNames = [(__bridge NSString*)lastName copy];
+//            
+//            if (lastName != NULL) {
+//                CFRelease(lastName);
+//            }
+//            
+//            
+//            if (!contacts.firstNames) {
+//                contacts.firstNames = @"";
+//            }
+//            
+//            if (!contacts.lastNames) {
+//                contacts.lastNames = @"";
+//            }
+//            
+//            
+//            
+//            contacts.contactId = ABRecordGetRecordID(person);
+//            //append first name and last name
+//            contacts.fullname = [NSString stringWithFormat:@"%@ %@", contacts.firstNames, contacts.lastNames];
+//            
+//            
+//            //            // get cwq.image = [UIImage imageWithData:imageData];
+//            //
+//            //            if (imgData != NULL) {
+//            //                CFRelease(imgData);
+//            //            }
+//            //
+//            //            if (!contacts.image) {
+//            //                contacts.image = [UIImage imageNamed:@"avatar.png"];
+//            //            }
+//            
+//            
+//            //get Phone Numbers
+//            NSMutableArray *phoneNumbers = [[NSMutableArray alloc] init];
+//            ABMultiValueRef multiPhones = ABRecordCopyValue(person, kABPersonPhoneProperty);
+//            
+//            for(CFIndex i=0; i<ABMultiValueGetCount(multiPhones); i++) {
+//                @autoreleasepool {
+//                    CFStringRef phoneNumberRef = ABMultiValueCopyValueAtIndex(multiPhones, i);
+//                    NSString *phoneNumber = CFBridgingRelease(phoneNumberRef);
+//                    if (phoneNumber != nil)[phoneNumbers addObject:phoneNumber];
+//                    //NSLog(@"All numbers %@", phoneNumbers);
+//                }
+//            }
+//            
+//            if (multiPhones != NULL) {
+//                CFRelease(multiPhones);
+//            }
+//            
+//            [contacts setNumbers:phoneNumbers];
+//            
+//            //get Contact email
+//            NSMutableArray *contactEmails = [NSMutableArray new];
+//            ABMultiValueRef multiEmails = ABRecordCopyValue(person, kABPersonEmailProperty);
+//            
+//            for (CFIndex i=0; i<ABMultiValueGetCount(multiEmails); i++) {
+//                @autoreleasepool {
+//                    CFStringRef contactEmailRef = ABMultiValueCopyValueAtIndex(multiEmails, i);
+//                    NSString *contactEmail = CFBridgingRelease(contactEmailRef);
+//                    if (contactEmail != nil)[contactEmails addObject:contactEmail];
+//                    // NSLog(@"All emails are:%@", contactEmails);
+//                }
+//            }
+//            
+//            if (multiPhones != NULL) {
+//                CFRelease(multiEmails);
+//            }
+//            
+//            [contacts setEmails:contactEmails];
+//            
+//            [items addObject:contacts];
+//            
+//#ifdef DEBUG
+//            //NSLog(@"Person is: %@", contacts.firstNames);
+//            //NSLog(@"Phones are: %@", contacts.numbers);
+//            //NSLog(@"Email is:%@", contacts.emails);
+//#endif
+//            
+//        }
+//    } //autoreleasepool
+//    CFRelease(allPeople);
+//    CFRelease(addressBook);
+//    CFRelease(source);
+//    return items;
+//    
+//}
+
 + (NSMutableArray *)fetchContactsArray:(ABAddressBookRef)addressBook
 {
     NSMutableArray *arrContacts = [[NSMutableArray alloc] initWithArray:[RegisteredUsers fetchContatctsOfNotRegisteredUsersForUser:USER_ID]];

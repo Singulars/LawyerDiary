@@ -60,6 +60,9 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
+    [self.view setBackgroundColor:GROUP_TABLEVIEW_COLOR];
+    [self.tableView setBackgroundColor:GROUP_TABLEVIEW_COLOR];
+    
     [self setBarButton:SaveBarButton];
     
     [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:imgViewProPic.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
@@ -108,6 +111,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [self.spinnerView setTintColor:WHITE_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
     [self setUserDetail];
 }
@@ -127,7 +135,9 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         [tvAddress setText:USER_OBJECT.address];
         
         [self setTitle:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
-        [imgViewProPic setImageWithURL:GetProPicURLForUser(USER_ID) withName:USER_OBJECT.proPic andSize:VIEWSIZE(imgViewProPic) withPlaceholderImageName:IMG_user_avatar_80];
+        
+        [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
+        
         isImageSet = [Global isImageExist:USER_OBJECT.proPic];
     }
     @catch (NSException *exception) {
@@ -181,7 +191,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     picker.allowsEditing = YES;
     
     if (buttonIndex == 0 && isImageSet) {
-        [imgViewProPic setImage:IMAGE_WITH_NAME(IMG_user_avatar_80)];
+        [imgViewProPic setImage:image_placeholder_80];
         isImageSet = NO;
         isImageRemoved = YES;
     }
