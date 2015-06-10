@@ -52,10 +52,6 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
-		C0AB41F71B0D075300E5A088 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0AB41F31B0D075300E5A088 /* Default-568h@2x.png */; };
-		C0AB41FA1B0D075300E5A088 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0AB41F61B0D075300E5A088 /* Default@2x.png */; };
-		C0AB41FD1B0D07D900E5A088 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0AB41FB1B0D07D900E5A088 /* Default-667h@2x.png */; };
-		C0AB41FE1B0D07D900E5A088 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0AB41FC1B0D07D900E5A088 /* Default-736h@3x.png */; };
 		C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAF8CE1B013248005F8EB0 /* Client.m */; };
 /* End PBXBuildFile section */
 
@@ -153,10 +149,6 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
-		C0AB41F31B0D075300E5A088 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		C0AB41F61B0D075300E5A088 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		C0AB41FB1B0D07D900E5A088 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
-		C0AB41FC1B0D07D900E5A088 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		C0CAF8CD1B013248005F8EB0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		C0CAF8CE1B013248005F8EB0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -330,10 +322,6 @@
 		C07572E71AE2F2B40017E0F9 = {
 			isa = PBXGroup;
 			children = (
-				C0AB41FB1B0D07D900E5A088 /* Default-667h@2x.png */,
-				C0AB41FC1B0D07D900E5A088 /* Default-736h@3x.png */,
-				C0AB41F31B0D075300E5A088 /* Default-568h@2x.png */,
-				C0AB41F61B0D075300E5A088 /* Default@2x.png */,
 				C07572F91AE2F2B40017E0F9 /* LawyerDiary */,
 				C07573181AE2F2B40017E0F9 /* LawyerDiaryTests */,
 				C07572F21AE2F2B40017E0F9 /* Frameworks */,
@@ -521,13 +509,9 @@
 			files = (
 				C075730C1AE2F2B40017E0F9 /* Images.xcassets in Resources */,
 				C07572FE1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */,
-				C0AB41FA1B0D075300E5A088 /* Default@2x.png in Resources */,
 				9D64BD721AE300FD001230C0 /* UnDotum-Bold.ttf in Resources */,
-				C0AB41FD1B0D07D900E5A088 /* Default-667h@2x.png in Resources */,
 				C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */,
 				9D64BD711AE300FD001230C0 /* UnDotum.ttf in Resources */,
-				C0AB41FE1B0D07D900E5A088 /* Default-736h@3x.png in Resources */,
-				C0AB41F71B0D075300E5A088 /* Default-568h@2x.png in Resources */,
 				C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
