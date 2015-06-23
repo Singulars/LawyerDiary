@@ -377,6 +377,10 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPImegistrateName                  @"megistrateName"
 #define kAPIdateTime                        @"dateTime"
 
+#define kLocalCourtId                       @"localCourtId"
+#define kIsSynced                           @"isSynced"
+#define kIsDeleted                          @"isDeleted"
+
 #define kAPIdeviceToken                     @"deviceToken"
 #define kAPIdeviceType                      @"deviceType"
 
