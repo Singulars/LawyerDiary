@@ -7,7 +7,7 @@
 //
 
 #import "CourtCell.h"
-
+#import "Court.h"
 @implementation CourtCell
 
 - (void)awakeFromNib {

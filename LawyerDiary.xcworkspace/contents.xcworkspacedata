@@ -2,6 +2,24 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:LawyerDiary/Model/Client.h">
+   </FileRef>
+   <FileRef
+      location = "group:LawyerDiary/Model/Client.m">
+   </FileRef>
+   <FileRef
+      location = "group:LawyerDiary/Model/Cases.h">
+   </FileRef>
+   <FileRef
+      location = "group:LawyerDiary/Model/Cases.m">
+   </FileRef>
+   <FileRef
+      location = "group:LawyerDiary/Model/Court.h">
+   </FileRef>
+   <FileRef
+      location = "group:LawyerDiary/Model/Court.m">
+   </FileRef>
+   <FileRef
       location = "group:LawyerDiary.xcodeproj">
    </FileRef>
    <FileRef

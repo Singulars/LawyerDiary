@@ -9,7 +9,7 @@
 #import "Register.h"
 
 #define LOGIN_FIELDS_COUNT  2
-#define SIGNUP_FIELDS_COUNT 5
+#define SIGNUP_FIELDS_COUNT 3
 #define FORGOTPASS_FIELDS_COUNT 1
 
 #define ShakeDelta      7.f
@@ -54,7 +54,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 //    else if (_viewType == SIGN_UP_VIEW) {
 //        [navItem setTitle:@"Sign Up"];
 //    }
-    [navItem setTitle:APP_NAME];
+    [navItem setTitle:@"Register"];
     
     navBar = [[UINavigationBar alloc] init];
     [navBar setFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
@@ -100,8 +100,8 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [btnLogin setTitle:@"Log in" forState:UIControlStateNormal];
     [btnLogin setTitle:@"Loging in" forState:UIControlStateSelected];
     
-    [btnSignup setTitle:@"Sign up" forState:UIControlStateNormal];
-    [btnSignup setTitle:@"Signing up" forState:UIControlStateSelected];
+    [btnSignup setTitle:@"Continue" forState:UIControlStateNormal];
+    [btnSignup setTitle:@"Registering" forState:UIControlStateSelected];
     
     
     [datePicker setMaximumDate:[NSDate date]];
@@ -276,11 +276,11 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             break;
         case SIGN_UP_VIEW: {
             if ([tfEmail.text length] != 0 &&
-                [tfPassword.text length] != 0 &&
+//                [tfPassword.text length] != 0 &&
                 [tfFirstName.text length] != 0 &&
-                [tfLastName.text length] != 0 &&
-                [tfMobile.text length] != 0 &&
-                [tfBirthdate.text length] != 0)
+                [tfLastName.text length] != 0)
+//                [tfMobile.text length] != 0 &&
+//                [tfBirthdate.text length] != 0)
             {
                 [btnSignup setEnabled:YES];
             }
@@ -441,10 +441,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                 [self shakeTextField:tfEmail];
             }
             
-            if ([tfPassword.text length] < 8 || [tfPassword.text length] > 25) {
-                flag = NO;
-                [self shakeTextField:tfPassword];
-            }
+//            if ([tfPassword.text length] < 8 || [tfPassword.text length] > 25) {
+//                flag = NO;
+//                [self shakeTextField:tfPassword];
+//            }
             
             if ([tfFirstName.text length] > 15) {
                 flag = NO;
@@ -503,7 +503,8 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
         case 0: {
             if (_viewType == SIGN_UP_VIEW) {
                 if ([self validateTextFieldValues]) {
-                    [self makeSignupRequest];
+                    
+                    [self showVerificationAlert];
                 }
             }
             else {
@@ -772,11 +773,11 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                                  kAPIMode: ksignUp,
                                  kAPIproPic: isImageSet ? [Global encodeToBase64String:imgViewProPic.image] : @"",
                                  kAPIemail: tfEmail.text,
-                                 kAPIpassword: tfPassword.text,
+                                 kAPIpassword: tfFirstName.text,
                                  kAPIfirstName: tfFirstName.text,
                                  kAPIlastName: tfLastName.text,
-                                 kAPImobile: tfMobile.text,
-                                 kAPIbirthdate: [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfBirthdate.text ofFormat:DefaultBirthdateFormat],
+                                 kAPImobile: _userMobile,
+                                 kAPIbirthdate: @"2000-01-01",
                                  kAPIaddress: @"",
                                  kAPIregistrationNo: @""
                                  };
@@ -795,11 +796,11 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                     MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                 }
                 else {
-                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+//                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                    
+                    [self saveUserInfo:[responseObject valueForKey:kAPIuserDetail]];
                 }
             }
-            
-            [btnLogin sendActionsForControlEvents:UIControlEventTouchUpInside];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [indicator stopAnimating];
@@ -820,6 +821,75 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     else {
         [Global showNotificationWithTitle:[self getAlertMessageType:InternetOffline] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
+}
+
+#pragma mark - Show Verification Alert
+#pragma mark -
+- (void)showVerificationAlert
+{
+    NSString *alertTitle = NSLocalizedString(@"Enter Verification Code", @"Text Input Alert");
+    NSString *alertMessage = NSLocalizedString(@"Please enter received verification code via text message", @"Plain and secure text input");
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alertTitle
+                                                                             message:alertMessage
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField)
+     {
+         textField.placeholder = NSLocalizedString(@"Code", @"Login");
+         [textField setKeyboardType:UIKeyboardTypeNumberPad];
+         //         [textField addTarget:self
+         //                       action:@selector(alertTextFieldDidChange:)
+         //             forControlEvents:UIControlEventEditingChanged];
+     }];
+    
+    //    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField)
+    //     {
+    //         textField.placeholder = NSLocalizedString(@"PasswordPlaceholder", @"Password");
+    //         textField.secureTextEntry = YES;
+    //     }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction *action)
+                                   {
+                                       NSLog(@"Cancel action");
+                                   }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Continue", @"OK action")
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction *action)
+                               {
+                                   UITextField *login = alertController.textFields.firstObject;
+                                   //                                   UITextField *password = alertController.textFields.lastObject;
+                                   
+                                   if (![login.text isEqualToString:@""]) {
+                                       
+                                       if ([_verificationCode isEqualToNumber:@(login.text.integerValue)]) {
+                                           [self makeSignupRequest];
+                                       }
+                                       else {
+                                           [Global showNotificationWithTitle:@"Please enter valid verification code" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                                           
+                                           [self presentViewController:alertController animated:YES completion:nil];
+                                       }
+                                   }
+                                   else {
+                                       [Global showNotificationWithTitle:@"Please enter verification code" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                                       
+                                       [self presentViewController:alertController animated:YES completion:nil];
+                                   }
+                                   
+                                   NSLog(@"OK action");
+                                   NSLog(@"Login value: %@",login.text);
+                                   //                                   NSLog(@"Password value: %@",password.text);
+                               }];
+    
+    //    okAction.enabled = NO;
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Make Reset Password Request
@@ -910,7 +980,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             if (indexPath.section == 0 && indexPath.row == 0) {
                 rowHeight = 88;
             }
-           else if (indexPath.section == 0 && indexPath.row == 4) {
+           else if (indexPath.section == 0 && indexPath.row == 2) {
                 rowHeight = (isPickerShown)?206:44;
             }
             else {
@@ -951,11 +1021,11 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
         case SIGN_UP_VIEW: {
             switch (section) {
                 case 0: {
-                    noOfRow = 5;
+                    noOfRow = 2;
                 }
                     break;
                 case 1: {
-                    noOfRow = 2;
+                    noOfRow = 1;
                 }
                 default:
                     break;
@@ -1095,50 +1165,50 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+//                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                         }
                             break;
-                        case 2: {
-                            cellID = kPasswordCellID;
-                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-                            if (cell == nil) {
-                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-                            }
-                            [tfPassword setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
-                            [cell.contentView addSubview:tfPassword];
-                            
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
-                        }
-                            break;
-                        case 3: {
-                            cellID = kMobileCellID;
-                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-                            if (cell == nil) {
-                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-                            }
-                            [tfMobile setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
-                            [cell.contentView addSubview:tfMobile];
-                            
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
-                        }
-                            break;
-                        case 4: {
-                            cellID = kBirthdateCellID;
-                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-                            if (cell == nil) {
-                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-                            }
-                            [tfBirthdate setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
-                            [datePicker setFrame:CGRectMake(0, tfBirthdate.frame.size.height, ViewWidth(cell), datePicker.frame.size.height)];
-                            [cell.contentView addSubview:datePicker];
-                            [cell.contentView addSubview:tfBirthdate];
-                            [cell setClipsToBounds:YES];
-                            
-                            [btnDone setFrame:CGRectMake(ViewWidth(cell) - (ViewWidth(btnDone)), 5, ViewWidth(btnDone), ViewHeight(btnDone))];
-                            [btnDone setHidden:YES];
-                            [cell.contentView addSubview:btnDone];
-                        }
-                            break;
+//                        case 2: {
+//                            cellID = kPasswordCellID;
+//                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+//                            if (cell == nil) {
+//                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+//                            }
+//                            [tfPassword setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
+//                            [cell.contentView addSubview:tfPassword];
+//                            
+//                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+//                        }
+//                            break;
+//                        case 2: {
+//                            cellID = kMobileCellID;
+//                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+//                            if (cell == nil) {
+//                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+//                            }
+//                            [tfMobile setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
+//                            [cell.contentView addSubview:tfMobile];
+//                            
+//                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+//                        }
+//                            break;
+//                        case 2: {
+//                            cellID = kBirthdateCellID;
+//                            cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
+//                            if (cell == nil) {
+//                                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+//                            }
+//                            [tfBirthdate setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
+//                            [datePicker setFrame:CGRectMake(0, tfBirthdate.frame.size.height, ViewWidth(cell), datePicker.frame.size.height)];
+//                            [cell.contentView addSubview:datePicker];
+//                            [cell.contentView addSubview:tfBirthdate];
+//                            [cell setClipsToBounds:YES];
+//                            
+//                            [btnDone setFrame:CGRectMake(ViewWidth(cell) - (ViewWidth(btnDone)), 5, ViewWidth(btnDone), ViewHeight(btnDone))];
+//                            [btnDone setHidden:YES];
+//                            [cell.contentView addSubview:btnDone];
+//                        }
+//                            break;
                         default:
                             break;
                     }
@@ -1413,12 +1483,12 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                 else if ([tfEmail.text isEqualToString:@""] || [tfEmail.text isEqualToString:nil]) {
                     [tfEmail becomeFirstResponder];
                 }
-                else if ([tfPassword.text isEqualToString:@""] || [tfPassword.text isEqualToString:nil]) {
-                    [tfPassword becomeFirstResponder];
-                }
-                else if ([tfMobile.text isEqualToString:@""] || [tfMobile.text isEqualToString:nil]) {
-                    [tfMobile becomeFirstResponder];
-                }
+//                else if ([tfPassword.text isEqualToString:@""] || [tfPassword.text isEqualToString:nil]) {
+//                    [tfPassword becomeFirstResponder];
+//                }
+//                else if ([tfMobile.text isEqualToString:@""] || [tfMobile.text isEqualToString:nil]) {
+//                    [tfMobile becomeFirstResponder];
+//                }
                 else {
                     [activeTextField resignFirstResponder];
                     
@@ -1540,16 +1610,18 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 - (void)saveUserInfo:(NSDictionary *)userDic
 {
     @try {
-        NSString *userId = [[userDic valueForKey:kAPIuserDetail] valueForKey:kAPIuserId];
-        SetLoginUserId(userId);
-        SetLoginUserPassword(tfPassword.text);
-        
-        ShareObj.loginuserId = GetLoginUserId;
-        ShareObj.currentPassword = GetLoginUserPassword;
-        
-        ShareObj.userObj = [User saveUser:userDic[kAPIuserDetail]];
-        
-        [APP_DELEGATE showHome];
+        if (userDic) {
+            NSString *userId = [userDic valueForKey:kAPIuserId];
+            SetLoginUserId(userId);
+            SetLoginUserPassword(tfPassword.text);
+            
+            ShareObj.loginuserId = GetLoginUserId;
+            ShareObj.currentPassword = GetLoginUserPassword;
+            
+            ShareObj.userObj = [User saveUser:userDic];
+            
+            [APP_DELEGATE showHome];
+        }
     }
     @catch (NSException *exception) {
         NSLog(@"Exception => %@", [exception debugDescription]);

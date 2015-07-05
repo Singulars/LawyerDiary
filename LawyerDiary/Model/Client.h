@@ -2,31 +2,49 @@
 //  Client.h
 //  
 //
-//  Created by Verma Mukesh on 11/05/15.
+//  Created by Verma Mukesh on 01/07/15.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Cases;
+
+typedef NS_ENUM(NSUInteger, ClientProperty) {
+    kClientIsSynced = 0,
+    kClientIsDeleted
+};
 
 @interface Client : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * loacalClientID;
-@property (nonatomic, retain) NSNumber * clientId;
-@property (nonatomic, retain) NSString * firstName;
-@property (nonatomic, retain) NSString * lastName;
-@property (nonatomic, retain) NSString * mobile;
-@property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSNumber * localClientId;
 @property (nonatomic, retain) NSString * address;
-@property (nonatomic, readwrite) NSNumber * isPlannerAppUser;
-@property (nonatomic, readwrite) NSNumber * isSynced;
-@property (nonatomic, readwrite) NSNumber * isDeleted;
+@property (nonatomic, retain) NSString * clientFirstName;
+@property (nonatomic, retain) NSNumber * clientId;
+@property (nonatomic, retain) NSString * clientLastName;
+@property (nonatomic, retain) NSString * email;
+@property (nonatomic, retain) NSString * mobile;
+@property (nonatomic, retain) NSNumber * isClientDeleted;
+@property (nonatomic, retain) NSNumber * isSynced;
+@property (nonatomic, retain) NSNumber * taskPlannerId;
+@property (nonatomic, retain) NSNumber * isTaskPlanner;
+@property (nonatomic, retain) NSSet *caseDetails;
+@end
+
+@interface Client (CoreDataGeneratedAccessors)
+
+- (void)addCaseDetailsObject:(Cases *)value;
+- (void)removeCaseDetailsObject:(Cases *)value;
+- (void)addCaseDetails:(NSSet *)values;
+- (void)removeCaseDetails:(NSSet *)values;
 
 + (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
-+ (BOOL)deleteClient:(NSNumber *)courtId;
-+ (BOOL)deleteCourtsForUser:(NSNumber *)userId;
-+ (Client *)fetchCourt:(NSNumber *)courtId;
-+ (NSArray *)fetchClients:(NSNumber *)userId;
++ (BOOL)updatedClientPropertyofClient:(Client *)clientObj withProperty:(ClientProperty)property andValue:(NSNumber *)propertyValue;
++ (BOOL)deleteClient:(NSNumber *)clientId;
++ (BOOL)deleteCientsForUser:(NSNumber *)userId;
++ (Client *)fetchClient:(NSNumber *)clientId;
++ (NSArray *)fetchClients:(NSNumber *)clientId;
 
 @end

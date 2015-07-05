@@ -49,7 +49,8 @@ typedef NS_ENUM(NSUInteger, VIEW_TYPE) {
     
     IBOutlet UIButton *btnDone;
 }
-
+@property (nonatomic, strong) NSNumber *verificationCode;
+@property (nonatomic, strong) NSString *userMobile;
 @property (nonatomic, strong) UIImage *imageFromPreviousScreen;
 @property (nonatomic, assign) VIEW_TYPE viewType;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

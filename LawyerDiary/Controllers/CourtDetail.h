@@ -21,8 +21,6 @@
     IBOutlet UIButton *btnSave;
     
     IBOutlet UIActivityIndicatorView *indicator;
-    
-    
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

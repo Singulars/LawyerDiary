@@ -20,9 +20,8 @@
 		9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD881AE30521001230C0 /* UITextField+Shake.m */; };
 		9D64BD951AE311CA001230C0 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD941AE311CA001230C0 /* User.m */; };
 		9D64BD971AE31660001230C0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D64BD961AE31660001230C0 /* CoreData.framework */; };
-		9D64BD9A1AE31ED7001230C0 /* RegisteredUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */; };
 		9DA2828D1AECCA1F00024121 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2828C1AECCA1F00024121 /* libPods.a */; };
-		9DA282961AECE48100024121 /* Cases.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282951AECE48000024121 /* Cases.m */; };
+		9DA282961AECE48100024121 /* ClientCases.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282951AECE48000024121 /* ClientCases.m */; };
 		9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA282981AECF9FC00024121 /* DrawerCell.m */; };
 		9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */; };
 		9DA2829F1AECFE3A00024121 /* Clients.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2829E1AECFE3A00024121 /* Clients.m */; };
@@ -38,7 +37,9 @@
 		C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8DF1B2852E4007BD697 /* ClientDetail.m */; };
 		C05CF8E31B285411007BD697 /* ClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8E21B285411007BD697 /* ClientCell.m */; };
 		C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C060C2251AF66FD0009BA8B4 /* CourtDetail.m */; };
-		C067C0541AF40528004FE159 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0531AF40528004FE159 /* Court.m */; };
+		C064282A1B43293E001FB5C0 /* Cases.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428251B43293E001FB5C0 /* Cases.m */; };
+		C064282B1B43293E001FB5C0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428271B43293E001FB5C0 /* Client.m */; };
+		C064282C1B43293E001FB5C0 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428291B43293E001FB5C0 /* Court.m */; };
 		C067C0571AF40736004FE159 /* CourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C067C0561AF40736004FE159 /* CourtCell.m */; };
 		C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
 		C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F51AE2F2B40017E0F9 /* CoreGraphics.framework */; };
@@ -54,7 +55,6 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
-		C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C0CAF8CE1B013248005F8EB0 /* Client.m */; };
 		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
 		C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */; };
@@ -96,8 +96,6 @@
 		9D64BD931AE311CA001230C0 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = LawyerDiary/Model/User.h; sourceTree = SOURCE_ROOT; };
 		9D64BD941AE311CA001230C0 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = LawyerDiary/Model/User.m; sourceTree = SOURCE_ROOT; };
 		9D64BD961AE31660001230C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		9D64BD981AE31ED7001230C0 /* RegisteredUsers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisteredUsers.h; path = LawyerDiary/Model/RegisteredUsers.h; sourceTree = SOURCE_ROOT; };
-		9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisteredUsers.m; path = LawyerDiary/Model/RegisteredUsers.m; sourceTree = SOURCE_ROOT; };
 		9D7808351AEC291F00F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		9D7808371AEC292500F72CFF /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
 		9D7808391AEC294600F72CFF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -107,8 +105,8 @@
 		9DA282881AECC8A200024121 /* libPods-PureLayout.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PureLayout.a"; path = "Pods/../build/Debug-iphoneos/libPods-PureLayout.a"; sourceTree = "<group>"; };
 		9DA2828A1AECC96F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		9DA2828C1AECCA1F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		9DA282941AECE48000024121 /* Cases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cases.h; sourceTree = "<group>"; };
-		9DA282951AECE48000024121 /* Cases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cases.m; sourceTree = "<group>"; };
+		9DA282941AECE48000024121 /* ClientCases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCases.h; sourceTree = "<group>"; };
+		9DA282951AECE48000024121 /* ClientCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCases.m; sourceTree = "<group>"; };
 		9DA282971AECF9FC00024121 /* DrawerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerCell.h; sourceTree = "<group>"; };
 		9DA282981AECF9FC00024121 /* DrawerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerCell.m; sourceTree = "<group>"; };
 		9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerTableViewController.h; sourceTree = "<group>"; };
@@ -137,8 +135,12 @@
 		C05CF8E21B285411007BD697 /* ClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCell.m; sourceTree = "<group>"; };
 		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
 		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
-		C067C0521AF40528004FE159 /* Court.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Court.h; sourceTree = "<group>"; };
-		C067C0531AF40528004FE159 /* Court.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Court.m; sourceTree = "<group>"; };
+		C06428241B43293E001FB5C0 /* Cases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cases.h; sourceTree = "<group>"; };
+		C06428251B43293E001FB5C0 /* Cases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cases.m; sourceTree = "<group>"; };
+		C06428261B43293E001FB5C0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		C06428271B43293E001FB5C0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		C06428281B43293E001FB5C0 /* Court.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Court.h; sourceTree = "<group>"; };
+		C06428291B43293E001FB5C0 /* Court.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Court.m; sourceTree = "<group>"; };
 		C067C0551AF40736004FE159 /* CourtCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtCell.h; sourceTree = "<group>"; };
 		C067C0561AF40736004FE159 /* CourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtCell.m; sourceTree = "<group>"; };
 		C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LawyerDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -160,8 +162,6 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
-		C0CAF8CD1B013248005F8EB0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
-		C0CAF8CE1B013248005F8EB0 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
@@ -209,8 +209,8 @@
 				9DE1E5201AE3D4A5001060F4 /* Register.m */,
 				9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */,
 				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
-				9DA282941AECE48000024121 /* Cases.h */,
-				9DA282951AECE48000024121 /* Cases.m */,
+				9DA282941AECE48000024121 /* ClientCases.h */,
+				9DA282951AECE48000024121 /* ClientCases.m */,
 				9DA2829D1AECFE3A00024121 /* Clients.h */,
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
@@ -230,12 +230,12 @@
 			children = (
 				9D64BD931AE311CA001230C0 /* User.h */,
 				9D64BD941AE311CA001230C0 /* User.m */,
-				9D64BD981AE31ED7001230C0 /* RegisteredUsers.h */,
-				9D64BD991AE31ED7001230C0 /* RegisteredUsers.m */,
-				C067C0521AF40528004FE159 /* Court.h */,
-				C067C0531AF40528004FE159 /* Court.m */,
-				C0CAF8CD1B013248005F8EB0 /* Client.h */,
-				C0CAF8CE1B013248005F8EB0 /* Client.m */,
+				C06428241B43293E001FB5C0 /* Cases.h */,
+				C06428251B43293E001FB5C0 /* Cases.m */,
+				C06428261B43293E001FB5C0 /* Client.h */,
+				C06428271B43293E001FB5C0 /* Client.m */,
+				C06428281B43293E001FB5C0 /* Court.h */,
+				C06428291B43293E001FB5C0 /* Court.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -605,6 +605,7 @@
 			files = (
 				9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */,
 				C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */,
+				C064282B1B43293E001FB5C0 /* Client.m in Sources */,
 				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
 				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
 				9DA282A21AECFE4C00024121 /* Courts.m in Sources */,
@@ -612,13 +613,13 @@
 				C05CF8E31B285411007BD697 /* ClientCell.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
+				C064282A1B43293E001FB5C0 /* Cases.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
-				C067C0541AF40528004FE159 /* Court.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
-				C0CAF8CF1B013248005F8EB0 /* Client.m in Sources */,
-				9DA282961AECE48100024121 /* Cases.m in Sources */,
+				C064282C1B43293E001FB5C0 /* Court.m in Sources */,
+				9DA282961AECE48100024121 /* ClientCases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
@@ -633,7 +634,6 @@
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
-				9D64BD9A1AE31ED7001230C0 /* RegisteredUsers.m in Sources */,
 				C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

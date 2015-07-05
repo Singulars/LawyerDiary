@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "Reachability.h"
-#import "Cases.h"
+#import "ClientCases.h"
 #import "Clients.h"
 #import "Courts.h"
 #import "Profile.h"
@@ -40,7 +40,7 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 
 @property (nonatomic, strong) UIViewController *leftDrawerViewController;
 
-@property (nonatomic, strong) Cases *casesViewController;
+@property (nonatomic, strong) ClientCases *casesViewController;
 @property (nonatomic, strong) Clients *clientsViewController;
 @property (nonatomic, strong) Courts *courtsViewController;
 @property (nonatomic, strong) Profile *profileViewController;

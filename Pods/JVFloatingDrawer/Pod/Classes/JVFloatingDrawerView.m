@@ -145,12 +145,12 @@ static const CGFloat kJVDefaultViewContainerWidth = 280.0;
 #pragma mark - Open/Close Events
 
 - (void)willOpenFloatingDrawerViewController:(JVFloatingDrawerViewController *)viewController {
-    [self applyBorderRadiusToCenterViewController];
+//    [self applyBorderRadiusToCenterViewController];
     [self applyShadowToCenterViewContainer];
 }
 
 - (void)willCloseFloatingDrawerViewController:(JVFloatingDrawerViewController *)viewController {
-    [self removeBorderRadiusFromCenterViewController];
+//    [self removeBorderRadiusFromCenterViewController];
     [self removeShadowFromCenterViewContainer];
 }
 
@@ -184,10 +184,11 @@ static const CGFloat kJVDefaultViewContainerWidth = 280.0;
 
 - (void)applyShadowToCenterViewContainer {
     CALayer *layer = self.centerViewContainer.layer;
-    layer.shadowRadius  = 20.0;
+#warning radius was 20, edited on 30th june by Naresh
+    layer.shadowRadius  = 5.0;
     layer.shadowColor   = [UIColor blackColor].CGColor;
     layer.shadowOpacity = 0.4;
-    layer.shadowOffset  = CGSizeMake(0.0, 0.0);
+    layer.shadowOffset  = CGSizeMake(5.0, 0.0);
     layer.masksToBounds = NO;
     
     [self updateShadowPath];

@@ -11,10 +11,12 @@
 #import "JVFloatingDrawerViewController.h"
 
 typedef NS_ENUM(NSUInteger, TableCellIndex) {
-    kCellProfileIndex   = 0,
-    kCellCaseIndex      = 1,
-    kCellClientIndex    = 2,
-    kCellCourtIndex         = 3
+    kCellCaseIndex      = 0,
+    kCellClientIndex    = 1,
+    kCellCourtIndex     = 2,
+    kCellSubordinateIndex   = 3,
+    kCellSearchIndex   = 4,
+    kCellProfileIndex   = 5
 };
 
 static const CGFloat kJVTableViewTopInset = 0.0;
@@ -44,17 +46,22 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     [super viewDidAppear:animated];
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForItem:kCellCaseIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     
-    [self updateUserDetail];
+//    [self updateUserDetail];
 }
 
-- (void)updateUserDetail
-{
-    [lblUsername setText:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
-    
-    [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
-}
+//- (void)updateUserDetail
+//{
+//    [lblUsername setText:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
+//    
+//    [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
+//}
 
 #pragma mark - Table View Data Source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -63,30 +70,21 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat rowHeight = 0;
-    if (indexPath.row == 0) {
-        rowHeight = 80;
-    }
-    else {
-        rowHeight = 60;
-    }
+    
+    rowHeight = 54;
+    
     return rowHeight;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DrawerCell *menuCell;
-    if (indexPath.row != 0) {
-         menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
-    }
+    menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
     
     switch (indexPath.row) {
-        case kCellProfileIndex: {
-            return cellProfile;
-        }
-            break;
         case kCellCaseIndex: {
             menuCell.titleText = @"Cases";
             menuCell.iconImage = [UIImage imageNamed:@"icon-cases"];
@@ -99,7 +97,22 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
             break;
         case kCellCourtIndex: {
             menuCell.titleText = @"Courts";
-            menuCell.iconImage = [UIImage imageNamed:@"icon-court-small"];
+            menuCell.iconImage = [UIImage imageNamed:@"icon-court-big"];
+        }
+            break;
+        case kCellSubordinateIndex: {
+            menuCell.titleText = @"Subordinates";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-subordinates"];
+        }
+            break;
+        case kCellSearchIndex: {
+            menuCell.titleText = @"Search";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-search"];
+        }
+            break;
+        case kCellProfileIndex: {
+            menuCell.titleText = @"Profile";
+            menuCell.iconImage = [UIImage imageNamed:@"icon-profile"];
         }
             break;
         default:

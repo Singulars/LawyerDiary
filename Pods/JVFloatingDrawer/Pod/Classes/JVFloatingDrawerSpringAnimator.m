@@ -132,7 +132,9 @@ static const CGFloat kJVCenterViewDestinationScale = 0.7;
     
     
     CGAffineTransform centerTranslate = CGAffineTransformMakeTranslation(scaledCenterViewHorizontalOffset, 0.0);
-    CGAffineTransform centerScale = CGAffineTransformMakeScale(kJVCenterViewDestinationScale, kJVCenterViewDestinationScale);
+    CGAffineTransform centerScale = CGAffineTransformMakeScale(1.0, 1.0);
+#warning commented by Naresh on 30th June
+//    CGAffineTransform centerScale = CGAffineTransformMakeScale(kJVCenterViewDestinationScale, kJVCenterViewDestinationScale);
     centerView.transform = CGAffineTransformConcat(centerScale, centerTranslate);
 }
 

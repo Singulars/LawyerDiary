@@ -9,10 +9,11 @@
 #import "Courts.h"
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
 #import "CourtDetail.h"
+#import "Court.h"
 
 @interface Courts ()
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
-@property (nonatomic, strong) NSArray *arrCourts;
+@property (nonatomic, strong) NSMutableArray *arrCourts;
 @property (nonatomic) CGRect originalFrame;
 @end
 
@@ -43,8 +44,6 @@
     [self.spinnerView setTintColor:APP_TINT_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
-    
-    [self fetchCourts];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,7 +88,16 @@
                             [Court saveCourt:courtObj forUser:USER_ID];
                         }
                         
-                        [self loadCourts];
+                        NSArray *arrCourt = [responseObject valueForKey:kAPIcourData];
+                        if (arrCourt.count > 0) {
+                            [arrCourts removeAllObjects];
+                            [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
+                        }
+                        else {
+                            [Global showNotificationWithTitle:arrCourts.count > 0 ? @"All Courts Loaded!" : @"No Courts to show!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                        }
+                        [self.tableView reloadData];
+                        
                     }
                 }
                 
@@ -123,8 +131,11 @@
 
 - (void)loadCourts
 {
-    arrCourts = nil;
-    arrCourts = [Court fetchCourts:USER_ID];
+    if (!arrCourts) {
+        arrCourts = [[NSMutableArray alloc] init];
+    }
+    [arrCourts removeAllObjects];
+    [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
     if (arrCourts.count == 0) {
         [self fetchCourts];
     }
@@ -209,6 +220,17 @@
     [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView beginUpdates];
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+        [self deleteCourt:arrCourts[indexPath.row]];
+        [arrCourts removeObjectAtIndex:indexPath.row];
+    }
+    [tableView endUpdates];
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Remove seperator inset
@@ -226,6 +248,50 @@
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
+
+- (void)deleteCourt:(Court *)objCourt
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kdeleteCourt,
+                                     kAPIuserId: USER_ID,
+                                     kAPIcourtId: objCourt.courtId
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                    [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    }
+                    else {
+                        [Court deleteCourt:objCourt.courtId];
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+    else {
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+}
+
 
 #pragma mark - UIScrollViewDelegate
 #pragma mark -

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Client;
 @class FFTextField;
 
 @interface ClientDetail : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate>
@@ -17,6 +18,7 @@
     IBOutlet UITableViewCell *cellMobile;
     IBOutlet UITableViewCell *cellEmail;
     IBOutlet UITableViewCell *cellAddress;
+    IBOutlet UITableViewCell *cellBtn;
     
     IBOutlet FFTextField *tfFirstName;
     IBOutlet FFTextField *tfLastName;
@@ -27,7 +29,13 @@
     
     IBOutlet UIBarButtonItem *barBtnDone;
     IBOutlet UIToolbar *toolbar;
+    
+    IBOutlet UIButton *btnSave;
+    
+    IBOutlet UIActivityIndicatorView *indicator;
 }
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+
+@property (nonatomic, strong) Client *clientObj;
 
 @end

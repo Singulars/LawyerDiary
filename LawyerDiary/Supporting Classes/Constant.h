@@ -24,8 +24,9 @@
 #import "CourtCell.h"
 
 #import "User.h"
-#import "RegisteredUsers.h"
-#import "Court.h"
+//#import "Court.h"
+//#import "Client.h"
+//#import "Cases.h"
 
 #import "NetworkManager.h"
 #import "Reachability.h"
@@ -322,7 +323,8 @@ otherButtonTitles:@"OK", nil] show];
 #define APP_RED_COLOR                 UICOLOR(220, 37, 47,1)
 #define APP_GREEN_COLOR               [UIColor colorWithRed:81.0f/255.0f green:182.0f/255.0f blue:79.0f/255.0f alpha:1.0f]
 
-#define APP_TINT_COLOR                UICOLOR(48, 56, 73, 1)
+#define APP_TINT_COLOR                UICOLOR(42, 50, 65, 1)
+//#define APP_TINT_COLOR                UICOLOR(48, 56, 73, 1)
 //#define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
 
 #define APP_TINT_COLOR_LIGHT                UICOLOR(108, 125, 155, 1)
@@ -341,7 +343,10 @@ otherButtonTitles:@"OK", nil] show];
 #define WEBSERVICE_CALL_URL                 [HOST_URL stringByAppendingString:API_PATH]
 #define PRO_PIC_URL                         [HOST_URL stringByAppendingString:PRO_PIC_URL_PATH]
 
+#define PLANNER_PRO_PIC_URL                 [@"http://www.webegins.com/" stringByAppendingString:PRO_PIC_URL_PATH]
+
 #define GetProPicURLForUser(userId)   [NSString stringWithFormat:@"%@%@_big.png", PRO_PIC_URL, userId]
+#define GetProPicURLForPlannerUser(userId)   [NSString stringWithFormat:@"%@%@_big.png", PLANNER_PRO_PIC_URL, userId]
 
 #define kRequestTimeOut                     60.0f
 
@@ -360,22 +365,33 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kAPIMode                            @"mode"
 #define kAPIuserId                          @"userId"
+#define kAPIrandom                          @"random"
 #define kAPIclientId                        @"clientId"
 #define kAPIfirstName                       @"firstName"
 #define kAPIlastName                        @"lastName"
+#define kAPIlocalClientId                   @"localClientId"
+#define kAPIclientFirstName                 @"clientFirstName"
+#define kAPIclientLastName                  @"clientLastName"
+#define kAPItaskPlannerId                   @"taskPlannerId"
+#define kAPIisTaskPlanner                   @"isTaskPlanner"
 #define kAPIemail                           @"email"
 #define kAPIpassword                        @"password"
 #define kAPImobile                          @"mobile"
+#define kAPIcountryCode                     @"countryCode"
 #define kAPIbirthdate                       @"birthdate"
 #define kAPIaddress                         @"address"
 #define kAPIregistrationNo                  @"registrationNo"
 #define kAPIproPic                          @"proPic"
 #define kAPIisVerified                      @"isVerified"
 #define kAPIcourtId                         @"courtId"
+#define kAPIlocalCourtId                    @"localCourtId"
 #define kAPIcourtName                       @"courtName"
 #define kAPIcourtCity                       @"courtCity"
 #define kAPImegistrateName                  @"megistrateName"
 #define kAPIdateTime                        @"dateTime"
+
+#define kAPItaskPlannerId                   @"taskPlannerId"
+#define kAPIisTaskPlanner                   @"isTaskPlanner"
 
 #define kLocalCourtId                       @"localCourtId"
 #define kIsSynced                           @"isSynced"
@@ -385,15 +401,21 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIdeviceType                      @"deviceType"
 
 #define kAPIcourData                        @"courtData"
+#define kAPIclientData                      @"clientData"
 
 // mode keys
 #define ksignUp                             @"signUp"
 #define klogIn                              @"logIn"
+#define kisRegistered                       @"isRegistered"
 #define kforgotPassword                     @"forgotPassword"
 #define ksyncContacts                       @"syncContacts"
 #define kloadCourts                         @"loadCourts"
 #define ksaveCourt                          @"saveCourt"
+#define kdeleteCourt                        @"deleteCourt"
 #define kupdateProfile                      @"updateProfile"
+#define kloadClients                        @"loadClients"
+#define ksaveClient                         @"saveClient"
+#define kdeleteClient                       @"deleteClient"
 
 
 #define kgetServerDateTime                  @"getServerDateTime"

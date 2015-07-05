@@ -73,7 +73,11 @@ Reachability *hostReach;
     NSLog(@"isRegistered - %hhd", IsRegisteredForRemoteNotifications);
     
     [self getCurrentNotificationSettings];
-    //    [self registerForUserNotifications];
+//        [self registerForUserNotifications];
+    
+    [self registerForUserNotifications:^(BOOL success) {
+        
+    }];
     
     //    RemoveLoginUserId;
     
@@ -313,6 +317,7 @@ Reachability *hostReach;
 - (JVFloatingDrawerViewController *)drawerViewController {
     if (!_drawerViewController) {
         _drawerViewController = [[JVFloatingDrawerViewController alloc] init];
+        [_drawerViewController setLeftDrawerWidth:300];
     }
     
     return _drawerViewController;
@@ -344,8 +349,8 @@ Reachability *hostReach;
     if (!_drawerAnimator) {
         _drawerAnimator = [[JVFloatingDrawerSpringAnimator alloc] init];
         
-        [_drawerAnimator setInitialSpringVelocity:5.0];
-        [_drawerAnimator setSpringDamping:3.0];
+        [_drawerAnimator setInitialSpringVelocity:1.0];
+        [_drawerAnimator setSpringDamping:1.0];
         [_drawerAnimator setAnimationDelay:0.0];
         [_drawerAnimator setAnimationDuration:0.5];
     }
@@ -359,7 +364,7 @@ Reachability *hostReach;
     
     self.drawerViewController.animator = self.drawerAnimator;
     
-    self.drawerViewController.backgroundImage = [UIImage imageWithColor:GROUP_TABLEVIEW_COLOR];
+    self.drawerViewController.backgroundImage = [UIImage imageWithColor:[UIColor whiteColor]];
 }
 
 - (void)toggleLeftDrawer:(id)sender animated:(BOOL)animated {
@@ -368,7 +373,7 @@ Reachability *hostReach;
 
 #pragma mark Center
 
-- (Cases *)casesViewController {
+- (ClientCases *)casesViewController {
     if (!_casesViewController) {
         _casesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
     }

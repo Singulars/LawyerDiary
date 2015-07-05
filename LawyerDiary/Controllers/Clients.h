@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class FFTextField;
 
-@interface Clients : UIViewController
+@interface Clients : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
     IBOutlet UIBarButtonItem *barBtnSync;

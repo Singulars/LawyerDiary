@@ -13,6 +13,7 @@
 typedef NS_ENUM(NSUInteger, InputFieldTags) {
     kTagFirstName = 0,
     kTagLastName,
+    kTagEmail,
     kTagBirthdate,
     kTagCurrentPass,
     kTagNewPass,
@@ -69,6 +70,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     [tfFirstName setTag:kTagFirstName];
     [tfLastName setTag:kTagLastName];
+    [tfEmail setTag:kTagEmail];
     [tfBirthdate setTag:kTagBirthdate];
     [tfCurrentPass setTag:kTagCurrentPass];
     [tfNewPass setTag:kTagNewPass];
@@ -290,6 +292,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         params[kAPIpassword] = tfNewPass.text;
         params[kAPIfirstName] = tfFirstName.text;
         params[kAPIlastName] = tfLastName.text;
+        params[kAPIemail] = tfEmail.text;
         params[kAPIbirthdate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfBirthdate.text ofFormat:DefaultBirthdateFormat];
         params[kAPIaddress] = tvAddress.text;
         params[kAPIregistrationNo] = tfRegNo.text;
@@ -451,16 +454,16 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         case 0:
             headerTitle = @"PROFILE";
             break;
-        case 1: {
-            headerTitle = @"UPDATE PASSWORD";
-            [btnPasswordToggle setFrame:CGRectMake(headerView.frame.size.width-40, headerView.frame.origin.y, 40, headerView.frame.size.height-5)];
-            
-            [btnPasswordToggle setHidden:!isPasswordSectionExpanded];
-            
-            [headerView addSubview:btnPasswordToggle];
-        }
-            break;
-        case 2:
+//        case 1: {
+//            headerTitle = @"UPDATE PASSWORD";
+//            [btnPasswordToggle setFrame:CGRectMake(headerView.frame.size.width-40, headerView.frame.origin.y, 40, headerView.frame.size.height-5)];
+//            
+//            [btnPasswordToggle setHidden:!isPasswordSectionExpanded];
+//            
+//            [headerView addSubview:btnPasswordToggle];
+//        }
+//            break;
+        case 1:
             headerTitle = @"FIRM INFO";
             break;
         default:
@@ -499,11 +502,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
             }
         }
             break;
+//        case 1: {
+//            rowHeight = 44;
+//        }
+//            break;
         case 1: {
-            rowHeight = 44;
-        }
-            break;
-        case 2: {
             if (indexPath.row == 0) {
                 rowHeight = 44;
             }
@@ -521,7 +524,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -530,19 +533,19 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     
     switch (section) {
         case 0: {
-            rowCount = isPickerVisible ? 5 : 4;
+            rowCount = isPickerVisible ? 5 : 3;
         }
             break;
+//        case 1: {
+//            if (isPasswordSectionExpanded) {
+//                rowCount = 2;
+//            }
+//            else {
+//                rowCount = 1;
+//            }
+//        }
+//            break;
         case 1: {
-            if (isPasswordSectionExpanded) {
-                rowCount = 2;
-            }
-            else {
-                rowCount = 1;
-            }
-        }
-            break;
-        case 2: {
             rowCount = 2;
         }
             break;
@@ -578,31 +581,31 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
             }
         }
             break;
+//        case 1: {
+//            if (isPasswordSectionExpanded) {
+//                switch (indexPath.row) {
+//                    case 0:
+//                        return cellCurrentPass;
+//                        break;
+//                    case 1:
+//                        return cellNewPass;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//            else {
+//                switch (indexPath.row) {
+//                    case 0:
+//                        return cellChangePass;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        }
+//            break;
         case 1: {
-            if (isPasswordSectionExpanded) {
-                switch (indexPath.row) {
-                    case 0:
-                        return cellCurrentPass;
-                        break;
-                    case 1:
-                        return cellNewPass;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else {
-                switch (indexPath.row) {
-                    case 0:
-                        return cellChangePass;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-            break;
-        case 2: {
             switch (indexPath.row) {
                 case 0:
                     return cellRegNo;
@@ -625,61 +628,77 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 {
     switch (indexPath.section) {
         case 0: {
-            if (indexPath.row == 0 && (activeTextField == nil || activeTextField.tag == kTagLastName || activeTextField.tag == kTagBirthdate)) {
+            
+            if (indexPath.row == 0 && (activeTextField == nil || activeTextField.tag == kTagLastName || activeTextField.tag == kTagBirthdate || activeTextField.tag == kTagEmail || activeTextField.tag == kTagRegNo || activeTextField.tag == kTagAdress)) {
                 [tfFirstName setUserInteractionEnabled:YES];
                 [tfFirstName becomeFirstResponder];
             }
-            else if (indexPath.row == 0 && (activeTextField.tag == kTagFirstName || activeTextField.tag == kTagBirthdate)) {
+            else if (indexPath.row == 0 && (activeTextField.tag == kTagFirstName || activeTextField.tag == kTagBirthdate || activeTextField.tag == kTagEmail || activeTextField.tag == kTagRegNo || activeTextField.tag == kTagAdress)) {
                 [tfLastName setUserInteractionEnabled:YES];
                 [tfLastName becomeFirstResponder];
             }
-            else if (indexPath.row == 3) {
-                if (!isPickerVisible) {
-                    [self showBirthdatePicker:YES];
-                }
+            else if (indexPath.row == 1) {
+                [tfEmail setUserInteractionEnabled:YES];
+                [tfEmail becomeFirstResponder];
             }
+            else if (indexPath.row == 2) {
+                [Global showNotificationWithTitle:@"Mobile number can not be edited." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            }
+//            if (indexPath.row == 0 && (activeTextField == nil || activeTextField.tag == kTagLastName || activeTextField.tag == kTagBirthdate)) {
+//                [tfFirstName setUserInteractionEnabled:YES];
+//                [tfFirstName becomeFirstResponder];
+//            }
+//            else if (indexPath.row == 0 && (activeTextField.tag == kTagFirstName || activeTextField.tag == kTagBirthdate)) {
+//                [tfLastName setUserInteractionEnabled:YES];
+//                [tfLastName becomeFirstResponder];
+//            }
+//            else if (indexPath.row == 3) {
+//                if (!isPickerVisible) {
+//                    [self showBirthdatePicker:YES];
+//                }
+//            }
         }
             break;
+//        case 1: {
+//            if (!isPasswordSectionExpanded) {
+//                
+//                isPasswordSectionExpanded = YES;
+//                NSArray *indexPathToBeDeleted = @[
+//                                                  [NSIndexPath indexPathForRow:0 inSection:indexPath.section],
+//                                                  ];
+//                NSArray *indexPathToBeAdded = @[
+//                                                [NSIndexPath indexPathForRow:1 inSection:indexPath.section],
+//                                                [NSIndexPath indexPathForRow:0 inSection:indexPath.section],
+//                                                ];
+//                
+//                [self.tableView beginUpdates];
+//                [self.tableView deleteRowsAtIndexPaths:indexPathToBeDeleted withRowAnimation:UITableViewRowAnimationTop];
+//                [self.tableView insertRowsAtIndexPaths:indexPathToBeAdded withRowAnimation:UITableViewRowAnimationBottom];
+//                [self.tableView endUpdates];
+//                
+//                [UIView animateWithDuration:0.2 animations:^{
+//                    imgViewRowDisclosure.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
+//                }];
+//                
+//                [tfCurrentPass setUserInteractionEnabled:YES];
+//                [tfCurrentPass becomeFirstResponder];
+//                
+//                [btnPasswordToggle setHidden:NO];
+//                [btnPasswordToggle setSelected:NO];
+//            }
+//            else {
+//                if (indexPath.row == 0) {
+//                    [tfCurrentPass setUserInteractionEnabled:YES];
+//                    [tfCurrentPass becomeFirstResponder];
+//                }
+//                else if (indexPath.row == 1) {
+//                    [tfNewPass setUserInteractionEnabled:YES];
+//                    [tfNewPass becomeFirstResponder];
+//                }
+//            }
+//        }
+//            break;
         case 1: {
-            if (!isPasswordSectionExpanded) {
-                
-                isPasswordSectionExpanded = YES;
-                NSArray *indexPathToBeDeleted = @[
-                                                  [NSIndexPath indexPathForRow:0 inSection:indexPath.section],
-                                                  ];
-                NSArray *indexPathToBeAdded = @[
-                                                [NSIndexPath indexPathForRow:1 inSection:indexPath.section],
-                                                [NSIndexPath indexPathForRow:0 inSection:indexPath.section],
-                                                ];
-                
-                [self.tableView beginUpdates];
-                [self.tableView deleteRowsAtIndexPaths:indexPathToBeDeleted withRowAnimation:UITableViewRowAnimationTop];
-                [self.tableView insertRowsAtIndexPaths:indexPathToBeAdded withRowAnimation:UITableViewRowAnimationBottom];
-                [self.tableView endUpdates];
-                
-                [UIView animateWithDuration:0.2 animations:^{
-                    imgViewRowDisclosure.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
-                }];
-                
-                [tfCurrentPass setUserInteractionEnabled:YES];
-                [tfCurrentPass becomeFirstResponder];
-                
-                [btnPasswordToggle setHidden:NO];
-                [btnPasswordToggle setSelected:NO];
-            }
-            else {
-                if (indexPath.row == 0) {
-                    [tfCurrentPass setUserInteractionEnabled:YES];
-                    [tfCurrentPass becomeFirstResponder];
-                }
-                else if (indexPath.row == 1) {
-                    [tfNewPass setUserInteractionEnabled:YES];
-                    [tfNewPass becomeFirstResponder];
-                }
-            }
-        }
-            break;
-        case 2: {
             if (indexPath.row == 0) {
                 [tfRegNo setUserInteractionEnabled:YES];
                 [tfRegNo becomeFirstResponder];
@@ -732,6 +751,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
             cellSection = 0;
         }
             break;
+        case kTagEmail: {
+            cellIndex = 1;
+            cellSection = 0;
+        }
+            break;
         case kTagBirthdate: {
             cellIndex = 3;
             cellSection = 0;
@@ -776,10 +800,17 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         }
             break;
         case kTagLastName: {
-            if (!isPickerVisible) {
-                [self showBirthdatePicker:YES];
-            }
-            [activeTextField resignFirstResponder];
+//            if (!isPickerVisible) {
+//                [self showBirthdatePicker:YES];
+//            }
+//            [activeTextField resignFirstResponder];
+            [tfEmail setUserInteractionEnabled:YES];
+            [tfEmail becomeFirstResponder];
+        }
+            break;
+        case kTagEmail: {
+            [tfRegNo setUserInteractionEnabled:YES];
+            [tfRegNo becomeFirstResponder];
         }
             break;
         case kTagBirthdate: {

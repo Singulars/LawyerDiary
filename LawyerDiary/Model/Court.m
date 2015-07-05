@@ -2,21 +2,26 @@
 //  Court.m
 //  
 //
-//  Created by Verma Mukesh on 02/05/15.
+//  Created by Verma Mukesh on 01/07/15.
 //
 //
 
 #import "Court.h"
+#import "Cases.h"
 
 
 @implementation Court
 
-@dynamic courtId;
-@dynamic userId;
-@dynamic courtName;
 @dynamic courtCity;
-@dynamic megistrateName;
+@dynamic courtId;
+@dynamic courtName;
 @dynamic dateTime;
+@dynamic isCourtDeleted;
+@dynamic isSynced;
+@dynamic localCourtId;
+@dynamic megistrateName;
+@dynamic userId;
+@dynamic caseDetails;
 
 + (NSNumber *)generateID {
     
@@ -35,34 +40,25 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Court *obj;
-        
-        if ([dataDict objectForKey:kAPIcourtId]) {
-             obj = [self fetchCourt:[dataDict objectForKey:kAPIcourtId]];
-        }
-        else if ([dataDict objectForKey:kAPIcourtId]) {
-            obj = [self fetchCourt:[dataDict objectForKey:kLocalCourtId]];
-        }
+        Court *obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
+       
+//        if ([dataDict objectForKey:kAPIcourtId]) {
+//             obj = [self fetchCourt:[dataDict objectForKey:kAPIcourtId]];
+//        }
+//        else if ([dataDict objectForKey:kAPIrandom]) {
+//            obj = [self fetchCourtLocally:[dataDict objectForKey:kAPIrandom]];
+//        }
         
         if (obj != nil) {
             @try {
                 [obj setUserId:userId];
-                [obj setLocalCourtId:@([[dataDict objectForKey:kLocalCourtId] integerValue])];
+                [obj setLocalCourtId:[dataDict objectForKey:kAPIrandom] ? @([[dataDict objectForKey:kAPIrandom] integerValue]) : [Court generateID]];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setDateTime:dataDict[kAPIdateTime] ? dataDict[kAPIdateTime] : @""];
-                
-                if ([obj.isDeleted isEqualToNumber:@0]) {
-                    
-                    if ([dataDict objectForKey:kIsSynced]) {
-                        [obj setIsSynced:@([[dataDict objectForKey:kIsSynced] integerValue])];
-                    }
-                }
-                else {
-                    [obj setIsSynced:@1];
-                }
+                [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -75,13 +71,13 @@
             obj = [NSEntityDescription insertNewObjectForEntityForName:kCourt inManagedObjectContext:context];
             @try {
                 [obj setUserId:userId];
+                [obj setLocalCourtId:[dataDict objectForKey:kAPIrandom] ? ([[dataDict objectForKey:kAPIrandom] integerValue] == 0 ? [self generateID] : @([[dataDict objectForKey:kAPIrandom] integerValue])) : [self generateID]];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setDateTime:dataDict[kAPIdateTime] ? dataDict[kAPIdateTime] : @""];
-                [obj setIsDeleted:@0];
-                [obj setIsSynced:@1];
+                [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -115,16 +111,27 @@
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        
+        switch (property) {
+            case kCourtIsDeleted: {
+                [courtObj setIsCourtDeleted:propertyValue];
+            }
+                break;
+            case kCourtIsSynced: {
+                [courtObj setIsSynced:propertyValue];
+            }
+                break;
+            default:
+                break;
+        }
         
         NSError *error = nil;
         // Save the context.
         if ([context save:&error]) {
-            NSLog(@"Court deleted succesfully");
+            NSLog(@"Court updated succesfully");
             return YES;
         }
         else {
-            NSLog(@"Court deletion failed! %@, %@", error, [error userInfo]);
+            NSLog(@"Court update failed! %@, %@", error, [error userInfo]);
             return YES;
         }
     }
@@ -208,6 +215,39 @@
         
         // Set example predicate and sort orderings...
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"courtId = %@", courtId];
+        [request setPredicate:predicate];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0)
+            return objArr[0];
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (Court *)fetchCourtLocally:(NSNumber *)localCourtId
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSString *predicateString = [NSString stringWithFormat:@"localCourtId==\"%@\"", localCourtId];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
         [request setPredicate:predicate];
         
         NSError *error;

@@ -7,6 +7,7 @@
 //
 
 #import "CourtDetail.h"
+#import "Court.h"
 
 @interface CourtDetail ()
 {
@@ -167,13 +168,30 @@
             [activeTextField resignFirstResponder];
             [self showIndicator:YES];
             
+            NSMutableDictionary *courtParams = [[NSMutableDictionary alloc] init];
+            courtParams[kAPIuserId] = USER_ID;
+            courtParams[kAPIcourtName] = tfCourt.text;
+            courtParams[kAPImegistrateName] = tfMegistrate.text;
+            courtParams[kAPIcourtCity] = tfCity.text;
+            courtParams[kIsSynced] = @0;
+            
+            if (courtObj) {
+                if ([courtObj.isSynced isEqualToNumber:@1]) {
+                    courtParams[kAPIcourtId] = courtObj.courtId;
+                }
+                
+                courtParams[kAPIrandom] = courtObj.localCourtId;
+            }
+            Court *tempCourtObj = [Court saveCourt:courtParams forUser:USER_ID];
+            
             NSDictionary *params = @{
                                      kAPIMode: ksaveCourt,
                                      kAPIuserId: USER_ID,
-                                     kAPIcourtId: courtObj ? courtObj.courtId : @-1,
-                                     kAPIcourtName: tfCourt.text,
-                                     kAPImegistrateName: tfMegistrate.text,
-                                     kAPIcourtCity: tfCity.text
+                                     kAPIrandom: tempCourtObj.localCourtId,
+                                     kAPIcourtId: courtObj ? courtObj.courtId : @"",
+                                     kAPIcourtName: tempCourtObj.courtName,
+                                     kAPImegistrateName: tempCourtObj.megistrateName,
+                                     kAPIcourtCity: tempCourtObj.courtCity
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -190,9 +208,15 @@
                     else {
                         [Court saveCourt:responseObject[kAPIcourData] forUser:USER_ID];
 
-                        [self dismissViewControllerAnimated:YES completion:^{
+                        if (courtObj) {
+                            [self.navigationController popViewControllerAnimated:YES];
                             [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-                        }];
+                        }
+                        else {
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            }];
+                        }
                     }
                 }
                 
