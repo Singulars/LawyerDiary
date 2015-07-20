@@ -33,6 +33,9 @@
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
     
+    [tvAddress setPlaceholder:@"Address"];
+    [tvAddress setPlaceholderColor:Placeholder_Text_Color];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
@@ -98,6 +101,11 @@
 
 #pragma mark - UITableViewDataSource / UITableViewDelegate
 #pragma mark -
+- (CGFloat)tableView:(nonnull UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 6;

@@ -24,9 +24,8 @@
 #import "CourtCell.h"
 
 #import "User.h"
-//#import "Court.h"
-//#import "Client.h"
-//#import "Cases.h"
+
+#import "SVPullToRefresh.h"
 
 #import "NetworkManager.h"
 #import "Reachability.h"
@@ -44,6 +43,13 @@
 
 #import "ClusterPrePermissions.h"
 
+#import "UIPlaceHolderTextView.h"
+
+typedef NS_ENUM(NSUInteger, PagingPriority) {
+    kPriorityInitial = 0,
+    kPriorityOlder,
+    kPriorityNewer
+};
 
 typedef enum : NSInteger {
     signUp = 0,
@@ -323,6 +329,8 @@ otherButtonTitles:@"OK", nil] show];
 #define APP_RED_COLOR                 UICOLOR(220, 37, 47,1)
 #define APP_GREEN_COLOR               [UIColor colorWithRed:81.0f/255.0f green:182.0f/255.0f blue:79.0f/255.0f alpha:1.0f]
 
+#define Placeholder_Text_Color        UICOLOR(199, 199, 205,1)
+
 #define APP_TINT_COLOR                UICOLOR(42, 50, 65, 1)
 //#define APP_TINT_COLOR                UICOLOR(48, 56, 73, 1)
 //#define APP_TINT_COLOR                UICOLOR(80, 93, 114, 1)
@@ -336,8 +344,8 @@ otherButtonTitles:@"OK", nil] show];
 #pragma mark - API Management
 #pragma mark -
 
-//#define HOST_URL                            @"http://singulars.co.in/"
-#define HOST_URL                            @"http://www.webegins.com/"
+#define HOST_URL                            @"http://singulars.co.in/"
+//#define HOST_URL                            @"http://www.webegins.com/"
 #define API_PATH                            @"lawyer/webservice.php"
 #define PRO_PIC_URL_PATH                    @"lawyer/profilePic/"
 #define WEBSERVICE_CALL_URL                 [HOST_URL stringByAppendingString:API_PATH]
@@ -402,6 +410,10 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kAPIcourData                        @"courtData"
 #define kAPIclientData                      @"clientData"
+
+#define kAPIindex                           @"index"
+#define kAPIoffset                          @"offset"
+#define kAPIisBefore                        @"isBefore"
 
 // mode keys
 #define ksignUp                             @"signUp"

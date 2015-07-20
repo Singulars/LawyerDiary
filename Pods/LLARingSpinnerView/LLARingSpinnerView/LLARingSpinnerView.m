@@ -61,11 +61,11 @@ static NSString *kLLARingSpinnerAnimationKey = @"llaringspinnerview.rotation";
 
     CABasicAnimation *animation = [CABasicAnimation animation];
     animation.keyPath = @"transform.rotation";
-    animation.duration = 1.0f;
+    animation.duration = 0.8f;
     animation.fromValue = @(0.0f);
     animation.toValue = @(2 * M_PI);
     animation.repeatCount = INFINITY;
-    animation.timingFunction = self.timingFunction;
+//    animation.timingFunction = self.timingFunction;
 
     [self.progressLayer addAnimation:animation forKey:kLLARingSpinnerAnimationKey];
     self.isAnimating = true;

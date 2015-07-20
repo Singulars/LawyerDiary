@@ -92,6 +92,11 @@
 
 #pragma mark - UITableViewDataSource / UITableViewDelegate
 #pragma mark -
+- (CGFloat)tableView:(nonnull UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 4;

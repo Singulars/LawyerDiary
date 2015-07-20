@@ -11,7 +11,7 @@
 @interface Courts : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
-    IBOutlet UIBarButtonItem *barBtnSync;
+    IBOutlet UIBarButtonItem *barBtnAdd;
     
     IBOutlet UIView *viewAddCourt;
     IBOutlet UIButton *btnAddCourt;

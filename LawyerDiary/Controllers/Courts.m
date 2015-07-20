@@ -10,16 +10,24 @@
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
 #import "CourtDetail.h"
 #import "Court.h"
+#import "SVPullToRefresh.h"
 
 @interface Courts ()
+{
+    NSInteger indexOlder;
+    NSInteger indexNewer;
+    BOOL isRequestForOlder;
+}
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) NSMutableArray *arrCourts;
+@property (nonatomic, strong) NSMutableArray *arrIndexPaths;
 @property (nonatomic) CGRect originalFrame;
 @end
 
 @implementation Courts
 
 @synthesize arrCourts;
+@synthesize arrIndexPaths;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,9 +38,9 @@
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
-    [btnAddCourt setBackgroundColor:APP_TINT_COLOR];
-    [btnAddCourt setTintColor:WHITE_COLOR];
-    [btnAddCourt setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_btn_add, kImageRenderModeTemplate) forState:UIControlStateNormal];
+//    [btnAddCourt setBackgroundColor:APP_TINT_COLOR];
+//    [btnAddCourt setTintColor:WHITE_COLOR];
+//    [btnAddCourt setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_btn_add, kImageRenderModeTemplate) forState:UIControlStateNormal];
     
     [Global applyCornerRadiusToViews:@[btnAddCourt] withRadius:ViewHeight(btnAddCourt)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
     
@@ -44,75 +52,149 @@
     [self.spinnerView setTintColor:APP_TINT_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
+    
+    [Court deleteCourtsForUser:USER_ID];
+    
+    arrCourts = [[NSMutableArray alloc] init];
+    
+    __weak Courts *weakSelf = self;
+    
+    // setup pull-to-refresh
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [weakSelf insertRowsAtTop];
+    }];
+    
+    // setup infinite scrolling
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf insertRowsAtBottom];
+    }];
+    
+//    [self loadCourts];
+    [self showSpinner:YES withError:NO];
+    [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self loadCourts];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.originalFrame = viewAddCourt.frame;
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated: YES];
+//    self.originalFrame = viewAddCourt.frame;
 }
 
-- (void)fetchCourts
+- (void)fetchCourts:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            [self showSpinner:YES withError:NO];
+            isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
+            if (pagingPriority != kPriorityInitial) {
+                if (isRequestForOlder) {
+                    Court *objCort = [arrCourts lastObject];
+                    indexOlder = objCort.courtId.integerValue;
+                }
+                else {
+                    Court *objCort = [arrCourts firstObject];
+                    indexNewer = objCort.courtId.integerValue;
+                }
+            }
             
             NSDictionary *params = @{
                                      kAPIMode: kloadCourts,
-                                     kAPIuserId: USER_ID
+                                     kAPIuserId: USER_ID,
+                                     kAPIisBefore: pagingPriority == kPriorityNewer ? @1 : @0,
+                                     kAPIindex: pagingPriority == kPriorityInitial ? @0 : (pagingPriority == kPriorityNewer ? @(indexNewer) : @(indexOlder)),
+                                     kAPIoffset: @10
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
-                [self showSpinner:NO withError:NO];
-                
                 if (responseObject == nil) {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    if (arrCourts.count > 0) {
+                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
+                        
+                        [self showSpinner:NO withError:NO];
+                    }
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Court deleteCourtsForUser:USER_ID];
-                        for (NSDictionary *courtObj in [responseObject valueForKey:kAPIcourData]) {
-                            [Court saveCourt:courtObj forUser:USER_ID];
+                        
+                        NSMutableArray *arrCourt = [[NSMutableArray alloc] init];
+                        if (!arrIndexPaths) {
+                            arrIndexPaths = [[NSMutableArray alloc] init];
                         }
                         
-                        NSArray *arrCourt = [responseObject valueForKey:kAPIcourData];
-                        if (arrCourt.count > 0) {
-                            [arrCourts removeAllObjects];
-                            [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
+                        [arrIndexPaths removeAllObjects];
+                        
+                        NSArray *arrCourtObj = [responseObject valueForKey:kAPIcourData];
+                        
+                        if (arrCourtObj.count > 0) {
+                            for (NSDictionary *courtObj in [responseObject valueForKey:kAPIcourData]) {
+                                Court *objCourt = [Court saveCourt:courtObj forUser:USER_ID];
+                                [arrCourt addObject:objCourt];
+                            }
+                            
+                            NSInteger totalArrCount = arrCourts.count + arrCourt.count;
+                            
+                            NSInteger startIndex = isRequestForOlder ? arrCourts.count : 0;
+                            NSInteger endIndex = isRequestForOlder ? totalArrCount : arrCourt.count;
+                            
+                            for (NSInteger i = startIndex; i < endIndex; i++) {
+                                [arrCourts insertObject:isRequestForOlder ? arrCourt[i-startIndex] : arrCourt[i] atIndex:i];
+                                
+                                [arrIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                            }
+                            
+                            [self showSpinner:NO withError:NO];
                         }
                         else {
-                            [Global showNotificationWithTitle:arrCourts.count > 0 ? @"All Courts Loaded!" : @"No Courts to show!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            
+                            if (arrCourts.count > 0) {
+                                [Global showNotificationWithTitle:@"All Courts Loaded!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            }
+                            else {
+                                [lblErrorMsg setText:@"No Courts found."];
+                                
+                                [self showSpinner:NO withError:NO];
+                            }
                         }
-                        [self.tableView reloadData];
-                        
                     }
                 }
+                completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
                 [self showSpinner:NO withError:YES];
                 
+                NSString *strMsg;
+                
                 if (error.code == kCFURLErrorTimedOut) {
-                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kREQUEST_TIME_OUT;
                 }
                 else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kCHECK_INTERNET;
                 }
                 else {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kSOMETHING_WENT_WRONG;
+                }
+                
+                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                if (arrCourts.count > 0) {
+                    [self.tableView setHidden:NO];
+                    [lblErrorMsg setHidden:YES];
                 }
             }];
         }
@@ -137,7 +219,9 @@
     [arrCourts removeAllObjects];
     [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
     if (arrCourts.count == 0) {
-        [self fetchCourts];
+        [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+            
+        }];
     }
     [self.tableView reloadData];
 }
@@ -150,7 +234,7 @@
         [viewAddCourt setHidden:YES];
         [self.spinnerView startAnimating];
         
-        [self.navigationItem setRightBarButtonItem:nil];
+//        [self.navigationItem setRightBarButtonItem:nil];
     }
     else {
         if (errorFlag) {
@@ -166,9 +250,37 @@
         
         [self.spinnerView stopAnimating];
         
-        [self.navigationItem setRightBarButtonItem:barBtnSync];
+//        [self.navigationItem setRightBarButtonItem:barBtnSync];
     }
 }
+
+- (void)insertRowsAtTop {
+    
+    [self fetchCourts:kPriorityNewer withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.pullToRefreshView stopAnimating];
+    }];
+}
+
+
+- (void)insertRowsAtBottom {
+    
+    [self fetchCourts:kPriorityOlder withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.infiniteScrollingView stopAnimating];
+    }];
+}
+
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
@@ -176,9 +288,9 @@
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
-- (IBAction)barBtnSyncTaped:(id)sender
+- (IBAction)barBtnAddTaped:(id)sender
 {
-    [self fetchCourts];
+    
 }
 
 - (IBAction)btnAddTaped:(id)sender
@@ -296,13 +408,13 @@
 #pragma mark - UIScrollViewDelegate
 #pragma mark -
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSInteger yOffset = scrollView.contentOffset.y;
-    if (yOffset > 0) {
-        viewAddCourt.frame = CGRectMake(viewAddCourt.frame.origin.x, self.originalFrame.origin.y + yOffset, viewAddCourt.frame.size.width, viewAddCourt.frame.size.height);
-    }
-    if (yOffset < 1) viewAddCourt.frame = self.originalFrame;
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSInteger yOffset = scrollView.contentOffset.y;
+//    if (yOffset > 0) {
+//        viewAddCourt.frame = CGRectMake(viewAddCourt.frame.origin.x, self.originalFrame.origin.y + yOffset, viewAddCourt.frame.size.width, viewAddCourt.frame.size.height);
+//    }
+//    if (yOffset < 1) viewAddCourt.frame = self.originalFrame;
+//}
 
 #pragma mark - Memory Management
 #pragma mark -

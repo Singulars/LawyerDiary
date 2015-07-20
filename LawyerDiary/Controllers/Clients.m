@@ -26,12 +26,13 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 };
 @interface Clients ()
 {
-    UITextField *activeTextField;
-    BOOL isPickerVisible;
-    
+    NSInteger indexOlder;
+    NSInteger indexNewer;
+    BOOL isRequestForOlder;
 }
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) NSMutableArray *arrClients;
+@property (nonatomic, strong) NSMutableArray *arrIndexPaths;
 @property (nonatomic) CGRect originalFrame;
 
 @end
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 @implementation Clients
 
 @synthesize arrClients;
+@synthesize arrIndexPaths;
 
 #pragma mark - ViewLifeCycle
 #pragma mark -
@@ -55,7 +57,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [btnAddClient setTintColor:WHITE_COLOR];
     [btnAddClient setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_btn_add, kImageRenderModeTemplate) forState:UIControlStateNormal];
     
-    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
+//    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -65,31 +67,67 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [self.spinnerView setTintColor:APP_TINT_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
+    
+    [Client deleteCientsForUser:USER_ID];
+    
+    arrClients = [[NSMutableArray alloc] init];
+    
+    __weak Clients *weakSelf = self;
+    
+    // setup pull-to-refresh
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [weakSelf insertRowsAtTop];
+    }];
+    
+    // setup infinite scrolling
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf insertRowsAtBottom];
+    }];
+    
+    //    [self loadCourts];
+    [self showSpinner:YES withError:NO];
+    [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self loadClients];
+//    [self loadClients];
 }
 
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.originalFrame = viewAddClient.frame;
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated: YES];
+//    self.originalFrame = viewAddClient.frame;
 }
 
-- (void)fetchClients
+- (void)fetchClients:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            [self showSpinner:YES withError:NO];
+            isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
+            if (pagingPriority != kPriorityInitial) {
+                if (isRequestForOlder) {
+                    Client *objClient = [arrClients lastObject];
+                    indexOlder = objClient.clientId.integerValue;
+                }
+                else {
+                    Client *objClient = [arrClients firstObject];
+                    indexNewer = objClient.clientId.integerValue;
+                }
+            }
             
             NSDictionary *params = @{
                                      kAPIMode: kloadClients,
-                                     kAPIuserId: USER_ID
+                                     kAPIuserId: USER_ID,
+                                     kAPIisBefore: pagingPriority == kPriorityNewer ? @1 : @0,
+                                     kAPIindex: pagingPriority == kPriorityInitial ? @0 : (pagingPriority == kPriorityNewer ? @(indexNewer) : @(indexOlder)),
+                                     kAPIoffset: @10
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -97,30 +135,63 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 [self showSpinner:NO withError:NO];
                 
                 if (responseObject == nil) {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    if (arrClients.count > 0) {
+                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
+                        
+                        [self showSpinner:NO withError:NO];
+                    }
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Client deleteCientsForUser:USER_ID];
-                        for (NSDictionary *clientObj in [responseObject valueForKey:kAPIclientData]) {
-                            [Client saveClient:clientObj forUser:USER_ID];
+                        
+                        NSMutableArray *arrClient = [[NSMutableArray alloc] init];
+                        if (!arrIndexPaths) {
+                            arrIndexPaths = [[NSMutableArray alloc] init];
                         }
                         
-                        NSArray *arrCourt = [responseObject valueForKey:kAPIclientData];
-                        if (arrCourt.count > 0) {
-                            [arrClients removeAllObjects];
-                            [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
+                        [arrIndexPaths removeAllObjects];
+                        
+                        NSArray *arrClinetObj = [responseObject valueForKey:kAPIclientData];
+                        
+                        if (arrClinetObj.count > 0) {
+                            for (NSDictionary *clientObj in [responseObject valueForKey:kAPIclientData]) {
+                                Client *objClient = [Client saveClient:clientObj forUser:USER_ID];
+                                [arrClient addObject:objClient];
+                            }
+                            
+                            NSInteger totalArrCount = arrClients.count + arrClient.count;
+                            
+                            NSInteger startIndex = isRequestForOlder ? arrClients.count : 0;
+                            NSInteger endIndex = isRequestForOlder ? totalArrCount : arrClient.count;
+                            
+                            for (NSInteger i = startIndex; i < endIndex; i++) {
+                                [arrClients insertObject:isRequestForOlder ? arrClient[i-startIndex] : arrClient[i] atIndex:i];
+                                
+                                [arrIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                            }
+                            
+                            [self showSpinner:NO withError:NO];
                         }
                         else {
-                            [Global showNotificationWithTitle:arrClients.count > 0 ? @"All Clients Loaded!" : @"No Clients to show!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            
+                            if (arrClients.count > 0) {
+                                [Global showNotificationWithTitle:@"All Clients Loaded!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            }
+                            else {
+                                [lblErrorMsg setText:@"No Clients found."];
+                                
+                                [self showSpinner:NO withError:NO];
+                            }
                         }
-                        [self.tableView reloadData];
-                        
                     }
                 }
+                completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
@@ -150,6 +221,33 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }
 }
 
+- (void)insertRowsAtTop {
+    
+    [self fetchClients:kPriorityNewer withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.pullToRefreshView stopAnimating];
+    }];
+}
+
+
+- (void)insertRowsAtBottom {
+    
+    [self fetchClients:kPriorityOlder withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.infiniteScrollingView stopAnimating];
+    }];
+}
+
 - (void)loadClients
 {
     if (!arrClients) {
@@ -158,7 +256,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [arrClients removeAllObjects];
     [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
     if (arrClients.count == 0) {
-        [self fetchClients];
+//        [self fetchClients];
     }
     [self.tableView reloadData];
 }
@@ -170,7 +268,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         [viewAddClient setHidden:YES];
         [self.spinnerView startAnimating];
         
-        [self.navigationItem setRightBarButtonItem:nil];
+//        [self.navigationItem setRightBarButtonItem:nil];
     }
     else {
         if (errorFlag) {
@@ -186,7 +284,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         
         [self.spinnerView stopAnimating];
         
-        [self.navigationItem setRightBarButtonItem:barBtnSync];
+//        [self.navigationItem setRightBarButtonItem:barBtnSync];
     }
 }
 #pragma mark - Actions
@@ -196,9 +294,9 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
-- (IBAction)barBtnSyncTaped:(id)sender
+- (IBAction)barBtnAddTaped:(id)sender
 {
-    [self fetchClients];
+
 }
 
 - (IBAction)btnAddTaped:(id)sender
@@ -316,13 +414,13 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 #pragma mark - UIScrollViewDelegate
 #pragma mark -
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSInteger yOffset = scrollView.contentOffset.y;
-    if (yOffset > 0) {
-        viewAddClient.frame = CGRectMake(viewAddClient.frame.origin.x, self.originalFrame.origin.y + yOffset, viewAddClient.frame.size.width, viewAddClient.frame.size.height);
-    }
-    if (yOffset < 1) viewAddClient.frame = self.originalFrame;
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSInteger yOffset = scrollView.contentOffset.y;
+//    if (yOffset > 0) {
+//        viewAddClient.frame = CGRectMake(viewAddClient.frame.origin.x, self.originalFrame.origin.y + yOffset, viewAddClient.frame.size.width, viewAddClient.frame.size.height);
+//    }
+//    if (yOffset < 1) viewAddClient.frame = self.originalFrame;
+//}
 
 #pragma mark - Memory Management
 #pragma mark -

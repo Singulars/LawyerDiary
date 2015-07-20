@@ -12,7 +12,7 @@
 @interface Clients : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
-    IBOutlet UIBarButtonItem *barBtnSync;
+    IBOutlet UIBarButtonItem *barBtnAdd;
     
     IBOutlet UIView *viewAddClient;
     IBOutlet UIButton *btnAddClient;

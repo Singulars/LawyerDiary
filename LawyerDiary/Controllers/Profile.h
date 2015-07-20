@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FFTextField.h"
+#import "UIPlaceHolderTextView.h"
 
 @interface Profile : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate>
 {
@@ -33,7 +34,7 @@
     IBOutlet FFTextField *tfCurrentPass;
     IBOutlet FFTextField *tfNewPass;
     IBOutlet UILabel *lblChnagePass;
-    IBOutlet UITextView *tvAddress;
+    IBOutlet UIPlaceHolderTextView *tvAddress;
     IBOutlet UIImageView *imgViewRowDisclosure;
     
     IBOutlet UIButton *btnDone;

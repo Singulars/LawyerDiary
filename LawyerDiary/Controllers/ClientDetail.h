@@ -25,7 +25,7 @@
     IBOutlet FFTextField *tfMobile;
     IBOutlet FFTextField *tfEmail;
     
-    IBOutlet UITextView *tvAddress;
+    IBOutlet UIPlaceHolderTextView *tvAddress;
     
     IBOutlet UIBarButtonItem *barBtnDone;
     IBOutlet UIToolbar *toolbar;

@@ -77,6 +77,9 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [tfRegNo setTag:kTagRegNo];
     [tvAddress setTag:kTagAdress];
     
+    [tvAddress setPlaceholder:@"Address"];
+    [tvAddress setPlaceholderColor:Placeholder_Text_Color];
+    
     [pickerBirthdate setMaximumDate:[NSDate date]];
     
     [imgViewRowDisclosure setTintColor:APP_TINT_COLOR];
@@ -138,9 +141,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         
         [self setTitle:NSStringf(@"%@ %@", USER_OBJECT.firstName, USER_OBJECT.lastName)];
         
-        [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
-        
-        isImageSet = [Global isImageExist:USER_OBJECT.proPic];
+        if (!isImageSet) {
+            [imgViewProPic setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(USER_OBJECT.userId)] placeholderImage:image_placeholder_80];
+            
+//            isImageSet = [Global isImageExist:USER_OBJECT.proPic];
+        }
     }
     @catch (NSException *exception) {
         NSLog(@"Execption => %@", [exception debugDescription]);

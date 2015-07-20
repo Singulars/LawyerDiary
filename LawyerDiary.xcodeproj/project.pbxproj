@@ -32,7 +32,10 @@
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
+		C0380BA21B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = C0380B9F1B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m */; };
+		C0380BA31B49D712003177FA /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = C0380BA11B49D712003177FA /* UIScrollView+SVPullToRefresh.m */; };
 		C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = C03D2ED91AFA9BE40000665E /* Profile.m */; };
+		C05382CC1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C05382CB1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m */; };
 		C054AD711AE42A8400DA9CF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */; };
 		C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8DF1B2852E4007BD697 /* ClientDetail.m */; };
 		C05CF8E31B285411007BD697 /* ClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8E21B285411007BD697 /* ClientCell.m */; };
@@ -126,8 +129,15 @@
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		C037665A1AE9768500ACA623 /* NSDictionary+SJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+SJSONString.h"; sourceTree = "<group>"; };
 		C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+SJSONString.m"; sourceTree = "<group>"; };
+		C0380B9D1B49D712003177FA /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
+		C0380B9E1B49D712003177FA /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
+		C0380B9F1B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
+		C0380BA01B49D712003177FA /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
+		C0380BA11B49D712003177FA /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		C03D2ED81AFA9BE40000665E /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
 		C03D2ED91AFA9BE40000665E /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		C05382CA1B5CD1C5000B26A0 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
+		C05382CB1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C05CF8DE1B2852E4007BD697 /* ClientDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetail.h; sourceTree = "<group>"; };
 		C05CF8DF1B2852E4007BD697 /* ClientDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetail.m; sourceTree = "<group>"; };
@@ -275,6 +285,7 @@
 		9D64BD681AE2F87B001230C0 /* Supporting Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C0380B9C1B49D712003177FA /* SVPullToRefresh */,
 				C0DCAAFF1B282B6000A2335F /* ClusterPrePermissions */,
 				C07CEC1D1AF21A730058C25C /* CRToast */,
 				9D64BD921AE30537001230C0 /* Constant.h */,
@@ -294,6 +305,8 @@
 				9D64BD861AE30521001230C0 /* UIImage+ImageEffects.m */,
 				9D64BD871AE30521001230C0 /* UITextField+Shake.h */,
 				9D64BD881AE30521001230C0 /* UITextField+Shake.m */,
+				C05382CA1B5CD1C5000B26A0 /* UIPlaceHolderTextView.h */,
+				C05382CB1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m */,
 				9D64BD731AE304BB001230C0 /* Reachability */,
 				C03766571AE96F8900ACA623 /* NetworkManager.h */,
 				C03766581AE96F8900ACA623 /* NetworkManager.m */,
@@ -339,6 +352,18 @@
 				9D64BD751AE304BB001230C0 /* Reachability.m */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		C0380B9C1B49D712003177FA /* SVPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				C0380B9D1B49D712003177FA /* SVPullToRefresh.h */,
+				C0380B9E1B49D712003177FA /* UIScrollView+SVInfiniteScrolling.h */,
+				C0380B9F1B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m */,
+				C0380BA01B49D712003177FA /* UIScrollView+SVPullToRefresh.h */,
+				C0380BA11B49D712003177FA /* UIScrollView+SVPullToRefresh.m */,
+			);
+			path = SVPullToRefresh;
 			sourceTree = "<group>";
 		};
 		C07572E71AE2F2B40017E0F9 = {
@@ -617,7 +642,10 @@
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
+				C0380BA31B49D712003177FA /* UIScrollView+SVPullToRefresh.m in Sources */,
+				C0380BA21B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
+				C05382CC1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m in Sources */,
 				C064282C1B43293E001FB5C0 /* Court.m in Sources */,
 				9DA282961AECE48100024121 /* ClientCases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
