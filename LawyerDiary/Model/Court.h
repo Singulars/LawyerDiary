@@ -27,15 +27,6 @@ typedef NS_ENUM(NSUInteger, CourtProperty) {
 @property (nonatomic, retain) NSNumber * localCourtId;
 @property (nonatomic, retain) NSString * megistrateName;
 @property (nonatomic, retain) NSNumber * userId;
-@property (nonatomic, retain) NSSet *caseDetails;
-@end
-
-@interface Court (CoreDataGeneratedAccessors)
-
-- (void)addCaseDetailsObject:(NSManagedObject *)value;
-- (void)removeCaseDetailsObject:(NSManagedObject *)value;
-- (void)addCaseDetails:(NSSet *)values;
-- (void)removeCaseDetails:(NSSet *)values;
 
 + (Court *)saveCourt:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
 + (BOOL)updatedCourtPropertyofCourt:(Court *)courtObj withProperty:(CourtProperty)property andValue:(NSNumber *)propertyValue;

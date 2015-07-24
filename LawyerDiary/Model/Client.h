@@ -30,21 +30,12 @@ typedef NS_ENUM(NSUInteger, ClientProperty) {
 @property (nonatomic, retain) NSNumber * isSynced;
 @property (nonatomic, retain) NSNumber * taskPlannerId;
 @property (nonatomic, retain) NSNumber * isTaskPlanner;
-@property (nonatomic, retain) NSSet *caseDetails;
-@end
-
-@interface Client (CoreDataGeneratedAccessors)
-
-- (void)addCaseDetailsObject:(Cases *)value;
-- (void)removeCaseDetailsObject:(Cases *)value;
-- (void)addCaseDetails:(NSSet *)values;
-- (void)removeCaseDetails:(NSSet *)values;
 
 + (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
 + (BOOL)updatedClientPropertyofClient:(Client *)clientObj withProperty:(ClientProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteClient:(NSNumber *)clientId;
 + (BOOL)deleteCientsForUser:(NSNumber *)userId;
 + (Client *)fetchClient:(NSNumber *)clientId;
-+ (NSArray *)fetchClients:(NSNumber *)clientId;
++ (NSArray *)fetchClients:(NSNumber *)userId;
 
 @end

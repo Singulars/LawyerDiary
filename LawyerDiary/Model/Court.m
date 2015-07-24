@@ -21,7 +21,6 @@
 @dynamic localCourtId;
 @dynamic megistrateName;
 @dynamic userId;
-@dynamic caseDetails;
 
 + (NSNumber *)generateID {
     

@@ -53,7 +53,7 @@
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
-    [Court deleteCourtsForUser:USER_ID];
+//    [Court deleteCourtsForUser:USER_ID];
     
     arrCourts = [[NSMutableArray alloc] init];
     
@@ -70,10 +70,14 @@
     }];
     
 //    [self loadCourts];
-    [self showSpinner:YES withError:NO];
-    [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
-        [self.tableView reloadData];
-    }];
+    
+    if (arrCourts.count == 0) {
+        [self showSpinner:YES withError:NO];
+        
+        [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+            [self.tableView reloadData];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,16 +98,36 @@
         @try {
             
             isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
-            if (pagingPriority != kPriorityInitial) {
-                if (isRequestForOlder) {
-                    Court *objCort = [arrCourts lastObject];
-                    indexOlder = objCort.courtId.integerValue;
+            
+            switch (pagingPriority) {
+                case kPriorityInitial: {
+                    
                 }
-                else {
+                    break;
+                case kPriorityNewer: {
                     Court *objCort = [arrCourts firstObject];
                     indexNewer = objCort.courtId.integerValue;
                 }
+                    break;
+                case kPriorityOlder: {
+                    Court *objCort = [arrCourts lastObject];
+                    indexOlder = objCort.courtId.integerValue;
+                }
+                    break;
+                default:
+                    break;
             }
+            
+//            if (pagingPriority != kPriorityInitial) {
+//                if (isRequestForOlder) {
+//                    Court *objCort = [arrCourts lastObject];
+//                    indexOlder = objCort.courtId.integerValue;
+//                }
+//                else {
+//                    Court *objCort = [arrCourts firstObject];
+//                    indexNewer = objCort.courtId.integerValue;
+//                }
+//            }
             
             NSDictionary *params = @{
                                      kAPIMode: kloadCourts,

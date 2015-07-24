@@ -398,6 +398,19 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPImegistrateName                  @"megistrateName"
 #define kAPIdateTime                        @"dateTime"
 
+
+#define kAPIlocalCaseId                     @"localCaseId"
+#define kAPIcaseId                          @"caseId"
+#define kAPIcaseNo                          @"caseNo"
+#define kAPIlastHeardDate                   @"lastHeardDate"
+#define kAPInextHearingDate                 @"nextHearingDate"
+#define kAPIcaseStatus                      @"caseStatus"
+#define kAPIisCaseDeleted                   @"isCaseDeleted"
+
+#define kAPIoppositionLawyerName            @"oppositionLawyerName"
+#define kAPIoppositionFirstName             @"oppositionFirstName"
+#define kAPIoppositionLastName              @"oppositionLastName"
+
 #define kAPItaskPlannerId                   @"taskPlannerId"
 #define kAPIisTaskPlanner                   @"isTaskPlanner"
 
@@ -410,6 +423,7 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kAPIcourData                        @"courtData"
 #define kAPIclientData                      @"clientData"
+#define kAPIcaseList                        @"caseList"
 
 #define kAPIindex                           @"index"
 #define kAPIoffset                          @"offset"
@@ -422,8 +436,10 @@ otherButtonTitles:@"OK", nil] show];
 #define kforgotPassword                     @"forgotPassword"
 #define ksyncContacts                       @"syncContacts"
 #define kloadCourts                         @"loadCourts"
+#define kloadCase                           @"loadCase"
 #define ksaveCourt                          @"saveCourt"
 #define kdeleteCourt                        @"deleteCourt"
+#define kdeleteCase                         @"deleteCase"
 #define kupdateProfile                      @"updateProfile"
 #define kloadClients                        @"loadClients"
 #define ksaveClient                         @"saveClient"
@@ -464,6 +480,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kUser                               @"User"
 #define kClient                             @"Client"
 #define kCourt                              @"Court"
+#define kCases                              @"Cases"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

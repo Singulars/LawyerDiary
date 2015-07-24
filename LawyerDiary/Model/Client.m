@@ -24,7 +24,6 @@
 @dynamic isTaskPlanner;
 @dynamic isClientDeleted;
 @dynamic isSynced;
-@dynamic caseDetails;
 
 + (NSNumber *)generateID {
     
@@ -43,7 +42,7 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Client *obj = [self fetchClientLocally:[dataDict objectForKey:kAPIrandom]];
+        Client *obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
         
 //        if ([dataDict objectForKey:kAPIclientId]) {
 //            obj = [self fetchClient:[dataDict objectForKey:kAPIcourtId]];

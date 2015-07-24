@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ClientCases : UIViewController
+@interface ClientCases : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
+    IBOutlet UILabel *lblErrorMsg;
+    IBOutlet UIBarButtonItem *barBtnAdd;
+    
+    IBOutlet UIView *viewAddClient;
+}
+
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @end

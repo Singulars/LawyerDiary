@@ -53,12 +53,6 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
     
-    [btnAddClient setBackgroundColor:APP_TINT_COLOR];
-    [btnAddClient setTintColor:WHITE_COLOR];
-    [btnAddClient setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(IMG_btn_add, kImageRenderModeTemplate) forState:UIControlStateNormal];
-    
-//    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
-    
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
@@ -68,7 +62,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
-    [Client deleteCientsForUser:USER_ID];
+//    [Client deleteCientsForUser:USER_ID];
     
     arrClients = [[NSMutableArray alloc] init];
     
@@ -85,16 +79,19 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }];
     
     //    [self loadCourts];
-    [self showSpinner:YES withError:NO];
-    [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
-        [self.tableView reloadData];
-    }];
+    
+    if (arrClients.count == 0) {
+        [self showSpinner:YES withError:NO];
+        
+        [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+            [self.tableView reloadData];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self loadClients];
 }
 
 
@@ -111,16 +108,37 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         @try {
             
             isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
-            if (pagingPriority != kPriorityInitial) {
-                if (isRequestForOlder) {
-                    Client *objClient = [arrClients lastObject];
-                    indexOlder = objClient.clientId.integerValue;
+            
+            switch (pagingPriority) {
+                case kPriorityInitial: {
+                    
                 }
-                else {
+                    break;
+                case kPriorityNewer: {
                     Client *objClient = [arrClients firstObject];
                     indexNewer = objClient.clientId.integerValue;
                 }
+                    break;
+                case kPriorityOlder: {
+                    Client *objClient = [arrClients lastObject];
+                    indexOlder = objClient.clientId.integerValue;
+                }
+                    break;
+                default:
+                    break;
             }
+
+            
+//            if (pagingPriority != kPriorityInitial) {
+//                if (isRequestForOlder) {
+//                    Client *objClient = [arrClients lastObject];
+//                    indexOlder = objClient.clientId.integerValue;
+//                }
+//                else {
+//                    Client *objClient = [arrClients firstObject];
+//                    indexNewer = objClient.clientId.integerValue;
+//                }
+//            }
             
             NSDictionary *params = @{
                                      kAPIMode: kloadClients,

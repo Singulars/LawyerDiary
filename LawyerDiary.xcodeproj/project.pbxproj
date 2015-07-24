@@ -29,6 +29,8 @@
 		9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E51D1AE3CC99001060F4 /* Home.m */; };
 		9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5201AE3D4A5001060F4 /* Register.m */; };
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
+		C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9F91B612C02000247F0 /* ChooseCourt.m */; };
+		C010C9FD1B61499A000247F0 /* CaseCourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9FC1B61499A000247F0 /* CaseCourtCell.m */; };
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
@@ -40,6 +42,9 @@
 		C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8DF1B2852E4007BD697 /* ClientDetail.m */; };
 		C05CF8E31B285411007BD697 /* ClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C05CF8E21B285411007BD697 /* ClientCell.m */; };
 		C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = C060C2251AF66FD0009BA8B4 /* CourtDetail.m */; };
+		C062CBB11B5ED5CF00F46729 /* CaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C062CBB01B5ED5CF00F46729 /* CaseCell.m */; };
+		C062CBB41B5EE4BC00F46729 /* ChooseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C062CBB31B5EE4BC00F46729 /* ChooseClient.m */; };
+		C062CBB71B5EE4E500F46729 /* CaseClientCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C062CBB61B5EE4E500F46729 /* CaseClientCell.m */; };
 		C064282A1B43293E001FB5C0 /* Cases.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428251B43293E001FB5C0 /* Cases.m */; };
 		C064282B1B43293E001FB5C0 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428271B43293E001FB5C0 /* Client.m */; };
 		C064282C1B43293E001FB5C0 /* Court.m in Sources */ = {isa = PBXBuildFile; fileRef = C06428291B43293E001FB5C0 /* Court.m */; };
@@ -58,6 +63,7 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
+		C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3C6541B6174C6008D5217 /* EditCase.m */; };
 		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
 		C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */; };
@@ -124,6 +130,10 @@
 		9DE1E5201AE3D4A5001060F4 /* Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Register.m; sourceTree = "<group>"; };
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
+		C010C9F81B612C02000247F0 /* ChooseCourt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCourt.h; sourceTree = "<group>"; };
+		C010C9F91B612C02000247F0 /* ChooseCourt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCourt.m; sourceTree = "<group>"; };
+		C010C9FB1B61499A000247F0 /* CaseCourtCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseCourtCell.h; sourceTree = "<group>"; };
+		C010C9FC1B61499A000247F0 /* CaseCourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCourtCell.m; sourceTree = "<group>"; };
 		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
@@ -145,6 +155,12 @@
 		C05CF8E21B285411007BD697 /* ClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCell.m; sourceTree = "<group>"; };
 		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
 		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
+		C062CBAF1B5ED5CF00F46729 /* CaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseCell.h; sourceTree = "<group>"; };
+		C062CBB01B5ED5CF00F46729 /* CaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCell.m; sourceTree = "<group>"; };
+		C062CBB21B5EE4BC00F46729 /* ChooseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseClient.h; sourceTree = "<group>"; };
+		C062CBB31B5EE4BC00F46729 /* ChooseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseClient.m; sourceTree = "<group>"; };
+		C062CBB51B5EE4E500F46729 /* CaseClientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseClientCell.h; sourceTree = "<group>"; };
+		C062CBB61B5EE4E500F46729 /* CaseClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseClientCell.m; sourceTree = "<group>"; };
 		C06428241B43293E001FB5C0 /* Cases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cases.h; sourceTree = "<group>"; };
 		C06428251B43293E001FB5C0 /* Cases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cases.m; sourceTree = "<group>"; };
 		C06428261B43293E001FB5C0 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -172,6 +188,8 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
+		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
+		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
@@ -221,6 +239,12 @@
 				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
 				9DA282941AECE48000024121 /* ClientCases.h */,
 				9DA282951AECE48000024121 /* ClientCases.m */,
+				C062CBB21B5EE4BC00F46729 /* ChooseClient.h */,
+				C062CBB31B5EE4BC00F46729 /* ChooseClient.m */,
+				C010C9F81B612C02000247F0 /* ChooseCourt.h */,
+				C010C9F91B612C02000247F0 /* ChooseCourt.m */,
+				C0D3C6531B6174C6008D5217 /* EditCase.h */,
+				C0D3C6541B6174C6008D5217 /* EditCase.m */,
 				9DA2829D1AECFE3A00024121 /* Clients.h */,
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
@@ -328,10 +352,16 @@
 			children = (
 				9DA282971AECF9FC00024121 /* DrawerCell.h */,
 				9DA282981AECF9FC00024121 /* DrawerCell.m */,
+				C062CBAF1B5ED5CF00F46729 /* CaseCell.h */,
+				C062CBB01B5ED5CF00F46729 /* CaseCell.m */,
 				C067C0551AF40736004FE159 /* CourtCell.h */,
 				C067C0561AF40736004FE159 /* CourtCell.m */,
 				C05CF8E11B285411007BD697 /* ClientCell.h */,
 				C05CF8E21B285411007BD697 /* ClientCell.m */,
+				C062CBB51B5EE4E500F46729 /* CaseClientCell.h */,
+				C062CBB61B5EE4E500F46729 /* CaseClientCell.m */,
+				C010C9FB1B61499A000247F0 /* CaseCourtCell.h */,
+				C010C9FC1B61499A000247F0 /* CaseCourtCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -629,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */,
+				C062CBB41B5EE4BC00F46729 /* ChooseClient.m in Sources */,
 				C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */,
 				C064282B1B43293E001FB5C0 /* Client.m in Sources */,
 				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
@@ -637,6 +668,7 @@
 				9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */,
 				C05CF8E31B285411007BD697 /* ClientCell.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
+				C062CBB11B5ED5CF00F46729 /* CaseCell.m in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				C064282A1B43293E001FB5C0 /* Cases.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
@@ -651,14 +683,18 @@
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
+				C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */,
+				C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				C067C0571AF40736004FE159 /* CourtCell.m in Sources */,
 				C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */,
+				C062CBB71B5EE4E500F46729 /* CaseClientCell.m in Sources */,
 				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
 				C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,
+				C010C9FD1B61499A000247F0 /* CaseCourtCell.m in Sources */,
 				C07573001AE2F2B40017E0F9 /* main.m in Sources */,
 				9D64BD8C1AE30521001230C0 /* ManagedObjectCloner.m in Sources */,
 				9D64BD911AE30521001230C0 /* UITextField+Shake.m in Sources */,
