@@ -54,24 +54,33 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 //    else if (_viewType == SIGN_UP_VIEW) {
 //        [navItem setTitle:@"Sign Up"];
 //    }
-    [navItem setTitle:@"Register"];
+    [navItem setTitle:@"Register an account"];
     
     navBar = [[UINavigationBar alloc] init];
     [navBar setFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
-    [navBar setBarTintColor:APP_TINT_COLOR];
+//    [navBar setBarTintColor:APP_TINT_COLOR];
     [navBar setTranslucent:NO];
     [navBar setDelegate:self];
+//    [navBar setShadowImage:[UIImage new]];
+    
+    UIImage *navBarImage;
+    navBarImage = [[UIImage imageWithColor:WHITE_COLOR] resizableImageWithCapInsets:UIEdgeInsetsZero resizingMode:UIImageResizingModeStretch];
+    
+    [navBar setBackgroundImage:navBarImage forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+    
     [self.view addSubview:navBar];
     
     [navItem setRightBarButtonItem:barBtnClose];
     
-    [navBar setItems:@[navItem] animated:YES];
-    [navBar setTitleTextAttributes:[Global getTextAttributesForFont:APP_FONT fontSize:20 fontColor:WHITE_COLOR strokeColor:CLEAR_COLOR]];
-    [navBar setTintColor:WHITE_COLOR];
+    [barBtnClose setTintColor:BLACK_COLOR];
     
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [self setUpView];
-    }
+    [navBar setItems:@[navItem] animated:YES];
+    [navBar setTitleTextAttributes:[Global getTextAttributesForFont:APP_FONT fontSize:20 fontColor:BLACK_COLOR strokeColor:CLEAR_COLOR]];
+    [navBar setTintColor:BLACK_COLOR];
+    
+//    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+//        [self setUpView];
+//    }
     
     [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:35 borderColor:APP_TINT_COLOR andBorderWidth:1.5];
     
@@ -100,7 +109,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [btnLogin setTitle:@"Log in" forState:UIControlStateNormal];
     [btnLogin setTitle:@"Loging in" forState:UIControlStateSelected];
     
-    [btnSignup setTitle:@"Continue" forState:UIControlStateNormal];
+    [btnSignup setTitle:@"Register" forState:UIControlStateNormal];
     [btnSignup setTitle:@"Registering" forState:UIControlStateSelected];
     
     
@@ -123,7 +132,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 {
     [super viewDidAppear:animated];
     
-    SetStatusBarLightContent(YES);
+//    SetStatusBarLightContent(YES);
     [self setNeedsStatusBarAppearanceUpdate];
     
     // fixing bug for entering view
@@ -376,7 +385,9 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateNormal];
             [btnForgotPass setTitle:@"Forgot password?" forState:UIControlStateHighlighted];
             
-            [Global applyPropertiesToButtons:@[btnSignup] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+//            [Global applyPropertiesToButtons:@[btnSignup] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+            
+            [btnSignup.titleLabel setFont:FONT_WITH_NAME_SIZE(APP_FONT, 24)];
             
             [Global applyPropertiesToButtons:@[btnLogin, btnForgotPass] likeFont:APP_FONT fontSize:17 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
             
@@ -481,7 +492,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 - (IBAction)barBtnCloseTaped:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        SetStatusBarLightContent(NO);
+//        SetStatusBarLightContent(NO);
     }];
 }
 
@@ -1165,7 +1176,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
                             
-//                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
                         }
                             break;
 //                        case 2: {

@@ -131,25 +131,30 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
         }
             break;
         case kCellCaseIndex: {
-            destinationViewController = [APP_DELEGATE casesViewController];
+            destinationViewController = [APP_DELEGATE casesTabBar];
         }
             break;
         case kCellClientIndex: {
-            destinationViewController = [APP_DELEGATE clientsViewController];
+            destinationViewController = [APP_DELEGATE clientsTabBar];
         }
             break;
         case kCellCourtIndex: {
-            destinationViewController = [APP_DELEGATE courtsViewController];
+            destinationViewController = [APP_DELEGATE courtsTabBar];
         }
             break;
         default:
             break;
     }
     
-    [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
-    [APP_DELEGATE toggleLeftDrawer:self animated:YES];
-    
-    SetStatusBarLightContent(YES);
+    if (!destinationViewController) {
+        MY_ALERT(@"", @"Under Development!", nil);
+    }
+    else {
+        [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
+        [APP_DELEGATE toggleLeftDrawer:self animated:YES];
+        
+//        SetStatusBarLightContent(YES);
+    }
 }
 
 

@@ -71,10 +71,14 @@
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
+                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
                 [obj setOppositionFirstName:dataDict[kAPIoppositionFirstName] ? dataDict[kAPIoppositionFirstName] : @""];
                 [obj setOppositionLastName:dataDict[kAPIoppositionLastName] ? dataDict[kAPIoppositionLastName] : @""];
                 [obj setOppositionLawyerName:dataDict[kAPIoppositionLawyerName] ? dataDict[kAPIoppositionLawyerName] : @""];
                 [obj setCaseNo:dataDict[kAPIcaseNo] ? dataDict[kAPIcaseNo] : @""];
+                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setLastHeardDate:dataDict[kAPIlastHeardDate] ? dataDict[kAPIlastHeardDate] : @""];
+                [obj setNextHearingDate:dataDict[kAPInextHearingDate] ? dataDict[kAPInextHearingDate] : @""];
                 [obj setCaseStatus:dataDict[kAPIcaseStatus] ? dataDict[kAPIcaseStatus] : @""];
                 
                 [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
@@ -99,10 +103,13 @@
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
+                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
                 [obj setOppositionFirstName:dataDict[kAPIoppositionFirstName] ? dataDict[kAPIoppositionFirstName] : @""];
                 [obj setOppositionLastName:dataDict[kAPIoppositionLastName] ? dataDict[kAPIoppositionLastName] : @""];
                 [obj setOppositionLawyerName:dataDict[kAPIoppositionLawyerName] ? dataDict[kAPIoppositionLawyerName] : @""];
                 [obj setCaseNo:dataDict[kAPIcaseNo] ? dataDict[kAPIcaseNo] : @""];
+                [obj setLastHeardDate:dataDict[kAPIlastHeardDate] ? dataDict[kAPIlastHeardDate] : @""];
+                [obj setNextHearingDate:dataDict[kAPInextHearingDate] ? dataDict[kAPInextHearingDate] : @""];
                 [obj setCaseStatus:dataDict[kAPIcaseStatus] ? dataDict[kAPIcaseStatus] : @""];
                 
                 [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
@@ -118,11 +125,64 @@
         // Save the context.
         NSError *error = nil;
         if ([context save:&error]) {
-            NSLog(@"Client saved succesfully");
+            NSLog(@"Case saved succesfully");
             return obj;
         }
         else {
-            NSLog(@"Client save failed! %@, %@", error, [error userInfo]);
+            NSLog(@"Case save failed! %@, %@", error, [error userInfo]);
+            return nil;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (Cases *)updateCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId
+{
+    @try {
+        
+        for (NSString *key in dataDict) {
+            //            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
+        }
+        
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        
+        Cases *obj = [self fetchCaseLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
+        
+        //        if ([dataDict objectForKey:kAPIclientId]) {
+        //            obj = [self fetchClient:[dataDict objectForKey:kAPIcourtId]];
+        //        }
+        //        else if ([dataDict objectForKey:kAPIclientId]) {
+        //            obj = [self fetchClient:[dataDict objectForKey:kAPIrandom]];
+        //        }
+        if (!obj) {
+            @try {
+                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
+                [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
+                
+                [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
+        }
+        
+        // Save the context.
+        NSError *error = nil;
+        if ([context save:&error]) {
+            NSLog(@"Case saved succesfully");
+            return obj;
+        }
+        else {
+            NSLog(@"Case save failed! %@, %@", error, [error userInfo]);
             return nil;
         }
     }
@@ -298,7 +358,7 @@
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];

@@ -14,6 +14,10 @@
 #import "Courts.h"
 #import "Profile.h"
 
+#import "CasesTabBar.h"
+#import "ClientsTabBar.h"
+#import "CourtsTabBar.h"
+
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;
 
@@ -39,6 +43,10 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 @property (nonatomic, strong) JVFloatingDrawerSpringAnimator *drawerAnimator;
 
 @property (nonatomic, strong) UIViewController *leftDrawerViewController;
+
+@property (nonatomic, strong) CasesTabBar *casesTabBar;
+@property (nonatomic, strong) ClientsTabBar *clientsTabBar;
+@property (nonatomic, strong) CourtsTabBar *courtsTabBar;
 
 @property (nonatomic, strong) ClientCases *casesViewController;
 @property (nonatomic, strong) Clients *clientsViewController;

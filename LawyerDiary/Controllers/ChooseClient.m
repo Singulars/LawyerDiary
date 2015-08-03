@@ -8,6 +8,7 @@
 
 #import "ChooseClient.h"
 #import "CaseClientCell.h"
+#import "ChooseCourt.h"
 
 @interface ChooseClient ()
 {
@@ -20,16 +21,15 @@
 
 @synthesize arrClients;
 @synthesize existingClientObj;
-@synthesize existingCourtObj;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:WHITE_COLOR];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
+    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
 
     [lblErrorMsg setHidden:YES];
 
@@ -45,7 +45,25 @@
         [self.navigationItem setRightBarButtonItem:nil];
     }
     
+    if (_delegate) {
+        [self.navigationItem setLeftBarButtonItem:nil];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Done"];
+        
+        for (int i = 0; i < arrClients.count; i++) {
+            Client *objClient = arrClients[i];
+            if ([objClient.clientId isEqualToNumber:existingClientObj.clientId]) {
+                previusSelectedIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            }
+        }
+    }
+    
     [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -119,7 +137,17 @@
 
 - (IBAction)barBtnNextTaped:(id)sender
 {
-    
+    if (_delegate) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        if ([_delegate respondsToSelector:@selector(clientSelected:)]) {
+            [_delegate clientSelected:existingClientObj];
+        }
+    }
+    else {
+        ChooseCourt *courtVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseCourt"];
+        [courtVC setExistingClientObj:existingClientObj];
+        [self.navigationController pushViewController:courtVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

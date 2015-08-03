@@ -14,9 +14,9 @@ static NSString * const kStoryboardName = @"Main";
 
 static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStoryboardID";
 
-static NSString * const kCasesViewControllerStoryboardID = @"Cases";
-static NSString * const kClientsViewControllerStoryboardID = @"Clients";
-static NSString * const kCourtsViewControllerStoryboardID = @"Courts";
+static NSString * const kCasesViewControllerStoryboardID = @"CasesTabBar";
+static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBar";
+static NSString * const kCourtsViewControllerStoryboardID = @"CourtsTabBar";
 static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
 
 Reachability *hostReach;
@@ -69,6 +69,8 @@ Reachability *hostReach;
     
     _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _window.backgroundColor = [UIColor whiteColor];
+    
+    [_window makeKeyAndVisible];
     
     NSLog(@"isRegistered - %hhd", IsRegisteredForRemoteNotifications);
     
@@ -360,7 +362,7 @@ Reachability *hostReach;
 
 - (void)configureDrawerViewController {
     self.drawerViewController.leftViewController = self.leftDrawerViewController;
-    self.drawerViewController.centerViewController = self.casesViewController;
+    self.drawerViewController.centerViewController = self.casesTabBar;
     
     self.drawerViewController.animator = self.drawerAnimator;
     
@@ -373,6 +375,14 @@ Reachability *hostReach;
 
 #pragma mark Center
 
+- (CasesTabBar *)casesTabBar {
+    if (!_casesTabBar) {
+        _casesTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
+    }
+    
+    return _casesTabBar;
+}
+
 - (ClientCases *)casesViewController {
     if (!_casesViewController) {
         _casesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
@@ -381,12 +391,28 @@ Reachability *hostReach;
     return _casesViewController;
 }
 
+- (ClientsTabBar *)clientsTabBar {
+    if (!_clientsTabBar) {
+        _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
+    }
+    
+    return _clientsTabBar;
+}
+
 - (Clients *)clientsViewController {
     if (!_clientsViewController) {
         _clientsViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
     }
     
     return _clientsViewController;
+}
+
+- (CourtsTabBar *)courtsTabBar {
+    if (!_courtsTabBar) {
+        _courtsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
+    }
+    
+    return _courtsTabBar;
 }
 
 - (Courts *)courtsViewController {

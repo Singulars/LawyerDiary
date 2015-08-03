@@ -14,6 +14,8 @@
     IBOutlet UIBarButtonItem *barBtnAdd;
     
     IBOutlet UIView *viewAddClient;
+    
+    IBOutlet UIButton *btnReload;
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

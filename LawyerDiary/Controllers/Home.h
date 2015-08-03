@@ -18,6 +18,8 @@
     IBOutlet FFTextField *tfMobile;
     IBOutlet UIImageView *imgViewLine;
     
+    IBOutlet UIView *accessoryView;
+    
     IBOutlet UIToolbar *toolbar;
     IBOutlet UIBarButtonItem *barBtnDone;
     

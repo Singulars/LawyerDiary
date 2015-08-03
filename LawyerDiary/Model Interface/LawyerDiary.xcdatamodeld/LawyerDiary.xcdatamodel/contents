@@ -15,6 +15,7 @@
         <attribute name="lastHeardDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="localCaseId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="megistrateName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mobile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nextHearingDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="oppositionFirstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="oppositionLastName" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,7 +60,7 @@
         <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Cases" positionX="511" positionY="99" width="128" height="330"/>
+        <element name="Cases" positionX="511" positionY="99" width="128" height="345"/>
         <element name="Client" positionX="-54" positionY="90" width="128" height="225"/>
         <element name="Court" positionX="198" positionY="309" width="128" height="180"/>
         <element name="User" positionX="187" positionY="-72" width="128" height="195"/>

@@ -21,8 +21,8 @@
     _caseObj = obj;
     _indexPath = indexPath;
     
-    [_lblClientName setText:_caseObj.clientFirstName];
-    [_lblOppositionName setText:_caseObj.oppositionFirstName];
+    [_lblClientName setText:[NSString stringWithFormat:@"%@ V/S %@", _caseObj.clientFirstName, _caseObj.oppositionFirstName]];
+//    [_lblOppositionName setText:_caseObj.oppositionFirstName];
     
     Client *objClient = [Client fetchClient:_caseObj.clientId];
     

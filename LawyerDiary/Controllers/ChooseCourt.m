@@ -8,6 +8,7 @@
 
 #import "ChooseCourt.h"
 #import "CaseCourtCell.h"
+#import "EditCase.h"
 
 @interface ChooseCourt ()
 {
@@ -27,6 +28,12 @@
     
     [lblErrorMsg setHidden:YES];
     
+    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     arrCourts = [Court fetchCourts:USER_ID];
@@ -34,12 +41,28 @@
     if (arrCourts.count == 0) {
         [self.tableView setHidden:YES];
         
-        [lblErrorMsg setText:@"No Courts to show!\nEiethr no clients added or not fetched from server."];
+        [lblErrorMsg setText:@"No Courts to show!\nEiethr no courts added or not fetched from server."];
         [lblErrorMsg setHidden:NO];
         [self.navigationItem setRightBarButtonItem:nil];
     }
     
+    if (_delegate) {
+        [self.navigationItem.rightBarButtonItem setTitle:@"Done"];
+        
+        for (int i = 0; i < arrCourts.count; i++) {
+            Court *objCourt = arrCourts[i];
+            if ([objCourt.courtId isEqualToNumber:existingCourtObj.courtId]) {
+                previusSelectedIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            }
+        }
+    }
     
+    [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -108,7 +131,18 @@
 
 - (IBAction)barBtnNextTaped:(id)sender
 {
-    
+    if (_delegate) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        if ([_delegate respondsToSelector:@selector(courtSelected:)]) {
+            [_delegate courtSelected:existingCourtObj];
+        }
+    }
+    else {
+        EditCase *editCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCase"];
+        [editCaseVC setExistingClientObj:existingClientObj];
+        [editCaseVC setExistingCourtObj:existingCourtObj];
+        [self.navigationController pushViewController:editCaseVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

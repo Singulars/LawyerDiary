@@ -28,6 +28,7 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 @property (nonatomic, retain) NSNumber * clientId;
 @property (nonatomic, retain) NSString * clientFirstName;
 @property (nonatomic, retain) NSString * clientLastName;
+@property (nonatomic, retain) NSString * mobile;
 @property (nonatomic, retain) NSString * oppositionLawyerName;
 @property (nonatomic, retain) NSString * oppositionFirstName;
 @property (nonatomic, retain) NSString * oppositionLastName;
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 @property (nonatomic, retain) NSNumber * isSynced;
 
 + (Cases *)saveCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
++ (Cases *)updateCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
 + (BOOL)updatedCasePropertyofClient:(Cases *)caseObj withProperty:(CaseProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteCase:(NSNumber *)caseId;
 + (BOOL)deleteCaseForUser:(NSNumber *)userId;

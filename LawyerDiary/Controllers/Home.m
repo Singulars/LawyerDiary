@@ -7,11 +7,14 @@
 //
 
 #import "Home.h"
+#import "HomeTwo.h"
 
-@interface Home () <UIViewControllerTransitioningDelegate>
+@interface Home () <UIViewControllerTransitioningDelegate, UITextFieldDelegate>
 {
     BOOL viewAppeared;
     BOOL keyboardShown;
+    
+    BOOL isAccessoryToolBarVisible;
 }
 @end
 
@@ -21,6 +24,15 @@
 #pragma mark -
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    SetStatusBarHidden(NO);
+    
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    [self.navigationController.navigationBar setTranslucent:NO];
+    [Global setBackGroundImageToNavigationBar:self.navigationController.navigationBar withImageColor:CLEAR_COLOR];
+    
+    [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
     
     [lblTitle setTextColor:APP_TINT_COLOR];
     
@@ -33,12 +45,13 @@
     
     [Global applyPropertiesToButtons:@[btnSignUp] likeFont:@"UnDotum" fontSize:20 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:APP_TINT_COLOR borderWidth:0 cornerRadius:5 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
     
-    //[Global applyPropertiesToButtons:@[btnLogin] likeFont:@"UnDotum" fontSize:20 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:WHITE_COLOR borderColor:APP_TINT_COLOR borderWidth:1 cornerRadius:5 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
+    [tfMobile setAttributedPlaceholder:[Global getAttributedString:@"Phone Number" withFont:@"HelveticaNeue-Bold" fontSize:36 fontColor:UICOLOR(42, 50, 65, 0.5) strokeColor:CLEARCOLOUR]];
     
-    [toolbar setBarStyle:UIBarStyleBlack];
-    [toolbar setBarTintColor:APP_TINT_COLOR];
+    [tfMobile setTintColor:APP_TINT_COLOR];
     
-    [tfMobile setInputAccessoryView:toolbar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mobileFieldValueChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    [tfMobile setInputAccessoryView:accessoryView];
     [self registerToReciveKeyboardNotification];
 }
 
@@ -48,46 +61,52 @@
     
     SetStatusBarLightContent(NO);
     
-    if (!viewAppeared) {
-        [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
-        
-        [lblTitle setAlpha:0.0];
-        [btnSignUp setAlpha:0.0];
-        [btnLogin setAlpha:0.0];
-        [tfMobile setAlpha:0.0];
-        [imgViewLine setAlpha:0.0];
-    }
+//    if (!viewAppeared) {
+//        [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+//        
+//        [lblTitle setAlpha:0.0];
+//        [btnSignUp setAlpha:0.0];
+//        [btnLogin setAlpha:0.0];
+//        [tfMobile setAlpha:0.0];
+//        [imgViewLine setAlpha:0.0];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if (!viewAppeared) {
-
-        [self setNeedsStatusBarAppearanceUpdate];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.5 animations:^{
-                [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
-            } completion:^(BOOL finished) {
-                [UIView animateWithDuration:0.4 animations:^{
-                    [lblTitle setAlpha:1.0];
-                    [btnSignUp setAlpha:1.0];
-                    [btnLogin setAlpha:1.0];
-                    [tfMobile setAlpha:1.0];
-                    [imgViewLine setAlpha:1.0];
-                    
-                    SetStatusBarHidden(NO);
-                    SetStatusBarLightContent(NO);
-                    
-                    [scrollView setContentSize:VIEWSIZE(self.view)];
-                    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                }];
-            }];
-        });
-        
-        viewAppeared = YES;
-    }
+    [toolbar setFrame:CGRectMake(-self.view.bounds.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
+    
+    SetStatusBarHidden(NO);
+    [scrollView setContentSize:VIEWSIZE(self.view)];
+    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+    
+//    if (!viewAppeared) {
+//
+//        [self setNeedsStatusBarAppearanceUpdate];
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [UIView animateWithDuration:0.5 animations:^{
+//                [imgViewLogo setFrame:CGRectMake(imgViewLogo.frame.origin.x, imgViewLogo.frame.origin.y - (IsBiggerThaniPhone ? 48 : 60), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
+//            } completion:^(BOOL finished) {
+//                [UIView animateWithDuration:0.4 animations:^{
+//                    [lblTitle setAlpha:1.0];
+//                    [btnSignUp setAlpha:1.0];
+//                    [btnLogin setAlpha:1.0];
+//                    [tfMobile setAlpha:1.0];
+//                    [imgViewLine setAlpha:1.0];
+//                    
+//                    SetStatusBarHidden(NO);
+//                    SetStatusBarLightContent(NO);
+//                    
+//                    [scrollView setContentSize:VIEWSIZE(self.view)];
+//                    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+//                }];
+//            }];
+//        });
+//        
+//        viewAppeared = YES;
+//    }
 }
 
 #pragma mark - KeyboardNotification
@@ -167,7 +186,16 @@
 
 - (IBAction)barBtnDoneTaped:(id)sender
 {
-    [tfMobile resignFirstResponder];
+    if ([tfMobile.text isEqualToString:@""]) {
+        [Global showNotificationWithTitle:@"Please enter your mobile number" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+    else if (tfMobile.text.length < 10) {
+        [Global showNotificationWithTitle:@"Please enter valid mobile number" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+    else {
+        [self setEditing:YES];
+        [self checkUserIsRegistered];
+    }
 }
 
 #pragma mark - Make Login Request
@@ -204,28 +232,15 @@
                 }
                 else {
                     if ([responseObject[@"isRegistered"] isEqualToNumber:@1]) {
-                        [self showVerificationAlertForUser:responseObject];
+//                        [self showVerificationAlertForUser:responseObject];
+                        [self saveUserInfo:[responseObject valueForKey:@"user"]];
                     }
                     else {
                         
-                        Register *detailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Register"];
-                        [detailViewController setViewType:SIGN_UP_VIEW];
-                        [detailViewController setVerificationCode:responseObject[@"code"]];
-                        [detailViewController setUserMobile:tfMobile.text];
-                        
-                        detailViewController.transitioningDelegate = self;
-                        detailViewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-                        detailViewController.view.backgroundColor = [UIColor clearColor];
-                        
-                        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0);
-                        [self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:YES];
-                        
-                        UIImage *copied = UIGraphicsGetImageFromCurrentImageContext();
-                        UIGraphicsEndImageContext();
-                        
-                        detailViewController.imageFromPreviousScreen = copied;
-                        
-                        [self presentViewController:detailViewController animated:YES completion:nil];
+                        HomeTwo *homeTwoVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeTwo"];
+                        [homeTwoVC setUserMobile:tfMobile.text];
+                        [homeTwoVC setConfirmationCode:[responseObject valueForKey:@"code"]];
+                        [self.navigationController pushViewController:homeTwoVC animated:YES];
                     }
                 }
             }
@@ -343,6 +358,27 @@
     }
 }
 
+- (void)textFieldDidBeginEditing:(nonnull UITextField *)textField
+{
+    [self mobileFieldValueChanged:nil];
+}
+
+- (void)mobileFieldValueChanged:(NSNotification *)aNotification
+{
+    [UIView animateWithDuration:0.25 animations:^{
+        if (tfMobile.text.length > 0) {
+            
+            if (!isAccessoryToolBarVisible) {
+                isAccessoryToolBarVisible = YES;
+                [toolbar setFrame:CGRectMake(0, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
+            }
+        }
+        else {
+            isAccessoryToolBarVisible = NO;
+            [toolbar setFrame:CGRectMake(-toolbar.frame.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
+        }
+    }];
+}
 
 #pragma mark - Memory Management
 #pragma mark -

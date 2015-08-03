@@ -10,13 +10,20 @@
 #import "Client.h"
 #import "Court.h"
 
+@protocol ChooseClientDelegate <NSObject>
+@optional
+- (void)clientSelected:(Client *)clientObj;
+
+@end
+
 @interface ChooseClient : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
 }
 
+@property (nonatomic, strong) id<ChooseClientDelegate> delegate;
+
 @property (nonatomic, strong) Client *existingClientObj;
-@property (nonatomic, strong) Court *existingCourtObj;
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 

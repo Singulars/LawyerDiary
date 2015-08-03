@@ -10,6 +10,7 @@
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
 #import "Cases.h"
 #import "CaseCell.h"
+#import "ChooseClient.h"
 
 @interface ClientCases ()
 {
@@ -33,18 +34,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    SetStatusBarLightContent(YES);
+//    SetStatusBarLightContent(YES);
     SetStatusBarHidden(NO);
     
     NSLog(@"Fonts - %@", [UIFont fontNamesForFamilyName:APP_FONT]);
     
-    [self.navigationController.navigationBar setTintColor:WHITE_COLOR];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
+    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT fontColor:WHITE_COLOR andFontSize:22 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
-    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 44, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -53,6 +54,11 @@
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(caseSaved:)
+                                                 name:@"CaseSaved"
+                                               object:nil];
+    
 //    [Cases deleteCientsForUser:USER_ID];
     
     arrCases = [[NSMutableArray alloc] init];
@@ -78,6 +84,22 @@
             [self.tableView reloadData];
         }];
     }
+}
+
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self showSpinner:YES withError:NO];
+    [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)caseSaved:(NSNotification *)aNotification
+{
+    [arrCases removeAllObjects];
+    
+    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -146,7 +168,9 @@
                     else {
                         [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
                         
-                        [self showSpinner:NO withError:NO];
+                        [self showSpinner:NO withError:YES];
+                        
+                        [btnReload setHidden:NO];
                     }
                 }
                 else {
@@ -191,7 +215,9 @@
                             else {
                                 [lblErrorMsg setText:@"No Cases found."];
                                 
-                                [self showSpinner:NO withError:NO];
+                                [self showSpinner:NO withError:YES];
+                                
+                                [btnReload setHidden:NO];
                             }
                         }
                     }
@@ -199,8 +225,6 @@
                 completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-                [self showSpinner:NO withError:YES];
                 
                 NSString *strMsg;
                 
@@ -214,11 +238,17 @@
                     strMsg = kSOMETHING_WENT_WRONG;
                 }
                 
-                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                [lblErrorMsg setText:strMsg];
+                [self showSpinner:NO withError:YES];
+                
+                [Global showNotificationWithTitle:strMsg titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 
                 if (arrCases.count > 0) {
                     [self.tableView setHidden:NO];
                     [lblErrorMsg setHidden:YES];
+                }
+                else {
+                    [btnReload setHidden:NO];
                 }
             }];
         }
@@ -253,6 +283,7 @@
 - (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
 {
     if (flag) {
+        [btnReload setHidden:YES];
         [lblErrorMsg setHidden:YES];
         [self.tableView setHidden:YES];
 //        [viewAddCourt setHidden:YES];
@@ -269,7 +300,9 @@
         else {
             [lblErrorMsg setHidden:YES];
             [self.tableView setHidden:NO];
-//            [viewAddCourt setHidden:NO];;
+//            [viewAddCourt setHidden:NO];
+            
+            [btnReload setHidden:YES];
         }
         
         [self.spinnerView stopAnimating];
@@ -321,7 +354,7 @@
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
-    SetStatusBarLightContent(NO);
+//    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
@@ -335,7 +368,7 @@
 #pragma mark -
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60.f;
+    return 44.f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

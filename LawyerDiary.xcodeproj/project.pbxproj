@@ -31,6 +31,7 @@
 		9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1E5231AE3D523001060F4 /* FFTextField.m */; };
 		C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9F91B612C02000247F0 /* ChooseCourt.m */; };
 		C010C9FD1B61499A000247F0 /* CaseCourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9FC1B61499A000247F0 /* CaseCourtCell.m */; };
+		C012EDAD1B6E871500196629 /* CasesTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C012EDAC1B6E871500196629 /* CasesTabBar.m */; };
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
@@ -63,6 +64,9 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
+		C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */; };
+		C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */; };
+		C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B2976F1B6FE17B00673875 /* HomeTwo.m */; };
 		C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3C6541B6174C6008D5217 /* EditCase.m */; };
 		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
@@ -134,6 +138,8 @@
 		C010C9F91B612C02000247F0 /* ChooseCourt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCourt.m; sourceTree = "<group>"; };
 		C010C9FB1B61499A000247F0 /* CaseCourtCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseCourtCell.h; sourceTree = "<group>"; };
 		C010C9FC1B61499A000247F0 /* CaseCourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCourtCell.m; sourceTree = "<group>"; };
+		C012EDAB1B6E871400196629 /* CasesTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CasesTabBar.h; sourceTree = "<group>"; };
+		C012EDAC1B6E871500196629 /* CasesTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CasesTabBar.m; sourceTree = "<group>"; };
 		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
@@ -188,6 +194,12 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
+		C0887B6D1B6E9A5900B55A7C /* ClientsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientsTabBar.h; sourceTree = "<group>"; };
+		C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientsTabBar.m; sourceTree = "<group>"; };
+		C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtsTabBar.h; sourceTree = "<group>"; };
+		C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtsTabBar.m; sourceTree = "<group>"; };
+		C0B2976E1B6FE17B00673875 /* HomeTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTwo.h; sourceTree = "<group>"; };
+		C0B2976F1B6FE17B00673875 /* HomeTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTwo.m; sourceTree = "<group>"; };
 		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
 		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -233,10 +245,14 @@
 			children = (
 				9DE1E51C1AE3CC99001060F4 /* Home.h */,
 				9DE1E51D1AE3CC99001060F4 /* Home.m */,
+				C0B2976E1B6FE17B00673875 /* HomeTwo.h */,
+				C0B2976F1B6FE17B00673875 /* HomeTwo.m */,
 				9DE1E51F1AE3D4A5001060F4 /* Register.h */,
 				9DE1E5201AE3D4A5001060F4 /* Register.m */,
 				9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */,
 				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
+				C012EDAB1B6E871400196629 /* CasesTabBar.h */,
+				C012EDAC1B6E871500196629 /* CasesTabBar.m */,
 				9DA282941AECE48000024121 /* ClientCases.h */,
 				9DA282951AECE48000024121 /* ClientCases.m */,
 				C062CBB21B5EE4BC00F46729 /* ChooseClient.h */,
@@ -245,10 +261,14 @@
 				C010C9F91B612C02000247F0 /* ChooseCourt.m */,
 				C0D3C6531B6174C6008D5217 /* EditCase.h */,
 				C0D3C6541B6174C6008D5217 /* EditCase.m */,
+				C0887B6D1B6E9A5900B55A7C /* ClientsTabBar.h */,
+				C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */,
 				9DA2829D1AECFE3A00024121 /* Clients.h */,
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
 				C05CF8DF1B2852E4007BD697 /* ClientDetail.m */,
+				C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */,
+				C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */,
 				9DA282A01AECFE4C00024121 /* Courts.h */,
 				9DA282A11AECFE4C00024121 /* Courts.m */,
 				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
@@ -673,8 +693,12 @@
 				C064282A1B43293E001FB5C0 /* Cases.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
+				C012EDAD1B6E871500196629 /* CasesTabBar.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
+				C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */,
+				C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */,
 				C0380BA31B49D712003177FA /* UIScrollView+SVPullToRefresh.m in Sources */,
+				C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */,
 				C0380BA21B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
 				C05382CC1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m in Sources */,

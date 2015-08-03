@@ -423,6 +423,7 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kAPIcourData                        @"courtData"
 #define kAPIclientData                      @"clientData"
+#define kAPIcaseData                        @"caseData"
 #define kAPIcaseList                        @"caseList"
 
 #define kAPIindex                           @"index"
@@ -444,6 +445,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kloadClients                        @"loadClients"
 #define ksaveClient                         @"saveClient"
 #define kdeleteClient                       @"deleteClient"
+#define ksaveCase                          @"saveCase"
 
 
 #define kgetServerDateTime                  @"getServerDateTime"
