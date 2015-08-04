@@ -34,7 +34,7 @@
     
     [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
     
-    [lblTitle setTextColor:APP_TINT_COLOR];
+//    [lblTitle setTextColor:APP_TINT_COLOR];
     
     [btnSignUp setTitle:@"Continue" forState:UIControlStateNormal];
     [btnSignUp setTitle:@"" forState:UIControlStateSelected];
@@ -59,8 +59,6 @@
 {
     [super viewWillAppear:animated];
     
-    SetStatusBarLightContent(NO);
-    
 //    if (!viewAppeared) {
 //        [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
 //        
@@ -76,9 +74,8 @@
 {
     [super viewDidAppear:animated];
     
-    [toolbar setFrame:CGRectMake(-self.view.bounds.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
-    
     SetStatusBarHidden(NO);
+    
     [scrollView setContentSize:VIEWSIZE(self.view)];
     [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
     
@@ -97,7 +94,6 @@
 //                    [imgViewLine setAlpha:1.0];
 //                    
 //                    SetStatusBarHidden(NO);
-//                    SetStatusBarLightContent(NO);
 //                    
 //                    [scrollView setContentSize:VIEWSIZE(self.view)];
 //                    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
@@ -129,6 +125,8 @@
         return;
     }
     
+    [toolbar setFrame:CGRectMake(-self.view.bounds.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
+    
     NSDictionary *userInfo = [aNotification userInfo];
     
     CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -147,6 +145,9 @@
     
     [UIView commitAnimations];
     
+    isAccessoryToolBarVisible = NO;
+    [self mobileFieldValueChanged:nil];
+    
     keyboardShown = YES;
 }
 
@@ -163,6 +164,7 @@
     [scrollView setContentInset:UIEdgeInsetsZero];
     [UIView commitAnimations];
     
+    isAccessoryToolBarVisible = NO;
     keyboardShown = NO;
 }
 
@@ -356,11 +358,6 @@
     @finally {
         
     }
-}
-
-- (void)textFieldDidBeginEditing:(nonnull UITextField *)textField
-{
-    [self mobileFieldValueChanged:nil];
 }
 
 - (void)mobileFieldValueChanged:(NSNotification *)aNotification

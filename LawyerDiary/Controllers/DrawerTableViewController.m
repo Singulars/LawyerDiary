@@ -142,6 +142,9 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
             destinationViewController = [APP_DELEGATE courtsTabBar];
         }
             break;
+        case kCellSubordinateIndex: {
+            destinationViewController = [APP_DELEGATE subordinatesViewController];
+        }
         default:
             break;
     }
@@ -152,8 +155,6 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     else {
         [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
         [APP_DELEGATE toggleLeftDrawer:self animated:YES];
-        
-//        SetStatusBarLightContent(YES);
     }
 }
 

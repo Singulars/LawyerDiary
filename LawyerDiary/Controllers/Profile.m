@@ -55,11 +55,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
     [self.view setBackgroundColor:GROUP_TABLEVIEW_COLOR];
     [self.tableView setBackgroundColor:GROUP_TABLEVIEW_COLOR];
@@ -160,7 +160,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     switch (barBtnType) {
         case SaveBarButton: {
             barBtnSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(barBtnSaveTaped:)];
-            [barBtnSave setTintColor:WHITE_COLOR];
+            [barBtnSave setTintColor:APP_TINT_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             
             UserIntrectionEnable(YES);
@@ -168,7 +168,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
             break;
         case IndicatorBarButton: {
             barBtnSave = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
-            [barBtnSave setTintColor:WHITE_COLOR];
+            [barBtnSave setTintColor:APP_TINT_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             [self.spinnerView startAnimating];
             
@@ -430,7 +430,6 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 }
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
-//    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 

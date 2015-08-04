@@ -42,7 +42,7 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Client *obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
+        Client *obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIlocalClientId] integerValue])];
         
 //        if ([dataDict objectForKey:kAPIclientId]) {
 //            obj = [self fetchClient:[dataDict objectForKey:kAPIcourtId]];
@@ -54,7 +54,7 @@
         if (obj != nil) {
             @try {
                 [obj setUserId:userId];
-                [obj setLocalClientId:[dataDict objectForKey:kAPIrandom] ? @([[dataDict objectForKey:kAPIrandom] integerValue]) : [Client generateID]];
+                [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [Client generateID]];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -76,7 +76,7 @@
             obj = [NSEntityDescription insertNewObjectForEntityForName:kClient inManagedObjectContext:context];
             @try {
                 [obj setUserId:userId];
-                [obj setLocalClientId:[dataDict objectForKey:kAPIrandom] ? ([[dataDict objectForKey:kAPIrandom] integerValue] == 0 ? [self generateID] : @([[dataDict objectForKey:kAPIrandom] integerValue])) : [Client generateID]];
+                [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [self generateID]];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];

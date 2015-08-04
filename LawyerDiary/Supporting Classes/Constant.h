@@ -66,7 +66,8 @@ typedef enum : NSInteger {
     CloseBarButton,
     SyncBarButton,
     SendBarButton,
-    SignUpBarButton
+    SignUpBarButton,
+    AddBarButton
 } UIBarButton;
 
 typedef enum : NSInteger {
@@ -276,8 +277,11 @@ otherButtonTitles:@"OK", nil] show];
 #define kVibrateCellID                      @"VibrateID"
 #define kLogoutCellID                       @"LogoutID"
 
-#define APP_FONT                            @"UnDotum"
-#define APP_FONT_BOLD                       @"UnDotum-Bold"
+#define APP_FONT                            @"HelveticaNeue"
+#define APP_FONT_BOLD                       @"HelveticaNeue-Semibold"
+
+//#define APP_FONT                            @"UnDotum"
+//#define APP_FONT_BOLD                       @"UnDotum-Bold"
 
 #define kCellIndex                          @"CellIndex"
 
@@ -397,6 +401,8 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIcourtCity                       @"courtCity"
 #define kAPImegistrateName                  @"megistrateName"
 #define kAPIdateTime                        @"dateTime"
+#define kAPIhasAccess                       @"hasAccess"
+#define kAPIisProfile                       @"isProfile"
 
 
 #define kAPIlocalCaseId                     @"localCaseId"
@@ -425,6 +431,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIclientData                      @"clientData"
 #define kAPIcaseData                        @"caseData"
 #define kAPIcaseList                        @"caseList"
+#define kAPIsubordinateData                 @"subordinateData"
 
 #define kAPIindex                           @"index"
 #define kAPIoffset                          @"offset"
@@ -445,8 +452,8 @@ otherButtonTitles:@"OK", nil] show];
 #define kloadClients                        @"loadClients"
 #define ksaveClient                         @"saveClient"
 #define kdeleteClient                       @"deleteClient"
-#define ksaveCase                          @"saveCase"
-
+#define ksaveCase                           @"saveCase"
+#define kloadSubordinate                    @"loadSubordinate"
 
 #define kgetServerDateTime                  @"getServerDateTime"
 #define kresetNotificationCount             @"resetNotificationCount"
@@ -483,6 +490,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kClient                             @"Client"
 #define kCourt                              @"Court"
 #define kCases                              @"Cases"
+#define kSubordinate                        @"Subordinate"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

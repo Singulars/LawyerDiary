@@ -19,16 +19,8 @@
             <string>UnDotum-Bold</string>
             <string>UnDotum-Bold</string>
             <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
         </mutableArray>
         <mutableArray key="UnDotum.ttf">
-            <string>UnDotum</string>
-            <string>UnDotum</string>
-            <string>UnDotum</string>
-            <string>UnDotum</string>
             <string>UnDotum</string>
             <string>UnDotum</string>
             <string>UnDotum</string>
@@ -264,8 +256,7 @@
                                                     <rect key="frame" x="44" y="2" width="242" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opposition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgY-tW-qkb">
@@ -318,19 +309,20 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Cases" id="lfa-5g-0HU">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="xp6-2h-KhM">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="5GC-53-mFP" id="Tgx-If-rv0"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="IKF-n4-Jmz">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="barBtnAddTaped:" destination="5GC-53-mFP" id="eV4-S2-DHW"/>
                                 <segue destination="64A-yE-3OH" kind="modal" id="DRN-dl-G6O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="barBtnAdd" destination="IKF-n4-Jmz" id="KtH-rq-ELm"/>
                         <outlet property="btnReload" destination="rHV-Oz-JuJ" id="dl4-dp-TUG"/>
@@ -412,13 +404,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Select Client" id="gnV-UG-ePc">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="V7k-QJ-C8G">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="barBtnCancelTaped:" destination="5t5-wg-uRL" id="GgZ-eU-a0b"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="ZqB-OY-jPM">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="barBtnNextTaped:" destination="5t5-wg-uRL" id="y5g-yK-5Li"/>
                             </connections>
@@ -861,7 +853,7 @@
                                         <animations/>
                                     </imageView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nce-00-Jfq">
-                                        <rect key="frame" x="20" y="448.99999811853797" width="280" height="35"/>
+                                        <rect key="frame" x="20" y="448.9999981575337" width="280" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -985,16 +977,16 @@ code to get started.</string>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ZL2-gR-e6C">
-                                <rect key="frame" x="15" y="79" width="290" height="469"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FirstCell" rowHeight="88" id="2JY-wQ-xb6" userLabel="FirstCell">
-                                        <rect key="frame" x="0.0" y="22" width="290" height="88"/>
+                                        <rect key="frame" x="0.0" y="22" width="320" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2JY-wQ-xb6" id="UST-wm-r8U">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="88"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1003,10 +995,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="EmailCell" id="dTu-ec-wB5" userLabel="EmailCell">
-                                        <rect key="frame" x="0.0" y="110" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTu-ec-wB5" id="IEc-3D-ZGu">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1015,10 +1007,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PasswordCell" id="tMY-sz-NUW" userLabel="PasswordCell">
-                                        <rect key="frame" x="0.0" y="154" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="154" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tMY-sz-NUW" id="Dfn-2Z-hzU">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1027,10 +1019,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BirthdateCell" id="0In-B8-ptD" userLabel="BirthdateCell">
-                                        <rect key="frame" x="0.0" y="198" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="198" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0In-B8-ptD" id="g0U-Zg-yFs">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1039,10 +1031,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MobileCell" id="b2L-oT-NRt" userLabel="MobileCell">
-                                        <rect key="frame" x="0.0" y="242" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b2L-oT-NRt" id="Vxo-aR-Jov">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1051,10 +1043,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ActionButtonCell" id="7gf-qx-NR4" userLabel="ActionButtonCell">
-                                        <rect key="frame" x="0.0" y="286" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="286" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7gf-qx-NR4" id="njc-3D-2Ny">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
@@ -1062,10 +1054,10 @@ code to get started.</string>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OtherButtonCell" id="Qof-XK-9Lf" userLabel="OtherButtonCell">
-                                        <rect key="frame" x="0.0" y="330" width="290" height="44"/>
+                                        <rect key="frame" x="0.0" y="330" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qof-XK-9Lf" id="lNp-LL-Hv2">
-                                            <rect key="frame" x="0.0" y="0.0" width="290" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                         </tableViewCellContentView>
@@ -1111,7 +1103,6 @@ code to get started.</string>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                     <connections>
@@ -1138,7 +1129,7 @@ code to get started.</string>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="Symbol" family="Symbol" pointSize="18"/>
                     <state key="normal" title="Sign up">
-                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -1194,17 +1185,17 @@ code to get started.</string>
                         <outlet property="delegate" destination="DN8-hw-pS7" id="nuI-kQ-4M0"/>
                     </connections>
                 </textField>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" id="U7j-94-JNz">
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" id="U7j-94-JNz">
                     <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
+                    <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                 </activityIndicatorView>
                 <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" id="HYp-cb-8zs" customClass="FFTextField">
                     <rect key="frame" x="0.0" y="0.0" width="290" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
                     <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                     <connections>
@@ -1228,7 +1219,6 @@ registered email.</string>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                     <connections>
@@ -1329,6 +1319,15 @@ registered email.</string>
                                 <color key="textColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="umx-kH-N9x">
+                                <rect key="frame" x="143" y="300" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="zIo-5v-xnr" eventType="touchUpInside" id="Eoy-4Y-IDS"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="wBK-IQ-d51">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1346,16 +1345,14 @@ registered email.</string>
                                                     <rect key="frame" x="60" y="9" width="220" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mobile No." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PaT-Am-1E5">
                                                     <rect key="frame" x="60" y="32" width="220" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="PSO-y8-V2t">
@@ -1411,21 +1408,23 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Clients" id="B8K-76-eqs">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="W23-tg-RaY">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="zIo-5v-xnr" id="Zz6-Ix-Buc"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="cB0-tV-GlX">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <segue destination="5x1-se-g4h" kind="modal" id="eRY-no-AhA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="barBtnAdd" destination="cB0-tV-GlX" id="Dif-N5-Gk3"/>
                         <outlet property="btnAddClient" destination="gYL-YI-dPS" id="5kp-zx-4ac"/>
+                        <outlet property="btnReload" destination="umx-kH-N9x" id="eTX-dx-nfe"/>
                         <outlet property="lblErrorMsg" destination="b7W-VC-UNA" id="gH5-j0-yVN"/>
                         <outlet property="tableView" destination="wBK-IQ-d51" id="0gT-Vk-M3Y"/>
                     </connections>
@@ -1641,7 +1640,7 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="jMh-nU-7ew">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="nXc-KK-1zo">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="314-cN-8La" id="8Xb-Dl-POl"/>
                             </connections>
@@ -2033,6 +2032,15 @@ registered email.</string>
                                 <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ytz-nj-SIi">
+                                <rect key="frame" x="143" y="300" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="sAh-xT-sE6" eventType="touchUpInside" id="7cc-q3-a7Q"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="az5-O9-qKm">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2050,16 +2058,14 @@ registered email.</string>
                                                     <rect key="frame" x="60" y="9" width="220" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745098039217" green="0.16470588235294117" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Magistarte" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vzU-Nt-ob4">
                                                     <rect key="frame" x="60" y="32" width="131" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745098039217" green="0.16470588235294117" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-court-big" id="yZd-H9-m1v">
@@ -2077,8 +2083,7 @@ registered email.</string>
                                                     <rect key="frame" x="204" y="32" width="90" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745098039217" green="0.16470588235294117" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2103,21 +2108,23 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Courts" id="1eJ-r0-w0k">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="U7z-NV-hVP">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="sAh-xT-sE6" id="nhr-PD-Enn"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="QbN-ug-EN6">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <segue destination="dWt-Bp-YbR" kind="modal" id="hNc-Ai-l0Q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="barBtnAdd" destination="QbN-ug-EN6" id="mPp-Vx-FBx"/>
                         <outlet property="btnAddCourt" destination="PGA-On-mOn" id="CFK-a0-cLy"/>
+                        <outlet property="btnReload" destination="ytz-nj-SIi" id="ZTV-Ac-9t6"/>
                         <outlet property="lblErrorMsg" destination="rFN-eH-kjT" id="MHy-Dt-EQ7"/>
                         <outlet property="tableView" destination="az5-O9-qKm" id="ccD-AZ-QtI"/>
                     </connections>
@@ -2400,7 +2407,7 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Add Client" id="b1F-pI-OvD">
                         <barButtonItem key="rightBarButtonItem" title="Cancel" id="B0r-op-Kre">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="btnCancelTaped:" destination="42h-OZ-5cM" id="BEg-EN-Mge"/>
                             </connections>
@@ -2657,7 +2664,7 @@ registered email.</string>
         <!--Cases-->
         <scene sceneID="MOq-sS-Hac">
             <objects>
-                <viewController id="70c-zM-AfY" sceneMemberID="viewController">
+                <viewController id="70c-zM-AfY" customClass="ClientCases" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kuj-V7-XXX">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2693,8 +2700,7 @@ registered email.</string>
                                                     <rect key="frame" x="44" y="2" width="242" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opposition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8hQ-BY-Xus">
@@ -2743,12 +2749,16 @@ registered email.</string>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Cases" id="QA7-nB-Ve6">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="RW9-UI-iU8">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="actionToggleLeftDrawer:" destination="70c-zM-AfY" id="P1w-gb-eXj"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Cts-2I-HNC">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyu-TR-xYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2807,16 +2817,7 @@ registered email.</string>
                                                     <rect key="frame" x="60" y="9" width="220" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mobile No." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R5u-Ke-QA9">
-                                                    <rect key="frame" x="60" y="32" width="220" height="18"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="TBe-bc-Uwm">
@@ -2830,6 +2831,13 @@ registered email.</string>
                                                     <animations/>
                                                     <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mobile No." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="R5u-Ke-QA9">
+                                                    <rect key="frame" x="60" y="33" width="220" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <animations/>
                                         </tableViewCellContentView>
@@ -2841,10 +2849,6 @@ registered email.</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Xgc-Du-8MZ" id="4pj-NW-SHO"/>
-                                    <outlet property="delegate" destination="Xgc-Du-8MZ" id="9RJ-ju-NyI"/>
-                                </connections>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" id="lK5-hQ-4Jr">
                                 <rect key="frame" x="0.0" y="445" width="320" height="59"/>
@@ -2858,9 +2862,6 @@ registered email.</string>
                                         <state key="normal" image="btn-add">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                        <connections>
-                                            <action selector="btnAddTaped:" destination="Xgc-Du-8MZ" eventType="touchUpInside" id="ZBM-ua-2N9"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
@@ -2872,21 +2873,16 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Clients" id="KXB-yI-wAO">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="EzE-AE-6eW">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="Xgc-Du-8MZ" id="QO1-Do-Wop"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7xt-nM-4ce">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="barBtnAdd" destination="7xt-nM-4ce" id="vvZ-hL-ztp"/>
-                        <outlet property="btnAddClient" destination="mn4-5S-vYs" id="52I-PB-uJc"/>
-                        <outlet property="lblErrorMsg" destination="GC2-df-dnR" id="mMJ-W0-MFN"/>
-                        <outlet property="tableView" destination="Gr9-QO-sJa" id="Tjh-3p-Yps"/>
-                    </connections>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7IY-Ss-Vcy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2964,16 +2960,14 @@ registered email.</string>
                                                     <rect key="frame" x="60" y="9" width="220" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Magistarte" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kDg-Cz-fmg">
                                                     <rect key="frame" x="60" y="32" width="131" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-court-big" id="J0x-Nr-hcP">
@@ -2991,8 +2985,7 @@ registered email.</string>
                                                     <rect key="frame" x="204" y="32" width="90" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="14"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -3006,10 +2999,6 @@ registered email.</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="Fi1-W4-Zxg" id="nSC-Si-80r"/>
-                                    <outlet property="delegate" destination="Fi1-W4-Zxg" id="cUs-W9-F6O"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <animations/>
@@ -3017,21 +3006,16 @@ registered email.</string>
                     </view>
                     <navigationItem key="navigationItem" title="Courts" id="Ztm-Uk-46u">
                         <barButtonItem key="leftBarButtonItem" image="btn-menu" id="Jgn-Zv-qne">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                             <connections>
                                 <action selector="actionToggleLeftDrawer:" destination="Fi1-W4-Zxg" id="eCy-Y4-I6k"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="fgw-Ve-jvo">
-                            <color key="tintColor" red="0.16634479229999999" green="0.1942561387" blue="0.25612930779999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="barBtnAdd" destination="fgw-Ve-jvo" id="cJz-8p-Zqe"/>
-                        <outlet property="btnAddCourt" destination="PGA-On-mOn" id="p47-rf-Era"/>
-                        <outlet property="lblErrorMsg" destination="gzX-I5-Nd4" id="WB3-Hi-b6W"/>
-                        <outlet property="tableView" destination="Xd2-pu-A8h" id="Rhq-mr-hqA"/>
-                    </connections>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PMN-ff-aei" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3191,6 +3175,190 @@ You should get it soon!</string>
                 </view>
             </objects>
             <point key="canvasLocation" x="-393" y="39"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="euE-0B-6Xw">
+            <objects>
+                <navigationController storyboardIdentifier="Subordinates" automaticallyAdjustsScrollViewInsets="NO" id="Sq4-LJ-9q5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="ni9-QM-e3O">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cHJ-Xi-gsu" kind="relationship" relationship="rootViewController" id="loc-ic-tVl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xIF-Zt-RE3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-821" y="5281"/>
+        </scene>
+        <!--Subordinates-->
+        <scene sceneID="gFP-1X-hsR">
+            <objects>
+                <viewController id="cHJ-Xi-gsu" customClass="Subordinates" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D5H-UA-RjG">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kqg-Y2-PMq">
+                                <rect key="frame" x="16" y="212" width="288" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="CcR-kX-UfQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SubordinateCell" rowHeight="60" id="Sph-5a-CGl" userLabel="SubordinateCell" customClass="SubordinateCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sph-5a-CGl" id="iMl-AG-aGz">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sdz-EN-r5l">
+                                                    <rect key="frame" x="60" y="9" width="220" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mobile No." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hXT-It-kkM">
+                                                    <rect key="frame" x="60" y="32" width="220" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="70c-WN-0zI">
+                                                    <rect key="frame" x="8" y="8" width="44" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="row-disclosure" id="RhU-ne-aTx">
+                                                    <rect key="frame" x="298" y="23" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                                    <animations/>
+                                                    <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="imgViewProfile" destination="70c-WN-0zI" id="hff-Gx-1Av"/>
+                                            <outlet property="lblMobile" destination="hXT-It-kkM" id="NQr-zj-vr5"/>
+                                            <outlet property="lblSubordinateName" destination="sdz-EN-r5l" id="IlR-Nn-GBV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="cHJ-Xi-gsu" id="GKt-71-U3k"/>
+                                    <outlet property="delegate" destination="cHJ-Xi-gsu" id="Ym8-hw-Rc7"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Subordinates" id="KIF-4A-iAr">
+                        <barButtonItem key="leftBarButtonItem" image="btn-menu" id="9AP-Wu-SFq">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="actionToggleLeftDrawer:" destination="cHJ-Xi-gsu" id="NCJ-qX-UQ3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="lblErrorMsg" destination="Kqg-Y2-PMq" id="vMi-0a-czD"/>
+                        <outlet property="tableView" destination="CcR-kX-UfQ" id="6aX-m2-TwM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QTi-D8-VAj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BirthdateCell" rowHeight="44" id="aDN-wL-KBa" userLabel="FirstnameCell">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aDN-wL-KBa" id="tqm-57-eLT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" minimumFontSize="17" id="9v3-s5-V1v" customClass="FFTextField">
+                                <rect key="frame" x="0.0" y="0.0" width="264" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tableViewCellContentView>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableViewCell>
+                <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BirthdateCell" id="hyT-EJ-DgA" userLabel="LastNameCell">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hyT-EJ-DgA" id="aoI-hy-6cf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" minimumFontSize="17" clearButtonMode="whileEditing" id="0Hk-CR-vdR" customClass="FFTextField">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                            </textField>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tableViewCellContentView>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableViewCell>
+                <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MobileCell" id="Qhn-Zy-V3K" userLabel="MobileCell">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Qhn-Zy-V3K" id="L8P-Wv-FL6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Mobile" minimumFontSize="17" clearButtonMode="whileEditing" id="qgl-Wx-neN" customClass="FFTextField">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="93O-zq-aSd">
+                                <rect key="frame" x="0.0" y="43" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tableViewCellContentView>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableViewCell>
+            </objects>
+            <point key="canvasLocation" x="-289" y="5281"/>
         </scene>
     </scenes>
     <resources>

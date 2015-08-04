@@ -96,7 +96,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [tfLastName setAttributedPlaceholder:[Global getAttributedString:@"Last Name" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     [tfMobile setAttributedPlaceholder:[Global getAttributedString:@"Mobile" withFont:APP_FONT fontSize:18 fontColor:UICOLOR(0, 0, 0, 0.3) strokeColor:CLEAR_COLOR]];
     
-    [Global setFont:APP_FONT withSize:18 color:APP_TINT_COLOR toUIViewType:TextField objectArr:@[tfEmail, tfFirstName, tfLastName, tfMobile, tfBirthdate]];
+    [Global setFont:APP_FONT withSize:18 color:BLACK_COLOR toUIViewType:TextField objectArr:@[tfEmail, tfFirstName, tfLastName, tfMobile, tfBirthdate]];
     
     [Global setFont:@"HelveticaNeue" withSize:18 color:APP_TINT_COLOR toUIViewType:TextField objectArr:@[tfPassword]];
     
@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
     [btnLogin setTitle:@"Loging in" forState:UIControlStateSelected];
     
     [btnSignup setTitle:@"Register" forState:UIControlStateNormal];
-    [btnSignup setTitle:@"Registering" forState:UIControlStateSelected];
+    [btnSignup setTitle:@"Registering..." forState:UIControlStateSelected];
     
     
     [datePicker setMaximumDate:[NSDate date]];
@@ -132,7 +132,6 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 {
     [super viewDidAppear:animated];
     
-//    SetStatusBarLightContent(YES);
     [self setNeedsStatusBarAppearanceUpdate];
     
     // fixing bug for entering view
@@ -388,6 +387,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 //            [Global applyPropertiesToButtons:@[btnSignup] likeFont:APP_FONT fontSize:22 fontNormalColor:WHITE_COLOR fontHighlightedColor:WHITE_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:APP_TINT_COLOR andHighlightedBackgroundColor:APP_TINT_COLOR];
             
             [btnSignup.titleLabel setFont:FONT_WITH_NAME_SIZE(APP_FONT, 24)];
+            [btnSignup.titleLabel setTextColor:BLACK_COLOR];
             
             [Global applyPropertiesToButtons:@[btnLogin, btnForgotPass] likeFont:APP_FONT fontSize:17 fontNormalColor:APP_TINT_COLOR fontHighlightedColor:APP_TINT_COLOR borderColor:CLEAR_COLOR borderWidth:0 cornerRadius:0 normalBackgroundColor:CLEAR_COLOR andHighlightedBackgroundColor:CLEAR_COLOR];
             
@@ -492,16 +492,80 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 - (IBAction)barBtnCloseTaped:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:^{
-//        SetStatusBarLightContent(NO);
     }];
 }
 
 - (void)imgViewTaped:(id)sender {
-    [self resignKeyboard];
+    [self setEditing:YES];
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:isImageSet ? @"Remove Picture" : nil otherButtonTitles:@"Take From Camera", @"Take From Library", nil];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:nil
+                                          message:nil
+                                          preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [actionSheet showInView:self.view];
+    
+    UIAlertAction *deletePhotoAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Delete Photo", @"Delete action")
+                                   style:UIAlertActionStyleDestructive
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       [imgViewProPic setImage:image_placeholder_80];
+                                       isImageSet = NO;
+                                   }];
+    
+    UIAlertAction *cameraAction = [UIAlertAction
+                               actionWithTitle:NSLocalizedString(@"Take Photo", @"Camera action")
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                   picker.delegate = self;
+                                   picker.allowsEditing = YES;
+                                   
+                                   if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                                       MY_ALERT(WARNING, @"Device has no camera!", nil);
+                                   }
+                                   else {
+                                       picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                   }
+                                   
+                                   [self presentViewController:picker animated:YES completion:nil];
+                               }];
+    
+    UIAlertAction *libraryAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Choose Photo", @"Library action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                       picker.delegate = self;
+                                       picker.allowsEditing = YES;
+                                       
+                                       picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                       [self presentViewController:picker animated:YES completion:nil];
+                                   }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                    style:UIAlertActionStyleCancel
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        [alertController dismissViewControllerAnimated:YES completion:nil];
+                                    }];
+    
+    if (isImageSet) {
+        [alertController addAction:deletePhotoAction];
+    }
+    
+    [alertController addAction:cameraAction];
+    [alertController addAction:libraryAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:isImageSet ? @"Remove Picture" : nil otherButtonTitles:@"Take From Camera", @"Take From Library", nil];
+//    
+//    [actionSheet showInView:self.view];
 }
 
 - (IBAction)btnActionTaped:(id)sender {
@@ -515,7 +579,11 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             if (_viewType == SIGN_UP_VIEW) {
                 if ([self validateTextFieldValues]) {
                     
-                    [self showVerificationAlert];
+//                    [indicator startAnimating];
+//                    [btnSignup setSelected:YES];
+                    
+                    [self makeSignupRequest];
+//                    [self showVerificationAlert];
                 }
             }
             else {

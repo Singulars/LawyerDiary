@@ -555,14 +555,14 @@
                     caseParams[kAPIcaseId] = existingCaseObj.caseId;
                 }
                 
-                caseParams[kAPIrandom] = existingCaseObj.localCaseId;
+                caseParams[kAPIlocalCaseId] = existingCaseObj.localCaseId;
             }
             Cases *tempCaseObj = [Cases saveCase:caseParams forUser:USER_ID];
             
             NSDictionary *params = @{
                                      kAPIMode: ksaveCase,
                                      kAPIuserId: USER_ID,
-                                     kAPIrandom: tempCaseObj.localCaseId,
+                                     kAPIlocalCaseId: tempCaseObj.localCaseId,
                                      kAPIcaseId: existingCaseObj ? existingCaseObj.caseId : @"",
                                      kAPIcaseNo: tempCaseObj.caseNo,
                                      kAPIlastHeardDate: tempCaseObj.lastHeardDate,

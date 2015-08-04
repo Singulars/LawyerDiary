@@ -19,7 +19,7 @@
     
     [self.tabBar setTranslucent:NO];
     //    [self.tabBar setBarTintColor:APP_TINT_COLOR];
-    [self.tabBar setTintColor:APP_TINT_COLOR];
+    [self.tabBar setTintColor:BLACK_COLOR];
 }
 
 - (void)didReceiveMemoryWarning {

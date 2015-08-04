@@ -73,6 +73,9 @@
 		C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */; };
 		C0DCAAFE1B28203F00A2335F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAFA1B28203F00A2335F /* Default@2x.png */; };
 		C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C0DCAB011B282B6000A2335F /* ClusterPrePermissions.m */; };
+		C0FB383A1B70F4EE00443451 /* SubordinateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB38391B70F4EE00443451 /* SubordinateCell.m */; };
+		C0FB38411B71413600443451 /* Subordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB38401B71413600443451 /* Subordinate.m */; };
+		C0FB38441B71454700443451 /* Subordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB38431B71454700443451 /* Subordinates.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,15 +122,15 @@
 		9DA2828A1AECC96F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		9DA2828C1AECCA1F00024121 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/../build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		9DA282941AECE48000024121 /* ClientCases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCases.h; sourceTree = "<group>"; };
-		9DA282951AECE48000024121 /* ClientCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCases.m; sourceTree = "<group>"; };
+		9DA282951AECE48000024121 /* ClientCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ClientCases.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9DA282971AECF9FC00024121 /* DrawerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerCell.h; sourceTree = "<group>"; };
 		9DA282981AECF9FC00024121 /* DrawerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerCell.m; sourceTree = "<group>"; };
 		9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerTableViewController.h; sourceTree = "<group>"; };
 		9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerTableViewController.m; sourceTree = "<group>"; };
 		9DA2829D1AECFE3A00024121 /* Clients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clients.h; sourceTree = "<group>"; };
-		9DA2829E1AECFE3A00024121 /* Clients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Clients.m; sourceTree = "<group>"; };
+		9DA2829E1AECFE3A00024121 /* Clients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Clients.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9DA282A01AECFE4C00024121 /* Courts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Courts.h; sourceTree = "<group>"; };
-		9DA282A11AECFE4C00024121 /* Courts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Courts.m; sourceTree = "<group>"; };
+		9DA282A11AECFE4C00024121 /* Courts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Courts.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9DE1E51C1AE3CC99001060F4 /* Home.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Home.h; sourceTree = "<group>"; };
 		9DE1E51D1AE3CC99001060F4 /* Home.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Home.m; sourceTree = "<group>"; };
 		9DE1E51F1AE3D4A5001060F4 /* Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Register.h; sourceTree = "<group>"; };
@@ -135,7 +138,7 @@
 		9DE1E5221AE3D523001060F4 /* FFTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTextField.h; sourceTree = "<group>"; };
 		9DE1E5231AE3D523001060F4 /* FFTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTextField.m; sourceTree = "<group>"; };
 		C010C9F81B612C02000247F0 /* ChooseCourt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCourt.h; sourceTree = "<group>"; };
-		C010C9F91B612C02000247F0 /* ChooseCourt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCourt.m; sourceTree = "<group>"; };
+		C010C9F91B612C02000247F0 /* ChooseCourt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChooseCourt.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C010C9FB1B61499A000247F0 /* CaseCourtCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseCourtCell.h; sourceTree = "<group>"; };
 		C010C9FC1B61499A000247F0 /* CaseCourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCourtCell.m; sourceTree = "<group>"; };
 		C012EDAB1B6E871400196629 /* CasesTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CasesTabBar.h; sourceTree = "<group>"; };
@@ -151,20 +154,20 @@
 		C0380BA01B49D712003177FA /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
 		C0380BA11B49D712003177FA /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		C03D2ED81AFA9BE40000665E /* Profile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Profile.h; sourceTree = "<group>"; };
-		C03D2ED91AFA9BE40000665E /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Profile.m; sourceTree = "<group>"; };
+		C03D2ED91AFA9BE40000665E /* Profile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Profile.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C05382CA1B5CD1C5000B26A0 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		C05382CB1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		C054AD701AE42A8400DA9CF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C05CF8DE1B2852E4007BD697 /* ClientDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientDetail.h; sourceTree = "<group>"; };
-		C05CF8DF1B2852E4007BD697 /* ClientDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientDetail.m; sourceTree = "<group>"; };
+		C05CF8DF1B2852E4007BD697 /* ClientDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ClientDetail.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C05CF8E11B285411007BD697 /* ClientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientCell.h; sourceTree = "<group>"; };
 		C05CF8E21B285411007BD697 /* ClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientCell.m; sourceTree = "<group>"; };
 		C060C2241AF66FD0009BA8B4 /* CourtDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtDetail.h; sourceTree = "<group>"; };
-		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtDetail.m; sourceTree = "<group>"; };
+		C060C2251AF66FD0009BA8B4 /* CourtDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CourtDetail.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C062CBAF1B5ED5CF00F46729 /* CaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseCell.h; sourceTree = "<group>"; };
 		C062CBB01B5ED5CF00F46729 /* CaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCell.m; sourceTree = "<group>"; };
 		C062CBB21B5EE4BC00F46729 /* ChooseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseClient.h; sourceTree = "<group>"; };
-		C062CBB31B5EE4BC00F46729 /* ChooseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseClient.m; sourceTree = "<group>"; };
+		C062CBB31B5EE4BC00F46729 /* ChooseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChooseClient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C062CBB51B5EE4E500F46729 /* CaseClientCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseClientCell.h; sourceTree = "<group>"; };
 		C062CBB61B5EE4E500F46729 /* CaseClientCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseClientCell.m; sourceTree = "<group>"; };
 		C06428241B43293E001FB5C0 /* Cases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cases.h; sourceTree = "<group>"; };
@@ -199,7 +202,7 @@
 		C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtsTabBar.h; sourceTree = "<group>"; };
 		C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtsTabBar.m; sourceTree = "<group>"; };
 		C0B2976E1B6FE17B00673875 /* HomeTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTwo.h; sourceTree = "<group>"; };
-		C0B2976F1B6FE17B00673875 /* HomeTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTwo.m; sourceTree = "<group>"; };
+		C0B2976F1B6FE17B00673875 /* HomeTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HomeTwo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
 		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -208,6 +211,12 @@
 		C0DCAAFA1B28203F00A2335F /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		C0DCAB001B282B6000A2335F /* ClusterPrePermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterPrePermissions.h; sourceTree = "<group>"; };
 		C0DCAB011B282B6000A2335F /* ClusterPrePermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterPrePermissions.m; sourceTree = "<group>"; };
+		C0FB38381B70F4EE00443451 /* SubordinateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCell.h; sourceTree = "<group>"; };
+		C0FB38391B70F4EE00443451 /* SubordinateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCell.m; sourceTree = "<group>"; };
+		C0FB383F1B71413600443451 /* Subordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subordinate.h; sourceTree = "<group>"; };
+		C0FB38401B71413600443451 /* Subordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Subordinate.m; sourceTree = "<group>"; };
+		C0FB38421B71454700443451 /* Subordinates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Subordinates.h; sourceTree = "<group>"; };
+		C0FB38431B71454700443451 /* Subordinates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Subordinates.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D9B84C7F1CE1019E74260022 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8C1E5243ED64F381EB5D8A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93A7027CE42E07C07678BA7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -273,6 +282,8 @@
 				9DA282A11AECFE4C00024121 /* Courts.m */,
 				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
 				C060C2251AF66FD0009BA8B4 /* CourtDetail.m */,
+				C0FB38421B71454700443451 /* Subordinates.h */,
+				C0FB38431B71454700443451 /* Subordinates.m */,
 				C03D2ED81AFA9BE40000665E /* Profile.h */,
 				C03D2ED91AFA9BE40000665E /* Profile.m */,
 			);
@@ -290,6 +301,8 @@
 				C06428271B43293E001FB5C0 /* Client.m */,
 				C06428281B43293E001FB5C0 /* Court.h */,
 				C06428291B43293E001FB5C0 /* Court.m */,
+				C0FB383F1B71413600443451 /* Subordinate.h */,
+				C0FB38401B71413600443451 /* Subordinate.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -382,6 +395,8 @@
 				C062CBB61B5EE4E500F46729 /* CaseClientCell.m */,
 				C010C9FB1B61499A000247F0 /* CaseCourtCell.h */,
 				C010C9FC1B61499A000247F0 /* CaseCourtCell.m */,
+				C0FB38381B70F4EE00443451 /* SubordinateCell.h */,
+				C0FB38391B70F4EE00443451 /* SubordinateCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -688,6 +703,7 @@
 				9D64BD8F1AE30521001230C0 /* UIImage+ColorImage.m in Sources */,
 				C05CF8E31B285411007BD697 /* ClientCell.m in Sources */,
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
+				C0FB383A1B70F4EE00443451 /* SubordinateCell.m in Sources */,
 				C062CBB11B5ED5CF00F46729 /* CaseCell.m in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				C064282A1B43293E001FB5C0 /* Cases.m in Sources */,
@@ -705,8 +721,10 @@
 				C064282C1B43293E001FB5C0 /* Court.m in Sources */,
 				9DA282961AECE48100024121 /* ClientCases.m in Sources */,
 				9DA282991AECF9FC00024121 /* DrawerCell.m in Sources */,
+				C0FB38441B71454700443451 /* Subordinates.m in Sources */,
 				9DE1E5241AE3D523001060F4 /* FFTextField.m in Sources */,
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
+				C0FB38411B71413600443451 /* Subordinate.m in Sources */,
 				C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */,
 				C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,

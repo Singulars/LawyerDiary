@@ -39,7 +39,7 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Court *obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
+        Court *obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIlocalCourtId] integerValue])];
        
 //        if ([dataDict objectForKey:kAPIcourtId]) {
 //             obj = [self fetchCourt:[dataDict objectForKey:kAPIcourtId]];
@@ -51,7 +51,7 @@
         if (obj != nil) {
             @try {
                 [obj setUserId:userId];
-                [obj setLocalCourtId:[dataDict objectForKey:kAPIrandom] ? @([[dataDict objectForKey:kAPIrandom] integerValue]) : [Court generateID]];
+                [obj setLocalCourtId:[dataDict objectForKey:kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : [Court generateID]];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
@@ -70,7 +70,7 @@
             obj = [NSEntityDescription insertNewObjectForEntityForName:kCourt inManagedObjectContext:context];
             @try {
                 [obj setUserId:userId];
-                [obj setLocalCourtId:[dataDict objectForKey:kAPIrandom] ? ([[dataDict objectForKey:kAPIrandom] integerValue] == 0 ? [self generateID] : @([[dataDict objectForKey:kAPIrandom] integerValue])) : [self generateID]];
+                [obj setLocalCourtId:[dataDict objectForKey:kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : [self generateID]];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];

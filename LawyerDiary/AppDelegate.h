@@ -14,6 +14,8 @@
 #import "Courts.h"
 #import "Profile.h"
 
+#import "Subordinates.h"
+
 #import "CasesTabBar.h"
 #import "ClientsTabBar.h"
 #import "CourtsTabBar.h"
@@ -52,6 +54,7 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 @property (nonatomic, strong) Clients *clientsViewController;
 @property (nonatomic, strong) Courts *courtsViewController;
 @property (nonatomic, strong) Profile *profileViewController;
+@property (nonatomic, strong) Subordinates *subordinatesViewController;
 
 - (void)registerForUserNotifications:(getDeviceTokenCompletionHandler)completionHandler;
 

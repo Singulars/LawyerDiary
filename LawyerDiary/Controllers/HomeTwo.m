@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     
     [imgViewLogo setTintColor:APP_TINT_COLOR];
     [imgViewLogo setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"app-icon", kImageRenderModeTemplate)];
@@ -42,8 +42,6 @@
 {
     [super viewWillAppear:animated];
     
-    SetStatusBarLightContent(NO);
-    
     //    if (!viewAppeared) {
     //        [imgViewLogo setFrame:CGRectMake((self.view.frame.size.width/2) - (imgViewLogo.frame.size.width/2), (self.view.frame.size.height/2) - (imgViewLogo.frame.size.height/2), imgViewLogo.frame.size.width, imgViewLogo.frame.size.height)];
     //
@@ -58,8 +56,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [toolbar setFrame:CGRectMake(-self.view.bounds.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
     
     [scrollView setContentSize:VIEWSIZE(self.view)];
     [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
@@ -85,6 +81,8 @@
         return;
     }
     
+    [toolbar setFrame:CGRectMake(-self.view.bounds.size.width, 0, toolbar.frame.size.width, toolbar.frame.size.height)];
+    
     NSDictionary *userInfo = [aNotification userInfo];
     
     CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
@@ -103,6 +101,9 @@
     
     [UIView commitAnimations];
     
+    isAccessoryToolBarVisible = NO;
+    [self mobileFieldValueChanged:nil];
+    
     keyboardShown = YES;
 }
 
@@ -119,6 +120,7 @@
     [scrollView setContentInset:UIEdgeInsetsZero];
     [UIView commitAnimations];
     
+    isAccessoryToolBarVisible = NO;
     keyboardShown = NO;
 }
 

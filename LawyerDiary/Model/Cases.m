@@ -50,7 +50,7 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Cases *obj = [self fetchCaseLocally:@([[dataDict objectForKey:kAPIrandom] integerValue])];
+        Cases *obj = [self fetchCaseLocally:@([[dataDict objectForKey:kAPIlocalCaseId] integerValue])];
         
         //        if ([dataDict objectForKey:kAPIclientId]) {
         //            obj = [self fetchClient:[dataDict objectForKey:kAPIcourtId]];
@@ -62,7 +62,7 @@
         if (obj != nil) {
             @try {
                 [obj setUserId:userId];
-                [obj setLocalCaseId:[dataDict objectForKey:kAPIrandom] ? @([[dataDict objectForKey:kAPIrandom] integerValue]) : [Cases generateID]];
+                [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
                 [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
@@ -94,7 +94,7 @@
             obj = [NSEntityDescription insertNewObjectForEntityForName:kCases inManagedObjectContext:context];
             @try {
                 [obj setUserId:userId];
-                [obj setLocalCaseId:[dataDict objectForKey:kAPIrandom] ? @([[dataDict objectForKey:kAPIrandom] integerValue]) : [Cases generateID]];
+                [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
                 [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];

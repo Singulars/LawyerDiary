@@ -99,8 +99,9 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
         self.currentlyOpenedSide = JVFloatingDrawerSideNone;
         
         [self restoreGestures];
-        
-        [self.drawerView willCloseFloatingDrawerViewController:self];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+           [self.drawerView willCloseFloatingDrawerViewController:self]; 
+        });
     }
 }
 
@@ -130,7 +131,6 @@ NSString *JVFloatingDrawerSideString(JVFloatingDrawerSide side) {
 
 - (void)actionCenterViewContainerTapped:(id)sender {
     [self closeDrawerWithSide:self.currentlyOpenedSide animated:YES completion:nil];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 }
 
 #pragma mark - Managed View Controllers

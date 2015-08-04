@@ -19,7 +19,7 @@
     
     [self.tabBar setTranslucent:NO];
 //    [self.tabBar setBarTintColor:APP_TINT_COLOR];
-    [self.tabBar setTintColor:APP_TINT_COLOR];
+    [self.tabBar setTintColor:BLACK_COLOR];
     
 //    UITabBarItem *item0 = self.tabBar.items[0];
 //    [item0 setSelectedImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"icon-profile", kImageRenderModeTemplate)];

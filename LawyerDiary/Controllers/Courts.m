@@ -32,11 +32,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
 //    [btnAddCourt setBackgroundColor:APP_TINT_COLOR];
 //    [btnAddCourt setTintColor:WHITE_COLOR];
@@ -80,9 +80,29 @@
     }
 }
 
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self showSpinner:YES withError:NO];
+    [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (!arrCourts) {
+        arrCourts = [[NSMutableArray alloc] init];
+    }
+    [arrCourts removeAllObjects];
+    
+    [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
+    [self.tableView reloadData];
+    
+    if (arrCourts.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -139,6 +159,8 @@
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
+                [self showSpinner:NO withError:NO];
+                
                 if (responseObject == nil) {
                     if (arrCourts.count > 0) {
                         [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -146,7 +168,9 @@
                     else {
                         [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
                         
-                        [self showSpinner:NO withError:NO];
+                        [self showSpinner:NO withError:YES];
+                        
+                        [btnReload setHidden:NO];
                     }
                 }
                 else {
@@ -191,7 +215,9 @@
                             else {
                                 [lblErrorMsg setText:@"No Courts found."];
                                 
-                                [self showSpinner:NO withError:NO];
+                                [self showSpinner:NO withError:YES];
+                                
+                                [btnReload setHidden:NO];
                             }
                         }
                     }
@@ -199,8 +225,6 @@
                 completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-                [self showSpinner:NO withError:YES];
                 
                 NSString *strMsg;
                 
@@ -214,11 +238,17 @@
                     strMsg = kSOMETHING_WENT_WRONG;
                 }
                 
-                [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                [lblErrorMsg setText:strMsg];
+                [self showSpinner:NO withError:YES];
+                
+                [Global showNotificationWithTitle:strMsg titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 
                 if (arrCourts.count > 0) {
                     [self.tableView setHidden:NO];
                     [lblErrorMsg setHidden:YES];
+                }
+                else {
+                    [btnReload setHidden:NO];
                 }
             }];
         }
@@ -253,28 +283,31 @@
 - (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
 {
     if (flag) {
+        [btnReload setHidden:YES];
         [lblErrorMsg setHidden:YES];
         [self.tableView setHidden:YES];
-        [viewAddCourt setHidden:YES];
+        //        [viewAddCourt setHidden:YES];
         [self.spinnerView startAnimating];
         
-//        [self.navigationItem setRightBarButtonItem:nil];
+        //        [self.navigationItem setRightBarButtonItem:nil];
     }
     else {
         if (errorFlag) {
             [lblErrorMsg setHidden:NO];
             [self.tableView setHidden:YES];
-            [viewAddCourt setHidden:YES];
+            //            [viewAddCourt setHidden:YES];
         }
         else {
             [lblErrorMsg setHidden:YES];
             [self.tableView setHidden:NO];
-            [viewAddCourt setHidden:NO];;
+            //            [viewAddCourt setHidden:NO];
+            
+            [btnReload setHidden:YES];
         }
         
         [self.spinnerView stopAnimating];
         
-//        [self.navigationItem setRightBarButtonItem:barBtnSync];
+        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
     }
 }
 
@@ -308,7 +341,6 @@
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
-//    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 

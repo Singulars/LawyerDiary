@@ -25,11 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
     
@@ -239,14 +239,14 @@
                     clientParams[kAPItaskPlannerId] = clientObj.taskPlannerId;
                 }
                 
-                clientParams[kAPIrandom] = clientObj.localClientId;
+                clientParams[kAPIlocalClientId] = clientObj.localClientId;
             }
             Client *tempClientObj = [Client saveClient:clientParams forUser:USER_ID];
             
             NSDictionary *params = @{
                                      kAPIMode: ksaveClient,
                                      kAPIuserId: USER_ID,
-                                     kAPIrandom: tempClientObj.localClientId,
+                                     kAPIlocalClientId: tempClientObj.localClientId,
                                      kAPIclientId: clientObj ? clientObj.clientId : @"",
                                      kAPIclientFirstName: tempClientObj.clientFirstName,
                                      kAPIclientLastName: tempClientObj.clientLastName,

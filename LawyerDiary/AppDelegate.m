@@ -18,6 +18,7 @@ static NSString * const kCasesViewControllerStoryboardID = @"CasesTabBar";
 static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBar";
 static NSString * const kCourtsViewControllerStoryboardID = @"CourtsTabBar";
 static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
+static NSString * const kSubordinatesViewControllerStoryboardID = @"Subordinates";
 
 Reachability *hostReach;
 
@@ -291,7 +292,7 @@ Reachability *hostReach;
                         [UIView setAnimationsEnabled:oldState];
                     }
                     completion:^(BOOL finished) {
-                        SetStatusBarLightContent(NO);
+
                     }];
 }
 
@@ -429,6 +430,14 @@ Reachability *hostReach;
     }
     
     return _profileViewController;
+}
+
+- (Subordinates *)subordinatesViewController {
+    if (!_subordinatesViewController) {
+        _subordinatesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSubordinatesViewControllerStoryboardID];
+    }
+    
+    return _subordinatesViewController;
 }
 
 #pragma mark - Core Data stack

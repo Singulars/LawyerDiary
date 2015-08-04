@@ -15,6 +15,8 @@
     
     IBOutlet UIView *viewAddCourt;
     IBOutlet UIButton *btnAddCourt;
+    
+    IBOutlet UIButton *btnReload;
 }
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

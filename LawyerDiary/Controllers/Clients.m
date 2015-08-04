@@ -47,11 +47,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -89,9 +89,29 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }
 }
 
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self showSpinner:YES withError:NO];
+    [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (!arrClients) {
+        arrClients = [[NSMutableArray alloc] init];
+    }
+    [arrClients removeAllObjects];
+    
+    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
+    [self.tableView reloadData];
+    
+    if (arrClients.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
 }
 
 
@@ -159,7 +179,9 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                     else {
                         [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
                         
-                        [self showSpinner:NO withError:NO];
+                        [self showSpinner:NO withError:YES];
+                        
+                        [btnReload setHidden:NO];
                     }
                 }
                 else {
@@ -204,7 +226,9 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                             else {
                                 [lblErrorMsg setText:@"No Clients found."];
                                 
-                                [self showSpinner:NO withError:NO];
+                                [self showSpinner:NO withError:YES];
+                                
+                                [btnReload setHidden:NO];
                             }
                         }
                     }
@@ -213,16 +237,29 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
-                [self showSpinner:NO withError:YES];
+                NSString *strMsg;
                 
                 if (error.code == kCFURLErrorTimedOut) {
-                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kREQUEST_TIME_OUT;
                 }
                 else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kCHECK_INTERNET;
                 }
                 else {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    strMsg = kSOMETHING_WENT_WRONG;
+                }
+                
+                [lblErrorMsg setText:strMsg];
+                [self showSpinner:NO withError:YES];
+                
+                [Global showNotificationWithTitle:strMsg titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                if (arrClients.count > 0) {
+                    [self.tableView setHidden:NO];
+                    [lblErrorMsg setHidden:YES];
+                }
+                else {
+                    [btnReload setHidden:NO];
                 }
             }];
         }
@@ -281,34 +318,36 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
 {
     if (flag) {
+        [btnReload setHidden:YES];
         [lblErrorMsg setHidden:YES];
         [self.tableView setHidden:YES];
-        [viewAddClient setHidden:YES];
+        //        [viewAddCourt setHidden:YES];
         [self.spinnerView startAnimating];
         
-//        [self.navigationItem setRightBarButtonItem:nil];
+        //        [self.navigationItem setRightBarButtonItem:nil];
     }
     else {
         if (errorFlag) {
             [lblErrorMsg setHidden:NO];
             [self.tableView setHidden:YES];
-            [viewAddClient setHidden:YES];
+            //            [viewAddCourt setHidden:YES];
         }
         else {
             [lblErrorMsg setHidden:YES];
             [self.tableView setHidden:NO];
-            [viewAddClient setHidden:NO];;
+            //            [viewAddCourt setHidden:NO];
+            
+            [btnReload setHidden:YES];
         }
         
         [self.spinnerView stopAnimating];
         
-//        [self.navigationItem setRightBarButtonItem:barBtnSync];
+        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
     }
 }
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
-//    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 

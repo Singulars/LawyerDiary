@@ -34,16 +34,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    SetStatusBarLightContent(YES);
     SetStatusBarHidden(NO);
     
     NSLog(@"Fonts - %@", [UIFont fontNamesForFamilyName:APP_FONT]);
     
-    [self.navigationController.navigationBar setTintColor:APP_TINT_COLOR];
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
 //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
 //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:APP_TINT_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 44, 0, 0)];
     
@@ -105,6 +104,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    if (!arrCases) {
+        arrCases = [[NSMutableArray alloc] init];
+    }
+    [arrCases removeAllObjects];
+    
+    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
+    [self.tableView reloadData];
+    
+    if (arrCases.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -354,7 +365,6 @@
 #pragma mark - Actions
 
 - (IBAction)actionToggleLeftDrawer:(id)sender {
-//    SetStatusBarLightContent(NO);
     [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
 }
 
