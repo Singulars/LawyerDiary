@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Subordinate.h"
 
-@interface SubordinateCell : UITableViewCell
+#import "SWTableViewCell.h"
+
+@interface SubordinateCell : SWTableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *lblSubordinateName;
 @property (nonatomic, strong) IBOutlet UILabel *lblMobile;

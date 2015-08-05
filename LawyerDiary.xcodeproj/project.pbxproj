@@ -67,6 +67,10 @@
 		C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */; };
 		C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */; };
 		C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B2976F1B6FE17B00673875 /* HomeTwo.m */; };
+		C0B3FFBC1B728A0C00061A5C /* AddSubordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */; };
+		C0B3FFBF1B72AAA400061A5C /* SubordinateCases.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */; };
+		C0B3FFC21B72AAB700061A5C /* SubordinateClients.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */; };
+		C0B3FFC51B72AAC700061A5C /* SubordinateCourts.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */; };
 		C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3C6541B6174C6008D5217 /* EditCase.m */; };
 		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
@@ -203,6 +207,14 @@
 		C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtsTabBar.m; sourceTree = "<group>"; };
 		C0B2976E1B6FE17B00673875 /* HomeTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTwo.h; sourceTree = "<group>"; };
 		C0B2976F1B6FE17B00673875 /* HomeTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HomeTwo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		C0B3FFBA1B728A0C00061A5C /* AddSubordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSubordinate.h; sourceTree = "<group>"; };
+		C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSubordinate.m; sourceTree = "<group>"; };
+		C0B3FFBD1B72AAA400061A5C /* SubordinateCases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCases.h; sourceTree = "<group>"; };
+		C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCases.m; sourceTree = "<group>"; };
+		C0B3FFC01B72AAB700061A5C /* SubordinateClients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateClients.h; sourceTree = "<group>"; };
+		C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateClients.m; sourceTree = "<group>"; };
+		C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCourts.h; sourceTree = "<group>"; };
+		C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCourts.m; sourceTree = "<group>"; };
 		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
 		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -284,8 +296,16 @@
 				C060C2251AF66FD0009BA8B4 /* CourtDetail.m */,
 				C0FB38421B71454700443451 /* Subordinates.h */,
 				C0FB38431B71454700443451 /* Subordinates.m */,
+				C0B3FFBA1B728A0C00061A5C /* AddSubordinate.h */,
+				C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */,
 				C03D2ED81AFA9BE40000665E /* Profile.h */,
 				C03D2ED91AFA9BE40000665E /* Profile.m */,
+				C0B3FFBD1B72AAA400061A5C /* SubordinateCases.h */,
+				C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */,
+				C0B3FFC01B72AAB700061A5C /* SubordinateClients.h */,
+				C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */,
+				C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */,
+				C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -693,9 +713,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0B3FFBC1B728A0C00061A5C /* AddSubordinate.m in Sources */,
 				9DA2829C1AECFACE00024121 /* DrawerTableViewController.m in Sources */,
 				C062CBB41B5EE4BC00F46729 /* ChooseClient.m in Sources */,
 				C060C2261AF66FD0009BA8B4 /* CourtDetail.m in Sources */,
+				C0B3FFBF1B72AAA400061A5C /* SubordinateCases.m in Sources */,
 				C064282B1B43293E001FB5C0 /* Client.m in Sources */,
 				9D64BD8D1AE30521001230C0 /* NSDate+Extra.m in Sources */,
 				9D64BD8A1AE30521001230C0 /* Global.m in Sources */,
@@ -705,6 +727,7 @@
 				9D64BD6D1AE2FFC8001230C0 /* LawyerDiary.xcdatamodeld in Sources */,
 				C0FB383A1B70F4EE00443451 /* SubordinateCell.m in Sources */,
 				C062CBB11B5ED5CF00F46729 /* CaseCell.m in Sources */,
+				C0B3FFC21B72AAB700061A5C /* SubordinateClients.m in Sources */,
 				C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */,
 				C064282A1B43293E001FB5C0 /* Cases.m in Sources */,
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
@@ -732,6 +755,7 @@
 				C05CF8E01B2852E4007BD697 /* ClientDetail.m in Sources */,
 				C062CBB71B5EE4E500F46729 /* CaseClientCell.m in Sources */,
 				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
+				C0B3FFC51B72AAC700061A5C /* SubordinateCourts.m in Sources */,
 				C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */,

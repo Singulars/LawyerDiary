@@ -196,6 +196,37 @@
     }
 }
 
++ (Subordinate *)fetchSubordinateWhoHasAccess
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinate inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"hasAccess = %@", @1];
+        [request setPredicate:predicate];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0)
+            return objArr[0];
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
 + (NSArray *)fetchSubordinates
 {
     @try {
@@ -207,7 +238,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIuserId ascending:NO];
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIuserId ascending:YES];
         [request setSortDescriptors:@[sortDescriptor]];
         
         NSError *error;

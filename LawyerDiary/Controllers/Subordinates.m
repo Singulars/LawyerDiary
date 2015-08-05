@@ -9,8 +9,13 @@
 #import "Subordinates.h"
 #import "Subordinate.h"
 #import "SubordinateCell.h"
+#import "AddSubordinate.h"
 
-@interface Subordinates ()
+
+@interface Subordinates () <SWTableViewCellDelegate>
+{
+    Subordinate *objWhoHasAccess;
+}
 
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) LLARingSpinnerView *spinnerViewBtn;
@@ -235,7 +240,8 @@
 
 - (void)barBtnAddTaped:(id)sender
 {
-
+    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"AddSubordinate"];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)barBtnReloadTaped:(id)sender
@@ -264,28 +270,198 @@
         cell = [[SubordinateCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    [cell setDelegate:self];
+    
+    Subordinate *obj = arrUsers[indexPath.row];
+    if ([obj.hasAccess isEqualToNumber:@1]) {
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:NO]];
+    }
+    else {
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:YES]];
+    }
+    
     [cell configureCellWithSubordinateObj:arrUsers[indexPath.row] forIndexPath:indexPath];
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSArray *)rightButtonsWithAccess:(BOOL)flag
 {
-//    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
-//    CourtDetail *courtDetailVC = navController.viewControllers[0];
-//    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
-//    [self.navigationController pushViewController:courtDetailVC animated:YES];
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    if (flag) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
+                                                    title:@"Give\nAccess"];
+    }
+    else {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0]
+                                                    title:@"Revoke\nAccess"];
+    }
+    
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                title:@"Delete"];
+    
+    return rightUtilityButtons;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
 {
-    [tableView beginUpdates];
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-        [self deleteSubordinate:arrUsers[indexPath.row]];
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
     }
-    [tableView endUpdates];
 }
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            NSLog(@"left button 0 was pressed");
+            break;
+        case 1:
+            NSLog(@"left button 1 was pressed");
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+        {
+            NSLog(@"More button was pressed");
+            
+            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+            
+            Subordinate *obj = arrUsers[cellIndexPath.row];
+            
+            NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+            params[kAPIMode] = kaccessControl;
+            params[kAPIuserId] = obj.userId;
+            params[kAPIadminId] = USER_ID;
+            
+            if ([obj.hasAccess isEqualToNumber:@0]) {
+                objWhoHasAccess = [Subordinate fetchSubordinateWhoHasAccess];
+                
+                if (objWhoHasAccess != nil) {
+                    
+                    UIAlertController *alertController = [UIAlertController
+                                                          alertControllerWithTitle:nil
+                                                          message:[NSString stringWithFormat:@"You've already given access to subordinate user %@.\nNow, if you give access to user %@ then access will be revoked for %@.\n\nAre you sure you want to continue?", objWhoHasAccess.firstName, obj.firstName, objWhoHasAccess.firstName]
+                                                          preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction
+                                                   actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                                   style:UIAlertActionStyleCancel
+                                                   handler:^(UIAlertAction *action)
+                                                   {
+                                                       NSLog(@"Cancel action");
+                                                       
+                                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+                    
+                    UIAlertAction *okAction = [UIAlertAction
+                                               actionWithTitle:NSLocalizedString(@"Continue", @"Continue action")
+                                               style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction *action)
+                                               {
+                                                   NSLog(@"OK action");
+                                                   
+                                                   params[kAPIhasAccess] = @1;
+                                                   
+                                                   [self controlAccessForSubordinate:params];
+                                                   
+                                               }];
+                    
+                    [alertController addAction:cancelAction];
+                    [alertController addAction:okAction];
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+                else {
+                    params[kAPIhasAccess] = @1;
+                    [self controlAccessForSubordinate:params];
+                }
+            }
+            else {
+                params[kAPIhasAccess] = @0;
+                [self controlAccessForSubordinate:params];
+            }
+            
+            break;
+        }
+        case 1:
+        {
+            // Delete button was pressed
+            NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+            
+            [self.tableView beginUpdates];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:cellIndexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+            [self deleteSubordinate:arrUsers[cellIndexPath.row]];
+            [self.tableView endUpdates];
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
+}
+
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [tableView beginUpdates];
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+//        [self deleteSubordinate:arrUsers[indexPath.row]];
+//    }
+//    [tableView endUpdates];
+//}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -305,6 +481,62 @@
     }
 }
 
+
+- (void)controlAccessForSubordinate:(NSDictionary *)params
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                    [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    }
+                    else {
+                        
+                        Subordinate *obj = [Subordinate fetchSubordinate:[params objectForKey:kAPIuserId]];
+                        
+                        if ([[params objectForKey:kAPIhasAccess] isEqualToNumber:@0]) {
+                            [Subordinate updateAccessForUser:[params objectForKey:kAPIuserId] withValue:@0];
+                            
+                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access revoked for %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        else {
+                            [Subordinate updateAccessForUser:[params objectForKey:kAPIuserId] withValue:@1];
+                            
+                            if (objWhoHasAccess != nil) {
+                                [Subordinate updateAccessForUser:objWhoHasAccess.userId withValue:@0];
+                            }
+                            
+                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access given to %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        
+                        [self.tableView reloadData];
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+    else {
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+}
+
 - (void)deleteSubordinate:(Subordinate *)subordinateObj
 {
     if (IS_INTERNET_CONNECTED) {
@@ -312,8 +544,9 @@
         @try {
             
             NSDictionary *params = @{
-                                     kAPIMode: kdeleteCourt,
-                                     kAPIuserId: USER_ID,
+                                     kAPIMode: kdeleteSubordinate,
+                                     kAPIuserId: subordinateObj.userId,
+                                     kAPIadminId: USER_ID
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -327,12 +560,23 @@
                         //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
+                        [Subordinate deleteSubordinate:subordinateObj.userId];
                         
+                        [Global showNotificationWithTitle:@"Subordinate deleted successfully." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                     }
                 }
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [Global showNotificationWithTitle:@"Subordinate can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                if (error.code == kCFURLErrorTimedOut) {
+                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
             }];
         }
         @catch (NSException *exception) {

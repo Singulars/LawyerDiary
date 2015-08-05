@@ -404,6 +404,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIhasAccess                       @"hasAccess"
 #define kAPIisProfile                       @"isProfile"
 
+#define kAPIadminId                         @"adminId"
 
 #define kAPIlocalCaseId                     @"localCaseId"
 #define kAPIcaseId                          @"caseId"
@@ -454,6 +455,10 @@ otherButtonTitles:@"OK", nil] show];
 #define kdeleteClient                       @"deleteClient"
 #define ksaveCase                           @"saveCase"
 #define kloadSubordinate                    @"loadSubordinate"
+#define kaddSubordinate                     @"addSubordinate"
+#define kdeleteSubordinate                  @"deleteSubordinate"
+
+#define kaccessControl                      @"accessControl"
 
 #define kgetServerDateTime                  @"getServerDateTime"
 #define kresetNotificationCount             @"resetNotificationCount"
