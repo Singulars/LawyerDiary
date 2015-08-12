@@ -241,8 +241,9 @@
                 
                 clientParams[kAPIlocalClientId] = clientObj.localClientId;
             }
-            Client *tempClientObj = [Client saveClient:clientParams forUser:USER_ID];
-            
+            //Client *tempClientObj = [Client saveClient:clientParams forUser:USER_ID];
+            Client *tempClientObj = [Client saveClients:clientParams forSubordiante:NO withAdminDetail:nil];
+
             NSDictionary *params = @{
                                      kAPIMode: ksaveClient,
                                      kAPIuserId: USER_ID,
@@ -267,7 +268,9 @@
                         //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Client saveClient:responseObject[kAPIclientData] forUser:USER_ID];
+                        //[Client saveClient:responseObject[kAPIclientData] forUser:USER_ID];
+                        [Client saveClients:responseObject[kAPIclientData] forSubordiante:NO withAdminDetail:nil];
+
                         
                         if (clientObj) {
                             [self.navigationController popViewControllerAnimated:YES];

@@ -29,6 +29,9 @@ static SharedManager *sharedManager;
 @synthesize isLoadingFriendRequests;
 @synthesize isSearchingFriend;
 
+@synthesize fetchSubordinateStatus;
+@synthesize hasAdminAccess;
+
 + (SharedManager *)sharedManger
 {
     if(sharedManager == nil)
@@ -46,6 +49,8 @@ static SharedManager *sharedManager;
         sharedManager.arrContacts = [[NSMutableArray alloc] init];
         
         sharedManager.deviceToken = @"";
+        
+        sharedManager.fetchSubordinateStatus = kStatusUndetermined;
     }
     
     return sharedManager;
@@ -198,6 +203,95 @@ static SharedManager *sharedManager;
             
         }
     }
+}
+
+
+- (void)fetchSubordinatesWithCompletionHandler:(void (^)(BOOL finished))completionHandler
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kloadSubordinate,
+                                     kAPIuserId: USER_ID
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                RemoveHasAdminAccess;
+                RemoveFetchSubordinateStatus;
+                
+                if (responseObject == nil) {
+                    fetchSubordinateStatus = kStatusFailed;
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        fetchSubordinateStatus = kStatusFailed;
+                    }
+                    else {
+                        NSArray *arrSubordinates = [responseObject valueForKey:kAPIsubordinateData];
+                        
+                        if (arrSubordinates.count > 0) {
+                            
+                            for (NSDictionary *obj in arrSubordinates) {
+                                [Subordinate saveSubordinate:obj];
+                            }
+                            
+                            Subordinate *obj = [Subordinate fetchSubordinateWhoHasAccess];
+                            if (obj != nil) {
+                                hasAdminAccess = NO;
+                            }
+                            else {
+                                hasAdminAccess = YES;
+                            }
+                            
+                            fetchSubordinateStatus = kStatusSuccess;
+                        }
+                        else {
+                            hasAdminAccess = YES;
+                            fetchSubordinateStatus = kStatusSuccess;
+                        }
+                        
+                        SetHasAdminAccess(hasAdminAccess);
+                    }
+                }
+                
+                SetFetchSubordinateStatus(fetchSubordinateStatus);
+                completionHandler(YES);
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                if (error.code == kCFURLErrorTimedOut) {
+                    fetchSubordinateStatus = kStatusFailedBecauseInternet;
+                }
+                else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                    fetchSubordinateStatus = kStatusFailedBecauseInternet;
+                }
+                else {
+                    fetchSubordinateStatus = kStatusFailed;
+                }
+                
+                SetFetchSubordinateStatus(fetchSubordinateStatus);
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+    else {
+        fetchSubordinateStatus = kStatusFailedBecauseInternet;
+        
+        SetFetchSubordinateStatus(fetchSubordinateStatus);
+    }
+}
+
+- (void)updateAdminAccessVariablesValue
+{
+    ShareObj.hasAdminAccess = GetHasAdminAccess;
+    ShareObj.fetchSubordinateStatus = GetFetchSubordinateStatus;
 }
 
 - (void)saveProfileData:(NSDictionary *)params forAction:(NSInteger)action

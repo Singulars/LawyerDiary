@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     // Initialization code
     [Global applyCornerRadiusToViews:@[_imgViewProfile] withRadius:ViewHeight(_imgViewProfile)/2 borderColor:WHITE_COLOR andBorderWidth:1];
-    [_imgViewCheckmark setTintColor:APP_TINT_COLOR];
+    [_imgViewCheckmark setTintColor:BLACK_COLOR];
     [_imgViewCheckmark setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"icon-checkmark", kImageRenderModeTemplate)];
 }
 

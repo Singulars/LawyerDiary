@@ -167,7 +167,7 @@
                                            {
                                                NSLog(@"OK action");
                                                
-                                               [self saveCourt];
+                                               [self saveSubordinate];
                                            }];
                 
                 [alertController addAction:cancelAction];
@@ -175,11 +175,14 @@
                 
                 [self presentViewController:alertController animated:YES completion:nil];
             }
+            else {
+                [self saveSubordinate];
+            }
         }
     }
 }
 
-- (void)saveCourt
+- (void)saveSubordinate
 {
     if (IS_INTERNET_CONNECTED) {
         

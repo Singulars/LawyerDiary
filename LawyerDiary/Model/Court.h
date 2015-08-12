@@ -27,12 +27,19 @@ typedef NS_ENUM(NSUInteger, CourtProperty) {
 @property (nonatomic, retain) NSNumber * localCourtId;
 @property (nonatomic, retain) NSString * megistrateName;
 @property (nonatomic, retain) NSNumber * userId;
+@property (nonatomic, retain) NSNumber * adminId;
+@property (nonatomic, retain) NSString * adminName;
+@property (nonatomic, retain) NSNumber * hasAccess;
+@property (nonatomic, retain) NSNumber * isSubordinate;
 
-+ (Court *)saveCourt:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
++ (Court *)saveCourt:(NSDictionary *)dataDict forSubordiante:(BOOL)flag withAdminDetail:(NSDictionary *)adminDetail;
++ (BOOL)saveCourtsForSubordinate:(NSDictionary *)dataDict;
 + (BOOL)updatedCourtPropertyofCourt:(Court *)courtObj withProperty:(CourtProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteCourt:(NSNumber *)courtId;
 + (BOOL)deleteCourtsForUser:(NSNumber *)userId;
 + (Court *)fetchCourt:(NSNumber *)courtId;
-+ (NSArray *)fetchCourts:(NSNumber *)userId;
++ (NSArray *)fetchCourtsForAdmin;
++ (NSArray *)fetchCourtsForAdmin:(NSNumber *)adminId;
++ (NSArray *)fetchCourtsForSubordinate;
 
 @end

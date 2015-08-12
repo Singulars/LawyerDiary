@@ -47,12 +47,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
+    
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
-    
+    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
+
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
@@ -61,10 +64,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [self.spinnerView setTintColor:APP_TINT_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
-    
+    [btnReload setHidden:YES];
+
 //    [Client deleteCientsForUser:USER_ID];
     
-    arrClients = [[NSMutableArray alloc] init];
+  /*  arrClients = [[NSMutableArray alloc] init];
     
     __weak Clients *weakSelf = self;
     
@@ -86,13 +90,13 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
             [self.tableView reloadData];
         }];
-    }
+    }*/
 }
 
 - (IBAction)btnReloadTaped:(id)sender
 {
     [self showSpinner:YES withError:NO];
-    [self fetchClients:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+    [self fetchClientsWithCompletionHandler:^(BOOL finished) {
         [self.tableView reloadData];
     }];
 }
@@ -100,18 +104,19 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self loadClients];
     
-    if (!arrClients) {
-        arrClients = [[NSMutableArray alloc] init];
-    }
-    [arrClients removeAllObjects];
-    
-    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
-    [self.tableView reloadData];
-    
-    if (arrClients.count > 0) {
-        [self showSpinner:NO withError:NO];
-    }
+//    if (!arrClients) {
+//        arrClients = [[NSMutableArray alloc] init];
+//    }
+//    [arrClients removeAllObjects];
+//    
+//    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
+//    [self.tableView reloadData];
+//    
+//    if (arrClients.count > 0) {
+//        [self showSpinner:NO withError:NO];
+//    }
 }
 
 
@@ -121,7 +126,273 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 //    self.originalFrame = viewAddClient.frame;
 }
 
-- (void)fetchClients:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
+
+/*- (void)insertRowsAtTop {
+    
+    [self fetchClients:kPriorityNewer withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.pullToRefreshView stopAnimating];
+    }];
+}
+
+
+- (void)insertRowsAtBottom {
+    
+    [self fetchClients:kPriorityOlder withCompletionHandler:^(BOOL finished) {
+        if (arrIndexPaths.count > 0) {
+            [self.tableView beginUpdates];
+            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+            [self.tableView endUpdates];
+        }
+        
+        [self.tableView.infiniteScrollingView stopAnimating];
+    }];
+}*/
+
+- (void)loadClients
+{
+//    if (!arrClients) {
+//        arrClients = [[NSMutableArray alloc] init];
+//    }
+//    [arrClients removeAllObjects];
+//    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
+//    if (arrClients.count == 0) {
+////        [self fetchClients];
+//    }
+//    [self.tableView reloadData];
+    
+    if (IS_INTERNET_CONNECTED) {
+        
+        [self fetchClientsWithCompletionHandler:^(BOOL finished) {
+            [self setBarButton:AddBarButton];
+            
+            if (!arrClients) {
+                arrClients = [[NSMutableArray alloc] init];
+            }
+            
+            [arrClients removeAllObjects];
+            [arrClients addObjectsFromArray:[Client fetchClientsForAdmin]];
+            
+            [self.tableView reloadData];
+        }];
+    }
+    else {
+        
+        if (arrClients.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:kCHECK_INTERNET];
+            [self showSpinner:NO withError:YES];
+        }
+    }
+
+}
+- (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
+{
+    if (flag) {
+        [btnReload setHidden:YES];
+        [lblErrorMsg setHidden:YES];
+        [self.tableView setHidden:YES];
+        //        [viewAddCourt setHidden:YES];
+        [self.spinnerView startAnimating];
+        
+        //        [self.navigationItem setRightBarButtonItem:nil];
+    }
+    else {
+        if (errorFlag) {
+            [lblErrorMsg setHidden:NO];
+            [self.tableView setHidden:YES];
+            //            [viewAddCourt setHidden:YES];
+        }
+        else {
+            [lblErrorMsg setHidden:YES];
+            [self.tableView setHidden:NO];
+            //            [viewAddCourt setHidden:NO];
+            
+            [btnReload setHidden:YES];
+        }
+        
+        [self.spinnerView stopAnimating];
+        
+        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
+    }
+}
+#pragma mark - Actions
+
+- (IBAction)actionToggleLeftDrawer:(id)sender {
+    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
+}
+
+- (IBAction)barBtnAddTaped:(id)sender
+{
+    switch (ShareObj.fetchSubordinateStatus) {
+        case kStatusUndetermined: {
+            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailed: {
+            MY_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailedBecauseInternet: {
+            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusSuccess: {
+            if (ShareObj.hasAdminAccess) {
+                
+                UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
+                [self presentViewController:navController animated:YES completion:nil];
+            }
+            else {
+                MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (IBAction)btnAddTaped:(id)sender
+{
+    
+}
+
+#pragma mark - UITableViewDataSource / UITableViewDelegate
+#pragma mark -
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60.f;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return arrClients.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"ClientCell";
+    ClientCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (!cell) {
+        cell = [[ClientCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    [cell configureCellWithClientObj:arrClients[indexPath.row] forIndexPath:indexPath];
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
+    ClientDetail *clientDetailVC = navController.viewControllers[0];
+    [clientDetailVC setClientObj:arrClients[indexPath.row]];
+    [self.navigationController pushViewController:clientDetailVC animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (ShareObj.fetchSubordinateStatus) {
+        case kStatusUndetermined: {
+            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusFailed: {
+            MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusFailedBecauseInternet: {
+            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusSuccess: {
+            if (ShareObj.hasAdminAccess) {
+                [tableView beginUpdates];
+                if (editingStyle == UITableViewCellEditingStyleDelete) {
+                    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                    [self deleteClient:arrClients[indexPath.row]];
+                    [arrClients removeObjectAtIndex:indexPath.row];
+                }
+                [tableView endUpdates];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        //        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+- (void)deleteClient:(Client *)objClient
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kdeleteClient,
+                                     kAPIuserId: USER_ID,
+                                     kAPIclientId: objClient.clientId
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                    [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    }
+                    else {
+                        [Client deleteClient:objClient.clientId];
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+    else {
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+}
+
+/*- (void)fetchClients:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
@@ -147,18 +418,18 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 default:
                     break;
             }
-
             
-//            if (pagingPriority != kPriorityInitial) {
-//                if (isRequestForOlder) {
-//                    Client *objClient = [arrClients lastObject];
-//                    indexOlder = objClient.clientId.integerValue;
-//                }
-//                else {
-//                    Client *objClient = [arrClients firstObject];
-//                    indexNewer = objClient.clientId.integerValue;
-//                }
-//            }
+            
+            //            if (pagingPriority != kPriorityInitial) {
+            //                if (isRequestForOlder) {
+            //                    Client *objClient = [arrClients lastObject];
+            //                    indexOlder = objClient.clientId.integerValue;
+            //                }
+            //                else {
+            //                    Client *objClient = [arrClients firstObject];
+            //                    indexNewer = objClient.clientId.integerValue;
+            //                }
+            //            }
             
             NSDictionary *params = @{
                                      kAPIMode: kloadClients,
@@ -200,10 +471,17 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                         NSArray *arrClinetObj = [responseObject valueForKey:kAPIclientData];
                         
                         if (arrClinetObj.count > 0) {
-                            for (NSDictionary *clientObj in [responseObject valueForKey:kAPIclientData]) {
-                                Client *objClient = [Client saveClient:clientObj forUser:USER_ID];
-                                [arrClient addObject:objClient];
+                            if (arrClients.count > 0) {
+                                [Client deleteCientsForUser:USER_ID];
                             }
+                            
+                            for (NSDictionary *clientObj in arrClinetObj) {
+                                //Client *objClient = [Client saveClient:clientObj forUser:USER_ID];
+                                [Client saveClients:clientObj forSubordiante:NO withAdminDetail:nil];
+                                
+                                [arrClient addObject:clientObj];
+                                
+                                }
                             
                             NSInteger totalArrCount = arrClients.count + arrClient.count;
                             
@@ -274,185 +552,136 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         [self showSpinner:NO withError:YES];
         [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
-}
-
-- (void)insertRowsAtTop {
-    
-    [self fetchClients:kPriorityNewer withCompletionHandler:^(BOOL finished) {
-        if (arrIndexPaths.count > 0) {
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
-            [self.tableView endUpdates];
-        }
-        
-        [self.tableView.pullToRefreshView stopAnimating];
-    }];
-}
-
-
-- (void)insertRowsAtBottom {
-    
-    [self fetchClients:kPriorityOlder withCompletionHandler:^(BOOL finished) {
-        if (arrIndexPaths.count > 0) {
-            [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
-            [self.tableView endUpdates];
-        }
-        
-        [self.tableView.infiniteScrollingView stopAnimating];
-    }];
-}
-
-- (void)loadClients
+}*/
+- (void)barBtnReloadTaped:(id)sender
 {
-    if (!arrClients) {
-        arrClients = [[NSMutableArray alloc] init];
-    }
-    [arrClients removeAllObjects];
-    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
-    if (arrClients.count == 0) {
-//        [self fetchClients];
-    }
-    [self.tableView reloadData];
+    [self loadClients];
 }
-- (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
+- (void)setBarButton:(UIBarButton)barBtnType
 {
-    if (flag) {
-        [btnReload setHidden:YES];
-        [lblErrorMsg setHidden:YES];
-        [self.tableView setHidden:YES];
-        //        [viewAddCourt setHidden:YES];
-        [self.spinnerView startAnimating];
-        
-        //        [self.navigationItem setRightBarButtonItem:nil];
-    }
-    else {
-        if (errorFlag) {
-            [lblErrorMsg setHidden:NO];
-            [self.tableView setHidden:YES];
-            //            [viewAddCourt setHidden:YES];
-        }
-        else {
-            [lblErrorMsg setHidden:YES];
-            [self.tableView setHidden:NO];
-            //            [viewAddCourt setHidden:NO];
+    switch (barBtnType) {
+        case AddBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(barBtnAddTaped:)];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
             
-            [btnReload setHidden:YES];
+            barBtnReload = [[UIBarButtonItem alloc] initWithImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"bar-btn-sync", kImageRenderModeTemplate) style:UIBarButtonItemStylePlain target:self action:@selector(barBtnReloadTaped:)];
+            [barBtnReload setTintColor:APP_TINT_COLOR];
+            
+            [self.navigationItem setRightBarButtonItems:@[barBtnAdd, barBtnReload]];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
         }
-        
-        [self.spinnerView stopAnimating];
-        
-        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
-    }
-}
-#pragma mark - Actions
-
-- (IBAction)actionToggleLeftDrawer:(id)sender {
-    [[AppDelegate globalDelegate] toggleLeftDrawer:self animated:YES];
-}
-
-- (IBAction)barBtnAddTaped:(id)sender
-{
-
-}
-
-- (IBAction)btnAddTaped:(id)sender
-{
-    
-}
-
-#pragma mark - UITableViewDataSource / UITableViewDelegate
-#pragma mark -
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60.f;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return arrClients.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"ClientCell";
-    ClientCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (!cell) {
-        cell = [[ClientCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
-    [cell configureCellWithClientObj:arrClients[indexPath.row] forIndexPath:indexPath];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
-    ClientDetail *clientDetailVC = navController.viewControllers[0];
-    [clientDetailVC setClientObj:arrClients[indexPath.row]];
-    [self.navigationController pushViewController:clientDetailVC animated:YES];
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView beginUpdates];
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-        [self deleteClient:arrClients[indexPath.row]];
-        [arrClients removeObjectAtIndex:indexPath.row];
-    }
-    [tableView endUpdates];
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Remove seperator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        //        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    // Prevent the cell from inheriting the Table View's margin settings
-    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
-        [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
-    // Explictly set your cell's layout margins
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
+            break;
+        case IndicatorBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
+            
+            [self.navigationItem setRightBarButtonItems:nil];
+            [self.navigationItem setRightBarButtonItem:barBtnAdd];
+            [self.spinnerView startAnimating];
+        }
+            break;
+        case NilBarButton: {
+            [self.navigationItem setRightBarButtonItems:nil];
+        }
+        default:
+            break;
     }
 }
 
-- (void)deleteClient:(Client *)objClient
+- (void)fetchClientsWithCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
             NSDictionary *params = @{
-                                     kAPIMode: kdeleteClient,
-                                     kAPIuserId: USER_ID,
-                                     kAPIclientId: objClient.clientId
+                                     kAPIMode: kloadClients,
+                                     kAPIuserId: USER_ID
                                      };
+            
+            if (arrClients.count == 0) {
+                [self showSpinner:YES withError:NO];
+                [self setBarButton:NilBarButton];
+            }
+            else {
+                [self setBarButton:IndicatorBarButton];
+            }
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
+                [self showSpinner:NO withError:NO];
+                
                 if (responseObject == nil) {
-                    [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    if (arrClients.count > 0) {
+                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
+                        [self showSpinner:NO withError:YES];
+                    }
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Client deleteClient:objClient.clientId];
+                        NSArray *arrCourtObj = [responseObject valueForKey:kAPIclientData];
+                        
+                        if (arrCourtObj.count > 0) {
+                            
+                            if (arrClients.count > 0) {
+                                [Client deleteCientsForUser:USER_ID];
+                            }
+                            
+                            for (NSDictionary *courtObj in arrCourtObj) {
+                                [Client saveClients:courtObj forSubordiante:NO withAdminDetail:nil];
+                            }
+                            
+                            [self showSpinner:NO withError:NO];
+                        }
+                        else {
+                            
+                            if (arrClients.count > 0) {
+                                [Client deleteCientsForUser:USER_ID];
+                            }
+                            
+                            [lblErrorMsg setText:@"No Clients found."];
+                            
+                            [self showSpinner:NO withError:YES];
+                        }
                     }
                 }
+                completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                NSString *strMsg;
+                
+                if (error.code == kCFURLErrorTimedOut) {
+                    strMsg = kREQUEST_TIME_OUT;
+                }
+                else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                    strMsg = kCHECK_INTERNET;
+                }
+                else {
+                    strMsg = kSOMETHING_WENT_WRONG;
+                }
+                
+                [lblErrorMsg setText:strMsg];
+                [self showSpinner:NO withError:YES];
+                
+                [Global showNotificationWithTitle:strMsg titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                
+                if (arrClients.count > 0) {
+                    [self.tableView setHidden:NO];
+                    [lblErrorMsg setHidden:YES];
+                }
+                else {
+                    [btnReload setHidden:NO];
+                }
             }];
         }
         @catch (NSException *exception) {
@@ -463,6 +692,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         }
     }
     else {
+        [self showSpinner:NO withError:YES];
         [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }

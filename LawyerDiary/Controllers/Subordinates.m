@@ -32,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
+    
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
@@ -419,7 +421,10 @@
             
             [self.tableView beginUpdates];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:cellIndexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+            
             [self deleteSubordinate:arrUsers[cellIndexPath.row]];
+            [arrUsers removeObjectAtIndex:cellIndexPath.row];
+            
             [self.tableView endUpdates];
             
             break;
@@ -505,7 +510,9 @@
                         if ([[params objectForKey:kAPIhasAccess] isEqualToNumber:@0]) {
                             [Subordinate updateAccessForUser:[params objectForKey:kAPIuserId] withValue:@0];
                             
-                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access revoked for %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access revoked for %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:GREEN_COLOR forDuration:1];
+                            
+                            SetHasAdminAccess(YES);
                         }
                         else {
                             [Subordinate updateAccessForUser:[params objectForKey:kAPIuserId] withValue:@1];
@@ -514,12 +521,18 @@
                                 [Subordinate updateAccessForUser:objWhoHasAccess.userId withValue:@0];
                             }
                             
-                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access given to %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            [Global showNotificationWithTitle:[NSString stringWithFormat:@"Access given to %@.", obj.firstName] titleColor:WHITE_COLOR backgroundColor:GREEN_COLOR forDuration:1];
+                            
+                            SetHasAdminAccess(NO);
                         }
                         
                         [self.tableView reloadData];
                     }
                 }
+                
+                SetFetchSubordinateStatus(kStatusSuccess);
+                
+                [ShareObj updateAdminAccessVariablesValue];
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -562,7 +575,7 @@
                     else {
                         [Subordinate deleteSubordinate:subordinateObj.userId];
                         
-                        [Global showNotificationWithTitle:@"Subordinate deleted successfully." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        [Global showNotificationWithTitle:@"Subordinate deleted successfully." titleColor:WHITE_COLOR backgroundColor:GREEN_COLOR forDuration:1];
                     }
                 }
                 

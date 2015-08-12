@@ -11,6 +11,7 @@
 #import "CourtDetail.h"
 #import "Court.h"
 #import "SVPullToRefresh.h"
+#import "CourtDetail.h"
 
 @interface Courts ()
 {
@@ -31,6 +32,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
@@ -53,8 +56,14 @@
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
-//    [Court deleteCourtsForUser:USER_ID];
+    [btnReload setHidden:YES];
     
+    [self loadCourts];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCourtsLocally:) name:kFetchCourts object:nil];
+    
+//    [Court deleteCourtsForUser:USER_ID];
+    /*
     arrCourts = [[NSMutableArray alloc] init];
     
     __weak Courts *weakSelf = self;
@@ -74,16 +83,84 @@
     if (arrCourts.count == 0) {
         [self showSpinner:YES withError:NO];
         
-        [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+        [self fetchCourtsWithCompletionHandler:^(BOOL finished) {
             [self.tableView reloadData];
         }];
+    }*/
+}
+
+- (void)fetchCourtsLocally:(NSNotification *)aNotification
+{
+    if (!arrCourts) {
+        arrCourts = [[NSMutableArray alloc] init];
+    }
+    
+    [arrCourts removeAllObjects];
+    [arrCourts addObjectsFromArray:[Court fetchCourtsForAdmin]];
+    
+    [self.tableView reloadData];
+}
+
+- (void)loadCourts
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        [self fetchCourtsWithCompletionHandler:^(BOOL finished) {
+            [self setBarButton:AddBarButton];
+            
+            [self fetchCourtsLocally:nil];
+        }];
+    }
+    else {
+        
+        if (arrCourts.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:kCHECK_INTERNET];
+            [self showSpinner:NO withError:YES];
+        }
+    }
+}
+
+- (void)setBarButton:(UIBarButton)barBtnType
+{
+    switch (barBtnType) {
+        case AddBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(barBtnAddTaped:)];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
+            
+            barBtnReload = [[UIBarButtonItem alloc] initWithImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"bar-btn-sync", kImageRenderModeTemplate) style:UIBarButtonItemStylePlain target:self action:@selector(barBtnReloadTaped:)];
+            [barBtnReload setTintColor:APP_TINT_COLOR];
+            
+            [self.navigationItem setRightBarButtonItems:@[barBtnAdd, barBtnReload]];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
+        }
+            break;
+        case IndicatorBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
+            
+            [self.navigationItem setRightBarButtonItems:nil];
+            [self.navigationItem setRightBarButtonItem:barBtnAdd];
+            [self.spinnerView startAnimating];
+        }
+            break;
+        case NilBarButton: {
+            [self.navigationItem setRightBarButtonItems:nil];
+        }
+        default:
+            break;
     }
 }
 
 - (IBAction)btnReloadTaped:(id)sender
 {
     [self showSpinner:YES withError:NO];
-    [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+    [self fetchCourtsWithCompletionHandler:^(BOOL finished) {
         [self.tableView reloadData];
     }];
 }
@@ -91,18 +168,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if (!arrCourts) {
-        arrCourts = [[NSMutableArray alloc] init];
-    }
-    [arrCourts removeAllObjects];
-    
-    [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
-    [self.tableView reloadData];
-    
-    if (arrCourts.count > 0) {
-        [self showSpinner:NO withError:NO];
-    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -111,51 +176,24 @@
 //    self.originalFrame = viewAddCourt.frame;
 }
 
-- (void)fetchCourts:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
+- (void)fetchCourtsWithCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
-            
-            switch (pagingPriority) {
-                case kPriorityInitial: {
-                    
-                }
-                    break;
-                case kPriorityNewer: {
-                    Court *objCort = [arrCourts firstObject];
-                    indexNewer = objCort.courtId.integerValue;
-                }
-                    break;
-                case kPriorityOlder: {
-                    Court *objCort = [arrCourts lastObject];
-                    indexOlder = objCort.courtId.integerValue;
-                }
-                    break;
-                default:
-                    break;
-            }
-            
-//            if (pagingPriority != kPriorityInitial) {
-//                if (isRequestForOlder) {
-//                    Court *objCort = [arrCourts lastObject];
-//                    indexOlder = objCort.courtId.integerValue;
-//                }
-//                else {
-//                    Court *objCort = [arrCourts firstObject];
-//                    indexNewer = objCort.courtId.integerValue;
-//                }
-//            }
-            
             NSDictionary *params = @{
                                      kAPIMode: kloadCourts,
-                                     kAPIuserId: USER_ID,
-                                     kAPIisBefore: pagingPriority == kPriorityNewer ? @1 : @0,
-                                     kAPIindex: pagingPriority == kPriorityInitial ? @0 : (pagingPriority == kPriorityNewer ? @(indexNewer) : @(indexOlder)),
-                                     kAPIoffset: @10
+                                     kAPIuserId: USER_ID
                                      };
+            
+            if (arrCourts.count == 0) {
+                [self showSpinner:YES withError:NO];
+                [self setBarButton:NilBarButton];
+            }
+            else {
+                [self setBarButton:IndicatorBarButton];
+            }
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
@@ -167,10 +205,7 @@
                     }
                     else {
                         [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
-                        
                         [self showSpinner:NO withError:YES];
-                        
-                        [btnReload setHidden:NO];
                     }
                 }
                 else {
@@ -178,31 +213,16 @@
                         MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        
-                        NSMutableArray *arrCourt = [[NSMutableArray alloc] init];
-                        if (!arrIndexPaths) {
-                            arrIndexPaths = [[NSMutableArray alloc] init];
-                        }
-                        
-                        [arrIndexPaths removeAllObjects];
-                        
                         NSArray *arrCourtObj = [responseObject valueForKey:kAPIcourData];
                         
                         if (arrCourtObj.count > 0) {
-                            for (NSDictionary *courtObj in [responseObject valueForKey:kAPIcourData]) {
-                                Court *objCourt = [Court saveCourt:courtObj forUser:USER_ID];
-                                [arrCourt addObject:objCourt];
+                            
+                            if (arrCourts.count > 0) {
+                                [Court deleteCourtsForUser:USER_ID];
                             }
                             
-                            NSInteger totalArrCount = arrCourts.count + arrCourt.count;
-                            
-                            NSInteger startIndex = isRequestForOlder ? arrCourts.count : 0;
-                            NSInteger endIndex = isRequestForOlder ? totalArrCount : arrCourt.count;
-                            
-                            for (NSInteger i = startIndex; i < endIndex; i++) {
-                                [arrCourts insertObject:isRequestForOlder ? arrCourt[i-startIndex] : arrCourt[i] atIndex:i];
-                                
-                                [arrIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                            for (NSDictionary *courtObj in arrCourtObj) {
+                                [Court saveCourt:courtObj forSubordiante:NO withAdminDetail:nil];
                             }
                             
                             [self showSpinner:NO withError:NO];
@@ -210,15 +230,12 @@
                         else {
                             
                             if (arrCourts.count > 0) {
-                                [Global showNotificationWithTitle:@"All Courts Loaded!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                [Court deleteCourtsForUser:USER_ID];
                             }
-                            else {
-                                [lblErrorMsg setText:@"No Courts found."];
-                                
-                                [self showSpinner:NO withError:YES];
-                                
-                                [btnReload setHidden:NO];
-                            }
+                            
+                            [lblErrorMsg setText:@"No Courts found."];
+                            
+                            [self showSpinner:NO withError:YES];
                         }
                     }
                 }
@@ -265,21 +282,33 @@
     }
 }
 
-- (void)loadCourts
+- (void)barBtnReloadTaped:(id)sender
 {
-    if (!arrCourts) {
-        arrCourts = [[NSMutableArray alloc] init];
-    }
-    [arrCourts removeAllObjects];
-    [arrCourts addObjectsFromArray:[Court fetchCourts:USER_ID]];
-    if (arrCourts.count == 0) {
-        [self fetchCourts:kPriorityInitial withCompletionHandler:^(BOOL finished) {
-            
-        }];
-    }
-    [self.tableView reloadData];
+    [self loadCourts];
 }
 
+- (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
+{
+    if (flag) {
+        
+        [lblErrorMsg setHidden:YES];
+        [self.tableView setHidden:YES];
+        [self.spinnerView startAnimating];
+    }
+    else {
+        if (errorFlag) {
+            [lblErrorMsg setHidden:NO];
+            [self.tableView setHidden:YES];
+        }
+        else {
+            [lblErrorMsg setHidden:YES];
+            [self.tableView setHidden:NO];
+        }
+        
+        [self.spinnerView stopAnimating];
+    }
+}
+/*
 - (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
 {
     if (flag) {
@@ -336,7 +365,7 @@
         
         [self.tableView.infiniteScrollingView stopAnimating];
     }];
-}
+}*/
 
 #pragma mark - Actions
 
@@ -346,7 +375,35 @@
 
 - (IBAction)barBtnAddTaped:(id)sender
 {
-    
+    switch (ShareObj.fetchSubordinateStatus) {
+        case kStatusUndetermined: {
+            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailed: {
+            MY_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailedBecauseInternet: {
+            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusSuccess: {
+            if (ShareObj.hasAdminAccess) {
+                
+                CourtDetail *courtDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
+                
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:courtDetailVC];
+                [self presentViewController:navController animated:YES completion:nil];
+            }
+            else {
+                MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+            }
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 - (IBAction)btnAddTaped:(id)sender
@@ -382,21 +439,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
-    CourtDetail *courtDetailVC = navController.viewControllers[0];
+    CourtDetail *courtDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
     [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView beginUpdates];
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-        [self deleteCourt:arrCourts[indexPath.row]];
-        [arrCourts removeObjectAtIndex:indexPath.row];
+    switch (ShareObj.fetchSubordinateStatus) {
+        case kStatusUndetermined: {
+            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusFailed: {
+            MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusFailedBecauseInternet: {
+            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+        }
+            break;
+        case kStatusSuccess: {
+            if (ShareObj.hasAdminAccess) {
+                [tableView beginUpdates];
+                if (editingStyle == UITableViewCellEditingStyleDelete) {
+                    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                    [self deleteCourt:arrCourts[indexPath.row]];
+                    [arrCourts removeObjectAtIndex:indexPath.row];
+                }
+                [tableView endUpdates];
+            }
+        }
+            break;
+        default:
+            break;
     }
-    [tableView endUpdates];
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

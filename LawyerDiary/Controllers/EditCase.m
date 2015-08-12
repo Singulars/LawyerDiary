@@ -9,6 +9,7 @@
 #import "EditCase.h"
 #import "ChooseClient.h"
 #import "ChooseCourt.h"
+#import "ChooseAdmin.h"
 
 @interface EditCase () <UITextFieldDelegate, ChooseClientDelegate, ChooseCourtDelegate>
 {
@@ -25,7 +26,6 @@
 @synthesize existingCaseObj;
 @synthesize existingClientObj;
 @synthesize existingCourtObj;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -200,7 +200,7 @@
     switch (indexPath.section) {
         case 0: {
             rowHeight = 44;
-            if ((isPHCellExpanded && indexPath.row == 2) || (isNHCellExpanded && indexPath.row == 3)) {
+            if ((isNHCellExpanded && indexPath.row == 2)) {
                 rowHeight = 162;
             }
         }
@@ -262,10 +262,10 @@
     switch (section) {
         case 0: {
             if ((isPHCellExpanded || isNHCellExpanded)) {
-                noOfRow = 5;
+                noOfRow = 4;
             }
             else {
-                noOfRow = 4;
+                noOfRow = 3;
             }
         }
             break;
@@ -297,19 +297,19 @@
                 }
                     break;
                 case 1: {
-                    return cellPHeardDate;
+                    return cellNHearingDate;
                 }
                     break;
+//                case 2: {
+//                    if (isPHCellExpanded) {
+//                        return cellCaseDatePicker;
+//                    }
+//                    else {
+//                        return cellNHearingDate;
+//                    }
+//                }
+//                    break;
                 case 2: {
-                    if (isPHCellExpanded) {
-                        return cellCaseDatePicker;
-                    }
-                    else {
-                        return cellNHearingDate;
-                    }
-                }
-                    break;
-                case 3: {
                     if (isNHCellExpanded) {
                         return cellCaseDatePicker;
                     }
@@ -318,7 +318,7 @@
                     }
                 }
                     break;
-                case 4: {
+                case 3: {
                     return cellCaseStatus;
                 }
                 default:
@@ -380,6 +380,21 @@
     if (indexPath.section == 0) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.tableView beginUpdates];
+        
+        if (indexPath.row == 1) {
+            
+            if (isNHCellExpanded) {
+                isNHCellExpanded = NO;
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+            }
+            else {
+                isNHCellExpanded = YES;
+                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+            }
+        }
+        
+        /*
         if (indexPath.row == 1) {
             if (isPHCellExpanded) {
                 isPHCellExpanded = NO;
@@ -415,7 +430,7 @@
             isNHCellExpanded = YES;
             [self.tableView beginUpdates];
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-        }
+        }*/
         
         if (isPHCellExpanded) {
 //            [datePicker setMinimumDate:nil];
@@ -509,7 +524,6 @@
     
     [self.tableView reloadData];
 }
-
 - (IBAction)barBtnSaveTaped:(id)sender
 {
     NSString *errMsg = [self validateDetails];

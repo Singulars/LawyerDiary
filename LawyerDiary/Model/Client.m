@@ -24,6 +24,10 @@
 @dynamic isTaskPlanner;
 @dynamic isClientDeleted;
 @dynamic isSynced;
+@dynamic adminId;
+@dynamic adminName;
+@dynamic hasAccess;
+@dynamic isSubordinate;
 
 + (NSNumber *)generateID {
     
@@ -32,7 +36,7 @@
     return timeStampObj;
 }
 
-+ (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId
++ (Client *)saveClients:(NSDictionary *)dataDict forSubordiante:(BOOL)flag withAdminDetail:(NSDictionary *)adminDetail;
 {
     @try {
         
@@ -53,7 +57,7 @@
         
         if (obj != nil) {
             @try {
-                [obj setUserId:userId];
+                [obj setUserId:USER_ID];
                 [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [Client generateID]];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
@@ -64,6 +68,18 @@
                 [obj setTaskPlannerId:dataDict[kAPItaskPlannerId] ? @([[dataDict objectForKey:kAPItaskPlannerId] integerValue]) : @-1];
                 [obj setIsTaskPlanner:dataDict[kAPIisTaskPlanner] ? @([[dataDict objectForKey:kAPIisTaskPlanner] integerValue]) : @-1];
                 [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
+                if (flag) {
+                    [obj setAdminId:@([[adminDetail objectForKey:kAPIadminId] integerValue])];
+                    [obj setAdminName:[adminDetail objectForKey:kAPIadminName]];
+                    [obj setHasAccess:@([[adminDetail objectForKey:kAPIhasAccess] integerValue])];
+                    [obj setIsSubordinate:@1];
+                }
+                else {
+                    [obj setAdminId:@-1];
+                    [obj setAdminName:@""];
+                    [obj setHasAccess:@0];
+                    [obj setIsSubordinate:@0];
+                }
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -75,7 +91,7 @@
         else {
             obj = [NSEntityDescription insertNewObjectForEntityForName:kClient inManagedObjectContext:context];
             @try {
-                [obj setUserId:userId];
+                [obj setUserId:USER_ID];
                 [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [self generateID]];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
@@ -86,6 +102,19 @@
                 [obj setTaskPlannerId:dataDict[kAPItaskPlannerId] ? @([[dataDict objectForKey:kAPItaskPlannerId] integerValue]) : @-1];
                 [obj setIsTaskPlanner:dataDict[kAPIisTaskPlanner] ? @([[dataDict objectForKey:kAPIisTaskPlanner] integerValue]) : @-1];
                 [obj setIsSynced:[dataDict objectForKey:kIsSynced] ? @0 : @1];
+                if (flag) {
+                    [obj setAdminId:@([[adminDetail objectForKey:kAPIadminId] integerValue])];
+                    [obj setAdminName:[adminDetail objectForKey:kAPIadminName]];
+                    [obj setHasAccess:@([[adminDetail objectForKey:kAPIhasAccess] integerValue])];
+                    [obj setIsSubordinate:@1];
+                }
+                else {
+                    [obj setAdminId:@-1];
+                    [obj setAdminName:@""];
+                    [obj setHasAccess:@0];
+                    [obj setIsSubordinate:@0];
+                }
+
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -149,6 +178,23 @@
     @finally {
         
     }
+}
++ (BOOL)saveClientsForSubordinate:(NSDictionary *)dataDict
+{
+    BOOL result = NO;
+    
+    NSArray *arrClients = [[NSArray alloc] initWithArray:[dataDict objectForKey:kAPIdata]];
+    
+    for (NSDictionary *courtObj in arrClients) {
+        if ([Client saveClients:courtObj forSubordiante:YES withAdminDetail:dataDict]) {
+            result = YES;
+        }
+        else {
+            return result;
+        }
+    }
+    
+    return result;
 }
 
 + (BOOL)deleteClient:(NSNumber *)clientId
@@ -240,6 +286,75 @@
         
     }
 }
++ (NSArray *)fetchClientsForAdmin
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@", @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchClientsForAdmin:(NSNumber *)adminId
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@", adminId];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return @[];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
 
 + (Client *)fetchClientLocally:(NSNumber *)localClientId
 {
@@ -299,6 +414,33 @@
             return objArr;
         else
             return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
++ (NSArray *)fetchClientsForSubordinate
+{
+    @try {
+        NSMutableArray *arrResult = [[NSMutableArray alloc] init];
+        
+        NSArray *admins = [SubordinateAdmin fetchSubordinateAdmins];
+        
+        for (SubordinateAdmin *adminObj in admins) {
+            
+            NSMutableDictionary *recordDict = [[NSMutableDictionary alloc] init];
+            
+            recordDict[kAPIadminData] = adminObj;
+            recordDict[kAPIdata] = [Client fetchClientsForAdmin:adminObj.adminId];
+            
+            [arrResult addObject:recordDict];
+        }
+        
+        return [[NSArray alloc] initWithArray:arrResult];
+        
     }
     @catch (NSException *exception) {
         NSLog(@"Exception => %@", [exception debugDescription]);

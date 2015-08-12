@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constant.h"
 
-@interface SubordinateCourts : UIViewController
+@interface SubordinateCourts : UIViewController<UITableViewDataSource,UITableViewDelegate>
+{
+    UIBarButtonItem *barBtnAdd;
+    UIBarButtonItem *barBtnReload;
+    IBOutlet UILabel *lblErrorMsg;
+    
+    IBOutlet UITableViewCell *cellNoRecords;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;;
 
 @end

@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, FetchSubordinateStatus) {
+    kStatusSuccess = 0,
+    kStatusFailedBecauseInternet,
+    kStatusFailed,
+    kStatusUndetermined
+};
+
 @interface SharedManager : NSObject
 {
     BOOL isInternetConnected;
@@ -28,6 +35,7 @@
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic, strong) NSString *updatedPassword;
 @property (nonatomic, strong) NSString *deviceToken;
+@property (nonatomic, strong) NSString *subordinetId;
 
 @property (nonatomic, assign) UIUserNotificationType currentNotificationType;
 
@@ -37,10 +45,17 @@
 
 @property (nonatomic, strong) User *userObj;
 
+@property (nonatomic, readwrite) BOOL hasAdminAccess;
+@property (nonatomic, readwrite) FetchSubordinateStatus fetchSubordinateStatus;
+
 + (SharedManager *)sharedManger;
 - (void)getCurrentServerDateTime;
 
 - (void)resetNotificationBadgeCount;
 
 - (void)saveProfileData:(NSDictionary *)params forAction:(NSInteger)action;
+
+- (void)fetchSubordinatesWithCompletionHandler:(void (^)(BOOL finished))completionHandler;
+
+- (void)updateAdminAccessVariablesValue;
 @end

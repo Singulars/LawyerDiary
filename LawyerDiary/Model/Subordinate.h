@@ -26,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)deleteSubordinates;
 + (Subordinate *)fetchSubordinate:(NSNumber *)userId;
 + (NSArray *)fetchSubordinates;
-
 + (Subordinate *)fetchSubordinateWhoHasAccess;
 
 @end

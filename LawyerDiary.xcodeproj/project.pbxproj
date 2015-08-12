@@ -32,6 +32,7 @@
 		C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9F91B612C02000247F0 /* ChooseCourt.m */; };
 		C010C9FD1B61499A000247F0 /* CaseCourtCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C010C9FC1B61499A000247F0 /* CaseCourtCell.m */; };
 		C012EDAD1B6E871500196629 /* CasesTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C012EDAC1B6E871500196629 /* CasesTabBar.m */; };
+		C026D3691B753C18007D9F69 /* SubordinateAdmin.m in Sources */ = {isa = PBXBuildFile; fileRef = C026D3681B753C17007D9F69 /* SubordinateAdmin.m */; };
 		C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C03766551AE96D0A00ACA623 /* Launch Screen.xib */; };
 		C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C03766581AE96F8900ACA623 /* NetworkManager.m */; };
 		C037665C1AE9768500ACA623 /* NSDictionary+SJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = C037665B1AE9768500ACA623 /* NSDictionary+SJSONString.m */; };
@@ -64,6 +65,8 @@
 		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
 		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
+		C07CFC7A1B768DC600D7741A /* ChooseAdmin.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC791B768DC600D7741A /* ChooseAdmin.m */; };
+		C07CFC7D1B769EB800D7741A /* ChooseAdminCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */; };
 		C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */; };
 		C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */; };
 		C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B2976F1B6FE17B00673875 /* HomeTwo.m */; };
@@ -147,6 +150,8 @@
 		C010C9FC1B61499A000247F0 /* CaseCourtCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseCourtCell.m; sourceTree = "<group>"; };
 		C012EDAB1B6E871400196629 /* CasesTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CasesTabBar.h; sourceTree = "<group>"; };
 		C012EDAC1B6E871500196629 /* CasesTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CasesTabBar.m; sourceTree = "<group>"; };
+		C026D3671B753C17007D9F69 /* SubordinateAdmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateAdmin.h; sourceTree = "<group>"; };
+		C026D3681B753C17007D9F69 /* SubordinateAdmin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateAdmin.m; sourceTree = "<group>"; };
 		C03766551AE96D0A00ACA623 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		C03766571AE96F8900ACA623 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C03766581AE96F8900ACA623 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
@@ -201,6 +206,10 @@
 		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
+		C07CFC781B768DC600D7741A /* ChooseAdmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdmin.h; sourceTree = "<group>"; };
+		C07CFC791B768DC600D7741A /* ChooseAdmin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdmin.m; sourceTree = "<group>"; };
+		C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdminCell.h; sourceTree = "<group>"; };
+		C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdminCell.m; sourceTree = "<group>"; };
 		C0887B6D1B6E9A5900B55A7C /* ClientsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientsTabBar.h; sourceTree = "<group>"; };
 		C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientsTabBar.m; sourceTree = "<group>"; };
 		C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtsTabBar.h; sourceTree = "<group>"; };
@@ -306,6 +315,8 @@
 				C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */,
 				C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */,
 				C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */,
+				C07CFC781B768DC600D7741A /* ChooseAdmin.h */,
+				C07CFC791B768DC600D7741A /* ChooseAdmin.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -323,6 +334,8 @@
 				C06428291B43293E001FB5C0 /* Court.m */,
 				C0FB383F1B71413600443451 /* Subordinate.h */,
 				C0FB38401B71413600443451 /* Subordinate.m */,
+				C026D3671B753C17007D9F69 /* SubordinateAdmin.h */,
+				C026D3681B753C17007D9F69 /* SubordinateAdmin.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -413,6 +426,8 @@
 				C05CF8E21B285411007BD697 /* ClientCell.m */,
 				C062CBB51B5EE4E500F46729 /* CaseClientCell.h */,
 				C062CBB61B5EE4E500F46729 /* CaseClientCell.m */,
+				C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */,
+				C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */,
 				C010C9FB1B61499A000247F0 /* CaseCourtCell.h */,
 				C010C9FC1B61499A000247F0 /* CaseCourtCell.m */,
 				C0FB38381B70F4EE00443451 /* SubordinateCell.h */,
@@ -733,9 +748,11 @@
 				9D64BD8E1AE30521001230C0 /* SharedManager.m in Sources */,
 				9DE1E5211AE3D4A5001060F4 /* Register.m in Sources */,
 				C012EDAD1B6E871500196629 /* CasesTabBar.m in Sources */,
+				C026D3691B753C18007D9F69 /* SubordinateAdmin.m in Sources */,
 				9DA2829F1AECFE3A00024121 /* Clients.m in Sources */,
 				C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */,
 				C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */,
+				C07CFC7D1B769EB800D7741A /* ChooseAdminCell.m in Sources */,
 				C0380BA31B49D712003177FA /* UIScrollView+SVPullToRefresh.m in Sources */,
 				C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */,
 				C0380BA21B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m in Sources */,
@@ -749,6 +766,7 @@
 				9D64BD951AE311CA001230C0 /* User.m in Sources */,
 				C0FB38411B71413600443451 /* Subordinate.m in Sources */,
 				C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */,
+				C07CFC7A1B768DC600D7741A /* ChooseAdmin.m in Sources */,
 				C010C9FA1B612C02000247F0 /* ChooseCourt.m in Sources */,
 				9D64BD901AE30521001230C0 /* UIImage+ImageEffects.m in Sources */,
 				C067C0571AF40736004FE159 /* CourtCell.m in Sources */,

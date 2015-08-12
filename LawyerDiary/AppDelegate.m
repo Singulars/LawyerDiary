@@ -96,6 +96,12 @@ Reachability *hostReach;
         NSLog(@"user => %@", ShareObj.userObj);
         
         [self showHome];
+        
+        [ShareObj updateAdminAccessVariablesValue];
+        
+        [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
+            
+        }];
     }
     else {
         [self showLogIn];

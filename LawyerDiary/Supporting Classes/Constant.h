@@ -20,6 +20,9 @@
 #import "Cases.h"
 #import "Clients.h"
 #import "Courts.h"
+#import "Subordinate.h"
+
+#import "SubordinateAdmin.h"
 
 #import "CourtCell.h"
 
@@ -177,6 +180,14 @@ typedef enum : NSInteger {
 #define GetLastActiveTime                   [[NSUserDefaults standardUserDefaults] valueForKey:@"ActiveTime"];
 #define RemoveLastActiveTime                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ActiveTime"], [[NSUserDefaults standardUserDefaults] synchronize]
 
+#define SetHasAdminAccess(value)          [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"HasAdminAccess"], [[NSUserDefaults standardUserDefaults] synchronize]
+#define GetHasAdminAccess                 [[NSUserDefaults standardUserDefaults] boolForKey:@"HasAdminAccess"]
+#define RemoveHasAdminAccess              [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"HasAdminAccess"], [[NSUserDefaults standardUserDefaults] synchronize]
+
+#define SetFetchSubordinateStatus(value)          [[NSUserDefaults standardUserDefaults] setInteger:value forKey:@"FetchSubordinateStatus"], [[NSUserDefaults standardUserDefaults] synchronize]
+#define GetFetchSubordinateStatus                 [[NSUserDefaults standardUserDefaults] integerForKey:@"FetchSubordinateStatus"]
+#define RemoveFetchSubordinateStatus              [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"FetchSubordinateStatus"], [[NSUserDefaults standardUserDefaults] synchronize]
+
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//
 
 #pragma mark - Misc
@@ -229,6 +240,7 @@ typedef enum : NSInteger {
 
 #define image_url_request(imageURL)         [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60]]
 
+#define SubordinateId                 ShareObj.SubordinateId
 #define USER_ID                       ShareObj.userObj.userId
 #define USER_OBJECT                   ShareObj.userObj
 
@@ -298,6 +310,7 @@ otherButtonTitles:@"OK", nil] show];
 #pragma mark - UILocalNotification
 #pragma mark -
 
+#define kFetchCourts        @"fetchCourts"
 
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//
@@ -377,6 +390,7 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kAPIMode                            @"mode"
 #define kAPIuserId                          @"userId"
+#define kAPIsubordinateId                   @"subordinateId"
 #define kAPIrandom                          @"random"
 #define kAPIclientId                        @"clientId"
 #define kAPIfirstName                       @"firstName"
@@ -404,7 +418,11 @@ otherButtonTitles:@"OK", nil] show];
 #define kAPIhasAccess                       @"hasAccess"
 #define kAPIisProfile                       @"isProfile"
 
+#define kAPIdata                        @"data"
+
 #define kAPIadminId                         @"adminId"
+#define kAPIadminName                         @"adminName"
+#define kAPIadminData                         @"adminData"
 
 #define kAPIlocalCaseId                     @"localCaseId"
 #define kAPIcaseId                          @"caseId"
@@ -460,6 +478,10 @@ otherButtonTitles:@"OK", nil] show];
 
 #define kaccessControl                      @"accessControl"
 
+#define kloadSubordinateClient              @"loadSubordinateClient"
+#define kloadSubordinateCase                @"loadSubordinateCase"
+#define kloadSubordinateCourt               @"loadSubordinateCourt"
+
 #define kgetServerDateTime                  @"getServerDateTime"
 #define kresetNotificationCount             @"resetNotificationCount"
 
@@ -496,6 +518,7 @@ otherButtonTitles:@"OK", nil] show];
 #define kCourt                              @"Court"
 #define kCases                              @"Cases"
 #define kSubordinate                        @"Subordinate"
+#define kSubordinateAdmin                        @"SubordinateAdmin"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

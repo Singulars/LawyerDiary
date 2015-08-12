@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SubordinateClients : UIViewController
+@interface SubordinateClients : UIViewController <UITableViewDataSource,UITableViewDelegate>
+{
+    UIBarButtonItem *barBtnAdd;
+    UIBarButtonItem *barBtnReload;
+    IBOutlet UILabel *lblErrorMsg;
+    
+    IBOutlet UITableViewCell *cellNoRecords;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;;
 
 @end

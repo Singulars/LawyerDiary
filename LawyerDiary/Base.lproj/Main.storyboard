@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A216g" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A226f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
@@ -21,6 +21,8 @@
             <string>UnDotum-Bold</string>
         </mutableArray>
         <mutableArray key="UnDotum.ttf">
+            <string>UnDotum</string>
+            <string>UnDotum</string>
             <string>UnDotum</string>
             <string>UnDotum</string>
             <string>UnDotum</string>
@@ -378,7 +380,7 @@
                                                     <rect key="frame" x="290" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <animations/>
-                                                    <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
                                             </subviews>
                                             <animations/>
@@ -421,7 +423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xHZ-9b-rif" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="701" y="698"/>
+            <point key="canvasLocation" x="636" y="703"/>
         </scene>
         <!--Select Court-->
         <scene sceneID="ycq-ra-WE7">
@@ -477,7 +479,7 @@
                                                     <rect key="frame" x="290" y="23" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <animations/>
-                                                    <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wsx-II-jc2">
                                                     <rect key="frame" x="204" y="32" width="90" height="18"/>
@@ -511,7 +513,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Select Court" id="iQg-tq-Qqh">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="qma-l0-ZAH">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="barBtnNextTaped:" destination="f0r-Bq-u9O" id="Hr4-Bj-2zJ"/>
                             </connections>
@@ -524,7 +526,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tJO-9E-duv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1138" y="698"/>
+            <point key="canvasLocation" x="1062" y="698"/>
         </scene>
         <!--Edit Case-->
         <scene sceneID="xoR-ji-hyb">
@@ -831,7 +833,7 @@
                     <animations/>
                 </tableViewCell>
             </objects>
-            <point key="canvasLocation" x="1566" y="698"/>
+            <point key="canvasLocation" x="1480" y="698"/>
         </scene>
         <!--Home-->
         <scene sceneID="5sK-vB-aMT">
@@ -851,7 +853,7 @@
                                         <animations/>
                                     </imageView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nce-00-Jfq">
-                                        <rect key="frame" x="20" y="448.99999909741535" width="280" height="35"/>
+                                        <rect key="frame" x="20" y="449" width="280" height="34.999998157533703"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -1414,7 +1416,7 @@ registered email.</string>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="cB0-tV-GlX">
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <segue destination="5x1-se-g4h" kind="modal" id="eRY-no-AhA"/>
+                                <action selector="barBtnAddTaped:" destination="zIo-5v-xnr" id="AhH-20-UVq"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -2113,9 +2115,6 @@ registered email.</string>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="QbN-ug-EN6">
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="dWt-Bp-YbR" kind="modal" id="hNc-Ai-l0Q"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -2154,7 +2153,7 @@ registered email.</string>
         <!--Add Court-->
         <scene sceneID="mxb-0N-2a3">
             <objects>
-                <viewController id="Kra-x1-Gnn" customClass="CourtDetail" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CourtDetail" id="Kra-x1-Gnn" customClass="CourtDetail" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nqe-GS-WWD">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2338,7 +2337,7 @@ registered email.</string>
         <!--Navigation Controller-->
         <scene sceneID="LT9-1F-bgW">
             <objects>
-                <navigationController storyboardIdentifier="CourtDetail" automaticallyAdjustsScrollViewInsets="NO" id="dWt-Bp-YbR" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dWt-Bp-YbR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="YZ1-O6-P41">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2657,7 +2656,7 @@ registered email.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KaG-ei-yCv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="169" y="698"/>
+            <point key="canvasLocation" x="112" y="703"/>
         </scene>
         <!--SubordinateCases-->
         <scene sceneID="MOq-sS-Hac">
@@ -2849,6 +2848,10 @@ Will be fixed soon!</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Xgc-Du-8MZ" id="3J4-UE-CEk"/>
+                                    <outlet property="delegate" destination="Xgc-Du-8MZ" id="K7t-f0-Spt"/>
+                                </connections>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" id="lK5-hQ-4Jr">
                                 <rect key="frame" x="0.0" y="445" width="320" height="59"/>
@@ -2883,8 +2886,33 @@ Will be fixed soon!</string>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cellNoRecords" destination="OdJ-g0-6kO" id="8ri-xM-58a"/>
+                        <outlet property="lblErrorMsg" destination="GC2-df-dnR" id="xDl-2O-S6k"/>
+                        <outlet property="tableView" destination="Gr9-QO-sJa" id="Hw1-tF-r9R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7IY-Ss-Vcy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="44" id="OdJ-g0-6kO">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OdJ-g0-6kO" id="pNu-gt-UeZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Records Found!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="H4R-bs-WpU">
+                                <rect key="frame" x="8" y="11" width="304" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                    </tableViewCellContentView>
+                    <animations/>
+                </tableViewCell>
             </objects>
             <point key="canvasLocation" x="-289" y="2667"/>
         </scene>
@@ -3001,6 +3029,10 @@ Will be fixed soon!</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Fi1-W4-Zxg" id="K0O-iA-ah4"/>
+                                    <outlet property="delegate" destination="Fi1-W4-Zxg" id="uKs-l7-NIO"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <animations/>
@@ -3018,8 +3050,33 @@ Will be fixed soon!</string>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cellNoRecords" destination="bEc-Gd-0NY" id="fyy-dJ-QJJ"/>
+                        <outlet property="lblErrorMsg" destination="gzX-I5-Nd4" id="xtI-wK-HDL"/>
+                        <outlet property="tableView" destination="Xd2-pu-A8h" id="sBe-PQ-t68"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PMN-ff-aei" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="44" id="bEc-Gd-0NY">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bEc-Gd-0NY" id="NI5-sZ-rHY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Records Found!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AN8-Rx-FEh">
+                                <rect key="frame" x="8" y="11" width="304" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                    </tableViewCellContentView>
+                    <animations/>
+                </tableViewCell>
             </objects>
             <point key="canvasLocation" x="-289" y="3954"/>
         </scene>
@@ -3081,7 +3138,7 @@ Will be fixed soon!</string>
                                         <animations/>
                                     </imageView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p1p-7C-dLY">
-                                        <rect key="frame" x="20" y="507.99999811853797" width="280" height="40"/>
+                                        <rect key="frame" x="20" y="508" width="280" height="40"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -3524,6 +3581,120 @@ user of Lawyer App.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PW5-Xt-R3h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="78" y="5281"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vSr-ID-3tF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Pzs-oP-4s4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="IMs-TR-JYC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KrQ-zp-NOa" kind="relationship" relationship="rootViewController" id="dXN-6s-oTE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RJW-Sy-CfP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="112" y="3954"/>
+        </scene>
+        <!--Select Admin-->
+        <scene sceneID="d9E-c1-zDh">
+            <objects>
+                <viewController storyboardIdentifier="ChooseAdmin" id="KrQ-zp-NOa" customClass="ChooseAdmin" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fcN-Uc-OYw">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eyi-El-VBi">
+                                <rect key="frame" x="16" y="212" width="288" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
+                                <color key="textColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="JRB-l5-70z">
+                                <rect key="frame" x="0.0" y="30" width="320" height="474"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChooseAdminCell" rowHeight="44" id="3VG-4o-WXX" customClass="ChooseAdminCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3VG-4o-WXX" id="oAv-DI-Qjx">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yzN-Lh-AdU">
+                                                    <rect key="frame" x="10" y="2" width="252" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
+                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-checkmark" id="FmO-P0-atV">
+                                                    <rect key="frame" x="290" y="15" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                                    <animations/>
+                                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="imgViewCheckmark" destination="FmO-P0-atV" id="KCC-Nl-vbJ"/>
+                                            <outlet property="lblClientName" destination="yzN-Lh-AdU" id="ceS-sm-Swq"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="KrQ-zp-NOa" id="F8U-Fd-fq7"/>
+                                    <outlet property="delegate" destination="KrQ-zp-NOa" id="aCB-kb-lEY"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select any Admin for you want to add Court." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wbb-vg-Qwf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Select Admin" id="I2H-Ez-KWL">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="lej-zT-b4A">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="barBtnCancelTaped:" destination="KrQ-zp-NOa" id="kIv-EM-LUd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="Jro-xh-du0">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="barBtnNextTaped:" destination="KrQ-zp-NOa" id="c9D-xL-boG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="lblErrorMsg" destination="eyi-El-VBi" id="eld-wd-HE5"/>
+                        <outlet property="tableView" destination="JRB-l5-70z" id="H0z-wn-Taf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DEj-f5-aHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="636" y="3954"/>
         </scene>
     </scenes>
     <resources>

@@ -31,11 +31,21 @@ typedef NS_ENUM(NSUInteger, ClientProperty) {
 @property (nonatomic, retain) NSNumber * taskPlannerId;
 @property (nonatomic, retain) NSNumber * isTaskPlanner;
 
-+ (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
+@property (nonatomic, retain) NSNumber * adminId;
+@property (nonatomic, retain) NSString * adminName;
+@property (nonatomic, retain) NSNumber * hasAccess;
+@property (nonatomic, retain) NSNumber * isSubordinate;
+
+//+ (Client *)saveClient:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
++ (Client *)saveClients:(NSDictionary *)dataDict forSubordiante:(BOOL)flag withAdminDetail:(NSDictionary *)adminDetail;
++ (BOOL)saveClientsForSubordinate:(NSDictionary *)dataDict;
+
 + (BOOL)updatedClientPropertyofClient:(Client *)clientObj withProperty:(ClientProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteClient:(NSNumber *)clientId;
 + (BOOL)deleteCientsForUser:(NSNumber *)userId;
 + (Client *)fetchClient:(NSNumber *)clientId;
 + (NSArray *)fetchClients:(NSNumber *)userId;
-
++ (NSArray *)fetchClientsForSubordinate;
++ (NSArray *)fetchClientsForAdmin:(NSNumber *)adminId;
++ (NSArray *)fetchClientsForAdmin;
 @end

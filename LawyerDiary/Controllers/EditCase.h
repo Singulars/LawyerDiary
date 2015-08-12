@@ -11,6 +11,7 @@
 #import "Cases.h"
 #import "Court.h"
 #import "Client.h"
+#import "SubordinateAdmin.h"
 
 @protocol EditCaseDelegate <NSObject>
 

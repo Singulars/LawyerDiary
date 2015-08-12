@@ -28,6 +28,8 @@
     
     [lblErrorMsg setHidden:YES];
     
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
+    
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
@@ -36,7 +38,7 @@
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
-    arrCourts = [Court fetchCourts:USER_ID];
+    arrCourts = [Court fetchCourtsForAdmin];
     
     if (arrCourts.count == 0) {
         [self.tableView setHidden:YES];

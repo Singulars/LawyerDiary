@@ -36,6 +36,8 @@
     
     SetStatusBarHidden(NO);
     
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
+    
     NSLog(@"Fonts - %@", [UIFont fontNamesForFamilyName:APP_FONT]);
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
@@ -105,17 +107,17 @@
 {
     [super viewWillAppear:animated];
     
-    if (!arrCases) {
-        arrCases = [[NSMutableArray alloc] init];
-    }
-    [arrCases removeAllObjects];
-    
-    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
-    [self.tableView reloadData];
-    
-    if (arrCases.count > 0) {
-        [self showSpinner:NO withError:NO];
-    }
+//    if (!arrCases) {
+//        arrCases = [[NSMutableArray alloc] init];
+//    }
+//    [arrCases removeAllObjects];
+//    
+//    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
+//    [self.tableView reloadData];
+//    
+//    if (arrCases.count > 0) {
+//        [self showSpinner:NO withError:NO];
+//    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

@@ -32,6 +32,8 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
 
     [lblErrorMsg setHidden:YES];
+    
+    [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
 
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 44, 0, 0)];
     

@@ -1,23 +1,20 @@
 //
-//  Subordinate.m
+//  SubordinateAdmin.m
 //  LawyerDiary
 //
-//  Created by Verma Mukesh on 05/08/15.
+//  Created by Verma Mukesh on 08/08/15.
 //  Copyright © 2015 Singularsllp. All rights reserved.
 //
 
-#import "Subordinate.h"
+#import "SubordinateAdmin.h"
 
-@implementation Subordinate
+@implementation SubordinateAdmin
 
-@dynamic userId;
-@dynamic firstName;
-@dynamic lastName;
-@dynamic mobile;
+@dynamic adminId;
+@dynamic adminName;
 @dynamic hasAccess;
-@dynamic isProfile;
 
-+ (Subordinate *)saveSubordinate:(NSDictionary *)dataDict
++ (SubordinateAdmin *)saveSubordinateAdmin:(NSDictionary *)dataDict
 {
     @try {
         
@@ -27,16 +24,13 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Subordinate *obj = [self fetchSubordinate:[dataDict objectForKey:kAPIuserId]];
+        SubordinateAdmin *obj = [self fetchSubordinateAdmin:[dataDict objectForKey:kAPIadminId]];
         
         if (obj != nil) {
             @try {
-                [obj setUserId:[dataDict objectForKey:kAPIuserId] ? @([[dataDict objectForKey:kAPIuserId] integerValue]) : @0];
-                [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
-                [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
-                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
+                [obj setAdminId:[dataDict objectForKey:kAPIadminId] ? @([[dataDict objectForKey:kAPIadminId] integerValue]) : @0];
+                [obj setAdminName:dataDict[kAPIadminName] ? dataDict[kAPIadminName] : @""];
                 [obj setHasAccess:dataDict[kAPIhasAccess] ? @([[dataDict objectForKey:kAPIhasAccess] boolValue]) : @0];
-                [obj setIsProfile:dataDict[kAPIisProfile] ? @([[dataDict objectForKey:kAPIisProfile] boolValue]) : @0];
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -46,14 +40,11 @@
             }
         }
         else {
-            obj = [NSEntityDescription insertNewObjectForEntityForName:kSubordinate inManagedObjectContext:context];
+            obj = [NSEntityDescription insertNewObjectForEntityForName:kSubordinateAdmin inManagedObjectContext:context];
             @try {
-                [obj setUserId:[dataDict objectForKey:kAPIuserId] ? @([[dataDict objectForKey:kAPIuserId] integerValue]) : @0];
-                [obj setFirstName:dataDict[kAPIfirstName] ? dataDict[kAPIfirstName] : @""];
-                [obj setLastName:dataDict[kAPIlastName] ? dataDict[kAPIlastName] : @""];
-                [obj setMobile:dataDict[kAPImobile] ? dataDict[kAPImobile] : @""];
+                [obj setAdminId:[dataDict objectForKey:kAPIadminId] ? @([[dataDict objectForKey:kAPIadminId] integerValue]) : @0];
+                [obj setAdminName:dataDict[kAPIadminName] ? dataDict[kAPIadminName] : @""];
                 [obj setHasAccess:dataDict[kAPIhasAccess] ? @([[dataDict objectForKey:kAPIhasAccess] boolValue]) : @0];
-                [obj setIsProfile:dataDict[kAPIisProfile] ? @([[dataDict objectForKey:kAPIisProfile] boolValue]) : @0];
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", [exception debugDescription]);
@@ -82,11 +73,11 @@
     }
 }
 
-+ (BOOL)updateAccessForUser:(NSNumber *)userId withValue:(NSNumber *)value
++ (BOOL)updateAccessForAdmin:(NSNumber *)adminId withValue:(NSNumber *)value
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        Subordinate *obj = [self fetchSubordinate:userId];
+        SubordinateAdmin *obj = [self fetchSubordinateAdmin:adminId];
         [obj setHasAccess:value];
         
         NSError *error = nil;
@@ -108,11 +99,11 @@
     }
 }
 
-+ (BOOL)deleteSubordinate:(NSNumber *)userId
++ (BOOL)deleteSubordinate:(NSNumber *)adminId
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        Subordinate *obj = [self fetchSubordinate:userId];
+        SubordinateAdmin *obj = [self fetchSubordinateAdmin:adminId];
         [context deleteObject:obj];
         
         NSError *error = nil;
@@ -134,10 +125,10 @@
     }
 }
 
-+ (BOOL)deleteSubordinates {
++ (BOOL)deleteSubordinateAdmins {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:kSubordinate inManagedObjectContext:context];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kSubordinateAdmin inManagedObjectContext:context];
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entity];
         
@@ -165,11 +156,11 @@
     }
 }
 
-+ (Subordinate *)fetchSubordinate:(NSNumber *)userId
++ (SubordinateAdmin *)fetchSubordinateAdmin:(NSNumber *)adminId
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinate inManagedObjectContext:context];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinateAdmin inManagedObjectContext:context];
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
@@ -177,7 +168,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@", adminId];
         [request setPredicate:predicate];
         
         NSError *error;
@@ -196,18 +187,18 @@
     }
 }
 
-+ (NSArray *)fetchSubordinates
++ (NSArray *)fetchSubordinateAdmins
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinate inManagedObjectContext:context];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinateAdmin inManagedObjectContext:context];
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIuserId ascending:YES];
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIadminId ascending:NO];
         [request setSortDescriptors:@[sortDescriptor]];
         
         NSError *error;
@@ -226,11 +217,11 @@
     }
 }
 
-+ (Subordinate *)fetchSubordinateWhoHasAccess
++ (SubordinateAdmin *)fetchAdminWhoHasGivenAccess
 {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinate inManagedObjectContext:context];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kSubordinateAdmin inManagedObjectContext:context];
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];

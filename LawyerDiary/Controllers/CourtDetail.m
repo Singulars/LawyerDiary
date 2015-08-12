@@ -18,6 +18,8 @@
 @implementation CourtDetail
 
 @synthesize courtObj;
+@synthesize isForSubordinate;
+@synthesize existingAdminObj;
 
 #pragma mark - ViewLifeCycle
 #pragma mark -
@@ -25,8 +27,8 @@
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
-    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
-    //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:WHITE_COLOR] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
@@ -99,7 +101,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            return 4;
+        }
+        else {
+            return 3;
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            return 4;
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                return 4;
+            }
+            else return 3;
+        }
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -147,7 +168,32 @@
             [Global showNotificationWithTitle:@"Court detail can't be blanked!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [self saveCourt];
+            
+            switch (ShareObj.fetchSubordinateStatus) {
+                case kStatusUndetermined: {
+                    MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailed: {
+                    MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailedBecauseInternet: {
+                    MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusSuccess: {
+                    if (ShareObj.hasAdminAccess) {
+                        [self saveCourt];
+                    }
+                    else {
+                        MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
@@ -187,7 +233,7 @@
                 
                 courtParams[kAPIlocalCourtId] = courtObj.localCourtId;
             }
-            Court *tempCourtObj = [Court saveCourt:courtParams forUser:USER_ID];
+            Court *tempCourtObj = [Court saveCourt:courtParams forSubordiante:isForSubordinate withAdminDetail:nil];
             
             NSDictionary *params = @{
                                      kAPIMode: ksaveCourt,
@@ -196,7 +242,8 @@
                                      kAPIcourtId: courtObj ? courtObj.courtId : @"",
                                      kAPIcourtName: tempCourtObj.courtName,
                                      kAPImegistrateName: tempCourtObj.megistrateName,
-                                     kAPIcourtCity: tempCourtObj.courtCity
+                                     kAPIcourtCity: tempCourtObj.courtCity,
+                                     kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -211,8 +258,10 @@
 //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Court saveCourt:responseObject[kAPIcourData] forUser:USER_ID];
+                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:nil];
 
+                        POST_NOTIFICATION(kFetchCourts, nil);
+                        
                         if (courtObj) {
                             [self.navigationController popViewControllerAnimated:YES];
                             [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
