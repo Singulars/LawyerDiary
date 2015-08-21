@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
 @class Cases;
 
-@interface CaseCell : UITableViewCell
+@interface CaseCell : SWTableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *lblClientName;
 @property (nonatomic, strong) IBOutlet UILabel *lblOppositionName;

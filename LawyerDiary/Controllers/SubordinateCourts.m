@@ -11,6 +11,8 @@
 #import "Court.h"
 #import "ChooseAdmin.h"
 
+BOOL isForSubordinate;
+
 @interface SubordinateCourts ()
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) LLARingSpinnerView *spinnerViewBtn;
@@ -35,7 +37,11 @@
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCourtsLocally:) name:kFetchSubordinateCourts object:nil];
+    
     [self loadSubordinatesCourts];
+    
+    isForSubordinate = YES;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -48,11 +54,28 @@
     //    self.originalFrame = viewAddCourt.frame;
 }
 
+- (void)fetchCourtsLocally:(NSNotification *)aNotification
+{
+    if (!arrCourts) {
+        arrCourts = [[NSMutableArray alloc] init];
+    }
+    
+    [arrCourts removeAllObjects];
+    [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
+    
+    [self.tableView reloadData];
+    
+    if (arrCourts.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
+}
+
 - (void)barBtnAddTaped:(id)sender
 {
-    ChooseAdmin *chooseSubordinatesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseAdmin"];
+    ChooseAdmin *chooseAdminVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseAdmin"];
+    [chooseAdminVC setDetailViewToChooseAdmin:kDetailViewCourts];
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseSubordinatesVC];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseAdminVC];
     [self presentViewController:navController animated:YES completion:nil];
     
 //    SubordinateAdmin *adminObj = [SubordinateAdmin fetchAdminWhoHasGivenAccess];
@@ -79,23 +102,18 @@
         [self fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
-            if (!arrCourts) {
-                arrCourts = [[NSMutableArray alloc] init];
-            }
-            
-            [arrCourts removeAllObjects];
-            [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
-            
-            [self.tableView reloadData];
+            [self fetchCourtsLocally:nil];
         }];
     }
     else {
+        
+        [self fetchCourtsLocally:nil];
         
         if (arrCourts.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [lblErrorMsg setText:kCHECK_INTERNET];
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
         }
     }
@@ -205,7 +223,7 @@
         
         SubordinateAdmin *adminObj = [arrCourts[indexPath.section] objectForKey:kAPIadminData];
         [courtDetailVC setExistingAdminObj:adminObj];
-        [courtDetailVC setIsForSubordinate:YES];
+//        [courtDetailVC setIsForSubordinate:YES];
         [courtDetailVC setCourtObj:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
         [self.navigationController pushViewController:courtDetailVC animated:YES];
     }
@@ -222,14 +240,17 @@
         [tableView beginUpdates];
         if (editingStyle == UITableViewCellEditingStyleDelete) {
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+            [Court updatedCourtPropertyofCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
             [self deleteCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
-            [arrCourts removeObjectAtIndex:indexPath.row];
+            
+            [arrCourts removeAllObjects];
+            [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
         }
         [tableView endUpdates];
     }
     else {
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        MY_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
+        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
     }
 }
 
@@ -254,7 +275,7 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         [Court deleteCourt:objCourt.courtId];
@@ -273,7 +294,8 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:@"Court will be delted from server, when you get online." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -367,7 +389,7 @@
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         NSArray *arrSubordinates = [responseObject valueForKey:kAPIcourData];
@@ -423,8 +445,20 @@
         }
     }
     else {
-        [self showSpinner:NO withError:YES];
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        [self fetchCourtsLocally:nil];
+        
+        if (arrCourts.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [self showSpinner:NO withError:YES];
+            
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        
+//        [self showSpinner:NO withError:YES];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 

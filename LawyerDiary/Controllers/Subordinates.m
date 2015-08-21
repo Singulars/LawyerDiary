@@ -174,7 +174,7 @@
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         NSArray *arrSubordinates = [responseObject valueForKey:kAPIsubordinateData];
@@ -276,10 +276,10 @@
     
     Subordinate *obj = arrUsers[indexPath.row];
     if ([obj.hasAccess isEqualToNumber:@1]) {
-        [cell setRightUtilityButtons:[self rightButtonsWithAccess:NO]];
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:NO] WithButtonWidth:60];
     }
     else {
-        [cell setRightUtilityButtons:[self rightButtonsWithAccess:YES]];
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:YES] WithButtonWidth:60];
     }
     
     [cell configureCellWithSubordinateObj:arrUsers[indexPath.row] forIndexPath:indexPath];
@@ -292,20 +292,16 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     
     if (flag) {
-        [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0]
-                                                    title:@"Give\nAccess"];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_give_access)];
+//        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.07 green:0.75f blue:0.16f alpha:1.0] title:@"Give\nAccess"];
     }
     else {
-        [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0]
-                                                    title:@"Revoke\nAccess"];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_revoke_access)];
+//        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188f alpha:1.0] title:@"Revoke\nAccess"];
     }
     
-    
-    [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                title:@"Delete"];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_trash_icon)];
+//    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f] title:@"Delete"];
     
     return rightUtilityButtons;
 }
@@ -501,7 +497,7 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         
@@ -570,7 +566,7 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:@"Subordinate can't be deleted right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         [Subordinate deleteSubordinate:subordinateObj.userId];

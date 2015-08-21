@@ -230,7 +230,7 @@
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                 }
                 else {
                     if ([responseObject[@"isRegistered"] isEqualToNumber:@1]) {

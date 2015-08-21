@@ -15,7 +15,7 @@ static NSString * const kStoryboardName = @"Main";
 static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStoryboardID";
 
 static NSString * const kCasesViewControllerStoryboardID = @"CasesTabBar";
-static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBar";
+static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBarController";
 static NSString * const kCourtsViewControllerStoryboardID = @"CourtsTabBar";
 static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
 static NSString * const kSubordinatesViewControllerStoryboardID = @"Subordinates";
@@ -390,28 +390,13 @@ Reachability *hostReach;
     return _casesTabBar;
 }
 
-- (ClientCases *)casesViewController {
-    if (!_casesViewController) {
-        _casesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
-    }
-    
-    return _casesViewController;
-}
-
-- (ClientsTabBar *)clientsTabBar {
+- (ClientsTabBarController *)clientsTabBar {
     if (!_clientsTabBar) {
         _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
     }
     
     return _clientsTabBar;
-}
-
-- (Clients *)clientsViewController {
-    if (!_clientsViewController) {
-        _clientsViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
-    }
     
-    return _clientsViewController;
 }
 
 - (CourtsTabBar *)courtsTabBar {
@@ -420,14 +405,6 @@ Reachability *hostReach;
     }
     
     return _courtsTabBar;
-}
-
-- (Courts *)courtsViewController {
-    if (!_courtsViewController) {
-        _courtsViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
-    }
-    
-    return _courtsViewController;
 }
 
 - (Profile *)profileViewController {

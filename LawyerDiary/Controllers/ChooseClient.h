@@ -26,5 +26,7 @@
 @property (nonatomic, strong) Client *existingClientObj;
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) SubordinateAdmin *existingAdminObj;
+
 
 @end

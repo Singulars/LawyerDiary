@@ -264,7 +264,7 @@ typedef enum : NSInteger {
 
 #define WORD_CELL_SIZE     35.0
 
-#define MY_ALERT(Title,Msg,Delegate)        [[[UIAlertView alloc] initWithTitle:Title \
+#define UI_ALERT(Title,Msg,Delegate)        [[[UIAlertView alloc] initWithTitle:Title \
 message:Msg \
 delegate:Delegate \
 cancelButtonTitle:nil \
@@ -311,6 +311,13 @@ otherButtonTitles:@"OK", nil] show];
 #pragma mark -
 
 #define kFetchCourts        @"fetchCourts"
+#define kFetchSubordinateCourts        @"fetchSubordinateCourts"
+
+#define kFetchClients        @"fetchClients"
+#define kFetchSubordinateClients        @"fetchSubordinateClients"
+
+#define kFetchCases        @"fetchCases"
+#define kFetchSubordinateCases        @"fetchSubordinateCases"
 
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//
@@ -498,6 +505,12 @@ otherButtonTitles:@"OK", nil] show];
 #define IMG_row_disclosure                  @"row-disclosure"
 
 #define IMG_btn_add                         @"btn-add"
+
+#define IMG_give_access    @"give-access"
+#define IMG_revoke_access    @"revoke-access"
+#define IMG_trash_icon    @"trash-icon"
+
+#define IMG_edit_icon       @"edit-icon"
 
 //*//*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*/*//*//
 

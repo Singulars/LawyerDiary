@@ -69,4 +69,7 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
+//@property (nonatomic, readwrite) BOOL isForSubordinate;
+@property (nonatomic, strong) SubordinateAdmin *existingAdminObj;
+
 @end

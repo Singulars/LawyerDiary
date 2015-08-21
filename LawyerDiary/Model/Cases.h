@@ -38,13 +38,22 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 @property (nonatomic, retain) NSString * caseStatus;
 @property (nonatomic, retain) NSNumber * isCaseDeleted;
 @property (nonatomic, retain) NSNumber * isSynced;
+@property (nonatomic, retain) NSNumber * adminId;
+@property (nonatomic, retain) NSString * adminName;
+@property (nonatomic, retain) NSNumber * hasAccess;
+@property (nonatomic, retain) NSNumber * isSubordinate;
 
-+ (Cases *)saveCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
++ (Cases *)saveCase:(NSDictionary *)dataDict forSubordiante:(BOOL)flag withAdminDetail:(NSDictionary *)adminDetail;
+//+ (Cases *)saveCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
 + (Cases *)updateCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
-+ (BOOL)updatedCasePropertyofClient:(Cases *)caseObj withProperty:(CaseProperty)property andValue:(NSNumber *)propertyValue;
++ (BOOL)updatedCasePropertyofCase:(Cases *)caseObj withProperty:(CaseProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteCase:(NSNumber *)caseId;
 + (BOOL)deleteCaseForUser:(NSNumber *)userId;
++ (BOOL)saveCasesForSubordinate:(NSDictionary *)dataDict;
 + (Cases *)fetchCase:(NSNumber *)caseId;
 + (NSArray *)fetchCases:(NSNumber *)userId;
++ (NSArray *)fetchCasesForAdmin;
++ (NSArray *)fetchCasesForSubordinate;
++ (NSArray *)fetchCasesForAdmin:(NSNumber *)adminId;
 
 @end

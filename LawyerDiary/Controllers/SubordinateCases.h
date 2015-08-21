@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SubordinateCases : UIViewController
+extern BOOL isForSubordinate;
+
+@interface SubordinateCases : UIViewController<UITableViewDataSource,UITableViewDelegate>
+{
+    UIBarButtonItem *barBtnAdd;
+    UIBarButtonItem *barBtnReload;
+    IBOutlet UILabel *lblErrorMsg;
+    
+    IBOutlet UITableViewCell *cellNoRecords;
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;;
 
 @end

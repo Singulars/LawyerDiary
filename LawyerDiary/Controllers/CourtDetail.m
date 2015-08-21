@@ -9,6 +9,9 @@
 #import "CourtDetail.h"
 #import "Court.h"
 
+BOOL isForSubordinate;
+SubordinateAdmin *selectedAdminObj;
+
 @interface CourtDetail ()
 {
     UITextField *activeTextField;
@@ -18,7 +21,7 @@
 @implementation CourtDetail
 
 @synthesize courtObj;
-@synthesize isForSubordinate;
+//@synthesize isForSubordinate;
 @synthesize existingAdminObj;
 
 #pragma mark - ViewLifeCycle
@@ -55,6 +58,10 @@
     }
     
     [btnSave setBackgroundColor:APP_TINT_COLOR];
+    
+    if (selectedAdminObj != nil) {
+        existingAdminObj = selectedAdminObj;
+    }
 }
 
 #pragma mark - UIKeyboardNOtifications
@@ -169,30 +176,35 @@
         }
         else {
             
-            switch (ShareObj.fetchSubordinateStatus) {
-                case kStatusUndetermined: {
-                    MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusFailed: {
-                    MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusFailedBecauseInternet: {
-                    MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusSuccess: {
-                    if (ShareObj.hasAdminAccess) {
-                        [self saveCourt];
+            if (isForSubordinate) {
+                switch (ShareObj.fetchSubordinateStatus) {
+                    case kStatusUndetermined: {
+                        UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
                     }
-                    else {
-                        MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                        break;
+                    case kStatusFailed: {
+                        UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
                     }
+                        break;
+                    case kStatusFailedBecauseInternet: {
+                        UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusSuccess: {
+                        if (ShareObj.hasAdminAccess) {
+                            [self saveCourt];
+                        }
+                        else {
+                            UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                        }
+                    }
+                        break;
+                    default:
+                        break;
                 }
-                    break;
-                default:
-                    break;
+            }
+            else {
+                [self saveCourt];
             }
         }
     }
@@ -212,28 +224,34 @@
 
 - (void)saveCourt
 {
+    [activeTextField resignFirstResponder];
+    
+    NSMutableDictionary *courtParams = [[NSMutableDictionary alloc] init];
+    courtParams[kAPIuserId] = USER_ID;
+    courtParams[kAPIcourtName] = tfCourt.text;
+    courtParams[kAPImegistrateName] = tfMegistrate.text;
+    courtParams[kAPIcourtCity] = tfCity.text;
+    courtParams[kIsSynced] = @0;
+    
+    if (courtObj) {
+        if ([courtObj.isSynced isEqualToNumber:@1]) {
+            courtParams[kAPIcourtId] = courtObj.courtId;
+        }
+        
+        courtParams[kAPIlocalCourtId] = courtObj.localCourtId;
+    }
+    
+    Court *tempCourtObj = [Court saveCourt:courtParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                            kAPIadminId: existingAdminObj.adminId,
+                                                                                                                            kAPIadminName: existingAdminObj.adminName,
+                                                                                                                            kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                            } : nil];
+    
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            [activeTextField resignFirstResponder];
             [self showIndicator:YES];
-            
-            NSMutableDictionary *courtParams = [[NSMutableDictionary alloc] init];
-            courtParams[kAPIuserId] = USER_ID;
-            courtParams[kAPIcourtName] = tfCourt.text;
-            courtParams[kAPImegistrateName] = tfMegistrate.text;
-            courtParams[kAPIcourtCity] = tfCity.text;
-            courtParams[kIsSynced] = @0;
-            
-            if (courtObj) {
-                if ([courtObj.isSynced isEqualToNumber:@1]) {
-                    courtParams[kAPIcourtId] = courtObj.courtId;
-                }
-                
-                courtParams[kAPIlocalCourtId] = courtObj.localCourtId;
-            }
-            Court *tempCourtObj = [Court saveCourt:courtParams forSubordiante:isForSubordinate withAdminDetail:nil];
             
             NSDictionary *params = @{
                                      kAPIMode: ksaveCourt,
@@ -255,12 +273,16 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-//                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+//                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:nil];
+                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                           kAPIadminId: existingAdminObj.adminId,
+                                                                                                                                           kAPIadminName: existingAdminObj.adminName,
+                                                                                                                                           kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                                           } : nil];
 
-                        POST_NOTIFICATION(kFetchCourts, nil);
+                        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
                         
                         if (courtObj) {
                             [self.navigationController popViewControllerAnimated:YES];
@@ -296,7 +318,18 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
+        
+        if (courtObj) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+            }];
+        }
     }
 }
 
@@ -304,7 +337,7 @@
 {
     [btnSave setTitle:flag ? @"" : @"Save" forState:UIControlStateNormal];
     flag ? [indicator startAnimating] : [indicator stopAnimating];
-    UserIntrectionEnable(!flag);
+//    UserIntrectionEnable(!flag);
 }
 
 #pragma mark - UITextFieldDelegate

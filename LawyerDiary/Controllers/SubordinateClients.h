@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern BOOL isForSubordinate;
+
 @interface SubordinateClients : UIViewController <UITableViewDataSource,UITableViewDelegate>
 {
     UIBarButtonItem *barBtnAdd;

@@ -150,7 +150,7 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     }
     
     if (!destinationViewController) {
-        MY_ALERT(@"", @"Under Development!", nil);
+        UI_ALERT(@"", @"Under Development!", nil);
     }
     else {
         [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];

@@ -12,7 +12,7 @@
 #import "CaseCell.h"
 #import "ChooseClient.h"
 
-@interface ClientCases ()
+@interface ClientCases ()<SWTableViewCellDelegate>
 {
     NSInteger indexOlder;
     NSInteger indexNewer;
@@ -41,8 +41,8 @@
     NSLog(@"Fonts - %@", [UIFont fontNamesForFamilyName:APP_FONT]);
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
-//    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
-//    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
+    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
@@ -54,70 +54,77 @@
     [self.spinnerView setTintColor:APP_TINT_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(caseSaved:)
-                                                 name:@"CaseSaved"
-                                               object:nil];
     
-//    [Cases deleteCientsForUser:USER_ID];
+    [self loadCases];
     
-    arrCases = [[NSMutableArray alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCasesLocally:) name:kFetchCases object:nil];
     
-    __weak ClientCases *weakSelf = self;
+    //    [Cases deleteCientsForUser:USER_ID];
     
-    // setup pull-to-refresh
-    [self.tableView addPullToRefreshWithActionHandler:^{
-        [weakSelf insertRowsAtTop];
-    }];
+    /* arrCases = [[NSMutableArray alloc] init];
+     
+     __weak ClientCases *weakSelf = self;
+     
+     // setup pull-to-refresh
+     [self.tableView addPullToRefreshWithActionHandler:^{
+     [weakSelf insertRowsAtTop];
+     }];
+     
+     // setup infinite scrolling
+     [self.tableView addInfiniteScrollingWithActionHandler:^{
+     [weakSelf insertRowsAtBottom];
+     }];
+     
+     //    [self loadCourts];
+     
+     if (arrCases.count == 0) {
+     [self showSpinner:YES withError:NO];
+     
+     [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+     [self.tableView reloadData];
+     }];
+     }*/
     
-    // setup infinite scrolling
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf insertRowsAtBottom];
-    }];
+}
+- (void)fetchCasesLocally:(NSNotification *)aNotification
+{
+    if (!arrCases) {
+        arrCases = [[NSMutableArray alloc] init];
+    }
     
-    //    [self loadCourts];
+    [arrCases removeAllObjects];
+    [arrCases addObjectsFromArray:[Cases fetchCasesForAdmin]];
     
-    if (arrCases.count == 0) {
-        [self showSpinner:YES withError:NO];
-        
-        [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
-            [self.tableView reloadData];
-        }];
+    [self.tableView reloadData];
+    
+    if (arrCases.count > 0) {
+        [self showSpinner:NO withError:NO];
     }
 }
 
 - (IBAction)btnReloadTaped:(id)sender
 {
     [self showSpinner:YES withError:NO];
-    [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+    [self fetchCasesWithCompletionHandler:^(BOOL finished) {
         [self.tableView reloadData];
     }];
-}
-
-- (void)caseSaved:(NSNotification *)aNotification
-{
-    [arrCases removeAllObjects];
-    
-    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
-    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-//    if (!arrCases) {
-//        arrCases = [[NSMutableArray alloc] init];
-//    }
-//    [arrCases removeAllObjects];
-//    
-//    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
-//    [self.tableView reloadData];
-//    
-//    if (arrCases.count > 0) {
-//        [self showSpinner:NO withError:NO];
-//    }
+    //    if (!arrCases) {
+    //        arrCases = [[NSMutableArray alloc] init];
+    //    }
+    //    [arrCases removeAllObjects];
+    //
+    //    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
+    //    [self.tableView reloadData];
+    //
+    //    if (arrCases.count > 0) {
+    //        [self showSpinner:NO withError:NO];
+    //    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -126,53 +133,66 @@
     //    self.originalFrame = viewAddCourt.frame;
 }
 
-- (void)fetchCases:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
+- (void)barBtnReloadTaped:(id)sender
+{
+    [self loadCases];
+}
+
+- (void)setBarButton:(UIBarButton)barBtnType
+{
+    switch (barBtnType) {
+        case AddBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(barBtnAddTaped:)];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
+            
+            barBtnReload = [[UIBarButtonItem alloc] initWithImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"bar-btn-sync", kImageRenderModeTemplate) style:UIBarButtonItemStylePlain target:self action:@selector(barBtnReloadTaped:)];
+            [barBtnReload setTintColor:APP_TINT_COLOR];
+            
+            [self.navigationItem setRightBarButtonItems:@[barBtnAdd, barBtnReload]];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
+        }
+            break;
+        case IndicatorBarButton: {
+            barBtnAdd = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
+            [barBtnAdd setTintColor:APP_TINT_COLOR];
+            
+            [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
+            
+            [self.navigationItem setRightBarButtonItems:nil];
+            [self.navigationItem setRightBarButtonItem:barBtnAdd];
+            [self.spinnerView startAnimating];
+        }
+            break;
+        case NilBarButton: {
+            [self.navigationItem setRightBarButtonItems:nil];
+        }
+        default:
+            break;
+    }
+}
+- (void)fetchCasesWithCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
-            
-            switch (pagingPriority) {
-                case kPriorityInitial: {
-                    
-                }
-                    break;
-                case kPriorityNewer: {
-                    Cases *objCase = [arrCases firstObject];
-                    indexNewer = objCase.caseId.integerValue;
-                }
-                    break;
-                case kPriorityOlder: {
-                    Cases *objCase = [arrCases lastObject];
-                    indexOlder = objCase.caseId.integerValue;
-                }
-                    break;
-                default:
-                    break;
-            }
-            
-//            if (pagingPriority != kPriorityInitial) {
-//                if (isRequestForOlder) {
-//                    Cases *objCase = [arrCases lastObject];
-//                    indexOlder = objCase.caseId.integerValue;
-//                }
-//                else {
-//                    Cases *objCase = [arrCases firstObject];
-//                    indexNewer = objCase.caseId.integerValue;
-//                }
-//            }
-            
             NSDictionary *params = @{
                                      kAPIMode: kloadCase,
-                                     kAPIuserId: USER_ID,
-                                     kAPIisBefore: pagingPriority == kPriorityNewer ? @1 : @0,
-                                     kAPIindex: pagingPriority == kPriorityInitial ? @0 : (pagingPriority == kPriorityNewer ? @(indexNewer) : @(indexOlder)),
-                                     kAPIoffset: @10
+                                     kAPIuserId: USER_ID
                                      };
             
+            if (arrCases.count == 0) {
+                [self showSpinner:YES withError:NO];
+                [self setBarButton:NilBarButton];
+            }
+            else {
+                [self setBarButton:IndicatorBarButton];
+            }
+            
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                [self showSpinner:NO withError:NO];
                 
                 if (responseObject == nil) {
                     if (arrCases.count > 0) {
@@ -180,42 +200,24 @@
                     }
                     else {
                         [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
-                        
                         [self showSpinner:NO withError:YES];
-                        
-                        [btnReload setHidden:NO];
                     }
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        
-                        NSMutableArray *arrCourt = [[NSMutableArray alloc] init];
-                        if (!arrIndexPaths) {
-                            arrIndexPaths = [[NSMutableArray alloc] init];
-                        }
-                        
-                        [arrIndexPaths removeAllObjects];
-                        
                         NSArray *arrCasesObj = [responseObject valueForKey:kAPIcaseList];
                         
                         if (arrCasesObj.count > 0) {
-                            for (NSDictionary *caseObj in [responseObject valueForKey:kAPIcaseList]) {
-                                Cases *objCase = [Cases saveCase:caseObj forUser:USER_ID];
-                                [arrCourt addObject:objCase];
+                            
+                            if (arrCases.count > 0) {
+                                [Cases deleteCaseForUser:USER_ID];
                             }
                             
-                            NSInteger totalArrCount = arrCases.count + arrCourt.count;
-                            
-                            NSInteger startIndex = isRequestForOlder ? arrCases.count : 0;
-                            NSInteger endIndex = isRequestForOlder ? totalArrCount : arrCourt.count;
-                            
-                            for (NSInteger i = startIndex; i < endIndex; i++) {
-                                [arrCases insertObject:isRequestForOlder ? arrCourt[i-startIndex] : arrCourt[i] atIndex:i];
-                                
-                                [arrIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+                            for (NSDictionary *casesObj in arrCasesObj) {
+                                [Cases saveCase:casesObj forSubordiante:NO withAdminDetail:nil];
                             }
                             
                             [self showSpinner:NO withError:NO];
@@ -223,15 +225,12 @@
                         else {
                             
                             if (arrCases.count > 0) {
-                                [Global showNotificationWithTitle:@"All Cases Loaded!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                [Cases deleteCaseForUser:USER_ID];
                             }
-                            else {
-                                [lblErrorMsg setText:@"No Cases found."];
-                                
-                                [self showSpinner:NO withError:YES];
-                                
-                                [btnReload setHidden:NO];
-                            }
+                            
+                            [lblErrorMsg setText:@"No Cases found."];
+                            
+                            [self showSpinner:NO withError:YES];
                         }
                     }
                 }
@@ -273,96 +272,156 @@
         }
     }
     else {
-        [self showSpinner:NO withError:YES];
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
+        [self fetchCasesLocally:nil];
+        
+        if (arrCases.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [self showSpinner:NO withError:YES];
+            
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        
+        //        [self showSpinner:NO withError:YES];
+        //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
+
 - (void)loadCases
 {
-    if (!arrCases) {
-        arrCases = [[NSMutableArray alloc] init];
-    }
-    [arrCases removeAllObjects];
-    [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
-    if (arrCases.count == 0) {
-        [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+    /*if (!arrCases) {
+     arrCases = [[NSMutableArray alloc] init];
+     }
+     [arrCases removeAllObjects];
+     [arrCases addObjectsFromArray:[Cases fetchCases:USER_ID]];
+     if (arrCases.count == 0) {
+     [self fetchCases:kPriorityInitial withCompletionHandler:^(BOOL finished) {
+     
+     }];
+     }
+     [self.tableView reloadData];*/
+    
+    //Edited By Vishal
+    
+    if (IS_INTERNET_CONNECTED) {
+        
+        [self fetchCasesWithCompletionHandler:^(BOOL finished) {
+            [self setBarButton:AddBarButton];
             
+            [self fetchCasesLocally:nil];
         }];
     }
-    [self.tableView reloadData];
+    else {
+        
+        [self fetchCasesLocally:nil];
+        
+        if (arrCases.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get updated data."];
+            [self showSpinner:NO withError:YES];
+        }
+    }
+    
 }
 
 - (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
 {
     if (flag) {
-        [btnReload setHidden:YES];
+        
         [lblErrorMsg setHidden:YES];
         [self.tableView setHidden:YES];
-//        [viewAddCourt setHidden:YES];
         [self.spinnerView startAnimating];
-        
-        //        [self.navigationItem setRightBarButtonItem:nil];
     }
     else {
         if (errorFlag) {
             [lblErrorMsg setHidden:NO];
             [self.tableView setHidden:YES];
-//            [viewAddCourt setHidden:YES];
         }
         else {
             [lblErrorMsg setHidden:YES];
             [self.tableView setHidden:NO];
-//            [viewAddCourt setHidden:NO];
-            
-            [btnReload setHidden:YES];
         }
         
         [self.spinnerView stopAnimating];
-        
-        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
     }
 }
 
-- (void)insertRowsAtTop {
-    
-//    if (!isRequesting) {
-        isRequesting = YES;
-        [self fetchCases:kPriorityNewer withCompletionHandler:^(BOOL finished) {
-            if (arrIndexPaths.count > 0) {
-                [self.tableView beginUpdates];
-                [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
-                [self.tableView endUpdates];
-            }
-            
-            [self.tableView.pullToRefreshView stopAnimating];
-            isRequesting = NO;
-        }];
-//    } else {
-//        [self.tableView.pullToRefreshView stopAnimating];
+//- (void)showSpinner:(BOOL)flag withError:(BOOL)errorFlag
+//{
+//    if (flag) {
+//        [btnReload setHidden:YES];
+//        [lblErrorMsg setHidden:YES];
+//        [self.tableView setHidden:YES];
+//        //        [viewAddCourt setHidden:YES];
+//        [self.spinnerView startAnimating];
+//        
+//        //        [self.navigationItem setRightBarButtonItem:nil];
 //    }
-}
-
-
-- (void)insertRowsAtBottom {
-    
-//    if (!isRequesting) {
-        isRequesting = YES;
-        [self fetchCases:kPriorityOlder withCompletionHandler:^(BOOL finished) {
-            if (arrIndexPaths.count > 0) {
-                [self.tableView beginUpdates];
-                [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
-                [self.tableView endUpdates];
-            }
-            
-            [self.tableView.infiniteScrollingView stopAnimating];
-            
-            isRequesting = NO;
-        }];
-//    } else {
-//        [self.tableView.infiniteScrollingView stopAnimating];
+//    else {
+//        if (errorFlag) {
+//            [lblErrorMsg setHidden:NO];
+//            [self.tableView setHidden:YES];
+//            //            [viewAddCourt setHidden:YES];
+//        }
+//        else {
+//            [lblErrorMsg setHidden:YES];
+//            [self.tableView setHidden:NO];
+//            //            [viewAddCourt setHidden:NO];
+//            
+//            [btnReload setHidden:YES];
+//        }
+//        
+//        [self.spinnerView stopAnimating];
+//        
+//        //        [self.navigationItem setRightBarButtonItem:barBtnSync];
 //    }
-}
+//}
+
+/*- (void)insertRowsAtTop {
+ 
+ //    if (!isRequesting) {
+ isRequesting = YES;
+ [self fetchCases:kPriorityNewer withCompletionHandler:^(BOOL finished) {
+ if (arrIndexPaths.count > 0) {
+ [self.tableView beginUpdates];
+ [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+ [self.tableView endUpdates];
+ }
+ 
+ [self.tableView.pullToRefreshView stopAnimating];
+ isRequesting = NO;
+ }];
+ //    } else {
+ //        [self.tableView.pullToRefreshView stopAnimating];
+ //    }
+ }
+ 
+ 
+ - (void)insertRowsAtBottom {
+ 
+ //    if (!isRequesting) {
+ isRequesting = YES;
+ [self fetchCases:kPriorityOlder withCompletionHandler:^(BOOL finished) {
+ if (arrIndexPaths.count > 0) {
+ [self.tableView beginUpdates];
+ [self.tableView insertRowsAtIndexPaths:arrIndexPaths withRowAnimation:UITableViewRowAnimationTop];
+ [self.tableView endUpdates];
+ }
+ 
+ [self.tableView.infiniteScrollingView stopAnimating];
+ 
+ isRequesting = NO;
+ }];
+ //    } else {
+ //        [self.tableView.infiniteScrollingView stopAnimating];
+ //    }
+ }*/
 
 #pragma mark - Actions
 
@@ -372,7 +431,9 @@
 
 - (IBAction)barBtnAddTaped:(id)sender
 {
-    
+    ChooseClient *chooseClientVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseClient"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseClientVC];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 
@@ -396,7 +457,8 @@
     if (!cell) {
         cell = [[CaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    [cell setDelegate:self];
+    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
     [cell configureCellWithCaseObj:arrCases[indexPath.row] forIndexPath:indexPath];
     
     return cell;
@@ -404,23 +466,141 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
-//    CourtDetail *courtDetailVC = navController.viewControllers[0];
-//    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
-//    [self.navigationController pushViewController:courtDetailVC animated:YES];
+    //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
+    //    CourtDetail *courtDetailVC = navController.viewControllers[0];
+    //    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
+    //    [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSArray *)rightButtons
 {
-    [tableView beginUpdates];
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-        [self deleteCase:arrCases[indexPath.row]];
-        [arrCases removeObjectAtIndex:indexPath.row];
-    }
-    [tableView endUpdates];
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_edit_icon)];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_trash_icon)];
+    
+    return rightUtilityButtons;
 }
 
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            NSLog(@"left button 0 was pressed");
+            break;
+        case 1:
+            NSLog(@"left button 1 was pressed");
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    
+    switch (index) {
+        case 0:
+        {
+            NSLog(@"More button was pressed");
+            
+            
+            
+            break;
+        }
+        case 1:
+        {
+            // Delete button was pressed
+            
+            switch (ShareObj.fetchSubordinateStatus) {
+                case kStatusUndetermined: {
+                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailed: {
+                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailedBecauseInternet: {
+                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusSuccess: {
+                    if (ShareObj.hasAdminAccess) {
+                        [self.tableView beginUpdates];
+                        
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:cellIndexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                        [Cases updatedCasePropertyofCase:arrCases[cellIndexPath.row] withProperty:kCaseIsDeleted andValue:@1];
+                        [self deleteCase:arrCases[cellIndexPath.row]];
+                        [arrCases removeObjectAtIndex:cellIndexPath.row];
+                        
+                        [self.tableView endUpdates];
+                        
+                        if (arrCases.count == 0) {
+                            [lblErrorMsg setText:@"No Cases found."];
+                            [self showSpinner:NO withError:YES];
+                        }
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
+}
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Remove seperator inset
@@ -459,7 +639,7 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:@"Case can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         [Cases deleteCase:objCase.caseId];
@@ -478,7 +658,7 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -486,15 +666,166 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+/*- (void)fetchCases:(PagingPriority)pagingPriority withCompletionHandler:(void (^)(BOOL finished))completionHandler
+ {
+ if (IS_INTERNET_CONNECTED) {
+ 
+ @try {
+ 
+ isRequestForOlder = pagingPriority == kPriorityOlder ? YES : NO;
+ 
+ switch (pagingPriority) {
+ case kPriorityInitial: {
+ 
+ }
+ break;
+ case kPriorityNewer: {
+ Cases *objCase = [arrCases firstObject];
+ indexNewer = objCase.caseId.integerValue;
+ }
+ break;
+ case kPriorityOlder: {
+ Cases *objCase = [arrCases lastObject];
+ indexOlder = objCase.caseId.integerValue;
+ }
+ break;
+ default:
+ break;
+ }
+ 
+ //            if (pagingPriority != kPriorityInitial) {
+ //                if (isRequestForOlder) {
+ //                    Cases *objCase = [arrCases lastObject];
+ //                    indexOlder = objCase.caseId.integerValue;
+ //                }
+ //                else {
+ //                    Cases *objCase = [arrCases firstObject];
+ //                    indexNewer = objCase.caseId.integerValue;
+ //                }
+ //            }
+ 
+ NSDictionary *params = @{
+ kAPIMode: kloadCase,
+ kAPIuserId: USER_ID,
+ kAPIisBefore: pagingPriority == kPriorityNewer ? @1 : @0,
+ kAPIindex: pagingPriority == kPriorityInitial ? @0 : (pagingPriority == kPriorityNewer ? @(indexNewer) : @(indexOlder)),
+ kAPIoffset: @10
+ };
+ 
+ [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+ 
+ if (responseObject == nil) {
+ if (arrCases.count > 0) {
+ [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+ }
+ else {
+ [lblErrorMsg setText:kSOMETHING_WENT_WRONG];
+ 
+ [self showSpinner:NO withError:YES];
+ 
+ [btnReload setHidden:NO];
+ }
+ }
+ else {
+ if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+ UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+ }
+ else {
+ 
+ NSMutableArray *arrCourt = [[NSMutableArray alloc] init];
+ if (!arrIndexPaths) {
+ arrIndexPaths = [[NSMutableArray alloc] init];
+ }
+ 
+ [arrIndexPaths removeAllObjects];
+ 
+ NSArray *arrCasesObj = [responseObject valueForKey:kAPIcaseList];
+ 
+ if (arrCasesObj.count > 0) {
+ for (NSDictionary *caseObj in [responseObject valueForKey:kAPIcaseList]) {
+ Cases *objCase = [Cases saveCase:caseObj forUser:USER_ID];
+ [arrCourt addObject:objCase];
+ }
+ 
+ NSInteger totalArrCount = arrCases.count + arrCourt.count;
+ 
+ NSInteger startIndex = isRequestForOlder ? arrCases.count : 0;
+ NSInteger endIndex = isRequestForOlder ? totalArrCount : arrCourt.count;
+ 
+ for (NSInteger i = startIndex; i < endIndex; i++) {
+ [arrCases insertObject:isRequestForOlder ? arrCourt[i-startIndex] : arrCourt[i] atIndex:i];
+ 
+ [arrIndexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+ }
+ 
+ [self showSpinner:NO withError:NO];
+ }
+ else {
+ 
+ if (arrCases.count > 0) {
+ [Global showNotificationWithTitle:@"All Cases Loaded!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+ }
+ else {
+ [lblErrorMsg setText:@"No Cases found."];
+ 
+ [self showSpinner:NO withError:YES];
+ 
+ [btnReload setHidden:NO];
+ }
+ }
+ }
+ }
+ completionHandler(YES);
+ 
+ } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+ 
+ NSString *strMsg;
+ 
+ if (error.code == kCFURLErrorTimedOut) {
+ strMsg = kREQUEST_TIME_OUT;
+ }
+ else if (error.code == kCFURLErrorNetworkConnectionLost) {
+ strMsg = kCHECK_INTERNET;
+ }
+ else {
+ strMsg = kSOMETHING_WENT_WRONG;
+ }
+ 
+ [lblErrorMsg setText:strMsg];
+ [self showSpinner:NO withError:YES];
+ 
+ [Global showNotificationWithTitle:strMsg titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+ 
+ if (arrCases.count > 0) {
+ [self.tableView setHidden:NO];
+ [lblErrorMsg setHidden:YES];
+ }
+ else {
+ [btnReload setHidden:NO];
+ }
+ }];
+ }
+ @catch (NSException *exception) {
+ NSLog(@"Exception => %@", [exception debugDescription]);
+ }
+ @finally {
+ 
+ }
+ }
+ else {
+ [self showSpinner:NO withError:YES];
+ [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+ }
+ }*/
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

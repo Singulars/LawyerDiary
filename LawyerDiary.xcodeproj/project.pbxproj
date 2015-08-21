@@ -67,7 +67,6 @@
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
 		C07CFC7A1B768DC600D7741A /* ChooseAdmin.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC791B768DC600D7741A /* ChooseAdmin.m */; };
 		C07CFC7D1B769EB800D7741A /* ChooseAdminCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */; };
-		C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */; };
 		C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */; };
 		C0B297701B6FE17B00673875 /* HomeTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B2976F1B6FE17B00673875 /* HomeTwo.m */; };
 		C0B3FFBC1B728A0C00061A5C /* AddSubordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */; };
@@ -210,8 +209,6 @@
 		C07CFC791B768DC600D7741A /* ChooseAdmin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdmin.m; sourceTree = "<group>"; };
 		C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdminCell.h; sourceTree = "<group>"; };
 		C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdminCell.m; sourceTree = "<group>"; };
-		C0887B6D1B6E9A5900B55A7C /* ClientsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClientsTabBar.h; sourceTree = "<group>"; };
-		C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClientsTabBar.m; sourceTree = "<group>"; };
 		C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtsTabBar.h; sourceTree = "<group>"; };
 		C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourtsTabBar.m; sourceTree = "<group>"; };
 		C0B2976E1B6FE17B00673875 /* HomeTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTwo.h; sourceTree = "<group>"; };
@@ -291,8 +288,6 @@
 				C010C9F91B612C02000247F0 /* ChooseCourt.m */,
 				C0D3C6531B6174C6008D5217 /* EditCase.h */,
 				C0D3C6541B6174C6008D5217 /* EditCase.m */,
-				C0887B6D1B6E9A5900B55A7C /* ClientsTabBar.h */,
-				C0887B6E1B6E9A5900B55A7C /* ClientsTabBar.m */,
 				9DA2829D1AECFE3A00024121 /* Clients.h */,
 				9DA2829E1AECFE3A00024121 /* Clients.m */,
 				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
@@ -754,7 +749,6 @@
 				C0887B721B6E9A7900B55A7C /* CourtsTabBar.m in Sources */,
 				C07CFC7D1B769EB800D7741A /* ChooseAdminCell.m in Sources */,
 				C0380BA31B49D712003177FA /* UIScrollView+SVPullToRefresh.m in Sources */,
-				C0887B6F1B6E9A5900B55A7C /* ClientsTabBar.m in Sources */,
 				C0380BA21B49D712003177FA /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				9D64BD761AE304BB001230C0 /* Reachability.m in Sources */,
 				C05382CC1B5CD1C5000B26A0 /* UIPlaceHolderTextView.m in Sources */,

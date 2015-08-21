@@ -10,6 +10,10 @@
 #import "Client.h"
 #import "ClientCell.h"
 #import "ChooseAdmin.h"
+#import "ClientDetail.h"
+#import "SubordinateAdmin.h"
+
+BOOL isForSubordinate;
 
 @interface SubordinateClients ()
 
@@ -36,7 +40,11 @@
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchClientsLocally:) name:kFetchSubordinateClients object:nil];
+    
     [self loadSubordinatesClients];
+    
+    isForSubordinate = YES;
     
     // Do any additional setup after loading the view.
 }
@@ -47,6 +55,7 @@
 - (void)barBtnAddTaped:(id)sender
 {
     ChooseAdmin *chooseAdminVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseAdmin"];
+    [chooseAdminVC setDetailViewToChooseAdmin:kDetailViewClients];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseAdminVC];
     [self presentViewController:navController animated:YES completion:nil];
@@ -56,6 +65,23 @@
 {
     [self loadSubordinatesClients];
 }
+
+- (void)fetchClientsLocally:(NSNotification *)aNotification
+{
+    if (!arrClients) {
+        arrClients = [[NSMutableArray alloc] init];
+    }
+    
+    [arrClients removeAllObjects];
+    [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
+    
+    [self.tableView reloadData];
+    
+    if (arrClients.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
+}
+
 - (void)loadSubordinatesClients
 {
     if (IS_INTERNET_CONNECTED) {
@@ -63,23 +89,18 @@
         [self fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
-            if (!arrClients) {
-                arrClients = [[NSMutableArray alloc] init];
-            }
-            
-            [arrClients removeAllObjects];
-            [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
-            
-            [self.tableView reloadData];
+            [self fetchClientsLocally:nil];
         }];
     }
     else {
+        
+        [self fetchClientsLocally:nil];
         
         if (arrClients.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [lblErrorMsg setText:kCHECK_INTERNET];
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
         }
     }
@@ -224,6 +245,90 @@
     return nil;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[arrClients[indexPath.section] valueForKey:@"data"] count] > 0) {
+        
+        ClientDetail *clientDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
+        
+        SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
+        [clientDetailVC setExistingAdminObj:adminObj];
+//        [clientDetailVC setIsForSubordinate:YES];
+        [clientDetailVC setClientObj:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
+        [self.navigationController pushViewController:clientDetailVC animated:YES];
+    }
+    else {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
+    
+    if ([adminObj.hasAccess isEqualToNumber:@1]) {
+        [tableView beginUpdates];
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+            [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+            [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+            
+            [arrClients removeAllObjects];
+            [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
+        }
+        [tableView endUpdates];
+    }
+    else {
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
+    }
+}
+
+- (void)deleteClient:(Client *)objClient forAdmin:(SubordinateAdmin *)adminObj
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kdeleteCourt,
+                                     kAPIuserId: USER_ID,
+                                     kAPIcourtId: objClient.clientId,
+                                     kAPIadminId: adminObj.adminId
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                    [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    }
+                    else {
+                        [Client deleteCientsForUser:objClient.clientId];
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+    else {
+        //        [Global showNotificationWithTitle:@"Court will be delted from server, when you get online." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+    }
+}
+
 - (void)fetchSubordinatesWithCompletionHandler:(void (^)(BOOL finished))completionHandler
 {
     if (IS_INTERNET_CONNECTED) {
@@ -258,7 +363,7 @@
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         NSArray *arrSubordinates = [responseObject valueForKey:kAPIclientData];
@@ -314,8 +419,20 @@
         }
     }
     else {
-        [self showSpinner:NO withError:YES];
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        [self fetchClientsLocally:nil];
+        
+        if (arrClients.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [self showSpinner:NO withError:YES];
+            
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        
+//        [self showSpinner:NO withError:YES];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 

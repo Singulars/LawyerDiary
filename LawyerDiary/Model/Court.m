@@ -159,6 +159,7 @@
         switch (property) {
             case kCourtIsDeleted: {
                 [courtObj setIsCourtDeleted:propertyValue];
+                [courtObj setIsSynced:@0];
             }
                 break;
             case kCourtIsSynced: {
@@ -323,7 +324,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@", @0];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@ && isCourtDeleted = %@", @0, @0];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcourtId ascending:NO];
@@ -359,7 +360,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@", adminId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@ && isCourtDeleted = %@", adminId, @0];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcourtId ascending:NO];

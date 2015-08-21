@@ -9,6 +9,8 @@
 #import "ClientDetail.h"
 #import "Client.h"
 
+BOOL isForSubordinate;
+
 @interface ClientDetail () <UITextViewDelegate>
 {
     UITextField *activeTextField;
@@ -18,6 +20,8 @@
 @implementation ClientDetail
 
 @synthesize clientObj;
+//@synthesize isForSubordinate;
+@synthesize existingAdminObj;
 
 #pragma mark - ViewLifeCycle
 #pragma mark -
@@ -26,7 +30,7 @@
     [super viewDidLoad];
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
-    //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:WHITE_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
@@ -108,7 +112,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            return 6;
+        }
+        else {
+            return 5;
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            return 6;
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                return 6;
+            }
+            else return 5;
+        }
+    }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -173,7 +196,37 @@
         }
         else {
             [self setEditing:YES];
-            [self saveClient];
+            
+            if (isForSubordinate) {
+                switch (ShareObj.fetchSubordinateStatus) {
+                    case kStatusUndetermined: {
+                        UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusFailed: {
+                        UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusFailedBecauseInternet: {
+                        UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusSuccess: {
+                        if (ShareObj.hasAdminAccess) {
+                            [self saveClient];
+                        }
+                        else {
+                            UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                        }
+                    }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+                [self saveClient];
+            }
         }
     }
 }
@@ -216,34 +269,39 @@
 
 - (void)saveClient
 {
+    [activeTextField resignFirstResponder];
+    
+    NSMutableDictionary *clientParams = [[NSMutableDictionary alloc] init];
+    clientParams[kAPIuserId] = USER_ID;
+    clientParams[kAPIclientFirstName] = tfFirstName.text;
+    clientParams[kAPIclientLastName] = tfLastName.text;
+    clientParams[kAPIemail] = tfEmail.text;
+    clientParams[kAPImobile] = tfMobile.text;
+    clientParams[kAPIaddress] = tvAddress.text;
+    clientParams[kIsSynced] = @0;
+    
+    if (clientObj) {
+        if ([clientObj.isSynced isEqualToNumber:@1]) {
+            clientParams[kAPIclientId] = clientObj.clientId;
+            clientParams[kAPIisTaskPlanner] = clientObj.isTaskPlanner;
+            clientParams[kAPItaskPlannerId] = clientObj.taskPlannerId;
+        }
+        
+        clientParams[kAPIlocalClientId] = clientObj.localClientId;
+    }
+    //Client *tempClientObj = [Client saveClient:clientParams forUser:USER_ID];
+    Client *tempClientObj = [Client saveClients:clientParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                  kAPIadminId: existingAdminObj.adminId,
+                                                                                                                                  kAPIadminName: existingAdminObj.adminName,
+                                                                                                                                  kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                                  } : nil];
+    
     if (IS_INTERNET_CONNECTED) {
         
         @try {
             
-            [activeTextField resignFirstResponder];
             [self showIndicator:YES];
             
-            NSMutableDictionary *clientParams = [[NSMutableDictionary alloc] init];
-            clientParams[kAPIuserId] = USER_ID;
-            clientParams[kAPIclientFirstName] = tfFirstName.text;
-            clientParams[kAPIclientLastName] = tfLastName.text;
-            clientParams[kAPIemail] = tfEmail.text;
-            clientParams[kAPImobile] = tfMobile.text;
-            clientParams[kAPIaddress] = tvAddress.text;
-            clientParams[kIsSynced] = @0;
-            
-            if (clientObj) {
-                if ([clientObj.isSynced isEqualToNumber:@1]) {
-                    clientParams[kAPIclientId] = clientObj.clientId;
-                    clientParams[kAPIisTaskPlanner] = clientObj.isTaskPlanner;
-                    clientParams[kAPItaskPlannerId] = clientObj.taskPlannerId;
-                }
-                
-                clientParams[kAPIlocalClientId] = clientObj.localClientId;
-            }
-            //Client *tempClientObj = [Client saveClient:clientParams forUser:USER_ID];
-            Client *tempClientObj = [Client saveClients:clientParams forSubordiante:NO withAdminDetail:nil];
-
             NSDictionary *params = @{
                                      kAPIMode: ksaveClient,
                                      kAPIuserId: USER_ID,
@@ -265,12 +323,17 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         //[Client saveClient:responseObject[kAPIclientData] forUser:USER_ID];
-                        [Client saveClients:responseObject[kAPIclientData] forSubordiante:NO withAdminDetail:nil];
+                        [Client saveClients:responseObject[kAPIclientData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                  kAPIadminId: existingAdminObj.adminId,
+                                                                                                                                  kAPIadminName: existingAdminObj.adminName,
+                                                                                                                                  kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                                  } : nil];
 
+                        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateClients : kFetchClients, nil);
                         
                         if (clientObj) {
                             [self.navigationController popViewControllerAnimated:YES];
@@ -306,7 +369,18 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateClients : kFetchClients, nil);
+        
+        if (clientObj) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [Global showNotificationWithTitle:@"Client saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [Global showNotificationWithTitle:@"Client saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+            }];
+        }
     }
 }
 

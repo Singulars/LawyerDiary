@@ -209,7 +209,7 @@
                 else {
                     if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
                         [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         

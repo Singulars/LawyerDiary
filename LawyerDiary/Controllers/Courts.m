@@ -99,6 +99,10 @@
     [arrCourts addObjectsFromArray:[Court fetchCourtsForAdmin]];
     
     [self.tableView reloadData];
+    
+    if (arrCourts.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
 }
 
 - (void)loadCourts
@@ -113,11 +117,13 @@
     }
     else {
         
+        [self fetchCourtsLocally:nil];
+        
         if (arrCourts.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [lblErrorMsg setText:kCHECK_INTERNET];
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get updated data."];
             [self showSpinner:NO withError:YES];
         }
     }
@@ -210,7 +216,7 @@
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         NSArray *arrCourtObj = [responseObject valueForKey:kAPIcourData];
@@ -277,8 +283,21 @@
         }
     }
     else {
-        [self showSpinner:NO withError:YES];
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
+        [self fetchCourtsLocally:nil];
+        
+        if (arrCourts.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [self showSpinner:NO withError:YES];
+            
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        
+//        [self showSpinner:NO withError:YES];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 
@@ -377,15 +396,15 @@
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailed: {
-            MY_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -397,7 +416,7 @@
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -448,15 +467,15 @@
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailed: {
-            MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -464,10 +483,16 @@
                 [tableView beginUpdates];
                 if (editingStyle == UITableViewCellEditingStyleDelete) {
                     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                    [Court updatedCourtPropertyofCourt:arrCourts[indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
                     [self deleteCourt:arrCourts[indexPath.row]];
                     [arrCourts removeObjectAtIndex:indexPath.row];
                 }
                 [tableView endUpdates];
+                
+                if (arrCourts.count == 0) {
+                    [lblErrorMsg setText:@"No Clients found."];
+                    [self showSpinner:NO withError:YES];
+                }
             }
         }
             break;
@@ -509,20 +534,21 @@
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 
                 if (responseObject == nil) {
-                    [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    [Global showNotificationWithTitle:@"Court can't be deleted right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        [Global showNotificationWithTitle:@"Court can't be deleted right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         [Court deleteCourt:objCourt.courtId];
+                        [Global showNotificationWithTitle:@"Court deleted successfully!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                     }
                 }
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                [Global showNotificationWithTitle:@"Court can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                [Global showNotificationWithTitle:@"Court can't be deleted right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }];
         }
         @catch (NSException *exception) {
@@ -533,7 +559,8 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:@"Court will be delted from server, when you get online." titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 

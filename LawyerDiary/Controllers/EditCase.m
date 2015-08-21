@@ -11,6 +11,10 @@
 #import "ChooseCourt.h"
 #import "ChooseAdmin.h"
 
+#import "SubordinateCases.h"
+
+BOOL isForSubordinate;
+
 @interface EditCase () <UITextFieldDelegate, ChooseClientDelegate, ChooseCourtDelegate>
 {
     BOOL isNHCellExpanded;
@@ -26,6 +30,10 @@
 @synthesize existingCaseObj;
 @synthesize existingClientObj;
 @synthesize existingCourtObj;
+
+//@synthesize isForSubordinate;
+@synthesize existingAdminObj;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -531,47 +539,51 @@
         [self saveCase];
     }
     else {
-        MY_ALERT(nil, errMsg, nil);
+        UI_ALERT(nil, errMsg, nil);
     }
 }
 
 - (void)saveCase
 {
+    [self.view endEditing:YES];
+    
+    NSLog(@"date - %@", [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]);
+    
+    NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
+    caseParams[kAPIuserId] = USER_ID;
+    caseParams[kAPIcaseNo] = tfCaseNo.text;
+    caseParams[kAPIlastHeardDate] = tfPHeardDate.text.length > 0 ? [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat] : @"";
+    caseParams[kAPInextHearingDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat];
+    caseParams[kAPIcaseStatus] = tfCaseStatus.text;
+    caseParams[kAPIclientId] = existingClientObj.clientId;
+    caseParams[kAPIclientFirstName] = existingClientObj.clientFirstName;
+    caseParams[kAPIclientLastName] = existingClientObj.clientLastName;
+    caseParams[kAPImobile] = existingClientObj.mobile;
+    caseParams[kAPIoppositionFirstName] = tfOFirstName.text;
+    caseParams[kAPIoppositionLastName] = tfOLastName.text;
+    caseParams[kAPIoppositionLawyerName] = tfOLawyerName.text;
+    caseParams[kAPIcourtId] = existingCourtObj.courtId;
+    caseParams[kAPIcourtName] = existingCourtObj.courtName;
+    caseParams[kAPImegistrateName] = existingCourtObj.megistrateName;
+    caseParams[kAPIcourtCity] = existingCourtObj.courtCity;
+    caseParams[kIsSynced] = @0;
+    
+    if (existingCaseObj) {
+        if ([existingCaseObj.isSynced isEqualToNumber:@1]) {
+            caseParams[kAPIcaseId] = existingCaseObj.caseId;
+        }
+        
+        caseParams[kAPIlocalCaseId] = existingCaseObj.localCaseId;
+    }
+    Cases *tempCaseObj = [Cases saveCase:caseParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                         kAPIadminId: existingAdminObj.adminId,
+                                                                                                                         kAPIadminName: existingAdminObj.adminName,
+                                                                                                                         kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                         } : nil];
+    
     if (IS_INTERNET_CONNECTED) {
         
         @try {
-            
-            [self.view endEditing:YES];
-
-            NSLog(@"date - %@", [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]);
-            
-            NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
-            caseParams[kAPIuserId] = USER_ID;
-            caseParams[kAPIcaseNo] = tfCaseNo.text;
-            caseParams[kAPIlastHeardDate] = tfPHeardDate.text.length > 0 ? [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat] : @"";
-            caseParams[kAPInextHearingDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat];
-            caseParams[kAPIcaseStatus] = tfCaseStatus.text;
-            caseParams[kAPIclientId] = existingClientObj.clientId;
-            caseParams[kAPIclientFirstName] = existingClientObj.clientFirstName;
-            caseParams[kAPIclientLastName] = existingClientObj.clientLastName;
-            caseParams[kAPImobile] = existingClientObj.mobile;
-            caseParams[kAPIoppositionFirstName] = tfOFirstName.text;
-            caseParams[kAPIoppositionLastName] = tfOLastName.text;
-            caseParams[kAPIoppositionLawyerName] = tfOLawyerName.text;
-            caseParams[kAPIcourtId] = existingCourtObj.courtId;
-            caseParams[kAPIcourtName] = existingCourtObj.courtName;
-            caseParams[kAPImegistrateName] = existingCourtObj.megistrateName;
-            caseParams[kAPIcourtCity] = existingCourtObj.courtCity;
-            caseParams[kIsSynced] = @0;
-            
-            if (existingCaseObj) {
-                if ([existingCaseObj.isSynced isEqualToNumber:@1]) {
-                    caseParams[kAPIcaseId] = existingCaseObj.caseId;
-                }
-                
-                caseParams[kAPIlocalCaseId] = existingCaseObj.localCaseId;
-            }
-            Cases *tempCaseObj = [Cases saveCase:caseParams forUser:USER_ID];
             
             NSDictionary *params = @{
                                      kAPIMode: ksaveCase,
@@ -611,13 +623,13 @@
                     else {
                         if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                             [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                            //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                         }
                         else {
-                            [Cases updateCase:responseObject[kAPIcaseData] forUser:USER_ID];
+                            [Cases updateCase:responseObject forUser:USER_ID];
                             
                             [self dismissViewControllerAnimated:YES completion:^{
-                                POST_NOTIFICATION(@"CaseSaved", nil);
+                                POST_NOTIFICATION(kFetchCases, nil);
                                 [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
                             }];
                         }
@@ -647,7 +659,19 @@
         }
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
+        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+        
+        if (existingCaseObj) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+        }
+        else {
+            [self dismissViewControllerAnimated:YES completion:^{
+                [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+            }];
+        }
     }
 }
 
@@ -656,7 +680,7 @@
     switch (barBtnType) {
         case SaveBarButton: {
             barBtnSave = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(barBtnSaveTaped:)];
-            [barBtnSave setTintColor:WHITE_COLOR];
+            [barBtnSave setTintColor:BLACK_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             
             UserIntrectionEnable(YES);

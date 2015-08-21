@@ -66,6 +66,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [self.view addSubview:self.spinnerView];
     [btnReload setHidden:YES];
 
+    [self loadClients];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchClientsLocally:) name:kFetchClients object:nil];
+    
+    
 //    [Client deleteCientsForUser:USER_ID];
     
   /*  arrClients = [[NSMutableArray alloc] init];
@@ -104,21 +109,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self loadClients];
-    
-//    if (!arrClients) {
-//        arrClients = [[NSMutableArray alloc] init];
-//    }
-//    [arrClients removeAllObjects];
-//    
-//    [arrClients addObjectsFromArray:[Client fetchClients:USER_ID]];
-//    [self.tableView reloadData];
-//    
-//    if (arrClients.count > 0) {
-//        [self showSpinner:NO withError:NO];
-//    }
 }
-
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -154,6 +145,22 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }];
 }*/
 
+- (void)fetchClientsLocally:(NSNotification *)aNotification
+{
+    if (!arrClients) {
+        arrClients = [[NSMutableArray alloc] init];
+    }
+    
+    [arrClients removeAllObjects];
+    [arrClients addObjectsFromArray:[Client fetchClientsForAdmin]];
+    
+    [self.tableView reloadData];
+    
+    if (arrClients.count > 0) {
+        [self showSpinner:NO withError:NO];
+    }
+}
+
 - (void)loadClients
 {
 //    if (!arrClients) {
@@ -171,23 +178,18 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         [self fetchClientsWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
-            if (!arrClients) {
-                arrClients = [[NSMutableArray alloc] init];
-            }
-            
-            [arrClients removeAllObjects];
-            [arrClients addObjectsFromArray:[Client fetchClientsForAdmin]];
-            
-            [self.tableView reloadData];
+            [self fetchClientsLocally:nil];
         }];
     }
     else {
+        
+        [self fetchClientsLocally:nil];
         
         if (arrClients.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [lblErrorMsg setText:kCHECK_INTERNET];
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
         }
     }
@@ -233,25 +235,27 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailed: {
-            MY_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusSuccess: {
             if (ShareObj.hasAdminAccess) {
                 
-                UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
+                ClientDetail *clientDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
+            
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:clientDetailVC];
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                MY_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -293,9 +297,10 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
-    ClientDetail *clientDetailVC = navController.viewControllers[0];
+    ClientDetail *clientDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
     [clientDetailVC setClientObj:arrClients[indexPath.row]];
+    
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:clientDetailVC];
     [self.navigationController pushViewController:clientDetailVC animated:YES];
 }
 
@@ -303,15 +308,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            MY_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailed: {
-            MY_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            MY_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -323,6 +328,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                     [arrClients removeObjectAtIndex:indexPath.row];
                 }
                 [tableView endUpdates];
+                
+                if (arrClients.count == 0) {
+                    [lblErrorMsg setText:@"No Clients found."];
+                    [self showSpinner:NO withError:YES];
+                }
             }
         }
             break;
@@ -369,7 +379,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
                         [Global showNotificationWithTitle:@"Client can't be deleted right now" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                        //                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         [Client deleteClient:objClient.clientId];
@@ -457,7 +467,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         
@@ -625,7 +635,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
                         NSArray *arrCourtObj = [responseObject valueForKey:kAPIclientData];
@@ -692,8 +702,21 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         }
     }
     else {
-        [self showSpinner:NO withError:YES];
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
+        [self fetchClientsLocally:nil];
+        
+        if (arrClients.count > 0) {
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        else {
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [self showSpinner:NO withError:YES];
+            
+            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        }
+        
+//        [self showSpinner:NO withError:YES];
+//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
 }
 

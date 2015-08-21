@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubordinateAdmin.h"
+
 @class Client;
 @class FFTextField;
 
@@ -37,5 +39,8 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) Client *clientObj;
+
+//@property (nonatomic, readwrite) BOOL isForSubordinate;
+@property (nonatomic, strong) SubordinateAdmin *existingAdminObj;
 
 @end

@@ -298,7 +298,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@", @0];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@ && isClientDeleted = %@", @0, @0];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
@@ -333,7 +333,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@", adminId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"adminId = %@ && isClientDeleted = %@", adminId, @0];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
@@ -401,7 +401,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@", userId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId = %@ && isClientDeleted = %@", userId, @0];
         [request setPredicate:predicate];
         
 //        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIdateTime ascending:NO];

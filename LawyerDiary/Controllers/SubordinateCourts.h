@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Constant.h"
 
+extern BOOL isForSubordinate;
+
 @interface SubordinateCourts : UIViewController<UITableViewDataSource,UITableViewDelegate>
 {
     UIBarButtonItem *barBtnAdd;

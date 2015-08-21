@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+extern SubordinateAdmin *selectedAdminObj;
+
+typedef NS_ENUM(NSUInteger, DetailViewToChooseAdmin) {
+    kDetailViewCases = 0,
+    kDetailViewClients,
+    kDetailViewCourts
+};
+
 @protocol ChooseAdminDelegate <NSObject>
 @optional
 - (void)subordinateSelected:(SubordinateAdmin *)subordinateObj;
@@ -17,8 +25,11 @@
 @interface ChooseAdmin : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
+    IBOutlet UILabel *headerLable;
 }
 @property (nonatomic, strong) id<ChooseAdminDelegate> delegate;
+
+@property (nonatomic, readwrite) DetailViewToChooseAdmin detailViewToChooseAdmin;
 
 @property (nonatomic, strong) SubordinateAdmin *existingAdminObj;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

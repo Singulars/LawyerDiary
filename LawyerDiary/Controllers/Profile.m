@@ -206,7 +206,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
              (buttonIndex == 1 && isImageSet))
     {
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            MY_ALERT(WARNING, @"Device has no camera!", nil);
+            UI_ALERT(WARNING, @"Device has no camera!", nil);
         }
         else {
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -359,7 +359,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
                     
                     
                     if (responseObject == nil) {
-                        MY_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
+                        UI_ALERT(APP_NAME, kSOMETHING_WENT_WRONG, nil);
                     }
                     else {
                         if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8118.17" systemVersion="15A216g" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="15A226f" minimumToolsVersion="Xcode 4.3">
     <entity name="Cases" representedClassName="Cases" syncable="YES">
+        <attribute name="adminId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="adminName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="caseNo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseStatus" optional="YES" attributeType="String" syncable="YES"/>
@@ -10,7 +12,9 @@
         <attribute name="courtCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="courtId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="courtName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasAccess" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="isCaseDeleted" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="isSubordinate" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="isSynced" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastHeardDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="localCaseId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -81,7 +85,7 @@
         <attribute name="userId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Cases" positionX="511" positionY="99" width="128" height="345"/>
+        <element name="Cases" positionX="511" positionY="99" width="128" height="405"/>
         <element name="Client" positionX="-54" positionY="90" width="128" height="285"/>
         <element name="Court" positionX="198" positionY="309" width="128" height="240"/>
         <element name="Subordinate" positionX="153" positionY="81" width="128" height="135"/>

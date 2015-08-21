@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SubordinateAdmin.h"
+#import "SubordinateCourts.h"
 
 @interface CourtDetail : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
@@ -28,7 +29,7 @@
 
 @property (nonatomic, strong) Court *courtObj;
 
-@property (nonatomic, readwrite) BOOL isForSubordinate;
+//@property (nonatomic, readwrite) BOOL isForSubordinate;
 @property (nonatomic, strong) SubordinateAdmin *existingAdminObj;
 
 @end

@@ -523,7 +523,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                                    picker.allowsEditing = YES;
                                    
                                    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                                       MY_ALERT(WARNING, @"Device has no camera!", nil);
+                                       UI_ALERT(WARNING, @"Device has no camera!", nil);
                                    }
                                    else {
                                        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -647,7 +647,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [self makeLoginRequest];
                         }
                         else {
-                            MY_ALERT(APP_NAME, @"You refused to allow \"Lawyer Diary App\" to send you notifications. You can change the preference by navigating to phone Settings > Find the Lawyer Diary App > Switch on Notification", self);
+                            UI_ALERT(APP_NAME, @"You refused to allow \"Lawyer Diary App\" to send you notifications. You can change the preference by navigating to phone Settings > Find the Lawyer Diary App > Switch on Notification", self);
                         }
                     }];
                 }
@@ -811,7 +811,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
-                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                 }
                 else {
                     [self saveUserInfo:responseObject];
@@ -872,10 +872,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
-                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                 }
                 else {
-//                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+//                    UI_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
                     
                     [self saveUserInfo:[responseObject valueForKey:kAPIuserDetail]];
                 }
@@ -995,10 +995,10 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
             }
             else {
                 if ([responseObject[kAPIstatus] isEqualToNumber:@0]) {
-                    MY_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                    UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                 }
                 else {
-                    MY_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
+                    UI_ALERT(APP_NAME, [responseObject valueForKey:kAPImessage], nil);
                 }
             }
             
@@ -1422,7 +1422,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
              (buttonIndex == 1 && isImageSet))
     {
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            MY_ALERT(WARNING, @"Device has no camera!", nil);
+            UI_ALERT(WARNING, @"Device has no camera!", nil);
         }
         else {
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;

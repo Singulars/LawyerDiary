@@ -10,6 +10,8 @@
 #import "ChooseAdminCell.h"
 #import "CourtDetail.h"
 
+SubordinateAdmin *selectedAdminObj;
+
 @interface ChooseAdmin ()
 {
     NSIndexPath *previusSelectedIndexPath;
@@ -20,8 +22,10 @@
 @end
 
 @implementation ChooseAdmin
+
 @synthesize existingAdminObj;
 @synthesize arrAdmin;
+@synthesize detailViewToChooseAdmin;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,6 +65,27 @@
 
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
     [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
+    
+    NSString *strDetailViewType;
+    switch (detailViewToChooseAdmin) {
+        case kDetailViewCases: {
+            strDetailViewType = @"Cases";
+        }
+            break;
+        case kDetailViewClients: {
+            strDetailViewType = @"Client";
+        }
+            break;
+        case kDetailViewCourts: {
+            strDetailViewType = @"Court";
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [headerLable setText:[NSString stringWithFormat:@"Select any Admin for you want to add %@.", strDetailViewType]];
 
     // Do any additional setup after loading the view.
 }
@@ -96,6 +121,7 @@
     
     if ([adminObj.hasAccess isEqualToNumber:@1]) {
         existingAdminObj = arrAdmin[indexPath.row];
+        selectedAdminObj = existingAdminObj;
         
         NSMutableArray *toBeReloadIndexPaths = [[NSMutableArray alloc] init];
         [toBeReloadIndexPaths addObject:indexPath];
@@ -134,12 +160,37 @@
 - (IBAction)barBtnNextTaped:(id)sender
 {
     if (existingAdminObj == nil) {
-        MY_ALERT(nil, @"Please select Admin you want to add record.", nil);
+        UI_ALERT(nil, @"Please select Admin you want to add record.", nil);
     }
     else {
         
-        CourtDetail *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
-        [detailVC setIsForSubordinate:YES];
+        NSString *storyboardIdForDetailView;
+        id detailVC;
+        
+        switch (detailViewToChooseAdmin) {
+            case kDetailViewCases: {
+                storyboardIdForDetailView = @"ChooseClient";
+            }
+                break;
+            case kDetailViewClients: {
+                storyboardIdForDetailView = @"ClientDetail";
+            }
+                break;
+            case kDetailViewCourts: {
+                storyboardIdForDetailView = @"CourtDetail";
+            }
+                break;
+                
+            default:
+                break;
+        }
+        
+        detailVC = [self.storyboard instantiateViewControllerWithIdentifier:storyboardIdForDetailView];
+        
+//        if (detailViewToChooseAdmin != kDetailViewCases) {
+//            [detailVC setIsForSubordinate:YES];
+//        }
+        
         [detailVC setExistingAdminObj:existingAdminObj];
         [self.navigationController pushViewController:detailVC animated:YES];
     }

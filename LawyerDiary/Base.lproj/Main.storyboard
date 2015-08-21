@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.17" systemVersion="15A226f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="Symbol.ttf">
@@ -230,7 +230,7 @@
                                 <color key="textColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rHV-Oz-JuJ">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rHV-Oz-JuJ">
                                 <rect key="frame" x="143" y="300" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <animations/>
@@ -318,7 +318,6 @@
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="barBtnAddTaped:" destination="5GC-53-mFP" id="eV4-S2-DHW"/>
-                                <segue destination="64A-yE-3OH" kind="modal" id="DRN-dl-G6O"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -562,7 +561,7 @@
                         <outlet property="cellOLastName" destination="Fi4-6w-Vwr" id="ppO-N1-a7N"/>
                         <outlet property="cellOLawyerName" destination="1mA-EB-62T" id="QfS-TY-t7E"/>
                         <outlet property="cellPHeardDate" destination="TW3-ca-00H" id="CXh-9p-IS5"/>
-                        <outlet property="datePicker" destination="dCA-hf-wlu" id="yXG-EQ-hrc"/>
+                        <outlet property="datePicker" destination="aMA-1d-2y8" id="mSh-mb-8AJ"/>
                         <outlet property="lblClientMobile" destination="gi5-tM-ctM" id="Zs7-ll-gAH"/>
                         <outlet property="lblClientName" destination="gZc-PY-i2N" id="I6v-1p-MHu"/>
                         <outlet property="lblCourtCity" destination="FN0-ka-ZEg" id="ccU-m1-7rw"/>
@@ -579,6 +578,29 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sqm-l8-off" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="162" id="Pmd-rx-7LG" userLabel="DatePickerCell">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pmd-rx-7LG" id="q2c-mh-BJb">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="aMA-1d-2y8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <date key="date" timeIntervalSinceReferenceDate="461517865.78262103">
+                                    <!--2015-08-17 15:24:25 +0000-->
+                                </date>
+                                <connections>
+                                    <action selector="datePickerValueChanged:" destination="ALl-6S-x7n" eventType="valueChanged" id="Ugn-Qy-0tt"/>
+                                </connections>
+                            </datePicker>
+                        </subviews>
+                        <animations/>
+                    </tableViewCellContentView>
+                    <animations/>
+                </tableViewCell>
                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="GMy-2b-clV" userLabel="CaseNoCell">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask"/>
@@ -809,29 +831,6 @@
                     </tableViewCellContentView>
                     <animations/>
                 </tableViewCell>
-                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Pmd-rx-7LG" userLabel="DatePickerCell">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
-                    <autoresizingMask key="autoresizingMask"/>
-                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pmd-rx-7LG" id="q2c-mh-BJb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="dCA-hf-wlu">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <animations/>
-                                <date key="date" timeIntervalSinceReferenceDate="452810264.86502999">
-                                    <!--2015-05-08 20:37:44 +0000-->
-                                </date>
-                                <connections>
-                                    <action selector="datePickerValueChanged:" destination="ALl-6S-x7n" eventType="valueChanged" id="zX8-g1-52T"/>
-                                </connections>
-                            </datePicker>
-                        </subviews>
-                        <animations/>
-                    </tableViewCellContentView>
-                    <animations/>
-                </tableViewCell>
             </objects>
             <point key="canvasLocation" x="1480" y="698"/>
         </scene>
@@ -853,7 +852,7 @@
                                         <animations/>
                                     </imageView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nce-00-Jfq">
-                                        <rect key="frame" x="20" y="449" width="280" height="34.999998157533703"/>
+                                        <rect key="frame" x="20" y="449" width="280" height="35"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <animations/>
                                         <color key="backgroundColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -1594,7 +1593,7 @@ registered email.</string>
                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="-289" y="2015"/>
+            <point key="canvasLocation" x="-289" y="2003"/>
         </scene>
         <!--Your-->
         <scene sceneID="1dT-5i-iUe">
@@ -1614,7 +1613,7 @@ registered email.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gB8-d8-gc6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-821" y="2015"/>
+            <point key="canvasLocation" x="-821" y="2003"/>
         </scene>
         <!--Profile-->
         <scene sceneID="htw-lX-lLP">
@@ -2375,7 +2374,7 @@ registered email.</string>
         <!--Add Client-->
         <scene sceneID="ljR-Jt-JI3">
             <objects>
-                <viewController id="42h-OZ-5cM" customClass="ClientDetail" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ClientDetail" id="42h-OZ-5cM" customClass="ClientDetail" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HBX-NN-f1q">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2618,12 +2617,12 @@ registered email.</string>
                 </tableViewCell>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auZ-AS-pJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="558" y="2015"/>
+            <point key="canvasLocation" x="558" y="2003"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="HDr-99-DM1">
             <objects>
-                <navigationController storyboardIdentifier="ClientDetail" automaticallyAdjustsScrollViewInsets="NO" id="5x1-se-g4h" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5x1-se-g4h" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="KYp-HB-jMv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2637,7 +2636,7 @@ registered email.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gkm-wM-ias" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127" y="2015"/>
+            <point key="canvasLocation" x="127" y="2003"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="H0K-kP-3YK">
@@ -2739,6 +2738,10 @@ Will be fixed soon!</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="70c-zM-AfY" id="VmL-XP-BwC"/>
+                                    <outlet property="delegate" destination="70c-zM-AfY" id="xzw-tQ-k8c"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <animations/>
@@ -2757,8 +2760,33 @@ Will be fixed soon!</string>
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cellNoRecords" destination="ovW-RJ-Nmd" id="eUa-RG-D9e"/>
+                        <outlet property="lblErrorMsg" destination="1Xq-we-XpG" id="6xn-A6-Lye"/>
+                        <outlet property="tableView" destination="Opa-rm-LuA" id="3Nn-Z6-iAN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyu-TR-xYB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="44" id="ovW-RJ-Nmd">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ovW-RJ-Nmd" id="jV4-Lp-cUi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Records Found!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VXy-Iw-JAF">
+                                <rect key="frame" x="8" y="11" width="304" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                    </tableViewCellContentView>
+                    <animations/>
+                </tableViewCell>
             </objects>
             <point key="canvasLocation" x="-289" y="1355"/>
         </scene>
@@ -2914,27 +2942,7 @@ Will be fixed soon!</string>
                     <animations/>
                 </tableViewCell>
             </objects>
-            <point key="canvasLocation" x="-289" y="2667"/>
-        </scene>
-        <!--Clients Tab Bar-->
-        <scene sceneID="VND-kl-sz3">
-            <objects>
-                <tabBarController storyboardIdentifier="ClientsTabBar" id="gmr-xh-T7f" customClass="ClientsTabBar" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="jB8-w7-k7b">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="ZYg-93-Shf" kind="relationship" relationship="viewControllers" id="qxQ-Xn-BQE"/>
-                        <segue destination="hZx-qw-L0L" kind="relationship" relationship="viewControllers" id="s9w-FE-HnX"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="N8E-xV-lKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1422" y="2342"/>
+            <point key="canvasLocation" x="-289" y="2655"/>
         </scene>
         <!--Subordinates-->
         <scene sceneID="snU-dc-2pP">
@@ -2954,7 +2962,7 @@ Will be fixed soon!</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9B3-8o-283" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-821" y="2667"/>
+            <point key="canvasLocation" x="-821" y="2655"/>
         </scene>
         <!--SubordinateCourts-->
         <scene sceneID="1Ey-Ag-c8p">
@@ -3688,6 +3696,7 @@ user of Lawyer App.</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="headerLable" destination="Wbb-vg-Qwf" id="6Aj-Mk-8QS"/>
                         <outlet property="lblErrorMsg" destination="eyi-El-VBi" id="eld-wd-HE5"/>
                         <outlet property="tableView" destination="JRB-l5-70z" id="H0z-wn-Taf"/>
                     </connections>
@@ -3695,6 +3704,26 @@ user of Lawyer App.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DEj-f5-aHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="636" y="3954"/>
+        </scene>
+        <!--Clients Tab Bar Controller-->
+        <scene sceneID="VaW-E9-zfu">
+            <objects>
+                <tabBarController storyboardIdentifier="ClientsTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="rIq-0l-ipR" customClass="ClientsTabBarController" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="fuv-hY-ULK">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ZYg-93-Shf" kind="relationship" relationship="viewControllers" id="tCg-OI-GdE"/>
+                        <segue destination="hZx-qw-L0L" kind="relationship" relationship="viewControllers" id="D82-Jd-a5y"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o2A-TK-Q6i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1422" y="2329"/>
         </scene>
     </scenes>
     <resources>
