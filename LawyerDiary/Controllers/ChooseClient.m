@@ -45,6 +45,9 @@
         
         arrClients = [Client fetchClientsForAdmin:existingAdminObj.adminId];
     }
+    else {
+        arrClients = [Client fetchClientsForAdmin];
+    }
     
     if (arrClients.count == 0) {
         [self.tableView setHidden:YES];
@@ -65,6 +68,8 @@
             }
         }
     }
+    
+    [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
 }
 
 - (void)viewWillAppear:(BOOL)animated

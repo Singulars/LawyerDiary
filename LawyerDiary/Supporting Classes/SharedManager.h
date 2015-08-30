@@ -58,4 +58,12 @@ typedef NS_ENUM(NSUInteger, FetchSubordinateStatus) {
 - (void)fetchSubordinatesWithCompletionHandler:(void (^)(BOOL finished))completionHandler;
 
 - (void)updateAdminAccessVariablesValue;
+
+- (void)syncUpdatedCourtRecords;
+- (void)syncDeletedCourtRecords;
+- (void)syncUpdatedClientRecords;
+- (void)syncDeletedClientRecords;
+- (void)syncUpdatedCaseRecords;
+- (void)syncDeletedCaseRecords;
+
 @end

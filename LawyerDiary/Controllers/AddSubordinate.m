@@ -35,6 +35,7 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
+    [btnSave setBackgroundColor:UICOLOR(50, 50, 50, 1)];
 }
 
 #pragma mark - UIKeyboardNOtifications

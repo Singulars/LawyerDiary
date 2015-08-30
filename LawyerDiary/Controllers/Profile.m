@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
     [self.spinnerView setHidesWhenStopped:YES];
-    [self.spinnerView setTintColor:WHITE_COLOR];
+    [self.spinnerView setTintColor:BLACK_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
 }
@@ -181,12 +181,79 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 }
 
 - (void)imgViewTaped:(id)sender {
-    [activeTextField resignFirstResponder];
-    [tvAddress resignFirstResponder];
+//    [activeTextField resignFirstResponder];
+//    [tvAddress resignFirstResponder];
+//    
+//    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:isImageSet ? @"Remove Picture" : nil otherButtonTitles:@"Take From Camera", @"Take From Library", nil];
+//    
+//    [actionSheet showInView:self.view];
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:isImageSet ? @"Remove Picture" : nil otherButtonTitles:@"Take From Camera", @"Take From Library", nil];
+    [self setEditing:YES];
     
-    [actionSheet showInView:self.view];
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:nil
+                                          message:nil
+                                          preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction *deletePhotoAction = [UIAlertAction
+                                        actionWithTitle:NSLocalizedString(@"Delete Photo", @"Delete action")
+                                        style:UIAlertActionStyleDestructive
+                                        handler:^(UIAlertAction *action)
+                                        {
+                                            [imgViewProPic setImage:image_placeholder_80];
+                                            isImageSet = NO;
+                                        }];
+    
+    UIAlertAction *cameraAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Take Photo", @"Camera action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                       picker.delegate = self;
+                                       picker.allowsEditing = YES;
+                                       
+                                       if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                                           UI_ALERT(WARNING, @"Device has no camera!", nil);
+                                       }
+                                       else {
+                                           picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                                       }
+                                       
+                                       [self presentViewController:picker animated:YES completion:nil];
+                                   }];
+    
+    UIAlertAction *libraryAction = [UIAlertAction
+                                    actionWithTitle:NSLocalizedString(@"Choose Photo", @"Library action")
+                                    style:UIAlertActionStyleDefault
+                                    handler:^(UIAlertAction *action)
+                                    {
+                                        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                                        picker.delegate = self;
+                                        picker.allowsEditing = YES;
+                                        
+                                        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                                        [self presentViewController:picker animated:YES completion:nil];
+                                    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"Cancel", @"Cancel action")
+                                   style:UIAlertActionStyleCancel
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                   }];
+    
+    if (isImageSet) {
+        [alertController addAction:deletePhotoAction];
+    }
+    
+    [alertController addAction:cameraAction];
+    [alertController addAction:libraryAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -326,7 +393,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
         if (isPickerVisible) { [btnDone sendActionsForControlEvents:UIControlEventTouchUpInside]; };
         
         if (!isPasswordChanged) { [params removeObjectForKey:kAPIpassword]; };
-        if ((isImageSet && !isImageRemoved) || (!isImageSet && isImageRemoved)) { [params removeObjectForKey:kAPIproPic]; };
+//        if ((isImageSet && !isImageRemoved) || (!isImageSet && isImageRemoved)) { [params removeObjectForKey:kAPIproPic]; };
         
         if (![tfCurrentPass.text isEqualToString:@""] && ![tfCurrentPass.text isEqualToString:nil]) {
             if (![tfCurrentPass.text isEqualToString:GetLoginUserPassword]) {
@@ -448,9 +515,10 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH(self.tableView), 44)];
     [headerView setBackgroundColor:GROUP_TABLEVIEW_COLOR];
     
-    UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(10, headerView.frame.size.height-25, SCREEN_WIDTH(headerView)-10, 20)];
-    [lblHeader setFont:FONT_WITH_NAME_SIZE(APP_FONT, 16)];
-    [lblHeader setTextColor:UICOLOR(111, 111, 116, 1)];
+    UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, headerView.frame.size.height-30, SCREEN_WIDTH(headerView)-30, 30)];
+    [lblHeader setBackgroundColor:CLEARCOLOUR];
+    [lblHeader setFont:[UIFont systemFontOfSize:14]];
+    [lblHeader setTextColor:UICOLOR(109, 109, 114, 1)];
     [headerView addSubview:lblHeader];
     
     NSString *headerTitle = @"";

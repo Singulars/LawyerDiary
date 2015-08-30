@@ -21,10 +21,12 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSNumber * localCaseId;
 @property (nonatomic, retain) NSNumber * caseId;
+@property (nonatomic, retain) NSNumber * localCourtId;
 @property (nonatomic, retain) NSNumber * courtId;
 @property (nonatomic, retain) NSString * courtName;
 @property (nonatomic, retain) NSString * megistrateName;
 @property (nonatomic, retain) NSString * courtCity;
+@property (nonatomic, retain) NSNumber * localClientId;
 @property (nonatomic, retain) NSNumber * clientId;
 @property (nonatomic, retain) NSString * clientFirstName;
 @property (nonatomic, retain) NSString * clientLastName;
@@ -48,12 +50,20 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 + (Cases *)updateCase:(NSDictionary *)dataDict forUser:(NSNumber *)userId;
 + (BOOL)updatedCasePropertyofCase:(Cases *)caseObj withProperty:(CaseProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteCase:(NSNumber *)caseId;
-+ (BOOL)deleteCaseForUser:(NSNumber *)userId;
++ (BOOL)deleteCaseForAdmin;
++ (BOOL)deleteCaseForSubordinate;
++ (BOOL)deleteCaseForAdmin:(NSNumber *)adminId;
 + (BOOL)saveCasesForSubordinate:(NSDictionary *)dataDict;
 + (Cases *)fetchCase:(NSNumber *)caseId;
 + (NSArray *)fetchCases:(NSNumber *)userId;
 + (NSArray *)fetchCasesForAdmin;
 + (NSArray *)fetchCasesForSubordinate;
 + (NSArray *)fetchCasesForAdmin:(NSNumber *)adminId;
+
++ (NSArray *)fetchDeletedNotSyncedClients;
++ (NSArray *)fetchNotSyncedCases;
+
++ (BOOL)isThisClientExist:(NSNumber *)localClientId;
++ (BOOL)isThisCourtExist:(NSNumber *)localCourtId;
 
 @end

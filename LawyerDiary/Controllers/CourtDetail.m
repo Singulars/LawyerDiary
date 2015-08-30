@@ -57,7 +57,7 @@ SubordinateAdmin *selectedAdminObj;
         [self.navigationItem setRightBarButtonItem:nil];
     }
     
-    [btnSave setBackgroundColor:APP_TINT_COLOR];
+    [btnSave setBackgroundColor:UICOLOR(50, 50, 50, 1)];
     
     if (selectedAdminObj != nil) {
         existingAdminObj = selectedAdminObj;
@@ -195,7 +195,7 @@ SubordinateAdmin *selectedAdminObj;
                             [self saveCourt];
                         }
                         else {
-                            UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                            UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
                         }
                     }
                         break;
@@ -257,7 +257,7 @@ SubordinateAdmin *selectedAdminObj;
                                      kAPIMode: ksaveCourt,
                                      kAPIuserId: USER_ID,
                                      kAPIlocalCourtId: tempCourtObj.localCourtId,
-                                     kAPIcourtId: courtObj ? courtObj.courtId : @"",
+                                     kAPIcourtId: [courtObj.courtId isEqualToNumber:@-1] ? @"" : courtObj.courtId,
                                      kAPIcourtName: tempCourtObj.courtName,
                                      kAPImegistrateName: tempCourtObj.megistrateName,
                                      kAPIcourtCity: tempCourtObj.courtCity,

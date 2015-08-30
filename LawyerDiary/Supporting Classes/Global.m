@@ -1172,4 +1172,73 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
     }
 }
 
++ (NSDate *)getDateWithoutSeconds:(NSDate *)date
+{
+    // Get current NSDate without seconds & milliseconds, so that I can better compare the chosen date to the minimum & maximum dates.
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    return dateWithoutSeconds;
+}
+
++ (NSDate *)addMonth:(NSInteger)noOfMonths inDate:(NSDate *)date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    
+    NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
+    addOneMonthComponents.month = noOfMonths ;
+    NSDate* oneMonthFromNowWithoutSeconds = [calendar dateByAddingComponents:addOneMonthComponents toDate:dateWithoutSeconds options:0] ;
+    NSDate *newDate = oneMonthFromNowWithoutSeconds ;
+    
+    return newDate;
+}
+
++ (NSDate *)addWeeks:(NSInteger)noOfWeek inDate:(NSDate *)date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSCalendarUnitWeekday) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    
+    NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
+    addOneMonthComponents.weekday = noOfWeek ;
+    NSDate* oneDayFromNowWithoutSeconds = [calendar dateByAddingComponents:addOneMonthComponents toDate:dateWithoutSeconds options:0] ;
+    NSDate *newDate = oneDayFromNowWithoutSeconds ;
+    
+    return newDate;
+}
+
++ (NSDate *)addDays:(NSInteger)noOfDays inDate:(NSDate *)date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    
+    NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
+    addOneMonthComponents.day = noOfDays ;
+    NSDate* oneDayFromNowWithoutSeconds = [calendar dateByAddingComponents:addOneMonthComponents toDate:dateWithoutSeconds options:0] ;
+    NSDate *newDate = oneDayFromNowWithoutSeconds ;
+    
+    return newDate;
+}
+
++ (NSDate *)removeDays:(NSInteger)noOfDays fromDate:(NSDate *)date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    
+    NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
+    addOneMonthComponents.day = -noOfDays ;
+    NSDate* oneDayFromNowWithoutSeconds = [calendar dateByAddingComponents:addOneMonthComponents toDate:dateWithoutSeconds options:0] ;
+    NSDate *newDate = oneDayFromNowWithoutSeconds ;
+    
+    return newDate;
+}
+
 @end

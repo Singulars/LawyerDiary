@@ -433,6 +433,8 @@ BOOL isForSubordinate;
                         
                         if (arrSubordinates.count > 0) {
                             
+                            [Cases deleteCaseForSubordinate];
+                            
                             for (NSDictionary *obj in arrSubordinates) {
                                 [SubordinateAdmin saveSubordinateAdmin:obj];
                                 [Cases saveCasesForSubordinate:obj];
@@ -441,6 +443,8 @@ BOOL isForSubordinate;
                             [self showSpinner:NO withError:NO];
                         }
                         else {
+                            
+                            [Cases deleteCaseForSubordinate];
                             
                             [lblErrorMsg setText:@"No Cases Found."];
                             [self showSpinner:NO withError:YES];

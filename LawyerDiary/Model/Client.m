@@ -223,7 +223,7 @@
     }
 }
 
-+ (BOOL)deleteCientsForUser:(NSNumber *)userId {
++ (BOOL)deleteCientsForAdmin {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         NSEntityDescription *entity = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
@@ -232,7 +232,73 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(userId = %@)", userId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @0];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Client *clientObj in objects) {
+            [context deleteObject:clientObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Client Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Client Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)deleteCientsForSubordinate {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @1];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Client *clientObj in objects) {
+            [context deleteObject:clientObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Client Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Client Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)deleteCientsForAdmin:(NSNumber*)adminId  {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && adminId = %@)", @0, adminId];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -299,6 +365,76 @@
         
         // Set example predicate and sort orderings...
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@ && isClientDeleted = %@", @0, @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchNotSyncedClients
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isClientDeleted = %@", @0, @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchDeletedNotSyncedClients
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kClient inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isClientDeleted = %@", @0, @1];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIclientId ascending:NO];

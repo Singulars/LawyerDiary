@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
 @class Court;
 
-@interface CourtCell : UITableViewCell
+@interface CourtCell : SWTableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *lblCourtName;
 @property (nonatomic, strong) IBOutlet UILabel *lblCourtCity;

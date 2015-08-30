@@ -14,7 +14,7 @@
 #import "Subordinates.h"
 
 #import "CasesTabBar.h"
-#import "ClientsTabBarController.h"
+#import "ClientsTabBar.h"
 #import "CourtsTabBar.h"
 
 @class JVFloatingDrawerViewController;
@@ -44,7 +44,7 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 @property (nonatomic, strong) UIViewController *leftDrawerViewController;
 
 @property (nonatomic, strong) CasesTabBar *casesTabBar;
-@property (nonatomic, strong) ClientsTabBarController *clientsTabBar;
+@property (nonatomic, strong) ClientsTabBar *clientsTabBar;
 @property (nonatomic, strong) CourtsTabBar *courtsTabBar;
 
 @property (nonatomic, strong) Profile *profileViewController;

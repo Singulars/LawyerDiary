@@ -69,7 +69,7 @@ SubordinateAdmin *selectedAdminObj;
     NSString *strDetailViewType;
     switch (detailViewToChooseAdmin) {
         case kDetailViewCases: {
-            strDetailViewType = @"Cases";
+            strDetailViewType = @"Case";
         }
             break;
         case kDetailViewClients: {

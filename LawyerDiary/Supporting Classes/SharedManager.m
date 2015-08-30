@@ -7,6 +7,10 @@
 //
 
 #import "SharedManager.h"
+#import "Court.h"
+#import "Client.h"
+#import "Cases.h"
+
 static SharedManager *sharedManager;
 
 @implementation SharedManager
@@ -205,6 +209,394 @@ static SharedManager *sharedManager;
     }
 }
 
+- (void)syncUpdatedCourtRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        @try {
+            
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *courts = [Court fetchNotSyncedCourts];
+            
+            if (courts.count > 0) {
+                Court *courtObj = courts[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [courtObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveCourt,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalCourtId: courtObj.localCourtId,
+                                         kAPIcourtId: [courtObj.courtId isEqualToNumber:@-1] ? @"" : courtObj.courtId,
+                                         kAPIcourtName: courtObj.courtName,
+                                         kAPImegistrateName: courtObj.megistrateName,
+                                         kAPIcourtCity: courtObj.courtCity,
+                                         kAPIadminId: isForSubordinate ? courtObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                        
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        }
+                        else {
+                            [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                               kAPIadminId: courtObj.adminId,
+                                                                                                                                               kAPIadminName: courtObj.adminName,
+                                                                                                                                               kAPIhasAccess: courtObj.hasAccess
+                                                                                                                                               } : nil];
+                        }
+                    }
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedCourtRecords];
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedCourtRecords];
+                }];
+            }
+            else {
+                
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)syncDeletedCourtRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        @try {
+            
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *courts = [Court fetchDeletedNotSyncedCourts];
+            
+            if (courts.count > 0) {
+                Court *courtObj = courts[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [courtObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: kdeleteCourt,
+                                         kAPIuserId: USER_ID,
+                                         kAPIcourtId: courtObj.courtId,
+                                         kAPIadminId: isForSubordinate ? courtObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                        
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        }
+                        else {
+                            [Court deleteCourt:courtObj.courtId];
+                        }
+                    }
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncDeletedCourtRecords];
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncDeletedCourtRecords];
+                }];
+            }
+            else {
+                [self syncUpdatedClientRecords];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)syncUpdatedClientRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *clients = [Client fetchNotSyncedClients];
+            
+            if (clients.count > 0) {
+                Client *clientObj = clients[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [clientObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveClient,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalClientId: clientObj.localClientId,
+                                         kAPIclientId: [clientObj.clientId isEqualToNumber:@-1] ? @"" : clientObj.clientId,
+                                         kAPIclientFirstName: clientObj.clientFirstName,
+                                         kAPIclientLastName: clientObj.clientLastName,
+                                         kAPIemail: clientObj.email,
+                                         kAPImobile: clientObj.mobile,
+                                         kAPIaddress: clientObj.address,
+                                         kAPIadminId: isForSubordinate ? clientObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                        
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        }
+                        else {
+                            //[Client saveClient:responseObject[kAPIclientData] forUser:USER_ID];
+                            [Client saveClients:responseObject[kAPIclientData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                                    kAPIadminId: clientObj.adminId,
+                                                                                                                                                    kAPIadminName: clientObj.adminName,
+                                                                                                                                                    kAPIhasAccess: clientObj.hasAccess
+                                                                                                                                                    } : nil];
+                        }
+                    }
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedClientRecords];
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedClientRecords];
+                    
+                }];
+            }
+            else {
+                [self syncDeletedClientRecords];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)syncDeletedClientRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *clients = [Court fetchDeletedNotSyncedCourts];
+            
+            if (clients.count > 0) {
+                Client *clientObj = clients[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [clientObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: kdeleteClient,
+                                         kAPIuserId: USER_ID,
+                                         kAPIclientId: clientObj.clientId,
+                                         kAPIadminId: isForSubordinate ? clientObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                        
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            
+                        }
+                        else {
+                            [Client deleteClient:clientObj.clientId];
+                        }
+                    }
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncDeletedClientRecords];
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncDeletedClientRecords];
+                }];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)syncUpdatedCaseRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *cases = [Cases fetchNotSyncedCases];
+            
+            if (cases.count > 0) {
+                Cases *caseObj = cases[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [caseObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveCase,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalCaseId: caseObj.localCaseId,
+                                         kAPIcaseId: [caseObj.caseId isEqualToNumber:@-1] ? @"" : caseObj.caseId,
+                                         kAPIcaseNo: caseObj.caseNo,
+                                         kAPIlastHeardDate: caseObj.lastHeardDate,
+                                         kAPInextHearingDate: caseObj.nextHearingDate,
+                                         kAPIcaseStatus: caseObj.caseStatus,
+                                         kAPIlocalClientId: caseObj.localClientId,
+                                         kAPIclientId: caseObj.clientId,
+                                         kAPIclientFirstName: caseObj.clientFirstName,
+                                         kAPIclientLastName: caseObj.clientLastName,
+                                         kAPImobile: caseObj.mobile,
+                                         kAPIemail: @"",
+                                         kAPIaddress: @"",
+                                         kAPIoppositionFirstName: caseObj.oppositionFirstName,
+                                         kAPIoppositionLastName: caseObj.oppositionLastName,
+                                         kAPIoppositionLawyerName: caseObj.oppositionLawyerName,
+                                         kAPIlocalCourtId: caseObj.localCourtId,
+                                         kAPIcourtId: caseObj.courtId,
+                                         kAPIcourtName: caseObj.courtName,
+                                         kAPImegistrateName: caseObj.megistrateName,
+                                         kAPIcourtCity: caseObj.courtCity,
+                                         kAPIadminId: isForSubordinate ? caseObj.adminId : @0
+                                         };
+                
+                NSLog(@"%@", params);
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                    
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                    
+                        }
+                        else {
+                            [Cases updateCase:responseObject forUser:USER_ID];
+                        }
+                    }
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedCaseRecords];
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                    notSyncedRecordCount++;
+                    
+                    [self syncUpdatedCaseRecords];
+                    
+                }];
+            }
+            else {
+                
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)syncDeletedCaseRecords
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            __block NSInteger notSyncedRecordCount = 0;
+            
+            NSArray *cases = [Cases fetchDeletedNotSyncedClients];
+            
+            if (cases.count > 0) {
+                Cases *caseObj = cases[notSyncedRecordCount];
+                
+                BOOL isForSubordinate = [caseObj.isSubordinate isEqualToNumber:@1];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: kdeleteCase,
+                                         kAPIuserId: USER_ID,
+                                         kAPIcaseId: caseObj.caseId,
+                                         kAPIadminId: isForSubordinate ? caseObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+                        
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        
+                        }
+                        else {
+                            [Cases deleteCase:caseObj.caseId];
+                        }
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                }];
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
 
 - (void)fetchSubordinatesWithCompletionHandler:(void (^)(BOOL finished))completionHandler
 {

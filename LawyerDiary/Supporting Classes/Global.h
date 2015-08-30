@@ -174,4 +174,10 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
 + (NSDate *)getDatefromDateString:(NSString *)dateString ofFormat:(NSString *)datStringFormat;
 + (BOOL)isImageExist:(NSString *)fn;
 
++ (NSDate *)getDateWithoutSeconds:(NSDate *)date;
+
++ (NSDate *)addMonth:(NSInteger)noOfMonths inDate:(NSDate *)date;
++ (NSDate *)addWeeks:(NSInteger)noOfWeek inDate:(NSDate *)date;
++ (NSDate *)addDays:(NSInteger)noOfDays inDate:(NSDate *)date;
++ (NSDate *)removeDays:(NSInteger)noOfDays fromDate:(NSDate *)date;
 @end

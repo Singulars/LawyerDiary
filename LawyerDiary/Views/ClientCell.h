@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
 @class Client;
 
-@interface ClientCell : UITableViewCell
+@interface ClientCell : SWTableViewCell
 
 @property (nonatomic, strong) IBOutlet UILabel *lblClientName;
 @property (nonatomic, strong) IBOutlet UILabel *lblMobile;

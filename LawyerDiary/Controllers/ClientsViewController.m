@@ -6,11 +6,13 @@
 //  Copyright (c) 2015 Singularsllp. All rights reserved.
 //
 
-#import "Clients.h"
+#import "ClientsViewController.h"
 #import <LLARingSpinnerView/LLARingSpinnerView.h>
 #import "Client.h"
 #import "ClientDetail.h"
 #import "ClientCell.h"
+
+SubordinateAdmin *selectedAdminObj;
 
 typedef NS_ENUM(NSUInteger, InputFieldTags) {
     kTagClientName = 0,
@@ -24,7 +26,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     kTagLastHeardDate,
     kTagNextHearingDate
 };
-@interface Clients ()
+@interface ClientsViewController () <SWTableViewCellDelegate>
 {
     NSInteger indexOlder;
     NSInteger indexNewer;
@@ -37,7 +39,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 
 @end
 
-@implementation Clients
+@implementation ClientsViewController
 
 @synthesize arrClients;
 @synthesize arrIndexPaths;
@@ -54,7 +56,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
-    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
+//    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
 
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -249,13 +251,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         case kStatusSuccess: {
             if (ShareObj.hasAdminAccess) {
                 
+                selectedAdminObj = nil;
+                
                 ClientDetail *clientDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ClientDetail"];
             
                 UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:clientDetailVC];
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -290,9 +294,152 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         cell = [[ClientCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    [cell setDelegate:self];
+    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:60];
     [cell configureCellWithClientObj:arrClients[indexPath.row] forIndexPath:indexPath];
     
     return cell;
+}
+
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_trash_icon)];
+    
+    return rightUtilityButtons;
+}
+
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            NSLog(@"left button 0 was pressed");
+            break;
+        case 1:
+            NSLog(@"left button 1 was pressed");
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    switch (index) {
+        case 0:
+        {
+            // Delete button was pressed
+            
+            switch (ShareObj.fetchSubordinateStatus) {
+                case kStatusUndetermined: {
+                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailed: {
+                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailedBecauseInternet: {
+                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusSuccess: {
+                    if (ShareObj.hasAdminAccess) {
+                    
+                        Client *toBeDeletedClientObj = arrClients[indexPath.row];
+                        
+                        [self.tableView beginUpdates];
+                        
+                        if (![Cases isThisClientExist:toBeDeletedClientObj.localClientId]) {
+                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                            //                    [self deleteClient:arrClients[indexPath.row]];
+                            if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
+                                [Client deleteClient:toBeDeletedClientObj.localClientId];
+                            }
+                            else {
+                                [Client updatedClientPropertyofClient:arrClients[indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+                                [self deleteClient:arrClients[indexPath.row]];
+                            }
+                            
+                            [arrClients removeObjectAtIndex:indexPath.row];
+                            //                    if (1) {
+                            //
+                            //                    }
+                            //                    else {
+                            
+                            //                    }
+                            [self.tableView endUpdates];
+                            
+                            if (arrClients.count == 0) {
+                                [lblErrorMsg setText:@"No Clients found."];
+                                [self showSpinner:NO withError:YES];
+                            }
+                        }
+                        else {
+                            UI_ALERT(nil, @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
+                        }
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        default:
+            break;
+
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -304,6 +451,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     [self.navigationController pushViewController:clientDetailVC animated:YES];
 }
 
+/*
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (ShareObj.fetchSubordinateStatus) {
@@ -323,9 +471,26 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
             if (ShareObj.hasAdminAccess) {
                 [tableView beginUpdates];
                 if (editingStyle == UITableViewCellEditingStyleDelete) {
+                    
+                    Client *toBeDeletedClientObj = arrClients[indexPath.row];
+                    
                     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-                    [self deleteClient:arrClients[indexPath.row]];
+//                    [self deleteClient:arrClients[indexPath.row]];
+                    if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
+                        [Client deleteClient:toBeDeletedClientObj.localClientId];
+                    }
+                    else {
+                        [Client updatedClientPropertyofClient:arrClients[indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+                        [self deleteClient:arrClients[indexPath.row]];
+                    }
+                    
                     [arrClients removeObjectAtIndex:indexPath.row];
+//                    if (1) {
+//                        
+//                    }
+//                    else {
+                    
+//                    }
                 }
                 [tableView endUpdates];
                 
@@ -340,6 +505,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
             break;
     }
 }
+*/
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -638,15 +804,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                         UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        NSArray *arrCourtObj = [responseObject valueForKey:kAPIclientData];
+                        NSArray *arrCaseObj = [responseObject valueForKey:kAPIclientData];
                         
-                        if (arrCourtObj.count > 0) {
+                        if (arrCaseObj.count > 0) {
                             
                             if (arrClients.count > 0) {
-                                [Client deleteCientsForUser:USER_ID];
+                                [Client deleteCientsForAdmin];
                             }
                             
-                            for (NSDictionary *courtObj in arrCourtObj) {
+                            for (NSDictionary *courtObj in arrCaseObj) {
                                 [Client saveClients:courtObj forSubordiante:NO withAdminDetail:nil];
                             }
                             
@@ -654,9 +820,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                         }
                         else {
                             
-                            if (arrClients.count > 0) {
-                                [Client deleteCientsForUser:USER_ID];
-                            }
+                            [Client deleteCientsForAdmin];
                             
                             [lblErrorMsg setText:@"No Clients found."];
                             

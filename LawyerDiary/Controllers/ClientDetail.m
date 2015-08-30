@@ -10,6 +10,7 @@
 #import "Client.h"
 
 BOOL isForSubordinate;
+SubordinateAdmin *selectedAdminObj;
 
 @interface ClientDetail () <UITextViewDelegate>
 {
@@ -37,8 +38,10 @@ BOOL isForSubordinate;
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
     
-    [tvAddress setPlaceholder:@"Address"];
-    [tvAddress setPlaceholderColor:Placeholder_Text_Color];
+//    [tvAddress setPlaceholder:@"Address"];
+//    [tvAddress setPlaceholderColor:Placeholder_Text_Color];
+    
+    [btnSave setBackgroundColor:UICOLOR(50, 50, 50, 1)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -62,7 +65,11 @@ BOOL isForSubordinate;
         [self.navigationItem setRightBarButtonItem:nil];
     }
     
-    [btnSave setBackgroundColor:APP_TINT_COLOR];
+//    [btnSave setBackgroundColor:APP_TINT_COLOR];
+    
+    if (selectedAdminObj != nil) {
+        existingAdminObj = selectedAdminObj;
+    }
     
     [tfMobile setInputAccessoryView:toolbar];
     [tvAddress setInputAccessoryView:toolbar];
@@ -216,7 +223,7 @@ BOOL isForSubordinate;
                             [self saveClient];
                         }
                         else {
-                            UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                            UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
                         }
                     }
                         break;
@@ -311,7 +318,8 @@ BOOL isForSubordinate;
                                      kAPIclientLastName: tempClientObj.clientLastName,
                                      kAPIemail: tempClientObj.email,
                                      kAPImobile: tempClientObj.mobile,
-                                     kAPIaddress: tempClientObj.address
+                                     kAPIaddress: tempClientObj.address,
+                                     kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

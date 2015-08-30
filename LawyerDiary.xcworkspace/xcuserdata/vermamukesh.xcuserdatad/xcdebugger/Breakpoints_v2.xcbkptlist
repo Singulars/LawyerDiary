@@ -19,12 +19,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/ClientsTabBar.m"
-            timestampString = "461767403.924344"
+            filePath = "LawyerDiary/Controllers/Clients.m"
+            timestampString = "461767408.368366"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/Clients.m"
-            timestampString = "461767408.368366"
+            filePath = "LawyerDiary/Controllers/Profile.m"
+            timestampString = "461890962.936715"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
+            landmarkName = "-barBtnSaveTaped:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

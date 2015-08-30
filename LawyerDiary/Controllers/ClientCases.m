@@ -11,6 +11,9 @@
 #import "Cases.h"
 #import "CaseCell.h"
 #import "ChooseClient.h"
+#import "UpdateCase.h"
+
+SubordinateAdmin *selectedAdminObj;
 
 @interface ClientCases ()<SWTableViewCellDelegate>
 {
@@ -213,7 +216,7 @@
                         if (arrCasesObj.count > 0) {
                             
                             if (arrCases.count > 0) {
-                                [Cases deleteCaseForUser:USER_ID];
+                                [Cases deleteCaseForAdmin];
                             }
                             
                             for (NSDictionary *casesObj in arrCasesObj) {
@@ -224,9 +227,7 @@
                         }
                         else {
                             
-                            if (arrCases.count > 0) {
-                                [Cases deleteCaseForUser:USER_ID];
-                            }
+                            [Cases deleteCaseForAdmin];
                             
                             [lblErrorMsg setText:@"No Cases found."];
                             
@@ -309,6 +310,7 @@
     
     if (IS_INTERNET_CONNECTED) {
         
+        [btnReload setHidden:YES];
         [self fetchCasesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
@@ -431,9 +433,36 @@
 
 - (IBAction)barBtnAddTaped:(id)sender
 {
-    ChooseClient *chooseClientVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseClient"];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseClientVC];
-    [self presentViewController:navController animated:YES completion:nil];
+    switch (ShareObj.fetchSubordinateStatus) {
+        case kStatusUndetermined: {
+            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailed: {
+            UI_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusFailedBecauseInternet: {
+            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+        }
+            break;
+        case kStatusSuccess: {
+            if (ShareObj.hasAdminAccess) {
+                
+                selectedAdminObj = nil;
+                
+                ChooseClient *chooseClientVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseClient"];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseClientVC];
+                [self presentViewController:navController animated:YES completion:nil];
+            }
+            else {
+                UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
+            }
+        }
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -466,6 +495,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
+    [updateCaseVC setExistingCaseObj:arrCases[indexPath.row]];
+    [self.navigationController pushViewController:updateCaseVC animated:YES];
+    
     //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     //    CourtDetail *courtDetailVC = navController.viewControllers[0];
     //    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
@@ -529,7 +562,7 @@
             NSLog(@"More button was pressed");
             
             
-            
+            UI_ALERT(nil, @"Under Development", nil);
             break;
         }
         case 1:

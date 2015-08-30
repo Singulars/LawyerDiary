@@ -13,7 +13,9 @@
 #import "SVPullToRefresh.h"
 #import "CourtDetail.h"
 
-@interface Courts ()
+SubordinateAdmin *selectedAdminObj;
+
+@interface Courts () <SWTableViewCellDelegate>
 {
     NSInteger indexOlder;
     NSInteger indexNewer;
@@ -224,7 +226,7 @@
                         if (arrCourtObj.count > 0) {
                             
                             if (arrCourts.count > 0) {
-                                [Court deleteCourtsForUser:USER_ID];
+                                [Court deleteCourtsForAdmin];
                             }
                             
                             for (NSDictionary *courtObj in arrCourtObj) {
@@ -235,9 +237,7 @@
                         }
                         else {
                             
-                            if (arrCourts.count > 0) {
-                                [Court deleteCourtsForUser:USER_ID];
-                            }
+                            [Court deleteCourtsForAdmin];
                             
                             [lblErrorMsg setText:@"No Courts found."];
                             
@@ -410,13 +410,15 @@
         case kStatusSuccess: {
             if (ShareObj.hasAdminAccess) {
                 
+                selectedAdminObj = nil;
+                
                 CourtDetail *courtDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
                 
                 UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:courtDetailVC];
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                UI_ALERT(nil, @"You have given access to on of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -451,9 +453,146 @@
         cell = [[CourtCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
+    [cell setDelegate:self];
+    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:60];
     [cell configureCellWithCourtObj:arrCourts[indexPath.row] forIndexPath:indexPath];
     
     return cell;
+}
+
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_trash_icon)];
+    
+    return rightUtilityButtons;
+}
+
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            NSLog(@"left button 0 was pressed");
+            break;
+        case 1:
+            NSLog(@"left button 1 was pressed");
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    switch (index) {
+        case 0:
+        {
+            // Delete button was pressed
+            
+            switch (ShareObj.fetchSubordinateStatus) {
+                case kStatusUndetermined: {
+                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailed: {
+                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailedBecauseInternet: {
+                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusSuccess: {
+                    if (ShareObj.hasAdminAccess) {
+                        Court *toBeDeletedCourtObj = arrCourts[indexPath.row];
+                        
+                        if (![Cases isThisCourtExist:toBeDeletedCourtObj.localCourtId]) {
+                            
+                            [self.tableView beginUpdates];
+                            
+                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                            
+                            if ([toBeDeletedCourtObj.isSynced isEqualToNumber:@0] && [toBeDeletedCourtObj.courtId isEqualToNumber:@-1]) {
+                                [Court deleteCourt:toBeDeletedCourtObj.localCourtId];
+                            }
+                            else {
+                                [Court updatedCourtPropertyofCourt:arrCourts[indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
+                                [self deleteCourt:arrCourts[indexPath.row]];
+                            }
+                            
+                            [arrCourts removeObjectAtIndex:indexPath.row];
+                            [self.tableView endUpdates];
+                            
+                            if (arrCourts.count == 0) {
+                                [lblErrorMsg setText:@"No Courts found."];
+                                [self showSpinner:NO withError:YES];
+                            }
+                        }
+                        else {
+                            UI_ALERT(nil, @"This Court is belongs to one of the existing Case. So you can't delete this Court. To delete this Court, you've to delete Case first.", nil);
+                        }
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        default:
+            break;
+            
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -462,7 +601,7 @@
     [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
     [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
-
+/*
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (ShareObj.fetchSubordinateStatus) {
@@ -482,15 +621,25 @@
             if (ShareObj.hasAdminAccess) {
                 [tableView beginUpdates];
                 if (editingStyle == UITableViewCellEditingStyleDelete) {
+                    
+                    Court *toBeDeletedCourtObj = arrCourts[indexPath.row];
+                    
                     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-                    [Court updatedCourtPropertyofCourt:arrCourts[indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
-                    [self deleteCourt:arrCourts[indexPath.row]];
+                    
+                    if ([toBeDeletedCourtObj.isSynced isEqualToNumber:@0] && [toBeDeletedCourtObj.courtId isEqualToNumber:@-1]) {
+                        [Court deleteCourt:toBeDeletedCourtObj.localCourtId];
+                    }
+                    else {
+                        [Court updatedCourtPropertyofCourt:arrCourts[indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
+                        [self deleteCourt:arrCourts[indexPath.row]];
+                    }
+                    
                     [arrCourts removeObjectAtIndex:indexPath.row];
                 }
                 [tableView endUpdates];
                 
                 if (arrCourts.count == 0) {
-                    [lblErrorMsg setText:@"No Clients found."];
+                    [lblErrorMsg setText:@"No Courts found."];
                     [self showSpinner:NO withError:YES];
                 }
             }
@@ -499,7 +648,7 @@
         default:
             break;
     }
-}
+}*/
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -528,7 +677,8 @@
             NSDictionary *params = @{
                                      kAPIMode: kdeleteCourt,
                                      kAPIuserId: USER_ID,
-                                     kAPIcourtId: objCourt.courtId
+                                     kAPIcourtId: objCourt.courtId,
+                                     kAPIadminId: @0
                                      };
             
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

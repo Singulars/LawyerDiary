@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Clients : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ClientsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
     IBOutlet UIBarButtonItem *barBtnAdd;

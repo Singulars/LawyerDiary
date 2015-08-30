@@ -215,7 +215,7 @@
     }
 }
 
-+ (BOOL)deleteCourtsForUser:(NSNumber *)userId {
++ (BOOL)deleteCourtsForAdmin {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         NSEntityDescription *entity = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
@@ -224,7 +224,73 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(userId = %@)", userId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @0];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Court *courtObj in objects) {
+            [context deleteObject:courtObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Court Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Court Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)deleteCourtsForSubordinate {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @1];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Court *courtObj in objects) {
+            [context deleteObject:courtObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Court Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Court Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)deleteCourtsForAdmin:(NSNumber *)adminId {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && adminId = %@)", @0, adminId];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -347,6 +413,75 @@
     }
 }
 
++ (NSArray *)fetchNotSyncedCourts
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isCourtDeleted = %@", @0, @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcourtId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchDeletedNotSyncedCourts
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCourt inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isCourtDeleted = %@", @0, @1];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcourtId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
 
 + (NSArray *)fetchCourtsForAdmin:(NSNumber *)adminId
 {

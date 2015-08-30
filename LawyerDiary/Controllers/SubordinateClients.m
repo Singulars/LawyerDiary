@@ -15,7 +15,7 @@
 
 BOOL isForSubordinate;
 
-@interface SubordinateClients ()
+@interface SubordinateClients () <SWTableViewCellDelegate>
 
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) LLARingSpinnerView *spinnerViewBtn;
@@ -235,6 +235,9 @@ BOOL isForSubordinate;
         {
             cell=[[ClientCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
         }
+        
+        [cell setDelegate:self];
+        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:60];
         [cell configureCellWithClientObj:[clientRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
         
         return cell;
@@ -243,6 +246,150 @@ BOOL isForSubordinate;
         return cellNoRecords;
     }
     return nil;
+}
+
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    
+    [rightUtilityButtons sw_addUtilityButtonWithColor:WHITE_COLOR icon:IMAGE_WITH_NAME(IMG_trash_icon)];
+    
+    return rightUtilityButtons;
+}
+
+#pragma mark - SWTableViewDelegate
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
+{
+    switch (state) {
+        case 0:
+            NSLog(@"utility buttons closed");
+            break;
+        case 1:
+            NSLog(@"left utility buttons open");
+            break;
+        case 2:
+            NSLog(@"right utility buttons open");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerLeftUtilityButtonWithIndex:(NSInteger)index
+{
+    switch (index) {
+        case 0:
+            NSLog(@"left button 0 was pressed");
+            break;
+        case 1:
+            NSLog(@"left button 1 was pressed");
+            break;
+        case 2:
+            NSLog(@"left button 2 was pressed");
+            break;
+        case 3:
+            NSLog(@"left btton 3 was pressed");
+        default:
+            break;
+    }
+}
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    switch (index) {
+        case 0:
+        {
+            // Delete button was pressed
+            
+            switch (ShareObj.fetchSubordinateStatus) {
+                case kStatusUndetermined: {
+                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailed: {
+                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusFailedBecauseInternet: {
+                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                }
+                    break;
+                case kStatusSuccess: {
+                    SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
+                    
+                    if ([adminObj.hasAccess isEqualToNumber:@1]) {
+                        
+                        Client *toBeDeletedClientObj = [[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
+                        
+                        if (![Cases isThisClientExist:toBeDeletedClientObj.localClientId]) {
+                            
+                            [self.tableView beginUpdates];
+                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                            
+                            if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
+                                [Client deleteClient:toBeDeletedClientObj.localClientId];
+                            }
+                            else {
+                                [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+                                [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+                            }
+                            
+                            [arrClients removeAllObjects];
+                            [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
+                            
+                            [self.tableView endUpdates];
+                            
+                            if (arrClients.count == 0) {
+                                [lblErrorMsg setText:@"No Clients found."];
+                                [self showSpinner:NO withError:YES];
+                            }
+
+                        }
+                        else {
+                            UI_ALERT(nil, @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
+                        }
+                    }
+                    else {
+                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
+                    }
+                }
+                    break;
+                default:
+                    break;
+            }
+        }
+            break;
+        default:
+            break;
+            
+    }
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    // allow just one cell's utility button to be open at once
+    return YES;
+}
+
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
+{
+    switch (state) {
+        case 1:
+            // set to NO to disable all left utility buttons appearing
+            return YES;
+            break;
+        case 2:
+            // set to NO to disable all right utility buttons appearing
+            return YES;
+            break;
+        default:
+            break;
+    }
+    
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -269,9 +416,18 @@ BOOL isForSubordinate;
     if ([adminObj.hasAccess isEqualToNumber:@1]) {
         [tableView beginUpdates];
         if (editingStyle == UITableViewCellEditingStyleDelete) {
+            
+            Client *toBeDeletedClientObj = [[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
+            
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-            [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
-            [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+            
+            if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
+                [Client deleteClient:toBeDeletedClientObj.localClientId];
+            }
+            else {
+                [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+                [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+            }
             
             [arrClients removeAllObjects];
             [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
@@ -308,7 +464,7 @@ BOOL isForSubordinate;
                         //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Client deleteCientsForUser:objClient.clientId];
+                        [Client deleteClient:objClient.clientId];
                     }
                 }
                 
@@ -370,6 +526,8 @@ BOOL isForSubordinate;
                         
                         if (arrSubordinates.count > 0) {
                             
+                            [Client deleteCientsForSubordinate];
+                            
                             for (NSDictionary *obj in arrSubordinates) {
                                 [SubordinateAdmin saveSubordinateAdmin:obj];
                                 [Client saveClientsForSubordinate:obj];
@@ -378,6 +536,8 @@ BOOL isForSubordinate;
                             [self showSpinner:NO withError:NO];
                         }
                         else {
+                            
+                            [Client deleteCientsForSubordinate];
                             
                             [lblErrorMsg setText:@"No Subordiantes Courts Found."];
                             [self showSpinner:NO withError:YES];

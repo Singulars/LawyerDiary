@@ -1,12 +1,13 @@
 //
-//  EditCase.m
+//  UpdateCase.m
 //  LawyerDiary
 //
-//  Created by Verma Mukesh on 24/07/15.
+//  Created by Verma Mukesh on 21/08/15.
 //  Copyright © 2015 Singularsllp. All rights reserved.
 //
 
-#import "EditCase.h"
+#import "UpdateCase.h"
+
 #import "ChooseClient.h"
 #import "ChooseCourt.h"
 #import "ChooseAdmin.h"
@@ -16,17 +17,18 @@
 BOOL isForSubordinate;
 SubordinateAdmin *selectedAdminObj;
 
-@interface EditCase () <UITextFieldDelegate, ChooseClientDelegate, ChooseCourtDelegate>
+@interface UpdateCase () <UITextFieldDelegate, ChooseClientDelegate, ChooseCourtDelegate>
 {
     BOOL isNHCellExpanded;
     BOOL isPHCellExpanded;
+    BOOL isRDCellExpanded;
 }
 
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 
 @end
 
-@implementation EditCase
+@implementation UpdateCase
 
 @synthesize existingCaseObj;
 @synthesize existingClientObj;
@@ -37,7 +39,7 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
     
     if (existingCaseObj != nil) {
@@ -45,23 +47,9 @@ SubordinateAdmin *selectedAdminObj;
         [self setTitle:[NSString stringWithFormat:@"%@ v/s %@", CAPITALIZED_STRING(existingCaseObj.clientFirstName), CAPITALIZED_STRING(existingCaseObj.oppositionFirstName)]];
         
         [self setCaseDetail];
-        [self setClienDetail];
         [self setCourtDetail];
-    }
-    else {
         
-        [self setTitle:[NSString stringWithFormat:@"%@ v/s Xyz", CAPITALIZED_STRING(existingClientObj.clientFirstName)]];
-        
-        if (existingClientObj != nil) {
-            [lblClientName setText:[NSString stringWithFormat:@"%@ %@", CAPITALIZED_STRING(existingClientObj.clientFirstName), CAPITALIZED_STRING(existingClientObj.clientLastName)]];
-            [lblClientMobile setText:existingClientObj.mobile];
-        }
-        
-        if (existingCourtObj != nil) {
-            [lblCourtName setText:existingCourtObj.courtName];
-            [lblMegistrateName setText:existingCourtObj.megistrateName];
-            [lblCourtCity setText:existingCourtObj.courtCity];
-        }
+        existingCourtObj = [Court fetchCourt:existingCaseObj.localCourtId];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -74,22 +62,21 @@ SubordinateAdmin *selectedAdminObj;
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    [datePicker setCalendar:calendar];
-    [datePicker setTimeZone:calendar.timeZone];
-    
     [self setBarButton:SaveBarButton];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
     [self.spinnerView setHidesWhenStopped:YES];
-    [self.spinnerView setTintColor:BLACK_COLOR];
+    [self.spinnerView setTintColor:WHITE_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
     if (selectedAdminObj != nil) {
         existingAdminObj = selectedAdminObj;
     }
+    
+    datePicker.minimumDate = [Global getDateWithoutSeconds:[NSDate date]];
+    reminderDatePicker.minimumDate = [Global getDateWithoutSeconds:[NSDate date]];
 }
 
 #pragma mark - UIKeyboardNOtifications
@@ -129,20 +116,16 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)setCaseDetail
 {
-    [tfCaseNo setText:existingCaseObj.caseNo];
-    [tfPHeardDate setText:existingCaseObj.lastHeardDate];
-    [tfNHearingDate setText:existingCaseObj.nextHearingDate];
-    [tfCaseStatus setText:existingCaseObj.caseStatus];
+    [tfLastCaseStatus setText:existingCaseObj.caseStatus];
     
-    [tfOFirstName setText:existingCaseObj.oppositionFirstName];
-    [tfOLastName setText:existingCaseObj.oppositionLastName];
-    [tfOLawyerName setText:existingCaseObj.oppositionLawyerName];
-}
-
-- (void)setClienDetail
-{
-    [lblClientName setText:[NSString stringWithFormat:@"%@ %@", CAPITALIZED_STRING(existingCaseObj.clientFirstName), CAPITALIZED_STRING(existingCaseObj.clientLastName)]];
-    [lblClientMobile setText:existingCaseObj.mobile];
+    if (existingCaseObj.nextHearingDate.length == 0) {
+        [tfPHeardDate setText:@"N/A"];
+    }
+    else {
+        [tfPHeardDate setText:[Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:existingCaseObj.nextHearingDate ofFormat:ServerBirthdateFormat]];
+    }
+//    [tfNHearingDate setText:existingCaseObj.nextHearingDate];
+//    [tfCaseStatus setText:existingCaseObj.caseStatus];
 }
 
 - (void)setCourtDetail
@@ -159,12 +142,13 @@ SubordinateAdmin *selectedAdminObj;
 
 - (CGFloat) tableView:(nonnull UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    if (section != 3) {
-        return 1;
-    }
-    else {
+    if (section == 0) {
         return 48;
     }
+    else if (section == 1){
+        return 48;
+    }
+    return 1;
 }
 
 - (UIView *)tableView:(nonnull UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -206,6 +190,35 @@ SubordinateAdmin *selectedAdminObj;
     return headerView;
 }
 
+- (UIView *)tableView:(nonnull UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ViewWidth(self.tableView), 48)];
+    [headerView setBackgroundColor:UICOLOR(239, 239, 244, 1)];
+    
+    UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, ViewY(headerView)+10, ViewWidth(headerView)-30, 40)];
+    [lblHeader setBackgroundColor:CLEARCOLOUR];
+    [lblHeader setNumberOfLines:3];
+    [lblHeader setFont:[UIFont systemFontOfSize:10]];
+    [lblHeader setTextColor:LIGHT_GRAY_COLOR];
+    [lblHeader setTextAlignment:NSTextAlignmentCenter];
+    
+    [headerView addSubview:lblHeader];
+    NSString *headerTitle;
+    
+    switch (section) {
+        case 0: {
+            headerTitle = @"Reminder Date by default is one day before\nNext Hearing Date. And also it can be modified\nby simply taping on reminder date.";
+        }
+            break;
+        default:
+            break;
+    }
+    
+    [lblHeader setText:UPPERCASE_STRING(headerTitle)];
+    
+    return headerView;
+}
+
 - (CGFloat)tableView:(nonnull UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     CGFloat rowHeight;
@@ -213,21 +226,17 @@ SubordinateAdmin *selectedAdminObj;
     switch (indexPath.section) {
         case 0: {
             rowHeight = 44;
-            if ((isNHCellExpanded && indexPath.row == 2)) {
+            if ((isPHCellExpanded && indexPath.row == 2) || (isNHCellExpanded && indexPath.row == 3)) {
                 rowHeight = 162;
+            }
+            else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && isRDCellExpanded)) ||
+                     ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && isRDCellExpanded))) {
+                rowHeight = 206;
             }
         }
             break;
         case 1: {
             rowHeight = 60;
-        }
-            break;
-        case 2: {
-            rowHeight = 60;
-        }
-            break;
-        case 3: {
-            rowHeight = 44;
         }
             break;
         default:
@@ -236,36 +245,9 @@ SubordinateAdmin *selectedAdminObj;
     return rowHeight;
 }
 
-//- (NSString *)tableView:(nonnull UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    NSString *headerTitle;
-//    
-//    switch (section) {
-//        case 0: {
-//            headerTitle = @"Case Detail";
-//        }
-//            break;
-//        case 1: {
-//            headerTitle = @"Court Detail";
-//        }
-//            break;
-//        case 2: {
-//            headerTitle = @"Client Detail";
-//        }
-//            break;
-//        case 3: {
-//            headerTitle = @"Oppostition Detail";
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//    return headerTitle;
-//}
-
 - (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView
 {
-    return 4;
+    return 2;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -275,23 +257,15 @@ SubordinateAdmin *selectedAdminObj;
     switch (section) {
         case 0: {
             if ((isPHCellExpanded || isNHCellExpanded)) {
-                noOfRow = 4;
+                noOfRow = 6;
             }
             else {
-                noOfRow = 3;
+                noOfRow = 5;
             }
         }
             break;
         case 1: {
             noOfRow = 1;
-        }
-            break;
-        case 2: {
-            noOfRow = 1;
-        }
-            break;
-        case 3: {
-            noOfRow = 3;
         }
             break;
         default:
@@ -306,23 +280,32 @@ SubordinateAdmin *selectedAdminObj;
         case 0: {
             switch (indexPath.row) {
                 case 0: {
-                    return cellCaseNo;
+                    return cellLastCaseStatus;
                 }
                     break;
                 case 1: {
-                    return cellNHearingDate;
+                    return cellPHeardDate;
                 }
                     break;
-//                case 2: {
-//                    if (isPHCellExpanded) {
-//                        return cellCaseDatePicker;
-//                    }
-//                    else {
-//                        return cellNHearingDate;
-//                    }
-//                }
-//                    break;
+                    //                case 2: {
+                    //                    if (isPHCellExpanded) {
+                    //                        return cellCaseDatePicker;
+                    //                    }
+                    //                    else {
+                    //                        return cellNHearingDate;
+                    //                    }
+                    //                }
+                    //                    break;
                 case 2: {
+                    if (isPHCellExpanded) {
+                        return cellCaseDatePicker;
+                    }
+                    else {
+                        return cellNHearingDate;
+                    }
+                }
+                    break;
+                case 3: {
                     if (isNHCellExpanded) {
                         return cellCaseDatePicker;
                     }
@@ -331,8 +314,17 @@ SubordinateAdmin *selectedAdminObj;
                     }
                 }
                     break;
-                case 3: {
-                    return cellCaseStatus;
+                case 4: {
+                    if (isPHCellExpanded || isNHCellExpanded) {
+                        return cellCaseStatus;
+                    }
+                    else {
+                        return cellReminderDate;
+                    }
+                }
+                    break;
+                case 5: {
+                    return cellReminderDate;
                 }
                 default:
                     break;
@@ -343,36 +335,6 @@ SubordinateAdmin *selectedAdminObj;
             switch (indexPath.row) {
                 case 0: {
                     return cellCourtDetail;
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 2: {
-            switch (indexPath.row) {
-                case 0: {
-                    return cellClientDetail;
-                }
-                    break;
-                default:
-                    break;
-            }
-        }
-            break;
-        case 3: {
-            switch (indexPath.row) {
-                case 0: {
-                    return cellOFirstName;
-                }
-                    break;
-                case 1: {
-                    return cellOLastName;
-                }
-                    break;
-                case 2: {
-                    return cellOLawyerName;
                 }
                     break;
                 default:
@@ -394,21 +356,21 @@ SubordinateAdmin *selectedAdminObj;
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.tableView beginUpdates];
         
-        if (indexPath.row == 1) {
-            
-            if (isNHCellExpanded) {
-                isNHCellExpanded = NO;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-                [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
-            }
-            else {
-                isNHCellExpanded = YES;
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-            }
-        }
+//        if (indexPath.row == 2) {
+//            
+//            if (isNHCellExpanded) {
+//                isNHCellExpanded = NO;
+//                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+//                [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+//            }
+//            else {
+//                isNHCellExpanded = YES;
+//                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+//            }
+//        }
         
-        /*
-        if (indexPath.row == 1) {
+        
+        /*if (indexPath.row == 1) {
             if (isPHCellExpanded) {
                 isPHCellExpanded = NO;
                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
@@ -427,7 +389,7 @@ SubordinateAdmin *selectedAdminObj;
                 [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
             }
         }
-        else if (indexPath.row == 2 && !isPHCellExpanded && !isNHCellExpanded) {
+        else */if (indexPath.row == 2 && !isPHCellExpanded && !isNHCellExpanded) {
             isNHCellExpanded = YES;
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
         }
@@ -443,27 +405,47 @@ SubordinateAdmin *selectedAdminObj;
             isNHCellExpanded = YES;
             [self.tableView beginUpdates];
             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-        }*/
+        }
+        else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && !isRDCellExpanded)) ||
+                 ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && !isRDCellExpanded))) {
+            isRDCellExpanded = YES;
+//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && isRDCellExpanded)) ||
+                 ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && isRDCellExpanded))) {
+            isRDCellExpanded = NO;
+//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
         
-        if (isPHCellExpanded) {
-//            [datePicker setMinimumDate:nil];
-//            [datePicker setMaximumDate:[NSDate date]];
+        
+//        if (isPHCellExpanded) {
+//            //            [datePicker setMinimumDate:nil];
+//            //            [datePicker setMaximumDate:[NSDate date]];
+//            
+//            if (tfPHeardDate.text.length > 0) {
+//                [datePicker setDate:[Global getDatefromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat]];
+//            }
+//            else {
+//                [datePicker setDate:[NSDate date]];
+//            }
+//        }
+//        else
+        
+        if (isNHCellExpanded) {
             
-            if (tfPHeardDate.text.length > 0) {
-                [datePicker setDate:[Global getDatefromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat]];
+            if (tfNHearingDate.text.length > 0) {
+                [datePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]]];
             }
             else {
                 [datePicker setDate:[NSDate date]];
             }
         }
-        else if (isNHCellExpanded) {
-//            [datePicker setMinimumDate:[NSDate date]];
-//            [datePicker setMaximumDate:nil];
-            if (tfNHearingDate.text.length > 0) {
-                [datePicker setDate:[Global getDatefromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]];
+        else if (isRDCellExpanded) {
+            if (lblReminderDate.text.length > 0) {
+                [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
             }
             else {
-                [datePicker setDate:[NSDate date]];
+                [reminderDatePicker setDate:[NSDate date]];
             }
         }
         
@@ -474,13 +456,6 @@ SubordinateAdmin *selectedAdminObj;
         [courtVC setDelegate:self];
         [courtVC setExistingCourtObj:existingCourtObj];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:courtVC];
-        [self presentViewController:navController animated:YES completion:nil];
-    }
-    else if (indexPath.section == 2) {
-        ChooseClient *clientVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseClient"];
-        [clientVC setDelegate:self];
-        [clientVC setExistingClientObj:existingClientObj];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:clientVC];
         [self presentViewController:navController animated:YES completion:nil];
     }
 }
@@ -501,23 +476,6 @@ SubordinateAdmin *selectedAdminObj;
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
-}
-
-- (void)clientSelected:(Client *)clientObj
-{
-    existingClientObj = clientObj;
-
-    if (existingCaseObj != nil) {
-        [existingCaseObj setCourtId:existingClientObj.clientId];
-        [existingCaseObj setCourtName:existingClientObj.clientFirstName];
-        [existingCaseObj setCourtName:existingClientObj.clientLastName];
-        [existingCaseObj setMegistrateName:existingClientObj.mobile];
-    }
-    
-    [lblClientName setText:[NSString stringWithFormat:@"%@ %@", CAPITALIZED_STRING(existingClientObj.clientFirstName), CAPITALIZED_STRING(existingClientObj.clientLastName)]];
-    [lblClientMobile setText:existingClientObj.mobile];
-
-    [self.tableView reloadData];
 }
 
 - (void)courtSelected:(Court *)courtObj
@@ -556,23 +514,23 @@ SubordinateAdmin *selectedAdminObj;
     
     NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
     caseParams[kAPIuserId] = USER_ID;
-    caseParams[kAPIcaseNo] = tfCaseNo.text;
-    caseParams[kAPIlastHeardDate] = tfPHeardDate.text.length > 0 ? [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat] : @"";
+    caseParams[kAPIcaseNo] = existingCaseObj.caseNo;
+    caseParams[kAPIlastHeardDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:existingCaseObj.nextHearingDate ofFormat:DefaultBirthdateFormat];
     caseParams[kAPInextHearingDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat];
     caseParams[kAPIcaseStatus] = tfCaseStatus.text;
-    caseParams[kAPIlocalClientId] = existingClientObj.localClientId,
-    caseParams[kAPIclientId] = existingClientObj.clientId;
-    caseParams[kAPIclientFirstName] = existingClientObj.clientFirstName;
-    caseParams[kAPIclientLastName] = existingClientObj.clientLastName;
-    caseParams[kAPImobile] = existingClientObj.mobile;
-    caseParams[kAPIoppositionFirstName] = tfOFirstName.text;
-    caseParams[kAPIoppositionLastName] = tfOLastName.text;
-    caseParams[kAPIoppositionLawyerName] = tfOLawyerName.text;
-    caseParams[kAPIlocalCourtId] = existingCourtObj.localCourtId,
-    caseParams[kAPIcourtId] = existingCourtObj.courtId;
-    caseParams[kAPIcourtName] = existingCourtObj.courtName;
-    caseParams[kAPImegistrateName] = existingCourtObj.megistrateName;
-    caseParams[kAPIcourtCity] = existingCourtObj.courtCity;
+    caseParams[kAPIlocalClientId] = existingCaseObj.localClientId;
+    caseParams[kAPIclientId] = existingCaseObj.clientId;
+    caseParams[kAPIclientFirstName] = existingCaseObj.clientFirstName;
+    caseParams[kAPIclientLastName] = existingCaseObj.clientLastName;
+    caseParams[kAPImobile] = existingCaseObj.mobile;
+    caseParams[kAPIoppositionFirstName] = existingCaseObj.oppositionFirstName;
+    caseParams[kAPIoppositionLastName] = existingCaseObj.oppositionLastName;
+    caseParams[kAPIoppositionLawyerName] = existingCaseObj.oppositionLawyerName;
+    caseParams[kAPIlocalCourtId] = existingCaseObj.localCourtId;
+    caseParams[kAPIcourtId] = existingCaseObj.courtId;
+    caseParams[kAPIcourtName] = existingCaseObj.courtName;
+    caseParams[kAPImegistrateName] = existingCaseObj.megistrateName;
+    caseParams[kAPIcourtCity] = existingCaseObj.courtCity;
     caseParams[kIsSynced] = @0;
     
     if (existingCaseObj) {
@@ -596,7 +554,7 @@ SubordinateAdmin *selectedAdminObj;
                                      kAPIMode: ksaveCase,
                                      kAPIuserId: USER_ID,
                                      kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                     kAPIcaseId: existingCaseObj ? existingCaseObj.caseId : @"",
+                                     kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@-1] ? existingCaseObj.caseId : @"",
                                      kAPIcaseNo: tempCaseObj.caseNo,
                                      kAPIlastHeardDate: tempCaseObj.lastHeardDate,
                                      kAPInextHearingDate: tempCaseObj.nextHearingDate,
@@ -669,7 +627,7 @@ SubordinateAdmin *selectedAdminObj;
         }
     }
     else {
-//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         
         POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
         
@@ -713,22 +671,13 @@ SubordinateAdmin *selectedAdminObj;
 - (NSString *)validateDetails
 {
     NSString *errMsg = @"";
-    if ([Global validateTextField:tfCaseNo]) {
-        errMsg = @"Please enter Case No.";
-    }
-    else if ([Global validateTextField:tfNHearingDate]) {
+    if ([Global validateTextField:tfNHearingDate]) {
         errMsg = @"Please enter Next Hearing date for Case.";
     }
-    else if ([Global validateTextField:tfOFirstName]) {
-        errMsg = @"Please enter Opposition First Name";
+    else if ([Global validateTextField:tfCaseStatus]) {
+        errMsg = @"Please enter current case status.";
     }
-    else if ([Global validateTextField:tfOLastName]) {
-        errMsg = @"Please enter Opposition Last Name";
-    }
-    else if ([Global validateTextField:tfOLawyerName]) {
-        errMsg = @"Please enter Opposition Lawyer Name";
-    }
-        
+    
     return errMsg;
 }
 
@@ -740,11 +689,44 @@ SubordinateAdmin *selectedAdminObj;
 
 - (IBAction)datePickerValueChanged:(id)sender {
     if (isPHCellExpanded) {
+        
         [tfPHeardDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
     }
     else if (isNHCellExpanded) {
-        [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+        
+        NSDate* oneSecondAfterPickersDate = [datePicker.date dateByAddingTimeInterval:1] ;
+        if ( [datePicker.date compare:datePicker.minimumDate] == NSOrderedSame ) {
+            NSLog(@"date is at or below the minimum") ;
+            datePicker.date = oneSecondAfterPickersDate ;
+        }
+        else if ( [datePicker.date compare:datePicker.maximumDate] == NSOrderedSame ) {
+            NSLog(@"date is at or above the maximum") ;
+            datePicker.date = oneSecondAfterPickersDate ;
+        }
+        
+        [tfNHearingDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:datePicker.date] ofFormat:DefaultBirthdateFormat]];
+        
+        [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+        
+        [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+        
+        [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
     }
+}
+
+- (IBAction)reminderDatePickerValueChanged:(id)sender {
+    
+    NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1] ;
+    if ( [datePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame ) {
+        NSLog(@"date is at or below the minimum") ;
+        reminderDatePicker.date = oneSecondAfterPickersDate ;
+    }
+    else if ( [datePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame ) {
+        NSLog(@"date is at or above the maximum") ;
+        reminderDatePicker.date = oneSecondAfterPickersDate ;
+    }
+    
+    [lblReminderDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:reminderDatePicker.date] ofFormat:DefaultBirthdateFormat]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -36,10 +36,15 @@ typedef NS_ENUM(NSUInteger, CourtProperty) {
 + (BOOL)saveCourtsForSubordinate:(NSDictionary *)dataDict;
 + (BOOL)updatedCourtPropertyofCourt:(Court *)courtObj withProperty:(CourtProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteCourt:(NSNumber *)courtId;
-+ (BOOL)deleteCourtsForUser:(NSNumber *)userId;
++ (BOOL)deleteCourtsForAdmin;
++ (BOOL)deleteCourtsForSubordinate;
++ (BOOL)deleteCourtsForAdmin:(NSNumber *)adminId;
 + (Court *)fetchCourt:(NSNumber *)courtId;
 + (NSArray *)fetchCourtsForAdmin;
 + (NSArray *)fetchCourtsForAdmin:(NSNumber *)adminId;
 + (NSArray *)fetchCourtsForSubordinate;
+
++ (NSArray *)fetchNotSyncedCourts;
++ (NSArray *)fetchDeletedNotSyncedCourts;
 
 @end

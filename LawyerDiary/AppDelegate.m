@@ -9,13 +9,15 @@
 #import "AppDelegate.h"
 #import "JVFloatingDrawerViewController.h"
 #import "JVFloatingDrawerSpringAnimator.h"
+#import "SubordinateClients.h"
+#import "ClientsViewController.h"
 
 static NSString * const kStoryboardName = @"Main";
 
 static NSString * const kLeftDrawerStoryboardID = @"LeftDrawerViewControllerStoryboardID";
 
 static NSString * const kCasesViewControllerStoryboardID = @"CasesTabBar";
-static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBarController";
+static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBar";
 static NSString * const kCourtsViewControllerStoryboardID = @"CourtsTabBar";
 static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
 static NSString * const kSubordinatesViewControllerStoryboardID = @"Subordinates";
@@ -390,13 +392,33 @@ Reachability *hostReach;
     return _casesTabBar;
 }
 
-- (ClientsTabBarController *)clientsTabBar {
+- (ClientsTabBar *)clientsTabBar {
     if (!_clientsTabBar) {
+        
+        
+//        _clientsTabBar = [[UITabBarController alloc] init];
+//        [_clientsTabBar.tabBar setTintColor:BLACK_COLOR];
+//        
+//        ClientsViewController *clientsVC = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"ClientsVC"];
+//        SubordinateClients *subordinateClients = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SClients"];
+//        
+//        UINavigationController *clientNavController = [[UINavigationController alloc] initWithRootViewController:clientsVC];
+//        UINavigationController *sClientNavController = [[UINavigationController alloc] initWithRootViewController:subordinateClients];
+//        
+//        [_clientsTabBar setViewControllers:@[clientNavController, sClientNavController]];
+//        
+//        UITabBarItem *itemOne = [[_clientsTabBar.tabBar items] objectAtIndex:0];
+//        [itemOne setTitle:@"Your"];
+//        [itemOne setImage:IMAGE_WITH_NAME(@"icon-tab-profile")];
+//        
+//        UITabBarItem *itemTwo = [[_clientsTabBar.tabBar items] objectAtIndex:1];
+//        [itemTwo setTitle:@"Subordinates"];
+//        [itemTwo setImage:IMAGE_WITH_NAME(@"icon-tab-subordinate")];
+        
         _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
     }
     
     return _clientsTabBar;
-    
 }
 
 - (CourtsTabBar *)courtsTabBar {
@@ -535,11 +557,19 @@ Reachability *hostReach;
         //        message = @"Internet Connected via WIFI";
         NSLog(@"Connected via WIFI");
         ShareObj.isInternetConnected = YES; // Connected via WIFI
+        
+        if (GetLoginUserId) {
+            [ShareObj syncUpdatedCourtRecords];
+        }
     }
     else if (remoteHostStatus == ReachableViaWWAN)
     {
         NSLog(@"Connected via WWAN");
         ShareObj.isInternetConnected = YES; // Connected via WWAN
+        
+        if (GetLoginUserId) {
+            [ShareObj syncUpdatedCourtRecords];
+        }
     }
 }
 @end

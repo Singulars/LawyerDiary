@@ -16,10 +16,12 @@
 @dynamic userId;
 @dynamic localCaseId;
 @dynamic caseId;
+@dynamic localCourtId;
 @dynamic courtId;
 @dynamic courtName;
 @dynamic megistrateName;
 @dynamic courtCity;
+@dynamic localClientId;
 @dynamic clientId;
 @dynamic clientFirstName;
 @dynamic clientLastName;
@@ -69,10 +71,12 @@
                 [obj setUserId:USER_ID];
                 [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
                 [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setLocalCourtId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
+                [obj setLocalCaseId:dataDict[kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -114,10 +118,12 @@
                 [obj setUserId:USER_ID];
                 [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
                 [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setLocalCourtId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
+                [obj setLocalCaseId:dataDict[kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -388,7 +394,7 @@
     }
 }
 
-+ (BOOL)deleteCaseForUser:(NSNumber *)userId {
++ (BOOL)deleteCaseForAdmin {
     @try {
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         NSEntityDescription *entity = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
@@ -397,7 +403,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(userId = %@)", userId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @0];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -418,6 +424,134 @@
         NSLog(@"%@",[exception debugDescription]);
     }
     @finally {
+    }
+}
+
++ (BOOL)deleteCaseForSubordinate {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @1];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Client *clientObj in objects) {
+            [context deleteObject:clientObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Case Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Case Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)deleteCaseForAdmin:(NSNumber *)adminId {
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entity];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && adminId = %@)", @0, adminId];
+        [request setPredicate:predicate];
+        NSError *error;
+        NSArray *objects = [context executeFetchRequest:request error:&error];
+        
+        for (Client *clientObj in objects) {
+            [context deleteObject:clientObj];
+        }
+        
+        if ([context save:&error]) {
+            NSLog(@"Case Deleted Succesfully!");
+            return YES;
+        } else {
+            NSLog(@"Case Deletion Failed : %@", [error userInfo]);
+            return NO;
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",[exception debugDescription]);
+    }
+    @finally {
+    }
+}
+
++ (BOOL)isThisClientExist:(NSNumber *)localClientId
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localClientId = %@", localClientId];
+        [request setPredicate:predicate];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0)
+            return YES;
+        else
+            return NO;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (BOOL)isThisCourtExist:(NSNumber *)localCourtId
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localCourtId = %@", localCourtId];
+        [request setPredicate:predicate];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0)
+            return YES;
+        else
+            return NO;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
@@ -464,6 +598,76 @@
         
         // Set example predicate and sort orderings...
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSubordinate = %@ && isCaseDeleted = %@", @0, @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcaseId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchNotSyncedCases
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isCaseDeleted = %@", @0, @0];
+        [request setPredicate:predicate];
+        
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcaseId ascending:NO];
+        [request setSortDescriptors:@[sortDescriptor]];
+        
+        NSError *error;
+        NSArray *objArr = [context executeFetchRequest:request error:&error];
+        
+        if ([objArr count] > 0) {
+            return objArr;
+        }
+        else
+            return nil;
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
++ (NSArray *)fetchDeletedNotSyncedClients
+{
+    @try {
+        NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:kCases inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        [request setEntity:entityDescription];
+        
+        [request setReturnsObjectsAsFaults:NO];
+        
+        // Set example predicate and sort orderings...
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isSynced = %@ && isCaseDeleted = %@", @0, @1];
         [request setPredicate:predicate];
         
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kAPIcaseId ascending:NO];

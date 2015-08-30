@@ -11,12 +11,12 @@
 #import "JVFloatingDrawerViewController.h"
 
 typedef NS_ENUM(NSUInteger, TableCellIndex) {
-    kCellCaseIndex      = 0,
-    kCellClientIndex    = 1,
-    kCellCourtIndex     = 2,
-    kCellSubordinateIndex   = 3,
-    kCellSearchIndex   = 4,
-    kCellProfileIndex   = 5
+    kCellCaseIndex = 0,
+    kCellClientIndex,
+    kCellCourtIndex,
+    kCellSubordinateIndex,
+    kCellSearchIndex,
+    kCellProfileIndex
 };
 
 static const CGFloat kJVTableViewTopInset = 0.0;
@@ -39,7 +39,7 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     [imgViewHeader setTintColor:APP_TINT_COLOR];
     [imgViewHeader setImage:IMAGE_WITH_NAME_AND_RENDER_MODE(@"app-icon", kImageRenderModeTemplate)];
     
-    [Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:imgViewProPic.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
+    //[Global applyCornerRadiusToViews:@[imgViewProPic] withRadius:imgViewProPic.frame.size.width/2 borderColor:APP_TINT_COLOR andBorderWidth:1];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -126,10 +126,6 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
     UIViewController *destinationViewController = nil;
     
     switch (indexPath.row) {
-        case kCellProfileIndex: {
-            destinationViewController = [APP_DELEGATE profileViewController];
-        }
-            break;
         case kCellCaseIndex: {
             destinationViewController = [APP_DELEGATE casesTabBar];
         }
@@ -141,10 +137,15 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
         case kCellCourtIndex: {
             destinationViewController = [APP_DELEGATE courtsTabBar];
         }
-            break;
+            break; 
         case kCellSubordinateIndex: {
             destinationViewController = [APP_DELEGATE subordinatesViewController];
         }
+            break;
+        case kCellProfileIndex: {
+            destinationViewController = [APP_DELEGATE profileViewController];
+        }
+            break;
         default:
             break;
     }

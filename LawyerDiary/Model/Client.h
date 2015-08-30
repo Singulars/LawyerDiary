@@ -42,10 +42,15 @@ typedef NS_ENUM(NSUInteger, ClientProperty) {
 
 + (BOOL)updatedClientPropertyofClient:(Client *)clientObj withProperty:(ClientProperty)property andValue:(NSNumber *)propertyValue;
 + (BOOL)deleteClient:(NSNumber *)clientId;
-+ (BOOL)deleteCientsForUser:(NSNumber *)userId;
++ (BOOL)deleteCientsForAdmin;
++ (BOOL)deleteCientsForSubordinate;
++ (BOOL)deleteCientsForAdmin:(NSNumber*)adminId;
 + (Client *)fetchClient:(NSNumber *)clientId;
 + (NSArray *)fetchClients:(NSNumber *)userId;
 + (NSArray *)fetchClientsForSubordinate;
 + (NSArray *)fetchClientsForAdmin:(NSNumber *)adminId;
 + (NSArray *)fetchClientsForAdmin;
+
++ (NSArray *)fetchNotSyncedClients;
++ (NSArray *)fetchDeletedNotSyncedClients;
 @end
