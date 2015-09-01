@@ -44,6 +44,8 @@ typedef NS_ENUM(NSUInteger, CourtProperty) {
 + (NSArray *)fetchCourtsForAdmin:(NSNumber *)adminId;
 + (NSArray *)fetchCourtsForSubordinate;
 
++ (Court *)fetchCourtLocally:(NSNumber *)localCourtId;
+
 + (NSArray *)fetchNotSyncedCourts;
 + (NSArray *)fetchDeletedNotSyncedCourts;
 

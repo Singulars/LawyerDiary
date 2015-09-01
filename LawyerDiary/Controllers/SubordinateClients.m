@@ -61,6 +61,11 @@ BOOL isForSubordinate;
     [self presentViewController:navController animated:YES completion:nil];
 }
 
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self loadSubordinatesClients];
+}
+
 - (void)barBtnReloadTaped:(id)sender
 {
     [self loadSubordinatesClients];
@@ -86,6 +91,8 @@ BOOL isForSubordinate;
 {
     if (IS_INTERNET_CONNECTED) {
         
+        [btnReload setHidden:YES];
+        
         [self fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
@@ -94,7 +101,11 @@ BOOL isForSubordinate;
     }
     else {
         
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
         [self fetchClientsLocally:nil];
+        
+        [self setBarButton:AddBarButton];
         
         if (arrClients.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -102,6 +113,8 @@ BOOL isForSubordinate;
         else {
             [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
+            
+            [btnReload setHidden:NO];
         }
     }
 }
@@ -305,15 +318,15 @@ BOOL isForSubordinate;
             
             switch (ShareObj.fetchSubordinateStatus) {
                 case kStatusUndetermined: {
-                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailed: {
-                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailedBecauseInternet: {
-                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusSuccess: {
@@ -348,7 +361,7 @@ BOOL isForSubordinate;
 
                         }
                         else {
-                            UI_ALERT(nil, @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
+                            UI_ALERT(@"", @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
                         }
                     }
                     else {
@@ -569,6 +582,11 @@ BOOL isForSubordinate;
                     [self.tableView setHidden:NO];
                     [lblErrorMsg setHidden:YES];
                 }
+                else {
+                    [btnReload setHidden:NO];
+                }
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -593,6 +611,8 @@ BOOL isForSubordinate;
         
 //        [self showSpinner:NO withError:YES];
 //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
+        completionHandler(YES);
     }
 }
 

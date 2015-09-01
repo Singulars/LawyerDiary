@@ -1216,7 +1216,7 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
     NSCalendar* calendar = [NSCalendar currentCalendar] ;
     
     NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
-    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents];
     
     NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
     addOneMonthComponents.day = noOfDays ;

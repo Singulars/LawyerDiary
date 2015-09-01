@@ -16,6 +16,7 @@
 #import "CasesTabBar.h"
 #import "ClientsTabBar.h"
 #import "CourtsTabBar.h"
+#import "Search.h"
 
 @class JVFloatingDrawerViewController;
 @class JVFloatingDrawerSpringAnimator;
@@ -46,6 +47,7 @@ typedef void(^getDeviceTokenCompletionHandler)(BOOL success);
 @property (nonatomic, strong) CasesTabBar *casesTabBar;
 @property (nonatomic, strong) ClientsTabBar *clientsTabBar;
 @property (nonatomic, strong) CourtsTabBar *courtsTabBar;
+@property (nonatomic,strong)  Search *searchViewController;
 
 @property (nonatomic, strong) Profile *profileViewController;
 @property (nonatomic, strong) Subordinates *subordinatesViewController;

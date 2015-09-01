@@ -91,6 +91,11 @@ BOOL isForSubordinate;
 //    }
 }
 
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self loadSubordinatesCourts];
+}
+
 - (void)barBtnReloadTaped:(id)sender
 {
     [self loadSubordinatesCourts];
@@ -100,6 +105,8 @@ BOOL isForSubordinate;
 {
     if (IS_INTERNET_CONNECTED) {
         
+        [btnReload setHidden:YES];
+        
         [self fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
             
@@ -107,8 +114,11 @@ BOOL isForSubordinate;
         }];
     }
     else {
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         
         [self fetchCourtsLocally:nil];
+        
+        [self setBarButton:AddBarButton];
         
         if (arrCourts.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -116,6 +126,8 @@ BOOL isForSubordinate;
         else {
             [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
+            
+            [btnReload setHidden:NO];
         }
     }
 }
@@ -306,7 +318,7 @@ BOOL isForSubordinate;
                     }
                 }
                 else {
-                    UI_ALERT(nil, @"This Court is belongs to one of the existing Case. So you can't delete this Court. To delete this Court, you've to delete Case first.", nil);
+                    UI_ALERT(@"", @"This Court is belongs to one of the existing Case. So you can't delete this Court. To delete this Court, you've to delete Case first.", nil);
                 }
             }
             else {
@@ -581,6 +593,11 @@ BOOL isForSubordinate;
                     [self.tableView setHidden:NO];
                     [lblErrorMsg setHidden:YES];
                 }
+                else {
+                    [btnReload setHidden:NO];
+                }
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -602,6 +619,8 @@ BOOL isForSubordinate;
             
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
+        
+        completionHandler(YES);
         
 //        [self showSpinner:NO withError:YES];
 //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];

@@ -252,8 +252,8 @@ typedef enum : NSInteger {
 #define kInviteFriendsAppURL                @"http://www.app.com"
 #define kInviteFriendsInitialText           @"- I am using Lawyer Diary, download from bottom URL\n"
 
-#define kSOMETHING_WENT_WRONG               @"Something went wrong! Please try again later."
-#define kREQUEST_TIME_OUT                   @"Request time out! Please try agin later."
+#define kSOMETHING_WENT_WRONG               @"Something went wrong. Please try again later!"
+#define kREQUEST_TIME_OUT                   @"Request timed out. Please try agin later!"
 #define kCHECK_INTERNET                     @"You are not connected to the internet!"
 
 #define SCREENWIDTH                         [[UIScreen mainScreen] bounds].size.width

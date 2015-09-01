@@ -73,6 +73,7 @@
 		C0B3FFBF1B72AAA400061A5C /* SubordinateCases.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */; };
 		C0B3FFC21B72AAB700061A5C /* SubordinateClients.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */; };
 		C0B3FFC51B72AAC700061A5C /* SubordinateCourts.m in Sources */ = {isa = PBXBuildFile; fileRef = C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */; };
+		C0C3A7471B948D2B00D858AB /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = C0C3A7461B948D2B00D858AB /* Search.m */; };
 		C0D3C6551B6174C6008D5217 /* EditCase.m in Sources */ = {isa = PBXBuildFile; fileRef = C0D3C6541B6174C6008D5217 /* EditCase.m */; };
 		C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */; };
 		C0DCAAFC1B28203F00A2335F /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C0DCAAF81B28203F00A2335F /* Default-667h@2x.png */; };
@@ -208,7 +209,7 @@
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
 		C07CFC781B768DC600D7741A /* ChooseAdmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdmin.h; sourceTree = "<group>"; };
-		C07CFC791B768DC600D7741A /* ChooseAdmin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdmin.m; sourceTree = "<group>"; };
+		C07CFC791B768DC600D7741A /* ChooseAdmin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ChooseAdmin.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdminCell.h; sourceTree = "<group>"; };
 		C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseAdminCell.m; sourceTree = "<group>"; };
 		C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourtsTabBar.h; sourceTree = "<group>"; };
@@ -223,6 +224,8 @@
 		C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateClients.m; sourceTree = "<group>"; };
 		C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCourts.h; sourceTree = "<group>"; };
 		C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCourts.m; sourceTree = "<group>"; };
+		C0C3A7451B948D2B00D858AB /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
+		C0C3A7461B948D2B00D858AB /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
 		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -322,6 +325,8 @@
 				C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */,
 				C07CFC781B768DC600D7741A /* ChooseAdmin.h */,
 				C07CFC791B768DC600D7741A /* ChooseAdmin.m */,
+				C0C3A7451B948D2B00D858AB /* Search.h */,
+				C0C3A7461B948D2B00D858AB /* Search.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -781,6 +786,7 @@
 				C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */,
 				C0B3FFC51B72AAC700061A5C /* SubordinateCourts.m in Sources */,
 				C03D2EDA1AFA9BE40000665E /* Profile.m in Sources */,
+				C0C3A7471B948D2B00D858AB /* Search.m in Sources */,
 				9DE1E51E1AE3CC99001060F4 /* Home.m in Sources */,
 				C0DCAB021B282B6000A2335F /* ClusterPrePermissions.m in Sources */,
 				C03766591AE96F8900ACA623 /* NetworkManager.m in Sources */,

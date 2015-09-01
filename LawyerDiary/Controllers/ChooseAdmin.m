@@ -160,7 +160,7 @@ SubordinateAdmin *selectedAdminObj;
 - (IBAction)barBtnNextTaped:(id)sender
 {
     if (existingAdminObj == nil) {
-        UI_ALERT(nil, @"Please select Admin you want to add record.", nil);
+        UI_ALERT(@"", @"Please select Admin you want to add record.", nil);
     }
     else {
         

@@ -51,6 +51,8 @@ typedef NS_ENUM(NSUInteger, ClientProperty) {
 + (NSArray *)fetchClientsForAdmin:(NSNumber *)adminId;
 + (NSArray *)fetchClientsForAdmin;
 
++ (Client *)fetchClientLocally:(NSNumber *)localClientId;
+
 + (NSArray *)fetchNotSyncedClients;
 + (NSArray *)fetchDeletedNotSyncedClients;
 @end

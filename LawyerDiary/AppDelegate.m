@@ -21,6 +21,7 @@ static NSString * const kClientsViewControllerStoryboardID = @"ClientsTabBar";
 static NSString * const kCourtsViewControllerStoryboardID = @"CourtsTabBar";
 static NSString * const kProfileViewControllerStoryboardID = @"ProfileViewVC";
 static NSString * const kSubordinatesViewControllerStoryboardID = @"Subordinates";
+static NSString * const kSearchViewControllerStoryborrdID=@"Search";
 
 Reachability *hostReach;
 
@@ -222,7 +223,6 @@ Reachability *hostReach;
     getDeviceTokenHandler = nil;
 }
 
-#ifdef __IPHONE_8_0
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
     // user has allowed receiving user notifications of the following types
@@ -240,7 +240,13 @@ Reachability *hostReach;
     else if ([identifier isEqualToString:@"answerAction"]){
     }
 }
-#endif
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    NSString *string = [NSString stringWithFormat:@"%@", userInfo];
+    UI_ALERT(@"", string, nil);
+    NSLog(@"%@", userInfo);
+}
 
 - (void)getCurrentNotificationSettings
 {
@@ -445,6 +451,14 @@ Reachability *hostReach;
     return _subordinatesViewController;
 }
 
+- (Search *)searchViewController {
+    if (!_searchViewController) {
+        _searchViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSearchViewControllerStoryborrdID];
+    }
+    
+    return _searchViewController;
+}
+
 #pragma mark - Core Data stack
 
 - (void)saveContext
@@ -560,6 +574,10 @@ Reachability *hostReach;
         
         if (GetLoginUserId) {
             [ShareObj syncUpdatedCourtRecords];
+            
+            [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
+                
+            }];
         }
     }
     else if (remoteHostStatus == ReachableViaWWAN)
@@ -569,6 +587,10 @@ Reachability *hostReach;
         
         if (GetLoginUserId) {
             [ShareObj syncUpdatedCourtRecords];
+            
+            [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
+                
+            }];
         }
     }
 }

@@ -12,6 +12,7 @@
 #import "CaseCell.h"
 #import "ChooseClient.h"
 #import "UpdateCase.h"
+#import "EditCase.h"
 
 SubordinateAdmin *selectedAdminObj;
 
@@ -49,7 +50,7 @@ SubordinateAdmin *selectedAdminObj;
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
-    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 44, 0, 0)];
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -95,8 +96,10 @@ SubordinateAdmin *selectedAdminObj;
         arrCases = [[NSMutableArray alloc] init];
     }
     
+    NSArray *casesArr = [Cases fetchCasesForAdmin];
+    
     [arrCases removeAllObjects];
-    [arrCases addObjectsFromArray:[Cases fetchCasesForAdmin]];
+    [arrCases addObjectsFromArray:[self sortCasesArray:casesArr]];
     
     [self.tableView reloadData];
     
@@ -105,12 +108,40 @@ SubordinateAdmin *selectedAdminObj;
     }
 }
 
+- (NSMutableArray *)sortCasesArray:(NSArray *)toBeSortedArr
+{
+    NSMutableArray *resultArray = [NSMutableArray new];
+    NSArray *groups = [toBeSortedArr valueForKeyPath:@"@distinctUnionOfObjects.nextHearingDate"];
+    for (NSString *nextHearingDate in groups)
+    {
+        NSMutableDictionary *entry = [NSMutableDictionary new];
+        [entry setObject:nextHearingDate forKey:@"nextHearingDate"];
+        
+        NSArray *groupCases = [toBeSortedArr filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"nextHearingDate = %@", nextHearingDate]];
+        
+        [entry setObject:groupCases forKey:@"data"];
+        
+//        for (int i = 0; i < groupCases.count; i++)
+//        {
+//            Cases *caseObj = groupCases[i];
+//            [entry setObject:caseObj forKey:[NSString stringWithFormat:@"index%d", i + 1]];
+//        }
+        
+        [resultArray addObject:entry];
+        
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nextHearingDate" ascending:YES];
+        
+        [resultArray sortUsingDescriptors:@[sortDescriptor]];
+    }
+    
+    NSLog(@"%@", resultArray);
+    
+    return resultArray;
+}
+
 - (IBAction)btnReloadTaped:(id)sender
 {
-    [self showSpinner:YES withError:NO];
-    [self fetchCasesWithCompletionHandler:^(BOOL finished) {
-        [self.tableView reloadData];
-    }];
+    [self loadCases];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -263,6 +294,8 @@ SubordinateAdmin *selectedAdminObj;
                 else {
                     [btnReload setHidden:NO];
                 }
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -285,6 +318,8 @@ SubordinateAdmin *selectedAdminObj;
             
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
+        
+        completionHandler(YES);
         
         //        [self showSpinner:NO withError:YES];
         //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -319,7 +354,11 @@ SubordinateAdmin *selectedAdminObj;
     }
     else {
         
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
         [self fetchCasesLocally:nil];
+        
+        [self setBarButton:AddBarButton];
         
         if (arrCases.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -327,6 +366,8 @@ SubordinateAdmin *selectedAdminObj;
         else {
             [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get updated data."];
             [self showSpinner:NO withError:YES];
+            
+            [btnReload setHidden:NO];
         }
     }
     
@@ -435,15 +476,15 @@ SubordinateAdmin *selectedAdminObj;
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailed: {
-            UI_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -456,7 +497,7 @@ SubordinateAdmin *selectedAdminObj;
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -468,14 +509,63 @@ SubordinateAdmin *selectedAdminObj;
 
 #pragma mark - UITableViewDataSource / UITableViewDelegate
 #pragma mark -
+
+- (CGFloat)tableView:(nonnull UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section
+{
+    return 22;
+}
+
+- (UIView *)tableView:(nonnull UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *date = [arrCases[section] objectForKey:@"nextHearingDate"];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ViewWidth(self.tableView), 22)];
+    [headerView setBackgroundColor:UICOLOR(239, 239, 244, 1)];
+    
+    UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 22)];
+    [lblHeader setBackgroundColor:CLEARCOLOUR];
+    [lblHeader setFont:[UIFont boldSystemFontOfSize:13]];
+    [lblHeader setTextColor:UICOLOR(109, 109, 114, 1)];
+    
+    [headerView addSubview:lblHeader];
+    NSString *headerTitle = [Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:date ofFormat:ServerBirthdateFormat];
+    
+    
+    NSDate *caseDate = [Global getDateWithoutSeconds:[Global getDatefromDateString:headerTitle ofFormat:DefaultBirthdateFormat]];
+    
+    NSDate *todayDate = [Global getDatefromDateString:[Global getDateStringFromDate:[NSDate date] ofFormat:ServerBirthdateFormat] ofFormat:ServerBirthdateFormat];
+    
+    if ([caseDate compare:todayDate] == NSOrderedSame) {
+        NSLog(@"Case date matched with today date");
+        headerTitle = @"Today";
+    }
+    
+    NSDate *tomorrowDate = [Global getDatefromDateString:[Global getDateStringFromDate:[Global addDays:1 inDate:todayDate] ofFormat:ServerBirthdateFormat] ofFormat:ServerBirthdateFormat];
+    
+    if ([caseDate compare:tomorrowDate] == NSOrderedSame) {
+        headerTitle = @"Tomorrow";
+    }
+    
+    NSLog(@"%@ %@", caseDate, todayDate);
+    
+    [lblHeader setText:headerTitle];
+    
+    return headerView;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 44.f;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return arrCases.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [[arrCases[section] objectForKey:@"data"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -486,9 +576,12 @@ SubordinateAdmin *selectedAdminObj;
     if (!cell) {
         cell = [[CaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
+    
     [cell setDelegate:self];
     [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
-    [cell configureCellWithCaseObj:arrCases[indexPath.row] forIndexPath:indexPath];
+    [cell configureCellWithCaseObj:[caseRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
     
     return cell;
 }
@@ -496,8 +589,10 @@ SubordinateAdmin *selectedAdminObj;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
-    [updateCaseVC setExistingCaseObj:arrCases[indexPath.row]];
+    [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
     [self.navigationController pushViewController:updateCaseVC animated:YES];
+    
+    [self setEditing:YES];
     
     //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     //    CourtDetail *courtDetailVC = navController.viewControllers[0];
@@ -554,15 +649,26 @@ SubordinateAdmin *selectedAdminObj;
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
 {
-    NSIndexPath *cellIndexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     switch (index) {
         case 0:
         {
             NSLog(@"More button was pressed");
             
+            Cases *caseObj = [[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
             
-            UI_ALERT(nil, @"Under Development", nil);
+            EditCase *editCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCase"];
+            [editCaseVC setExistingCaseObj:caseObj];
+            [editCaseVC setExistingClientObj:[Client fetchClientLocally:caseObj.localClientId]];
+            [editCaseVC setExistingCourtObj:[Court fetchCourtLocally:caseObj.localCourtId]];
+            
+            [self.navigationController pushViewController:editCaseVC animated:YES];
+            
+            [cell hideUtilityButtonsAnimated:YES];
+            
+            [self setEditing:YES];
+            
             break;
         }
         case 1:
@@ -571,32 +677,30 @@ SubordinateAdmin *selectedAdminObj;
             
             switch (ShareObj.fetchSubordinateStatus) {
                 case kStatusUndetermined: {
-                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailed: {
-                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailedBecauseInternet: {
-                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusSuccess: {
                     if (ShareObj.hasAdminAccess) {
                         [self.tableView beginUpdates];
                         
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:cellIndexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-                        [Cases updatedCasePropertyofCase:arrCases[cellIndexPath.row] withProperty:kCaseIsDeleted andValue:@1];
-                        [self deleteCase:arrCases[cellIndexPath.row]];
-                        [arrCases removeObjectAtIndex:cellIndexPath.row];
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                        [Cases updatedCasePropertyofCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCaseIsDeleted andValue:@1];
+                        [self deleteCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
                         
+                        [self fetchCasesLocally:nil];
                         [self.tableView endUpdates];
-                        
-                        if (arrCases.count == 0) {
-                            [lblErrorMsg setText:@"No Cases found."];
-                            [self showSpinner:NO withError:YES];
-                        }
+                    }
+                    else {
+                        UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
                     }
                 }
                     break;

@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 + (BOOL)deleteCaseForAdmin;
 + (BOOL)deleteCaseForSubordinate;
 + (BOOL)deleteCaseForAdmin:(NSNumber *)adminId;
-+ (BOOL)saveCasesForSubordinate:(NSDictionary *)dataDict;
++ (void)saveCasesForSubordinate:(NSDictionary *)dataDict;
 + (Cases *)fetchCase:(NSNumber *)caseId;
 + (NSArray *)fetchCases:(NSNumber *)userId;
 + (NSArray *)fetchCasesForAdmin;

@@ -9,6 +9,8 @@
 #import "SubordinateCases.h"
 #import "ChooseAdmin.h"
 #import "CaseCell.h"
+#import "EditCase.h"
+#import "UpdateCase.h"
 
 BOOL isForSubordinate;
 
@@ -26,6 +28,8 @@ BOOL isForSubordinate;
     [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -62,10 +66,57 @@ BOOL isForSubordinate;
     
     [self.tableView reloadData];
     
+    [self sortCasesArray:arrCases];
+    
     if (arrCases.count > 0) {
         [self showSpinner:NO withError:NO];
     }
 }
+
+- (NSMutableArray *)sortCasesArray:(NSArray *)toBeSortedArr
+{
+    NSMutableArray *resultArray = [NSMutableArray new];
+    NSMutableArray *groupArr = [NSMutableArray new];
+    for (int i = 0; i < toBeSortedArr.count; i++) {
+        
+        NSMutableDictionary *arrDict = [NSMutableDictionary new];
+        
+        NSArray *groups = [[toBeSortedArr[i] objectForKey:kAPIdata] valueForKeyPath:@"@distinctUnionOfObjects.nextHearingDate"];
+        for (NSString *nextHearingDate in groups)
+        {
+            NSMutableDictionary *groupArrDict = [NSMutableDictionary new];
+            [groupArrDict setObject:nextHearingDate forKey:@"nextHearingDate"];
+            
+            NSArray *groupCases = [[toBeSortedArr[i] objectForKey:kAPIdata] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"nextHearingDate = %@", nextHearingDate]];
+            
+            [groupArrDict setObject:[toBeSortedArr[i] objectForKey:kAPIadminData] forKey:kAPIadminData];
+            
+            [groupArrDict setObject:groupCases forKey:@"data"];
+            
+            //        for (int i = 0; i < groupCases.count; i++)
+            //        {
+            //            Cases *caseObj = groupCases[i];
+            //            [entry setObject:caseObj forKey:[NSString stringWithFormat:@"index%d", i + 1]];
+            //        }
+            
+            [groupArr addObject:groupArrDict];
+            
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nextHearingDate" ascending:YES];
+            
+            [groupArr sortUsingDescriptors:@[sortDescriptor]];
+        }
+        
+        [arrDict setObject:[toBeSortedArr[i] objectForKey:kAPIadminData] forKey:kAPIadminData];
+        [arrDict setObject:groupArr forKey:kAPIdata];
+        
+        [resultArray addObject:arrDict];
+    }
+    
+    NSLog(@"%@", resultArray);
+    
+    return resultArray;
+}
+
 - (void)barBtnAddTaped:(id)sender
 {
     ChooseAdmin *chooseAdminVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseAdmin"];
@@ -85,6 +136,12 @@ BOOL isForSubordinate;
     //        
     //    }
 }
+
+- (IBAction)btnReloadTaped:(id)sender
+{
+    [self loadSubordinatesCases];
+}
+
 - (void)barBtnReloadTaped:(id)sender
 {
     [self loadSubordinatesCases];
@@ -92,6 +149,8 @@ BOOL isForSubordinate;
 - (void)loadSubordinatesCases
 {
     if (IS_INTERNET_CONNECTED) {
+        
+        [btnReload setHidden:YES];
         
         [self fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
             [self setBarButton:AddBarButton];
@@ -101,14 +160,20 @@ BOOL isForSubordinate;
     }
     else {
         
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
         [self fetchCasesLocally:nil];
+        
+        [self setBarButton:AddBarButton];
         
         if (arrCases.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
+            [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get updated data."];
             [self showSpinner:NO withError:YES];
+            
+            [btnReload setHidden:NO];
         }
     }
 }
@@ -154,13 +219,7 @@ BOOL isForSubordinate;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger rowHieght = 60;
-    NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
-    
-    if (caseRecords.count == 0) {
-        rowHieght = 44;
-    }
-    return rowHieght;
+    return 44;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView
@@ -195,9 +254,32 @@ BOOL isForSubordinate;
         return cell;
     }
     else {
-        return cellNoRecords;
+        static NSString *cellId=@"NoRecordCell";
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell==nil)
+        {
+            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        }
+        UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
+        [lblTitle setText:@"No Records Found!"];
+        [lblTitle setTextAlignment:NSTextAlignmentCenter];
+        [lblTitle setFont:[UIFont systemFontOfSize:16]];
+        [cell addSubview:lblTitle];
+        return cell;
     }
     return nil;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
+    [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
+    [self.navigationController pushViewController:updateCaseVC animated:YES];
+    
+    //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
+    //    CourtDetail *courtDetailVC = navController.viewControllers[0];
+    //    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
+    //    [self.navigationController pushViewController:courtDetailVC animated:YES];
 }
 
 - (NSArray *)rightButtons
@@ -258,7 +340,17 @@ BOOL isForSubordinate;
         {
             NSLog(@"More button was pressed");
             
+            Cases *caseObj = [[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
             
+            EditCase *editCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCase"];
+            [editCaseVC setExistingAdminObj:[SubordinateAdmin fetchSubordinateAdmin:caseObj.adminId]];
+            [editCaseVC setExistingCaseObj:caseObj];
+            [editCaseVC setExistingClientObj:[Client fetchClientLocally:caseObj.localClientId]];
+            [editCaseVC setExistingCourtObj:[Court fetchCourtLocally:caseObj.localCourtId]];
+            
+            [self.navigationController pushViewController:editCaseVC animated:YES];
+            
+            [cell hideUtilityButtonsAnimated:YES];
             
             break;
         }
@@ -314,6 +406,24 @@ BOOL isForSubordinate;
     }
     
     return YES;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        //        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -429,7 +539,7 @@ BOOL isForSubordinate;
                         UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        NSArray *arrSubordinates = [responseObject valueForKey:kAPIcaseData];
+                        NSArray *arrSubordinates = [responseObject valueForKey:kAPIclientData];
                         
                         if (arrSubordinates.count > 0) {
                             
@@ -476,6 +586,11 @@ BOOL isForSubordinate;
                     [self.tableView setHidden:NO];
                     [lblErrorMsg setHidden:YES];
                 }
+                else {
+                    [btnReload setHidden:NO];
+                }
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -497,6 +612,8 @@ BOOL isForSubordinate;
             
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
+        
+        completionHandler(YES);
         
         //        [self showSpinner:NO withError:YES];
         //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];

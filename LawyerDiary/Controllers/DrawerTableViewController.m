@@ -142,6 +142,10 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
             destinationViewController = [APP_DELEGATE subordinatesViewController];
         }
             break;
+        case kCellSearchIndex:{
+            destinationViewController=[APP_DELEGATE searchViewController];
+        }
+            break;
         case kCellProfileIndex: {
             destinationViewController = [APP_DELEGATE profileViewController];
         }
@@ -149,14 +153,17 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
         default:
             break;
     }
+
+    [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
+    [APP_DELEGATE toggleLeftDrawer:self animated:YES];
     
-    if (!destinationViewController) {
-        UI_ALERT(@"", @"Under Development!", nil);
-    }
-    else {
-        [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
-        [APP_DELEGATE toggleLeftDrawer:self animated:YES];
-    }
+//    if (!destinationViewController) {
+//        UI_ALERT(@"", @"Under Development!", nil);
+//    }
+//    else {
+//        [[APP_DELEGATE drawerViewController] setCenterViewController:destinationViewController];
+//        [APP_DELEGATE toggleLeftDrawer:self animated:YES];
+//    }
 }
 
 

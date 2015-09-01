@@ -38,6 +38,8 @@ SubordinateAdmin *selectedAdminObj;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
+    
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
     
     if (existingCaseObj != nil) {
@@ -131,7 +133,7 @@ SubordinateAdmin *selectedAdminObj;
 {
     [tfCaseNo setText:existingCaseObj.caseNo];
     [tfPHeardDate setText:existingCaseObj.lastHeardDate];
-    [tfNHearingDate setText:existingCaseObj.nextHearingDate];
+    [tfNHearingDate setText:[Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:existingCaseObj.nextHearingDate ofFormat:ServerBirthdateFormat]];
     [tfCaseStatus setText:existingCaseObj.caseStatus];
     
     [tfOFirstName setText:existingCaseObj.oppositionFirstName];
@@ -398,12 +400,12 @@ SubordinateAdmin *selectedAdminObj;
             
             if (isNHCellExpanded) {
                 isNHCellExpanded = NO;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
                 [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
             }
             else {
                 isNHCellExpanded = YES;
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
             }
         }
         
@@ -544,7 +546,7 @@ SubordinateAdmin *selectedAdminObj;
         [self saveCase];
     }
     else {
-        UI_ALERT(nil, errMsg, nil);
+        UI_ALERT(@"", errMsg, nil);
     }
 }
 

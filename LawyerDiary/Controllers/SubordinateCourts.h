@@ -17,6 +17,7 @@ extern BOOL isForSubordinate;
     UIBarButtonItem *barBtnReload;
     IBOutlet UILabel *lblErrorMsg;
     
+    IBOutlet UIButton *btnReload;
     IBOutlet UITableViewCell *cellNoRecords;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;;

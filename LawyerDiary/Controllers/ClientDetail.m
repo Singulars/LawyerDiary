@@ -207,15 +207,15 @@ SubordinateAdmin *selectedAdminObj;
             if (isForSubordinate) {
                 switch (ShareObj.fetchSubordinateStatus) {
                     case kStatusUndetermined: {
-                        UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                        UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
                     }
                         break;
                     case kStatusFailed: {
-                        UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                        UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
                     }
                         break;
                     case kStatusFailedBecauseInternet: {
-                        UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                        UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
                     }
                         break;
                     case kStatusSuccess: {
@@ -223,7 +223,7 @@ SubordinateAdmin *selectedAdminObj;
                             [self saveClient];
                         }
                         else {
-                            UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
+                            UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
                         }
                     }
                         break;

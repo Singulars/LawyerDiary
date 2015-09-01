@@ -40,6 +40,8 @@ SubordinateAdmin *selectedAdminObj;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
+    
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
     
     if (existingCaseObj != nil) {
@@ -440,7 +442,8 @@ SubordinateAdmin *selectedAdminObj;
                 [datePicker setDate:[NSDate date]];
             }
         }
-        else if (isRDCellExpanded) {
+        
+        if (isRDCellExpanded) {
             if (lblReminderDate.text.length > 0) {
                 [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
             }
@@ -502,7 +505,7 @@ SubordinateAdmin *selectedAdminObj;
         [self saveCase];
     }
     else {
-        UI_ALERT(nil, errMsg, nil);
+        UI_ALERT(@"", errMsg, nil);
     }
 }
 
@@ -688,42 +691,35 @@ SubordinateAdmin *selectedAdminObj;
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
-    if (isPHCellExpanded) {
-        
-        [tfPHeardDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+    NSDate* oneSecondAfterPickersDate = [datePicker.date dateByAddingTimeInterval:1];
+    if ( [datePicker.date compare:datePicker.minimumDate] == NSOrderedSame) {
+        NSLog(@"date is at or below the minimum");
+        datePicker.date = oneSecondAfterPickersDate;
     }
-    else if (isNHCellExpanded) {
-        
-        NSDate* oneSecondAfterPickersDate = [datePicker.date dateByAddingTimeInterval:1] ;
-        if ( [datePicker.date compare:datePicker.minimumDate] == NSOrderedSame ) {
-            NSLog(@"date is at or below the minimum") ;
-            datePicker.date = oneSecondAfterPickersDate ;
-        }
-        else if ( [datePicker.date compare:datePicker.maximumDate] == NSOrderedSame ) {
-            NSLog(@"date is at or above the maximum") ;
-            datePicker.date = oneSecondAfterPickersDate ;
-        }
-        
-        [tfNHearingDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:datePicker.date] ofFormat:DefaultBirthdateFormat]];
-        
-        [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
-        
-        [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
-        
-        [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+    else if ( [datePicker.date compare:datePicker.maximumDate] == NSOrderedSame) {
+        NSLog(@"date is at or above the maximum");
+        datePicker.date = oneSecondAfterPickersDate;
     }
+    
+    [tfNHearingDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:datePicker.date] ofFormat:DefaultBirthdateFormat]];
+    
+    [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+    
+    [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+    
+    [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
 }
 
 - (IBAction)reminderDatePickerValueChanged:(id)sender {
     
-    NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1] ;
-    if ( [datePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame ) {
-        NSLog(@"date is at or below the minimum") ;
-        reminderDatePicker.date = oneSecondAfterPickersDate ;
+    NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1];
+    if ( [datePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame) {
+        NSLog(@"date is at or below the minimum");
+        reminderDatePicker.date = oneSecondAfterPickersDate;
     }
-    else if ( [datePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame ) {
-        NSLog(@"date is at or above the maximum") ;
-        reminderDatePicker.date = oneSecondAfterPickersDate ;
+    else if ( [datePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame) {
+        NSLog(@"date is at or above the maximum");
+        reminderDatePicker.date = oneSecondAfterPickersDate;
     }
     
     [lblReminderDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:reminderDatePicker.date] ofFormat:DefaultBirthdateFormat]];

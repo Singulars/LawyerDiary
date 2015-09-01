@@ -650,6 +650,9 @@ static SharedManager *sharedManager;
                 }
                 
                 SetFetchSubordinateStatus(fetchSubordinateStatus);
+                
+                [self updateAdminAccessVariablesValue];
+                
                 completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -664,6 +667,10 @@ static SharedManager *sharedManager;
                 }
                 
                 SetFetchSubordinateStatus(fetchSubordinateStatus);
+                
+                [self updateAdminAccessVariablesValue];
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -677,6 +684,8 @@ static SharedManager *sharedManager;
         fetchSubordinateStatus = kStatusFailedBecauseInternet;
         
         SetFetchSubordinateStatus(fetchSubordinateStatus);
+        
+        [self updateAdminAccessVariablesValue];
     }
 }
 

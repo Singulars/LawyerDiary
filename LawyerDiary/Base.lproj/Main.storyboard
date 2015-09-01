@@ -303,7 +303,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PVx-rH-7IG">
-                                                    <rect key="frame" x="44" y="2" width="242" height="40"/>
+                                                    <rect key="frame" x="60" y="2" width="230" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -318,7 +318,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="IiJ-aq-Xi4">
-                                                    <rect key="frame" x="4" y="4" width="36" height="36"/>
+                                                    <rect key="frame" x="15" y="4" width="36" height="36"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                 </imageView>
@@ -1855,7 +1855,7 @@ registered email.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ytz-nj-SIi">
-                                <rect key="frame" x="143" y="300" width="35" height="35"/>
+                                <rect key="frame" x="142" y="300" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <state key="normal" image="icon-reload"/>
@@ -2523,10 +2523,13 @@ registered email.</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b5Y-7g-0nO">
-                                <rect key="frame" x="142" y="263" width="35" height="35"/>
+                                <rect key="frame" x="142" y="300" width="35" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="cCb-eM-4Lj" eventType="touchUpInside" id="xaQ-KR-hAL"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="qj6-mL-hhn">
                                 <rect key="frame" x="-1" y="0.0" width="320" height="504"/>
@@ -2730,6 +2733,9 @@ Will be fixed soon!</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <animations/>
                                 <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="70c-zM-AfY" eventType="touchUpInside" id="Z1k-q6-2TQ"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Opa-rm-LuA">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
@@ -2745,7 +2751,7 @@ Will be fixed soon!</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pbW-4K-PHs">
-                                                    <rect key="frame" x="44" y="2" width="242" height="40"/>
+                                                    <rect key="frame" x="60" y="2" width="230" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -2760,7 +2766,7 @@ Will be fixed soon!</string>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="yFV-zJ-7Zr">
-                                                    <rect key="frame" x="4" y="4" width="36" height="36"/>
+                                                    <rect key="frame" x="15" y="4" width="36" height="36"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                 </imageView>
@@ -2812,6 +2818,7 @@ Will be fixed soon!</string>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnReload" destination="A2f-Hp-Hkg" id="UlD-87-CSR"/>
                         <outlet property="cellNoRecords" destination="ovW-RJ-Nmd" id="eUa-RG-D9e"/>
                         <outlet property="lblErrorMsg" destination="1Xq-we-XpG" id="6xn-A6-Lye"/>
                         <outlet property="tableView" destination="Opa-rm-LuA" id="3Nn-Z6-iAN"/>
@@ -2896,6 +2903,15 @@ Will be fixed soon!</string>
                                 <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="M5J-RE-V9e">
+                                <rect key="frame" x="142" y="300" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="Xgc-Du-8MZ" eventType="touchUpInside" id="tgD-IY-QlB"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="Gr9-QO-sJa">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2950,23 +2966,6 @@ Will be fixed soon!</string>
                                     <outlet property="delegate" destination="Xgc-Du-8MZ" id="K7t-f0-Spt"/>
                                 </connections>
                             </tableView>
-                            <view hidden="YES" contentMode="scaleToFill" id="lK5-hQ-4Jr">
-                                <rect key="frame" x="0.0" y="445" width="320" height="59"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mn4-5S-vYs">
-                                        <rect key="frame" x="138" y="0.0" width="44" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <animations/>
-                                        <color key="backgroundColor" red="0.18823529410000001" green="0.21960784310000001" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" image="btn-add">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <animations/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2984,6 +2983,7 @@ Will be fixed soon!</string>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnReload" destination="M5J-RE-V9e" id="p2n-Db-8Z0"/>
                         <outlet property="cellNoRecords" destination="OdJ-g0-6kO" id="8ri-xM-58a"/>
                         <outlet property="lblErrorMsg" destination="GC2-df-dnR" id="xDl-2O-S6k"/>
                         <outlet property="tableView" destination="Gr9-QO-sJa" id="Hw1-tF-r9R"/>
@@ -3030,6 +3030,15 @@ Will be fixed soon!</string>
                                 <fontDescription key="fontDescription" name="UnDotum" family="UnDotum" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RIE-JC-bgI">
+                                <rect key="frame" x="142" y="300" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <state key="normal" image="icon-reload"/>
+                                <connections>
+                                    <action selector="btnReloadTaped:" destination="Fi1-W4-Zxg" eventType="touchUpInside" id="xsc-pd-hOn"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="Xd2-pu-A8h">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3108,6 +3117,7 @@ Will be fixed soon!</string>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="btnReload" destination="RIE-JC-bgI" id="5v6-9S-ZOE"/>
                         <outlet property="cellNoRecords" destination="bEc-Gd-0NY" id="fyy-dJ-QJJ"/>
                         <outlet property="lblErrorMsg" destination="gzX-I5-Nd4" id="xtI-wK-HDL"/>
                         <outlet property="tableView" destination="Xd2-pu-A8h" id="sBe-PQ-t68"/>
@@ -3825,7 +3835,7 @@ user of Lawyer App.</string>
                                 </connections>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="War-r9-brR">
-                                <rect key="frame" x="102" y="0.0" width="210" height="43"/>
+                                <rect key="frame" x="110" y="0.0" width="200" height="43"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -3967,8 +3977,18 @@ Hearing Date</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aoZ-NH-TEJ">
+                                <rect key="frame" x="15" y="0.0" width="82" height="43"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
+                                <animations/>
+                                <string key="text">Current
+Case Status</string>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" id="n6w-KD-8gI" customClass="FFTextField">
-                                <rect key="frame" x="100" y="0.0" width="210" height="44"/>
+                                <rect key="frame" x="102" y="0.0" width="210" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <animations/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -3978,14 +3998,6 @@ Hearing Date</string>
                                     <outlet property="delegate" destination="SdY-QX-gKq" id="Dvm-Qi-tLA"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Case Status" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aoZ-NH-TEJ">
-                                <rect key="frame" x="15" y="0.0" width="82" height="43"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <animations/>
                     </tableViewCellContentView>
@@ -4035,6 +4047,130 @@ Hearing Date</string>
                 </tableViewCell>
             </objects>
             <point key="canvasLocation" x="112" y="1355"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="Oic-GD-nzY">
+            <objects>
+                <viewController id="sZw-vb-GDI" customClass="Search" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dpt-Fn-FTn">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="QEL-nt-zIg">
+                                <rect key="frame" x="0.0" y="88" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CaseCell" rowHeight="44" id="6Tr-mu-Q8G" userLabel="CaseCell" customClass="CaseCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Tr-mu-Q8G" id="vcb-5H-jZi">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bvi-pB-PX1">
+                                                    <rect key="frame" x="44" y="0.0" width="242" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="C2a-zS-cry">
+                                                    <rect key="frame" x="4" y="3" width="36" height="36"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="row-disclosure" id="uae-nP-G6d">
+                                                    <rect key="frame" x="298" y="14" width="14" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                                    <animations/>
+                                                    <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                            </subviews>
+                                            <animations/>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                        <connections>
+                                            <outlet property="imgViewProfile" destination="C2a-zS-cry" id="xtD-JG-3YA"/>
+                                            <outlet property="lblClientName" destination="bvi-pB-PX1" id="myQ-hd-0NC"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="sZw-vb-GDI" id="iuh-Aj-Ivz"/>
+                                    <outlet property="delegate" destination="sZw-vb-GDI" id="nOd-IU-pqf"/>
+                                </connections>
+                            </tableView>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Seach Cases by Client Name" translucent="NO" showsScopeBar="YES" id="aFY-qd-dTY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                <scopeButtonTitles>
+                                    <string>Client</string>
+                                    <string>Lawyer</string>
+                                    <string>Case No.</string>
+                                    <string>Date</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="sZw-vb-GDI" id="gK5-3o-kPA"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Search" id="bdh-Ey-l5B">
+                        <barButtonItem key="leftBarButtonItem" image="btn-menu" id="g37-Kv-Uws">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="actionToggleLeftDrawer:" destination="sZw-vb-GDI" id="7wA-4n-uHv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="datePicker" destination="X5D-bf-Xa2" id="xpE-E5-xZr"/>
+                        <outlet property="searchBar" destination="aFY-qd-dTY" id="r2V-Aq-5PG"/>
+                        <outlet property="tableView" destination="QEL-nt-zIg" id="axd-9j-Bre"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CgV-vA-jUA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="X5D-bf-Xa2">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <date key="date" timeIntervalSinceReferenceDate="462722946.98334098">
+                        <!--2015-08-31 14:09:06 +0000-->
+                    </date>
+                    <connections>
+                        <action selector="datePickerValueChanged:" destination="sZw-vb-GDI" eventType="valueChanged" id="5uZ-t9-5OT"/>
+                    </connections>
+                </datePicker>
+            </objects>
+            <point key="canvasLocation" x="-289" y="5962"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iXh-Ze-uHi">
+            <objects>
+                <navigationController storyboardIdentifier="Search" automaticallyAdjustsScrollViewInsets="NO" id="1Wb-3V-FJ5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="khP-LE-pMm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="sZw-vb-GDI" kind="relationship" relationship="rootViewController" id="qZe-0m-dz3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H51-cY-uPT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-821" y="5962"/>
         </scene>
     </scenes>
     <resources>

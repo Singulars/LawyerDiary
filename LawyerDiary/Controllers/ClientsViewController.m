@@ -102,10 +102,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 
 - (IBAction)btnReloadTaped:(id)sender
 {
-    [self showSpinner:YES withError:NO];
-    [self fetchClientsWithCompletionHandler:^(BOOL finished) {
-        [self.tableView reloadData];
-    }];
+    [self loadClients];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -185,7 +182,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }
     else {
         
+        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+        
         [self fetchClientsLocally:nil];
+        
+        [self setBarButton:AddBarButton];
         
         if (arrClients.count > 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -193,6 +194,8 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
         else {
             [lblErrorMsg setText:@"No records stored locally!\n Please connect to the internet to get uodated data."];
             [self showSpinner:NO withError:YES];
+            
+            [btnReload setHidden:NO];
         }
     }
 
@@ -237,15 +240,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailed: {
-            UI_ALERT(nil, @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"Somehow, the approach to get status of given access to subordinate failed.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
+            UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify or add any new records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -259,7 +262,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 [self presentViewController:navController animated:YES completion:nil];
             }
             else {
-                UI_ALERT(nil, @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
+                UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
             }
         }
             break;
@@ -358,15 +361,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
             
             switch (ShareObj.fetchSubordinateStatus) {
                 case kStatusUndetermined: {
-                    UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailed: {
-                    UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusFailedBecauseInternet: {
-                    UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
                 }
                     break;
                 case kStatusSuccess: {
@@ -402,8 +405,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                             }
                         }
                         else {
-                            UI_ALERT(nil, @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
+                            UI_ALERT(@"", @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
                         }
+                    }
+                    else {
+                        UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);
                     }
                 }
                     break;
@@ -456,15 +462,15 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 {
     switch (ShareObj.fetchSubordinateStatus) {
         case kStatusUndetermined: {
-            UI_ALERT(nil, @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+            UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailed: {
-            UI_ALERT(nil, @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+            UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusFailedBecauseInternet: {
-            UI_ALERT(nil, @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+            UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
         }
             break;
         case kStatusSuccess: {
@@ -856,6 +862,8 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 else {
                     [btnReload setHidden:NO];
                 }
+                
+                completionHandler(YES);
             }];
         }
         @catch (NSException *exception) {
@@ -878,6 +886,8 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
             
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
+     
+        completionHandler(YES);
         
 //        [self showSpinner:NO withError:YES];
 //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];

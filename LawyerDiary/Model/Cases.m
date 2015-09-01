@@ -76,7 +76,7 @@
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
-                [obj setLocalCaseId:dataDict[kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : @-1];
+                [obj setLocalClientId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -123,7 +123,7 @@
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
-                [obj setLocalCaseId:dataDict[kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : @-1];
+                [obj setLocalClientId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -790,23 +790,13 @@
         
     }
 }
-+ (BOOL)saveCasesForSubordinate:(NSDictionary *)dataDict
++ (void)saveCasesForSubordinate:(NSDictionary *)dataDict
 {
-    BOOL result = NO;
-    
     NSArray *arrCases = [[NSArray alloc] initWithArray:[dataDict objectForKey:kAPIdata]];
     
     for (NSDictionary *caseObj in arrCases) {
-        if ([Cases saveCase:caseObj forSubordiante:YES withAdminDetail:dataDict])
-        {
-            result = YES;
-        }
-        else {
-            return result;
-        }
+        [Cases saveCase:caseObj forSubordiante:YES withAdminDetail:dataDict];
     }
-    
-    return result;
 }
 
 + (NSArray *)fetchCasesForSubordinate
