@@ -41,8 +41,8 @@ SubordinateAdmin *selectedAdminObj;
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
-    if (selectedAdminObj) {
-        arrCourts = [Court fetchCourtsForAdmin:selectedAdminObj.adminId];
+    if (selectedAdminObj || self.existingAdminObj) {
+        arrCourts = [Court fetchCourtsForAdmin:selectedAdminObj ? selectedAdminObj.adminId : self.existingAdminObj.adminId];
     }
     else {
         arrCourts = [Court fetchCourtsForAdmin];

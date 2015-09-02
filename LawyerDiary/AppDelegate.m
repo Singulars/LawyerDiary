@@ -103,6 +103,22 @@ Reachability *hostReach;
     else {
         [self showLogIn];
     }
+   
+    if (launchOptions != nil)
+    {
+        NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (userInfo != nil)
+        {
+            NSString *string = [NSString stringWithFormat:@"%@", [[userInfo objectForKey:@"aps"] objectForKey:@"alert"]];
+            
+            UI_ALERT(@"Notification Received!", string, nil);
+            
+            NSLog(@"%@", userInfo);
+            
+            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        }
+    }
     
     return YES;
 }
@@ -241,9 +257,22 @@ Reachability *hostReach;
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSString *string = [NSString stringWithFormat:@"%@", userInfo];
-    UI_ALERT(@"", string, nil);
+    NSString *string = [NSString stringWithFormat:@"%@", [[userInfo objectForKey:@"aps"] objectForKey:@"alert"]];
+    
+    if (application.applicationState == UIApplicationStateActive ||
+        application.applicationState == UIApplicationStateBackground||
+        application.applicationState == UIApplicationStateInactive) {
+        
+        UI_ALERT(@"Notification Received!", string, nil);
+    }
+    
     NSLog(@"%@", userInfo);
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+    
 }
 
 - (void)getCurrentNotificationSettings

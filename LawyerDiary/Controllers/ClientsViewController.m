@@ -400,7 +400,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                             [self.tableView endUpdates];
                             
                             if (arrClients.count == 0) {
-                                [lblErrorMsg setText:@"No Clients found."];
+                                [lblErrorMsg setText:@"No Clients Found."];
                                 [self showSpinner:NO withError:YES];
                             }
                         }
@@ -828,7 +828,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                             
                             [Client deleteCientsForAdmin];
                             
-                            [lblErrorMsg setText:@"No Clients found."];
+                            [lblErrorMsg setText:@"No Clients Found."];
                             
                             [self showSpinner:NO withError:YES];
                         }

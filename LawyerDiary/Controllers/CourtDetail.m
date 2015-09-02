@@ -62,6 +62,40 @@ SubordinateAdmin *selectedAdminObj;
     if (selectedAdminObj != nil) {
         existingAdminObj = selectedAdminObj;
     }
+    
+    [self validateInputFiledsAccessibility];
+}
+
+- (void)validateInputFiledsAccessibility
+{
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            [self enableInputFields:YES];
+        }
+        else {
+            [self enableInputFields:NO];
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            [self enableInputFields:YES];
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                [self enableInputFields:YES];
+            }
+            else {
+                [self enableInputFields:NO];
+            }
+        }
+    }
+}
+
+- (void)enableInputFields:(BOOL)flag
+{
+    [tfCourt setUserInteractionEnabled:flag];
+    [tfMegistrate setUserInteractionEnabled:flag];
+    [tfCity setUserInteractionEnabled:flag];
 }
 
 #pragma mark - UIKeyboardNOtifications
@@ -380,7 +414,8 @@ SubordinateAdmin *selectedAdminObj;
                     [Global showNotificationWithTitle:@"Court detail can't be blanked!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }
                 else {
-                    [self saveCourt];
+                    [self.view endEditing:YES];
+//                    [self saveCourt];
                 }
             }
         }

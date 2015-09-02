@@ -133,7 +133,7 @@
         else if (tfCode.text.length > 0) {
             if ([confirmationCode isEqualToNumber:@(tfCode.text.integerValue)]) {
                 
-                [self setEditing:YES];
+                [self.view endEditing:YES];
                 
                 Register *detailViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"Register"];
                 [detailViewController setViewType:SIGN_UP_VIEW];

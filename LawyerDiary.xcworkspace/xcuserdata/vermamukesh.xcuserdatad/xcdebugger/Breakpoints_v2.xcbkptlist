@@ -52,11 +52,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LawyerDiary/Controllers/EditCase.m"
-            timestampString = "462863654.433522"
+            timestampString = "462909202.760942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "587"
-            endingLineNumber = "587"
+            startingLineNumber = "668"
+            endingLineNumber = "668"
             landmarkName = "-saveCase"
             landmarkType = "5">
          </BreakpointContent>
@@ -67,13 +67,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/SubordinateCases.m"
-            timestampString = "462888063.28922"
+            filePath = "LawyerDiary/Controllers/EditCase.m"
+            timestampString = "462909202.760942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "-sortCasesArray:"
+            startingLineNumber = "713"
+            endingLineNumber = "713"
+            landmarkName = "-saveCase"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -83,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/SubordinateCases.m"
-            timestampString = "462888469.956717"
+            filePath = "LawyerDiary/Controllers/ClientDetail.m"
+            timestampString = "462908600.90554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "-sortCasesArray:"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "-barBtnDoneTaped:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,45 +99,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/SubordinateCases.m"
-            timestampString = "462890504.938632"
+            filePath = "LawyerDiary/AppDelegate.m"
+            timestampString = "462909924.276755"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
-            landmarkName = "-computeItemAndSubsectionIndexForIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/SubordinateCases.m"
-            timestampString = "462890412.337862"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "LawyerDiary/Controllers/SubordinateCases.m"
-            timestampString = "462890196.069488"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "264"
-            endingLineNumber = "264"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

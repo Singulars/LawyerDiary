@@ -73,6 +73,42 @@ SubordinateAdmin *selectedAdminObj;
     
     [tfMobile setInputAccessoryView:toolbar];
     [tvAddress setInputAccessoryView:toolbar];
+    
+    [self validateInputFiledsAccessibility];
+}
+
+- (void)validateInputFiledsAccessibility
+{
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            [self enableInputFields:YES];
+        }
+        else {
+            [self enableInputFields:NO];
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            [self enableInputFields:YES];
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                [self enableInputFields:YES];
+            }
+            else {
+                [self enableInputFields:NO];
+            }
+        }
+    }
+}
+
+- (void)enableInputFields:(BOOL)flag
+{
+    [tfFirstName setUserInteractionEnabled:flag];
+    [tfLastName setUserInteractionEnabled:flag];
+    [tfEmail setUserInteractionEnabled:flag];
+    [tfMobile setUserInteractionEnabled:flag];
+    [tvAddress setUserInteractionEnabled:flag];
 }
 
 #pragma mark - UIKeyboardNOtifications
@@ -202,7 +238,7 @@ SubordinateAdmin *selectedAdminObj;
             [Global showNotificationWithTitle:@"Please enter valid Email" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [self setEditing:YES];
+            [self.view endEditing:YES];
             
             if (isForSubordinate) {
                 switch (ShareObj.fetchSubordinateStatus) {
@@ -268,8 +304,8 @@ SubordinateAdmin *selectedAdminObj;
             [Global showNotificationWithTitle:@"Please enter valid Email" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
-            [self setEditing:YES];
-            [self saveClient];
+            [self.view endEditing:YES];
+//            [self saveClient];
         }
     }
 }

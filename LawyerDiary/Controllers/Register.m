@@ -496,7 +496,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
 }
 
 - (void)imgViewTaped:(id)sender {
-    [self setEditing:YES];
+    [self.view endEditing:YES];
     
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:nil

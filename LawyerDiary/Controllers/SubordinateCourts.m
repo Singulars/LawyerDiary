@@ -31,6 +31,8 @@ BOOL isForSubordinate;
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
 
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
+    
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
     [self.spinnerView setHidesWhenStopped:YES];
@@ -156,18 +158,18 @@ BOOL isForSubordinate;
     SubordinateAdmin *adminObj = [arrCourts[section] objectForKey:kAPIadminData];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ViewWidth(self.tableView), 22)];
-    [headerView setBackgroundColor:UICOLOR(239, 239, 244, 1)];
+    [headerView setBackgroundColor:UICOLOR(50, 50, 50, 1)];
     
     UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 22)];
     [lblHeader setBackgroundColor:CLEARCOLOUR];
     [lblHeader setFont:[UIFont boldSystemFontOfSize:13]];
-    [lblHeader setTextColor:UICOLOR(109, 109, 114, 1)];
+    [lblHeader setTextColor:WHITE_COLOR];
     
     UILabel *lblHasAccess = [[UILabel alloc] initWithFrame:CGRectMake(ViewWidth(tableView)-200, 0, 192, 22)];
     [lblHasAccess setBackgroundColor:CLEARCOLOUR];
     [lblHasAccess setTextAlignment:NSTextAlignmentRight];
     [lblHasAccess setFont:[UIFont boldSystemFontOfSize:13]];
-    [lblHasAccess setTextColor:UICOLOR(109, 109, 114, 1)];
+    [lblHasAccess setTextColor:WHITE_COLOR];
     [lblHasAccess setText:[NSString stringWithFormat:@"ACCESS GIVEN: %@", [adminObj.hasAccess isEqualToNumber:@0] ? @"NO" : @"YES"]];
     [headerView addSubview:lblHasAccess];
     
@@ -227,7 +229,24 @@ BOOL isForSubordinate;
         return cell;
     }
     else {
-        return cellNoRecords;
+        static NSString *cellId=@"NoRecordCell";
+        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+        if (cell==nil)
+        {
+            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
+            [lblTitle setText:@"No Records Found!"];
+            [lblTitle setTextAlignment:NSTextAlignmentCenter];
+            [lblTitle setFont:[UIFont systemFontOfSize:16]];
+            [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
+            [cell addSubview:lblTitle];
+            
+            [cell setSeparatorInset:UIEdgeInsetsZero];
+        }
+        return cell;
     }
     return nil;
 }
@@ -313,7 +332,7 @@ BOOL isForSubordinate;
                     [self.tableView endUpdates];
                     
                     if (arrCourts.count == 0) {
-                        [lblErrorMsg setText:@"No Courts found."];
+                        [lblErrorMsg setText:@"No Subordiantes Courts Found."];
                         [self showSpinner:NO withError:YES];
                     }
                 }
@@ -371,6 +390,24 @@ BOOL isForSubordinate;
     }
     else {
         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        //        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
 
@@ -563,7 +600,7 @@ BOOL isForSubordinate;
                             
                             [Court deleteCourtsForSubordinate];
                             
-                            [lblErrorMsg setText:@"No Courts Found."];
+                            [lblErrorMsg setText:@"No Subordiantes Courts Found."];
                             [self showSpinner:NO withError:YES];
                         }
                     }

@@ -188,7 +188,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 //    
 //    [actionSheet showInView:self.view];
     
-    [self setEditing:YES];
+    [self.view endEditing:YES];
     
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:nil

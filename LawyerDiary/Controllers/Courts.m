@@ -244,7 +244,7 @@ SubordinateAdmin *selectedAdminObj;
                             
                             [Court deleteCourtsForAdmin];
                             
-                            [lblErrorMsg setText:@"No Courts found."];
+                            [lblErrorMsg setText:@"No Courts Found."];
                             
                             [self showSpinner:NO withError:YES];
                         }
@@ -559,7 +559,7 @@ SubordinateAdmin *selectedAdminObj;
                             [self.tableView endUpdates];
                             
                             if (arrCourts.count == 0) {
-                                [lblErrorMsg setText:@"No Courts found."];
+                                [lblErrorMsg setText:@"No Courts Found."];
                                 [self showSpinner:NO withError:YES];
                             }
                         }

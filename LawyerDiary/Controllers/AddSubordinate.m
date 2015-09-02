@@ -218,7 +218,7 @@
                         
                         [Subordinate saveSubordinate:params];
                         [self dismissViewControllerAnimated:YES completion:^{
-                            [Global showNotificationWithTitle:@"Subordinate added successfully!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            [Global showNotificationWithTitle:@"Subordinate added successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
                         }];
                     }
                 }

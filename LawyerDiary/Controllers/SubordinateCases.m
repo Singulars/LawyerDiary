@@ -46,8 +46,10 @@ BOOL isForSubordinate;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCasesLocally:) name:kFetchSubordinateCases object:nil];
     
+    [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
+    
     [self loadSubordinatesCases];
-
+    
     isForSubordinate = YES;
     // Do any additional setup after loading the view.
 }
@@ -71,8 +73,6 @@ BOOL isForSubordinate;
     [arrCases addObjectsFromArray:[self sortCasesArray:[Cases fetchCasesForSubordinate]]];
     
     [self.tableView reloadData];
-    
-    ;
     
     if (arrCases.count > 0) {
         [self showSpinner:NO withError:NO];
@@ -373,38 +373,6 @@ BOOL isForSubordinate;
     }
     
     
-    
-//    NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
-//    
-//    if (caseRecords.count > 0) {
-//        static NSString *cellId=@"CaseCell";
-//        CaseCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
-//        if (cell==nil)
-//        {
-//            cell=[[CaseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//        }
-//        [cell setDelegate:self];
-//        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
-//        [cell configureCellWithCaseObj:[caseRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
-//        
-//        return cell;
-//    }
-//    else {
-//        static NSString *cellId=@"NoRecordCell";
-//        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
-//        if (cell==nil)
-//        {
-//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//            
-//            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//        }
-//        UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
-//        [lblTitle setText:@"No Records Found!"];
-//        [lblTitle setTextAlignment:NSTextAlignmentCenter];
-//        [lblTitle setFont:[UIFont systemFontOfSize:16]];
-//        [cell addSubview:lblTitle];
-//        return cell;
-//    }
     return nil;
 }
 
@@ -429,19 +397,21 @@ BOOL isForSubordinate;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[arrCases[indexPath.section] valueForKey:@"data"] count] > 0) {
-        UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
-        [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
-        [self.navigationController pushViewController:updateCaseVC animated:YES];
-    }
-    else {
-        
-    }
+    NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
     
-    //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
-    //    CourtDetail *courtDetailVC = navController.viewControllers[0];
-    //    [courtDetailVC setCourtObj:arrCourts[indexPath.row]];
-    //    [self.navigationController pushViewController:courtDetailVC animated:YES];
+    if (sectionItems.count > 0) {
+        NSIndexPath *itemAndSubsectionIndex = [self computeItemAndSubsectionIndexForIndexPath:indexPath];
+        NSUInteger subsectionIndex = (NSUInteger) itemAndSubsectionIndex.section;
+        NSInteger itemIndex = itemAndSubsectionIndex.row;
+        
+        
+        if (itemIndex != -1) {
+            Cases *caseObj = [[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex];
+            UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
+            [updateCaseVC setExistingCaseObj:caseObj];
+            [self.navigationController pushViewController:updateCaseVC animated:YES];
+        }
+    }
 }
 
 - (NSArray *)rightButtons
@@ -502,17 +472,28 @@ BOOL isForSubordinate;
         {
             NSLog(@"More button was pressed");
             
-            Cases *caseObj = [[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
+            NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
             
-            EditCase *editCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCase"];
-            [editCaseVC setExistingAdminObj:[SubordinateAdmin fetchSubordinateAdmin:caseObj.adminId]];
-            [editCaseVC setExistingCaseObj:caseObj];
-            [editCaseVC setExistingClientObj:[Client fetchClientLocally:caseObj.localClientId]];
-            [editCaseVC setExistingCourtObj:[Court fetchCourtLocally:caseObj.localCourtId]];
-            
-            [self.navigationController pushViewController:editCaseVC animated:YES];
-            
-            [cell hideUtilityButtonsAnimated:YES];
+            if (sectionItems.count > 0) {
+                NSIndexPath *itemAndSubsectionIndex = [self computeItemAndSubsectionIndexForIndexPath:indexPath];
+                NSUInteger subsectionIndex = (NSUInteger) itemAndSubsectionIndex.section;
+                NSInteger itemIndex = itemAndSubsectionIndex.row;
+                
+                
+                if (itemIndex != -1) {
+                    Cases *caseObj = [[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex];
+                    
+                    EditCase *editCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"EditCase"];
+                    [editCaseVC setExistingAdminObj:[SubordinateAdmin fetchSubordinateAdmin:caseObj.adminId]];
+                    [editCaseVC setExistingCaseObj:caseObj];
+                    [editCaseVC setExistingClientObj:[Client fetchClientLocally:caseObj.localClientId]];
+                    [editCaseVC setExistingCourtObj:[Court fetchCourtLocally:caseObj.localCourtId]];
+                    
+                    [self.navigationController pushViewController:editCaseVC animated:YES];
+                    
+                    [cell hideUtilityButtonsAnimated:YES];
+                }
+            }
             
             break;
         }
@@ -525,14 +506,31 @@ BOOL isForSubordinate;
             if ([adminObj.hasAccess isEqualToNumber:@1]) {
                 [self.tableView beginUpdates];
                 
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-                [Cases updatedCasePropertyofCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCaseIsDeleted andValue:@1];
-                [self deleteCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+                NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
                 
-                [arrCases removeAllObjects];
-                [arrCases addObjectsFromArray:[Cases fetchCasesForSubordinate]];
-                [self.tableView endUpdates];
-            
+                if (sectionItems.count > 0) {
+                    NSIndexPath *itemAndSubsectionIndex = [self computeItemAndSubsectionIndexForIndexPath:indexPath];
+                    NSUInteger subsectionIndex = (NSUInteger) itemAndSubsectionIndex.section;
+                    NSInteger itemIndex = itemAndSubsectionIndex.row;
+                    
+                    
+                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                    
+                    
+                    if (itemIndex != -1) {
+                        Cases *caseObj = [[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex];
+                        
+                        [Cases updatedCasePropertyofCase:caseObj withProperty:kCaseIsDeleted andValue:@1];
+                        
+                        [self deleteCase:caseObj forAdmin:adminObj];
+                        
+                        [self fetchCasesLocally:nil];
+                        
+                        [self.tableView endUpdates];
+                        
+                    }
+                }
+                
             }
             else {
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -718,7 +716,7 @@ BOOL isForSubordinate;
                             
                             [Cases deleteCaseForSubordinate];
                             
-                            [lblErrorMsg setText:@"No Cases Found."];
+                            [lblErrorMsg setText:@"No Subordiantes Cases Found."];
                             [self showSpinner:NO withError:YES];
                         }
                     }
@@ -791,7 +789,7 @@ BOOL isForSubordinate;
             NSDictionary *params = @{
                                      kAPIMode: kdeleteCase,
                                      kAPIuserId: USER_ID,
-                                     kAPIcourtId: objCase.caseId,
+                                     kAPIcaseId: objCase.caseId,
                                      kAPIadminId: adminObj.adminId
                                      };
             

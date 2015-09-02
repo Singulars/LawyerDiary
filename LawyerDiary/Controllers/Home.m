@@ -176,7 +176,7 @@
         [Global showNotificationWithTitle:@"Please enter your mobile number" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
     else {
-        [self setEditing:YES];
+        [self.view endEditing:YES];
         [self checkUserIsRegistered];
     }
 }
@@ -195,7 +195,7 @@
         [Global showNotificationWithTitle:@"Please enter valid mobile number" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
     }
     else {
-        [self setEditing:YES];
+        [self.view endEditing:YES];
         [self checkUserIsRegistered];
     }
 }

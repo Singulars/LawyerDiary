@@ -22,6 +22,8 @@ SubordinateAdmin *selectedAdminObj;
     BOOL isNHCellExpanded;
     BOOL isPHCellExpanded;
     BOOL isRDCellExpanded;
+    
+    BOOL enableTableRowSelection;
 }
 
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
@@ -51,7 +53,8 @@ SubordinateAdmin *selectedAdminObj;
         [self setCaseDetail];
         [self setCourtDetail];
         
-        existingCourtObj = [Court fetchCourt:existingCaseObj.localCourtId];
+        existingCourtObj = [Court fetchCourtLocally:existingCaseObj.localCourtId];
+        existingAdminObj = [SubordinateAdmin fetchSubordinateAdmin:existingCaseObj.adminId];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -79,6 +82,68 @@ SubordinateAdmin *selectedAdminObj;
     
     datePicker.minimumDate = [Global getDateWithoutSeconds:[NSDate date]];
     reminderDatePicker.minimumDate = [Global getDateWithoutSeconds:[NSDate date]];
+    
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            [self setBarButton:SaveBarButton];
+            enableTableRowSelection = YES;
+        }
+        else {
+            [self setBarButton:NilBarButton];
+            enableTableRowSelection = NO;
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            [self setBarButton:SaveBarButton];
+            enableTableRowSelection = YES;
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                [self setBarButton:SaveBarButton];
+                enableTableRowSelection = YES;
+            }
+            else {
+                [self setBarButton:NilBarButton];
+                enableTableRowSelection = NO;
+            }
+        }
+    }
+    
+    [self validateInputFiledsAccessibility];
+}
+
+- (void)validateInputFiledsAccessibility
+{
+    if (isForSubordinate) {
+        if ([existingAdminObj.hasAccess isEqualToNumber:@1]) {
+            [self enableInputFields:YES];
+        }
+        else {
+            [self enableInputFields:NO];
+        }
+    }
+    else {
+        if (ShareObj.hasAdminAccess) {
+            [self enableInputFields:YES];
+        }
+        else {
+            if (ShareObj.fetchSubordinateStatus == kStatusUndetermined) {
+                [self enableInputFields:YES];
+            }
+            else {
+                [self enableInputFields:NO];
+            }
+        }
+    }
+}
+
+- (void)enableInputFields:(BOOL)flag
+{
+    [tfCaseStatus setUserInteractionEnabled:flag];
+    [tfNHearingDate setUserInteractionEnabled:flag];
+    [tfLastCaseStatus setUserInteractionEnabled:flag];
+    [tfPHeardDate setUserInteractionEnabled:flag];
 }
 
 #pragma mark - UIKeyboardNOtifications
@@ -353,113 +418,126 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    [self.view endEditing:YES];
-    if (indexPath.section == 0) {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [self.tableView beginUpdates];
-        
-//        if (indexPath.row == 2) {
-//            
-//            if (isNHCellExpanded) {
-//                isNHCellExpanded = NO;
-//                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-//                [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
-//            }
-//            else {
-//                isNHCellExpanded = YES;
-//                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-//            }
-//        }
-        
-        
-        /*if (indexPath.row == 1) {
-            if (isPHCellExpanded) {
-                isPHCellExpanded = NO;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-                [tfPHeardDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
-            }
-            else if (isNHCellExpanded) {
-                isNHCellExpanded = NO;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-                [self.tableView endUpdates];
-                isPHCellExpanded = YES;
-                [self.tableView beginUpdates];
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-            }
-            else {
-                isPHCellExpanded = YES;
-                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-            }
-        }
-        else */if (indexPath.row == 2 && !isPHCellExpanded && !isNHCellExpanded) {
-            isNHCellExpanded = YES;
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-        }
-        else if (indexPath.row == 2 && isNHCellExpanded) {
-            isNHCellExpanded = NO;
-            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
-            [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
-        }
-        else if (indexPath.row == 3 && isPHCellExpanded) {
-            isPHCellExpanded = NO;
-            [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-            [self.tableView endUpdates];
-            isNHCellExpanded = YES;
+    if (enableTableRowSelection) {
+        [self.view endEditing:YES];
+        if (indexPath.section == 0) {
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.tableView beginUpdates];
-            [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-        }
-        else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && !isRDCellExpanded)) ||
-                 ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && !isRDCellExpanded))) {
-            isRDCellExpanded = YES;
-//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && isRDCellExpanded)) ||
-                 ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && isRDCellExpanded))) {
-            isRDCellExpanded = NO;
-//            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-        
-        
-//        if (isPHCellExpanded) {
-//            //            [datePicker setMinimumDate:nil];
-//            //            [datePicker setMaximumDate:[NSDate date]];
-//            
-//            if (tfPHeardDate.text.length > 0) {
-//                [datePicker setDate:[Global getDatefromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat]];
-//            }
-//            else {
-//                [datePicker setDate:[NSDate date]];
-//            }
-//        }
-//        else
-        
-        if (isNHCellExpanded) {
             
-            if (tfNHearingDate.text.length > 0) {
-                [datePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]]];
+            //        if (indexPath.row == 2) {
+            //
+            //            if (isNHCellExpanded) {
+            //                isNHCellExpanded = NO;
+            //                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+            //                [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+            //            }
+            //            else {
+            //                isNHCellExpanded = YES;
+            //                [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+            //            }
+            //        }
+            
+            
+            /*if (indexPath.row == 1) {
+             if (isPHCellExpanded) {
+             isPHCellExpanded = NO;
+             [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+             [tfPHeardDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+             }
+             else if (isNHCellExpanded) {
+             isNHCellExpanded = NO;
+             [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+             [self.tableView endUpdates];
+             isPHCellExpanded = YES;
+             [self.tableView beginUpdates];
+             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+             }
+             else {
+             isPHCellExpanded = YES;
+             [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+             }
+             }
+             else */if (indexPath.row == 2 && !isPHCellExpanded && !isNHCellExpanded) {
+                 isNHCellExpanded = YES;
+                 [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+             }
+             else if (indexPath.row == 2 && isNHCellExpanded) {
+                 isNHCellExpanded = NO;
+                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
+                 [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+             }
+             else if (indexPath.row == 3 && isPHCellExpanded) {
+                 isPHCellExpanded = NO;
+                 [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+                 [self.tableView endUpdates];
+                 isNHCellExpanded = YES;
+                 [self.tableView beginUpdates];
+                 [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+             }
+             else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && !isRDCellExpanded)) ||
+                      ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && !isRDCellExpanded))) {
+                 isRDCellExpanded = YES;
+                 //            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+             }
+             else if (((isPHCellExpanded || isNHCellExpanded) && (indexPath.row == 5 && isRDCellExpanded)) ||
+                      ((!isPHCellExpanded && !isNHCellExpanded) && (indexPath.row == 4 && isRDCellExpanded))) {
+                 isRDCellExpanded = NO;
+                 
+                 [lblReminderDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:reminderDatePicker.date] ofFormat:DefaultBirthdateFormat]];
+                 
+                 //            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+             }
+            
+            
+            //        if (isPHCellExpanded) {
+            //            //            [datePicker setMinimumDate:nil];
+            //            //            [datePicker setMaximumDate:[NSDate date]];
+            //
+            //            if (tfPHeardDate.text.length > 0) {
+            //                [datePicker setDate:[Global getDatefromDateString:tfPHeardDate.text ofFormat:DefaultBirthdateFormat]];
+            //            }
+            //            else {
+            //                [datePicker setDate:[NSDate date]];
+            //            }
+            //        }
+            //        else
+            
+            if (isNHCellExpanded) {
+                
+                if (tfNHearingDate.text.length > 0) {
+                    [datePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]]];
+                }
+                else {
+                    [datePicker setDate:[NSDate date]];
+                }
             }
-            else {
-                [datePicker setDate:[NSDate date]];
+            
+            if (isRDCellExpanded) {
+                if (lblReminderDate.text.length > 0) {
+                    [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+                }
+                else {
+                    [reminderDatePicker setDate:[NSDate date]];
+                }
             }
+            
+            [self.tableView endUpdates];
         }
-        
-        if (isRDCellExpanded) {
-            if (lblReminderDate.text.length > 0) {
-                [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+        else if (indexPath.section == 1) {
+            ChooseCourt *courtVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseCourt"];
+            [courtVC setDelegate:self];
+            [courtVC setExistingCourtObj:existingCourtObj];
+            
+            if (isForSubordinate) {
+                [courtVC setExistingAdminObj:existingAdminObj];
             }
-            else {
-                [reminderDatePicker setDate:[NSDate date]];
-            }
+            
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:courtVC];
+            [self presentViewController:navController animated:YES completion:nil];
         }
-        
-        [self.tableView endUpdates];
     }
-    else if (indexPath.section == 1) {
-        ChooseCourt *courtVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ChooseCourt"];
-        [courtVC setDelegate:self];
-        [courtVC setExistingCourtObj:existingCourtObj];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:courtVC];
-        [self presentViewController:navController animated:YES completion:nil];
+    else {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
@@ -654,7 +732,7 @@ SubordinateAdmin *selectedAdminObj;
             [barBtnSave setTintColor:BLACK_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             
-            UserIntrectionEnable(YES);
+//            UserIntrectionEnable(YES);
         }
             break;
         case IndicatorBarButton: {
@@ -663,7 +741,11 @@ SubordinateAdmin *selectedAdminObj;
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             [self.spinnerView startAnimating];
             
-            UserIntrectionEnable(NO);
+//            UserIntrectionEnable(NO);
+        }
+            break;
+        case NilBarButton: {
+            [self.navigationItem setRightBarButtonItem:nil];
         }
             break;
         default:

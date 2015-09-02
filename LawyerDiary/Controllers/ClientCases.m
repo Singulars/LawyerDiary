@@ -63,6 +63,8 @@ SubordinateAdmin *selectedAdminObj;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCasesLocally:) name:kFetchCases object:nil];
     
+    [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
+    
     //    [Cases deleteCientsForUser:USER_ID];
     
     /* arrCases = [[NSMutableArray alloc] init];
@@ -260,7 +262,7 @@ SubordinateAdmin *selectedAdminObj;
                             
                             [Cases deleteCaseForAdmin];
                             
-                            [lblErrorMsg setText:@"No Cases found."];
+                            [lblErrorMsg setText:@"No Cases Found."];
                             
                             [self showSpinner:NO withError:YES];
                         }
@@ -592,7 +594,7 @@ SubordinateAdmin *selectedAdminObj;
     [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
     [self.navigationController pushViewController:updateCaseVC animated:YES];
     
-    [self setEditing:YES];
+    [self.view endEditing:YES];
     
     //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     //    CourtDetail *courtDetailVC = navController.viewControllers[0];
@@ -667,7 +669,7 @@ SubordinateAdmin *selectedAdminObj;
             
             [cell hideUtilityButtonsAnimated:YES];
             
-            [self setEditing:YES];
+            [self.view endEditing:YES];
             
             break;
         }
