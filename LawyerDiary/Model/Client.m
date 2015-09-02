@@ -46,8 +46,11 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Client *obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIlocalClientId] integerValue])];
+        Client *obj;
         
+        if ([dataDict objectForKey:kAPIlocalCaseId]) {
+            obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIlocalClientId] integerValue])];
+        }
 //        if ([dataDict objectForKey:kAPIclientId]) {
 //            obj = [self fetchClient:[dataDict objectForKey:kAPIcourtId]];
 //        }
@@ -59,7 +62,7 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [Client generateID]];
-                [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
+                [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @0];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
                 [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
@@ -75,7 +78,7 @@
                     [obj setIsSubordinate:@1];
                 }
                 else {
-                    [obj setAdminId:@-1];
+                    [obj setAdminId:@0];
                     [obj setAdminName:@""];
                     [obj setHasAccess:@0];
                     [obj setIsSubordinate:@0];
@@ -93,7 +96,7 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalClientId:[dataDict objectForKey:kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : [self generateID]];
-                [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
+                [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @0];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
                 [obj setEmail:dataDict[kAPIemail] ? dataDict[kAPIemail] : @""];
@@ -109,7 +112,7 @@
                     [obj setIsSubordinate:@1];
                 }
                 else {
-                    [obj setAdminId:@-1];
+                    [obj setAdminId:@0];
                     [obj setAdminName:@""];
                     [obj setHasAccess:@0];
                     [obj setIsSubordinate:@0];

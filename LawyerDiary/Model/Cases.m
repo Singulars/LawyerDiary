@@ -56,8 +56,11 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Cases *obj = [self fetchCaseLocally:@([[dataDict objectForKey:kAPIlocalCaseId] integerValue])];
+        Cases *obj;
 
+        if ([dataDict objectForKey:kAPIlocalCaseId]) {
+            obj = [self fetchCaseLocally:@([[dataDict objectForKey:kAPIlocalCaseId] integerValue])];
+        }
         
         //        if ([dataDict objectForKey:kAPIcourtId]) {
         //             obj = [self fetchCourt:[dataDict objectForKey:kAPIcourtId]];
@@ -70,13 +73,13 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
-                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @0];
                 [obj setLocalCourtId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
-                [obj setLocalClientId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
+                [obj setLocalClientId:dataDict[kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -99,7 +102,7 @@
                     [obj setIsSubordinate:@1];
                 }
                 else {
-                    [obj setAdminId:@-1];
+                    [obj setAdminId:@0];
                     [obj setAdminName:@""];
                     [obj setHasAccess:@0];
                     [obj setIsSubordinate:@0];
@@ -117,13 +120,13 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalCaseId:[dataDict objectForKey:kAPIlocalCaseId] ? @([[dataDict objectForKey:kAPIlocalCaseId] integerValue]) : [Cases generateID]];
-                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
+                [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @0];
                 [obj setLocalCourtId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
-                [obj setLocalClientId:dataDict[kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : @-1];
+                [obj setLocalClientId:dataDict[kAPIlocalClientId] ? @([[dataDict objectForKey:kAPIlocalClientId] integerValue]) : @-1];
                 [obj setClientId:dataDict[kAPIclientId] ? @([[dataDict objectForKey:kAPIclientId] integerValue]) : @-1];
                 [obj setClientFirstName:dataDict[kAPIclientFirstName] ? dataDict[kAPIclientFirstName] : @""];
                 [obj setClientLastName:dataDict[kAPIclientLastName] ? dataDict[kAPIclientLastName] : @""];
@@ -144,7 +147,7 @@
                     [obj setIsSubordinate:@1];
                 }
                 else {
-                    [obj setAdminId:@-1];
+                    [obj setAdminId:@0];
                     [obj setAdminName:@""];
                     [obj setHasAccess:@0];
                     [obj setIsSubordinate:@0];
@@ -296,7 +299,7 @@
         //        else if ([dataDict objectForKey:kAPIclientId]) {
         //            obj = [self fetchClient:[dataDict objectForKey:kAPIrandom]];
         //        }
-        if (!obj) {
+        if (obj != nil) {
             @try {
                 [obj setCaseId:dataDict[kAPIcaseId] ? @([[dataDict objectForKey:kAPIcaseId] integerValue]) : @-1];
                 [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];

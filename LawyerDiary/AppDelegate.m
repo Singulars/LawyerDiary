@@ -99,12 +99,6 @@ Reachability *hostReach;
         NSLog(@"user => %@", ShareObj.userObj);
         
         [self showHome];
-        
-        [ShareObj updateAdminAccessVariablesValue];
-        
-        [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
-            
-        }];
     }
     else {
         [self showLogIn];
@@ -158,7 +152,11 @@ Reachability *hostReach;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if (GetLoginUserId) { [self setLastActiveDateTime]; }
+    if (GetLoginUserId) {
+        [self setLastActiveDateTime];
+        
+        [ShareObj syncUpdatedCourtRecords];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -326,7 +324,11 @@ Reachability *hostReach;
                         
                         [UIView setAnimationsEnabled:oldState];
                     }
-                    completion:nil];
+                    completion:^(BOOL finished) {
+                        [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
+                            
+                        }];
+                    }];
 }
 
 #pragma mark - Drawer View Controllers

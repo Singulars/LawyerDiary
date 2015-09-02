@@ -163,7 +163,11 @@
                 
                 [self showSpinner:NO withError:NO];
                 
+                RemoveHasAdminAccess;
+                RemoveFetchSubordinateStatus;
+                
                 if (responseObject == nil) {
+                    ShareObj.fetchSubordinateStatus = kStatusFailed;
                     if (arrUsers.count > 0) {
                         [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                     }
@@ -174,6 +178,7 @@
                 }
                 else {
                     if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        ShareObj.fetchSubordinateStatus = kStatusFailed;
                         UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
@@ -186,14 +191,34 @@
                             }
                             
                             [self showSpinner:NO withError:NO];
+                            
+                            Subordinate *obj = [Subordinate fetchSubordinateWhoHasAccess];
+                            if (obj != nil) {
+                                ShareObj.hasAdminAccess = NO;
+                            }
+                            else {
+                                ShareObj.hasAdminAccess = YES;
+                            }
+                            
+                            ShareObj.fetchSubordinateStatus = kStatusSuccess;
                         }
                         else {
                             
                             [lblErrorMsg setText:@"No Subordiantes found."];
                             [self showSpinner:NO withError:YES];
+                            
+                            ShareObj.hasAdminAccess = YES;
+                            ShareObj.fetchSubordinateStatus = kStatusSuccess;
                         }
+                        
+                        SetHasAdminAccess(ShareObj.hasAdminAccess);
                     }
                 }
+                
+                SetFetchSubordinateStatus(ShareObj.fetchSubordinateStatus);
+                
+                [ShareObj updateAdminAccessVariablesValue];
+                
                 completionHandler(YES);
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -202,13 +227,20 @@
                 
                 if (error.code == kCFURLErrorTimedOut) {
                     strMsg = kREQUEST_TIME_OUT;
+                    ShareObj.fetchSubordinateStatus = kStatusFailedBecauseInternet;
                 }
                 else if (error.code == kCFURLErrorNetworkConnectionLost) {
                     strMsg = kCHECK_INTERNET;
+                    ShareObj.fetchSubordinateStatus = kStatusFailedBecauseInternet;
                 }
                 else {
                     strMsg = kSOMETHING_WENT_WRONG;
+                    ShareObj.fetchSubordinateStatus = kStatusFailed;
                 }
+                
+                SetFetchSubordinateStatus(ShareObj.fetchSubordinateStatus);
+                
+                [ShareObj updateAdminAccessVariablesValue];
                 
                 [lblErrorMsg setText:strMsg];
                 [self showSpinner:NO withError:YES];

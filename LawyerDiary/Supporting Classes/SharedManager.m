@@ -265,7 +265,7 @@ static SharedManager *sharedManager;
                 }];
             }
             else {
-                
+                [self syncDeletedCourtRecords];
             }
         }
         @catch (NSException *exception) {
@@ -455,6 +455,9 @@ static SharedManager *sharedManager;
                     [self syncDeletedClientRecords];
                 }];
             }
+            else {
+                [self syncUpdatedCaseRecords];
+            }
         }
         @catch (NSException *exception) {
             NSLog(@"Exception => %@", [exception debugDescription]);
@@ -536,7 +539,7 @@ static SharedManager *sharedManager;
                 }];
             }
             else {
-                
+                [self syncDeletedCaseRecords];
             }
         }
         @catch (NSException *exception) {

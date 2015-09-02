@@ -15,6 +15,12 @@
 BOOL isForSubordinate;
 
 @interface SubordinateCases () <SWTableViewCellDelegate>
+
+@property (nonatomic, readwrite) NSInteger sections;
+@property (nonatomic, readwrite) NSInteger subSections;
+
+@property (nonatomic, strong) NSMutableArray *sectionHeaders;
+
 @property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) LLARingSpinnerView *spinnerViewBtn;
 @property (nonatomic, strong) NSMutableArray *arrCases;
@@ -62,11 +68,11 @@ BOOL isForSubordinate;
     }
     
     [arrCases removeAllObjects];
-    [arrCases addObjectsFromArray:[Cases fetchCasesForSubordinate]];
+    [arrCases addObjectsFromArray:[self sortCasesArray:[Cases fetchCasesForSubordinate]]];
     
     [self.tableView reloadData];
     
-    [self sortCasesArray:arrCases];
+    ;
     
     if (arrCases.count > 0) {
         [self showSpinner:NO withError:NO];
@@ -76,8 +82,9 @@ BOOL isForSubordinate;
 - (NSMutableArray *)sortCasesArray:(NSArray *)toBeSortedArr
 {
     NSMutableArray *resultArray = [NSMutableArray new];
-    NSMutableArray *groupArr = [NSMutableArray new];
     for (int i = 0; i < toBeSortedArr.count; i++) {
+        
+        NSMutableArray *groupArr = [NSMutableArray new];
         
         NSMutableDictionary *arrDict = [NSMutableDictionary new];
         
@@ -85,26 +92,19 @@ BOOL isForSubordinate;
         for (NSString *nextHearingDate in groups)
         {
             NSMutableDictionary *groupArrDict = [NSMutableDictionary new];
+        
             [groupArrDict setObject:nextHearingDate forKey:@"nextHearingDate"];
             
             NSArray *groupCases = [[toBeSortedArr[i] objectForKey:kAPIdata] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"nextHearingDate = %@", nextHearingDate]];
             
-            [groupArrDict setObject:[toBeSortedArr[i] objectForKey:kAPIadminData] forKey:kAPIadminData];
-            
-            [groupArrDict setObject:groupCases forKey:@"data"];
-            
-            //        for (int i = 0; i < groupCases.count; i++)
-            //        {
-            //            Cases *caseObj = groupCases[i];
-            //            [entry setObject:caseObj forKey:[NSString stringWithFormat:@"index%d", i + 1]];
-            //        }
+            [groupArrDict setObject:groupCases forKey:@"records"];
             
             [groupArr addObject:groupArrDict];
-            
-            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nextHearingDate" ascending:YES];
-            
-            [groupArr sortUsingDescriptors:@[sortDescriptor]];
         }
+        
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nextHearingDate" ascending:YES];
+        
+        [groupArr sortUsingDescriptors:@[sortDescriptor]];
         
         [arrDict setObject:[toBeSortedArr[i] objectForKey:kAPIadminData] forKey:kAPIadminData];
         [arrDict setObject:groupArr forKey:kAPIdata];
@@ -112,7 +112,21 @@ BOOL isForSubordinate;
         [resultArray addObject:arrDict];
     }
     
+    self.sectionHeaders = [NSMutableArray new];
+    
+    for (NSDictionary *dict in resultArray) {
+        
+        NSMutableArray *dateArr = [NSMutableArray new];
+        for (NSDictionary *recordsDict in [dict objectForKey:@"data"]) {
+            [dateArr addObject:[recordsDict objectForKey:@"nextHearingDate"]];
+        }
+        
+        [self.sectionHeaders addObject:dateArr];
+    }
+    
     NSLog(@"%@", resultArray);
+    
+    NSLog(@"%@", self.sectionHeaders);
     
     return resultArray;
 }
@@ -190,18 +204,18 @@ BOOL isForSubordinate;
     SubordinateAdmin *adminObj = [arrCases[section] objectForKey:kAPIadminData];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ViewWidth(self.tableView), 22)];
-    [headerView setBackgroundColor:UICOLOR(239, 239, 244, 1)];
+    [headerView setBackgroundColor:UICOLOR(50, 50, 50, 1)];
     
     UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 22)];
     [lblHeader setBackgroundColor:CLEARCOLOUR];
     [lblHeader setFont:[UIFont boldSystemFontOfSize:13]];
-    [lblHeader setTextColor:UICOLOR(109, 109, 114, 1)];
+    [lblHeader setTextColor:WHITE_COLOR];
     
     UILabel *lblHasAccess = [[UILabel alloc] initWithFrame:CGRectMake(ViewWidth(tableView)-200, 0, 192, 22)];
     [lblHasAccess setBackgroundColor:CLEARCOLOUR];
     [lblHasAccess setTextAlignment:NSTextAlignmentRight];
     [lblHasAccess setFont:[UIFont boldSystemFontOfSize:13]];
-    [lblHasAccess setTextColor:UICOLOR(109, 109, 114, 1)];
+    [lblHasAccess setTextColor:WHITE_COLOR];
     [lblHasAccess setText:[NSString stringWithFormat:@"ACCESS GIVEN: %@", [adminObj.hasAccess isEqualToNumber:@0] ? @"NO" : @"YES"]];
     [headerView addSubview:lblHasAccess];
     
@@ -219,7 +233,24 @@ BOOL isForSubordinate;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    CGFloat rowHeight = 44;
+    
+    NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
+    
+    if (sectionItems.count > 0) {
+        
+        NSIndexPath *itemAndSubsectionIndex = [self computeItemAndSubsectionIndexForIndexPath:indexPath];
+        NSInteger itemIndex = itemAndSubsectionIndex.row;
+        
+        
+        if (itemIndex < 0) {
+            rowHeight = 22;
+        }
+    }
+    else {
+        rowHeight = 44;
+    }
+    return rowHeight;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView
@@ -229,29 +260,96 @@ BOOL isForSubordinate;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger noOfRow = [[arrCases[section] objectForKey:kAPIdata] count];
-    if (noOfRow == 0) {
-        noOfRow = 1;
+    NSArray *sectionItems = [self.arrCases[(NSUInteger) section] objectForKey:@"data"];
+    
+    NSUInteger numberOfRows = sectionItems.count; // For second level section headers
+    
+    if (numberOfRows == 0) {
+        numberOfRows  = 1;
+        return numberOfRows;
     }
-    return noOfRow;
+    
+    for (NSDictionary *rowItems in sectionItems) {
+        numberOfRows += [[rowItems objectForKey:@"records"] count]; // For actual table rows
+    }
+    
+    return numberOfRows;
 }
 
 -(nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
+    NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
     
-    if (caseRecords.count > 0) {
-        static NSString *cellId=@"CaseCell";
-        CaseCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
-        if (cell==nil)
-        {
-            cell=[[CaseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        }
-        [cell setDelegate:self];
-        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
-        [cell configureCellWithCaseObj:[caseRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
+    if (sectionItems.count > 0) {
         
-        return cell;
+        NSMutableArray *sectionHeaders = self.sectionHeaders[(NSUInteger) indexPath.section];
+        NSIndexPath *itemAndSubsectionIndex = [self computeItemAndSubsectionIndexForIndexPath:indexPath];
+        NSUInteger subsectionIndex = (NSUInteger) itemAndSubsectionIndex.section;
+        NSInteger itemIndex = itemAndSubsectionIndex.row;
+        
+        
+        if (itemIndex < 0) {
+            // Section header
+            
+            static NSString *cellId=@"DateCell";
+            UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+            if (cell==nil)
+            {
+                cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+                
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                
+                [cell setBackgroundColor:UICOLOR(239, 239, 244, 1)];
+                UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, 22)];
+                
+                NSString *headerTitle = [Global getDateStringOfFormat:DefaultBirthdateFormat fromDateString:sectionHeaders[subsectionIndex] ofFormat:ServerBirthdateFormat];
+                
+                NSDate *caseDate = [Global getDateWithoutSeconds:[Global getDatefromDateString:headerTitle ofFormat:DefaultBirthdateFormat]];
+                
+                NSDate *todayDate = [Global getDatefromDateString:[Global getDateStringFromDate:[NSDate date] ofFormat:ServerBirthdateFormat] ofFormat:ServerBirthdateFormat];
+                
+                if ([caseDate compare:todayDate] == NSOrderedSame) {
+                    NSLog(@"Case date matched with today date");
+                    headerTitle = @"Today";
+                }
+                
+                NSDate *tomorrowDate = [Global getDatefromDateString:[Global getDateStringFromDate:[Global addDays:1 inDate:todayDate] ofFormat:ServerBirthdateFormat] ofFormat:ServerBirthdateFormat];
+                
+                if ([caseDate compare:tomorrowDate] == NSOrderedSame) {
+                    headerTitle = @"Tomorrow";
+                }
+                
+                NSLog(@"%@ %@", caseDate, todayDate);
+                
+                [lblTitle setText:headerTitle];
+                [lblTitle setFont:[UIFont boldSystemFontOfSize:13]];
+                [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
+                [cell addSubview:lblTitle];
+                
+                [cell setSeparatorInset:UIEdgeInsetsZero];
+            }
+            return cell;
+            
+        } else {
+            // Row Item
+            
+            static NSString *cellId=@"CaseCell";
+            CaseCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+            if (cell==nil)
+            {
+                cell=[[CaseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            }
+            [cell setDelegate:self];
+            [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
+            [cell configureCellWithCaseObj:[[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex] forIndexPath:indexPath];
+            
+            if ([[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex] == [[sectionItems[subsectionIndex] objectForKey:@"records"] lastObject]) {
+                [cell setSeparatorInset:UIEdgeInsetsZero];
+            }
+            
+            return cell;
+        }
+        
     }
     else {
         static NSString *cellId=@"NoRecordCell";
@@ -259,22 +357,86 @@ BOOL isForSubordinate;
         if (cell==nil)
         {
             cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
+            [lblTitle setText:@"No Records Found!"];
+            [lblTitle setTextAlignment:NSTextAlignmentCenter];
+            [lblTitle setFont:[UIFont systemFontOfSize:16]];
+            [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
+            [cell addSubview:lblTitle];
+            
+            [cell setSeparatorInset:UIEdgeInsetsZero];
         }
-        UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
-        [lblTitle setText:@"No Records Found!"];
-        [lblTitle setTextAlignment:NSTextAlignmentCenter];
-        [lblTitle setFont:[UIFont systemFontOfSize:16]];
-        [cell addSubview:lblTitle];
         return cell;
     }
+    
+    
+    
+//    NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
+//    
+//    if (caseRecords.count > 0) {
+//        static NSString *cellId=@"CaseCell";
+//        CaseCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+//        if (cell==nil)
+//        {
+//            cell=[[CaseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//        }
+//        [cell setDelegate:self];
+//        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
+//        [cell configureCellWithCaseObj:[caseRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
+//        
+//        return cell;
+//    }
+//    else {
+//        static NSString *cellId=@"NoRecordCell";
+//        UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellId];
+//        if (cell==nil)
+//        {
+//            cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+//            
+//            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//        }
+//        UILabel *lblTitle = [[UILabel alloc] initWithFrame:CGRectMake(ViewX(self.tableView)+15, 0, ViewWidth(self.tableView)-30, ViewHeight(cell))];
+//        [lblTitle setText:@"No Records Found!"];
+//        [lblTitle setTextAlignment:NSTextAlignmentCenter];
+//        [lblTitle setFont:[UIFont systemFontOfSize:16]];
+//        [cell addSubview:lblTitle];
+//        return cell;
+//    }
     return nil;
+}
+
+- (NSIndexPath *)computeItemAndSubsectionIndexForIndexPath:(NSIndexPath *)indexPath {
+    NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
+    NSInteger itemIndex = indexPath.row;
+    NSUInteger subsectionIndex = 0;
+    for (NSUInteger i = 0; i < sectionItems.count; ++i) {
+        // First row for each section item is header
+        --itemIndex;
+        // Check if the item index is within this subsection's items
+        NSArray *subsectionItems = [sectionItems[i] objectForKey:@"records"];
+        if (itemIndex < (NSInteger) subsectionItems.count) {
+            subsectionIndex = i;
+            break;
+        } else {
+            itemIndex -= subsectionItems.count;
+        }
+    }
+    return [NSIndexPath indexPathForRow:itemIndex inSection:subsectionIndex];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
-    [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
-    [self.navigationController pushViewController:updateCaseVC animated:YES];
+    if ([[arrCases[indexPath.section] valueForKey:@"data"] count] > 0) {
+        UpdateCase *updateCaseVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UpdateCase"];
+        [updateCaseVC setExistingCaseObj:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
+        [self.navigationController pushViewController:updateCaseVC animated:YES];
+    }
+    else {
+        
+    }
     
     //    UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"CourtDetail"];
     //    CourtDetail *courtDetailVC = navController.viewControllers[0];

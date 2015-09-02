@@ -43,8 +43,12 @@
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
-        Court *obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIlocalCourtId] integerValue])];
+        Court *obj;
        
+        if ([dataDict objectForKey:kAPIlocalCaseId]) {
+            obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIlocalCourtId] integerValue])];
+        }
+        
 //        if ([dataDict objectForKey:kAPIcourtId]) {
 //             obj = [self fetchCourt:[dataDict objectForKey:kAPIcourtId]];
 //        }
