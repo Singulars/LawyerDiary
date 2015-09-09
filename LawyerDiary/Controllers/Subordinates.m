@@ -560,6 +560,9 @@
                 
                 SetFetchSubordinateStatus(kStatusSuccess);
                 
+                ShareObj.hasAdminAccess = GetHasAdminAccess;
+                ShareObj.fetchSubordinateStatus = GetFetchSubordinateStatus;
+                
                 [ShareObj updateAdminAccessVariablesValue];
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

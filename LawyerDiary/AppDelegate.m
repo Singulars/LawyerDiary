@@ -172,6 +172,12 @@ Reachability *hostReach;
         [self setLastActiveDateTime];
         
         [ShareObj syncUpdatedCourtRecords];
+        
+        [ShareObj fetchCourts];
+        [ShareObj fetchCourtsForSubordinate];
+        
+        [ShareObj fetchClients];
+        [ShareObj fetchClientsForSubordinates];
     }
 }
 
@@ -357,6 +363,12 @@ Reachability *hostReach;
                         [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
                             
                         }];
+                        
+                        [ShareObj fetchCourts];
+                        [ShareObj fetchCourtsForSubordinate];
+                        
+                        [ShareObj fetchClients];
+                        [ShareObj fetchClientsForSubordinates];
                     }];
 }
 

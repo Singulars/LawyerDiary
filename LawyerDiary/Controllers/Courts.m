@@ -121,13 +121,11 @@ SubordinateAdmin *selectedAdminObj;
     }
     else {
         
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        
         [self fetchCourtsLocally:nil];
         
         [self setBarButton:AddBarButton];
         
-        if (arrCourts.count > 0) {
+        if (arrCourts.count > 0 || arrCourts.count == 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
@@ -230,9 +228,7 @@ SubordinateAdmin *selectedAdminObj;
                         
                         if (arrCourtObj.count > 0) {
                             
-                            if (arrCourts.count > 0) {
-                                [Court deleteCourtsForAdmin];
-                            }
+                            [Court deleteCourtsForAdmin];
                             
                             for (NSDictionary *courtObj in arrCourtObj) {
                                 [Court saveCourt:courtObj forSubordiante:NO withAdminDetail:nil];

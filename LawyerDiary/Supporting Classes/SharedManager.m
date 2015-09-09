@@ -728,4 +728,209 @@ static SharedManager *sharedManager;
     }];
 }
 
+- (void)fetchCourts
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kloadCourts,
+                                     kAPIuserId: USER_ID
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        
+                    }
+                    else {
+                        NSArray *arrCourtObj = [responseObject valueForKey:kAPIcourData];
+                        
+                        if (arrCourtObj.count > 0) {
+                            
+                            [Court deleteCourtsForAdmin];
+                            
+                            for (NSDictionary *courtObj in arrCourtObj) {
+                                [Court saveCourt:courtObj forSubordiante:NO withAdminDetail:nil];
+                            }
+                        }
+                        else {
+                            [Court deleteCourtsForAdmin];
+                        }
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)fetchCourtsForSubordinate
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kloadSubordinateCourt,
+                                     kAPIsubordinateId: USER_ID
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                    
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        
+                    }
+                    else {
+                        NSArray *arrSubordinates = [responseObject valueForKey:kAPIcourData];
+                        
+                        if (arrSubordinates.count > 0) {
+                            
+                            [Court deleteCourtsForSubordinate];
+                            
+                            for (NSDictionary *obj in arrSubordinates) {
+                                
+                                [SubordinateAdmin saveSubordinateAdmin:obj];
+                                [Court saveCourtsForSubordinate:obj];
+                            }
+                        }
+                        else {
+                            
+                            [Court deleteCourtsForSubordinate];
+                        }
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)fetchClients
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kloadClients,
+                                     kAPIuserId: USER_ID
+                                     };
+
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                    }
+                    else {
+                        NSArray *arrCaseObj = [responseObject valueForKey:kAPIclientData];
+                        
+                        if (arrCaseObj.count > 0) {
+                            
+                            [Client deleteCientsForAdmin];
+                            
+                            for (NSDictionary *courtObj in arrCaseObj) {
+                                [Client saveClients:courtObj forSubordiante:NO withAdminDetail:nil];
+                            }
+                        }
+                        else {
+                            
+                            [Client deleteCientsForAdmin];
+                        }
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
+- (void)fetchClientsForSubordinates
+{
+    if (IS_INTERNET_CONNECTED) {
+        
+        @try {
+            
+            NSDictionary *params = @{
+                                     kAPIMode: kloadSubordinateClient,
+                                     kAPIsubordinateId: USER_ID
+                                     };
+            
+            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                if (responseObject == nil) {
+                   
+                }
+                else {
+                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                        
+                    }
+                    else {
+                        NSArray *arrSubordinates = [responseObject valueForKey:kAPIclientData];
+                        
+                        if (arrSubordinates.count > 0) {
+                            
+                            [Client deleteCientsForSubordinate];
+                            
+                            for (NSDictionary *obj in arrSubordinates) {
+                                [SubordinateAdmin saveSubordinateAdmin:obj];
+                                [Client saveClientsForSubordinate:obj];
+                            }
+                        }
+                        else {
+                            
+                            [Client deleteCientsForSubordinate];
+                        }
+                    }
+                }
+                
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                
+            }];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Exception => %@", [exception debugDescription]);
+        }
+        @finally {
+            
+        }
+    }
+}
+
 @end

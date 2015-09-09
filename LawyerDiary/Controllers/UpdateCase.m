@@ -141,7 +141,7 @@ SubordinateAdmin *selectedAdminObj;
 - (void)enableInputFields:(BOOL)flag
 {
     [tfCaseStatus setUserInteractionEnabled:flag];
-    [tfNHearingDate setUserInteractionEnabled:flag];
+//    [tfNHearingDate setUserInteractionEnabled:flag];
     [tfLastCaseStatus setUserInteractionEnabled:flag];
     [tfPHeardDate setUserInteractionEnabled:flag];
 }
@@ -465,6 +465,21 @@ SubordinateAdmin *selectedAdminObj;
                  isNHCellExpanded = NO;
                  [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationTop];
                  [tfNHearingDate setText:[Global getDateStringFromDate:datePicker.date ofFormat:DefaultBirthdateFormat]];
+                 
+                 if (switchReminderDate.isOn) {
+                     if ([[Global getDateStringFromDate:datePicker.date ofFormat:ServerBirthdateFormat] compare:[Global getDateStringFromDate:[NSDate date] ofFormat:ServerBirthdateFormat]] == NSOrderedSame) {
+                         [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:0 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+                         
+                         [reminderDatePicker setMinimumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+                     }
+                     else {
+                         [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+                     }
+                     
+                     [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+                     
+                     [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+                 }
              }
              else if (indexPath.row == 3 && isPHCellExpanded) {
                  isPHCellExpanded = NO;
@@ -785,26 +800,59 @@ SubordinateAdmin *selectedAdminObj;
     
     [tfNHearingDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:datePicker.date] ofFormat:DefaultBirthdateFormat]];
     
-    [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
-    
-    [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
-    
-    [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+    if (switchReminderDate.isOn) {
+        if ([[Global getDateStringFromDate:datePicker.date ofFormat:ServerBirthdateFormat] compare:[Global getDateStringFromDate:[NSDate date] ofFormat:ServerBirthdateFormat]] == NSOrderedSame) {
+            [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:0 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+        }
+        else {
+            [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+        }
+        
+        [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+        
+        [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+    }
 }
 
 - (IBAction)reminderDatePickerValueChanged:(id)sender {
     
     NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1];
-    if ( [datePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame) {
+    if ( [reminderDatePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame) {
         NSLog(@"date is at or below the minimum");
         reminderDatePicker.date = oneSecondAfterPickersDate;
     }
-    else if ( [datePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame) {
+    else if ( [reminderDatePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame) {
         NSLog(@"date is at or above the maximum");
         reminderDatePicker.date = oneSecondAfterPickersDate;
     }
     
     [lblReminderDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:reminderDatePicker.date] ofFormat:DefaultBirthdateFormat]];
+}
+
+- (IBAction)switchReminderValueChanged:(id)sender
+{
+    if ([sender isOn]) {
+        isRDCellExpanded = YES;
+        
+        if ([[Global getDateStringFromDate:datePicker.date ofFormat:ServerBirthdateFormat] compare:[Global getDateStringFromDate:[NSDate date] ofFormat:ServerBirthdateFormat]] == NSOrderedSame) {
+            [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:0 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+        }
+        else {
+            [lblReminderDate setText:[Global getDateStringFromDate:[Global removeDays:1 fromDate:[Global getDateWithoutSeconds:datePicker.date]] ofFormat:DefaultBirthdateFormat]];
+        }
+        
+        [reminderDatePicker setMaximumDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+        
+        [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
+    }
+    else {
+        isRDCellExpanded = NO;
+        [lblReminderDate setText:@""];
+    }
+    
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
+    
 }
 
 - (void)didReceiveMemoryWarning {

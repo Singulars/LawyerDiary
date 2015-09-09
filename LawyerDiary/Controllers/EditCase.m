@@ -44,6 +44,8 @@ SubordinateAdmin *selectedAdminObj;
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 15, 0, 0)];
     
+    [tfOLastName setPlaceholder:@"Optional"];
+    
     if (existingCaseObj != nil) {
         
         [self setTitle:[NSString stringWithFormat:@"%@ v/s %@", CAPITALIZED_STRING(existingCaseObj.clientFirstName), CAPITALIZED_STRING(existingCaseObj.oppositionFirstName)]];
@@ -51,6 +53,9 @@ SubordinateAdmin *selectedAdminObj;
         [self setCaseDetail];
         [self setClienDetail];
         [self setCourtDetail];
+        
+        existingCourtObj = [Court fetchCourtLocally:existingCaseObj.localCourtId];
+        existingClientObj = [Client fetchClientLocally:existingCaseObj.localClientId];
     }
     else {
         
@@ -154,7 +159,7 @@ SubordinateAdmin *selectedAdminObj;
 {
     [tfCaseNo setUserInteractionEnabled:flag];
     [tfCaseStatus setUserInteractionEnabled:flag];
-    [tfNHearingDate setUserInteractionEnabled:flag];
+//    [tfNHearingDate setUserInteractionEnabled:flag];
     [tfOFirstName setUserInteractionEnabled:flag];
     [tfOLastName setUserInteractionEnabled:flag];
     [tfOLawyerName setUserInteractionEnabled:flag];
@@ -721,10 +726,17 @@ SubordinateAdmin *selectedAdminObj;
                         else {
                             [Cases updateCase:responseObject forUser:USER_ID];
                             
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+                            POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+                            
+                            if (existingCaseObj) {
+                                [self.navigationController popViewControllerAnimated:YES];
                                 [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-                            }];
+                            }
+                            else {
+                                [self dismissViewControllerAnimated:YES completion:^{
+                                    [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                }];
+                            }
                         }
                     }
                     
@@ -809,9 +821,9 @@ SubordinateAdmin *selectedAdminObj;
     else if ([Global validateTextField:tfOFirstName]) {
         errMsg = @"Please enter Opposition First Name";
     }
-    else if ([Global validateTextField:tfOLastName]) {
-        errMsg = @"Please enter Opposition Last Name";
-    }
+//    else if ([Global validateTextField:tfOLastName]) {
+//        errMsg = @"Please enter Opposition Last Name";
+//    }
     else if ([Global validateTextField:tfOLawyerName]) {
         errMsg = @"Please enter Opposition Lawyer Name";
     }

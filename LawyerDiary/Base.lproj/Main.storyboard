@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A244d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
@@ -3801,6 +3801,7 @@ user of Lawyer App.</string>
                         <outlet property="lblMegistrateName" destination="sEq-4o-gwM" id="ltY-bL-kCj"/>
                         <outlet property="lblReminderDate" destination="War-r9-brR" id="l6O-6a-OT1"/>
                         <outlet property="reminderDatePicker" destination="PkI-B4-rwW" id="SIT-Ox-LYn"/>
+                        <outlet property="switchReminderDate" destination="ALM-gd-9CQ" id="0b5-Hv-g7h"/>
                         <outlet property="tableView" destination="WeY-3Q-GfO" id="WQu-zE-ges"/>
                         <outlet property="tfCaseStatus" destination="n6w-KD-8gI" id="bsN-nr-oEQ"/>
                         <outlet property="tfLastCaseStatus" destination="SA6-8u-upS" id="WbS-se-PX6"/>
@@ -3835,13 +3836,21 @@ user of Lawyer App.</string>
                                 </connections>
                             </datePicker>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="War-r9-brR">
-                                <rect key="frame" x="110" y="0.0" width="200" height="43"/>
+                                <rect key="frame" x="110" y="0.0" width="136" height="43"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="ALM-gd-9CQ">
+                                <rect key="frame" x="259" y="6" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="switchReminderValueChanged:" destination="SdY-QX-gKq" eventType="valueChanged" id="nuC-0b-FrV"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <animations/>
                     </tableViewCellContentView>
@@ -4109,7 +4118,7 @@ Case Status</string>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                 <scopeButtonTitles>
                                     <string>Client</string>
-                                    <string>Lawyer</string>
+                                    <string>Court</string>
                                     <string>Case No.</string>
                                     <string>Date</string>
                                 </scopeButtonTitles>

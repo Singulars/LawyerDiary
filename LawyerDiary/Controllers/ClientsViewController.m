@@ -182,13 +182,11 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     }
     else {
         
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        
         [self fetchClientsLocally:nil];
         
         [self setBarButton:AddBarButton];
         
-        if (arrClients.count > 0) {
+        if (arrClients.count > 0 || arrClients.count == 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
@@ -814,9 +812,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                         
                         if (arrCaseObj.count > 0) {
                             
-                            if (arrClients.count > 0) {
-                                [Client deleteCientsForAdmin];
-                            }
+                            [Client deleteCientsForAdmin];
                             
                             for (NSDictionary *courtObj in arrCaseObj) {
                                 [Client saveClients:courtObj forSubordiante:NO withAdminDetail:nil];

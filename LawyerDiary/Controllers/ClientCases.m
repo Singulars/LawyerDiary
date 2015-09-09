@@ -103,11 +103,15 @@ SubordinateAdmin *selectedAdminObj;
     [arrCases removeAllObjects];
     [arrCases addObjectsFromArray:[self sortCasesArray:casesArr]];
     
-    [self.tableView reloadData];
-    
     if (arrCases.count > 0) {
         [self showSpinner:NO withError:NO];
     }
+    else {
+        [lblErrorMsg setText:@"No Cases Found."];
+        [self showSpinner:NO withError:YES];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (NSMutableArray *)sortCasesArray:(NSArray *)toBeSortedArr
@@ -247,10 +251,8 @@ SubordinateAdmin *selectedAdminObj;
                         NSArray *arrCasesObj = [responseObject valueForKey:kAPIcaseList];
                         
                         if (arrCasesObj.count > 0) {
-                            
-                            if (arrCases.count > 0) {
-                                [Cases deleteCaseForAdmin];
-                            }
+
+                            [Cases deleteCaseForAdmin];
                             
                             for (NSDictionary *casesObj in arrCasesObj) {
                                 [Cases saveCase:casesObj forSubordiante:NO withAdminDetail:nil];
@@ -356,13 +358,11 @@ SubordinateAdmin *selectedAdminObj;
     }
     else {
         
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        
         [self fetchCasesLocally:nil];
         
         [self setBarButton:AddBarButton];
         
-        if (arrCases.count > 0) {
+        if (arrCases.count > 0 || arrCases.count == 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
@@ -692,14 +692,13 @@ SubordinateAdmin *selectedAdminObj;
                     break;
                 case kStatusSuccess: {
                     if (ShareObj.hasAdminAccess) {
-                        [self.tableView beginUpdates];
-                        
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+//                        [self.tableView beginUpdates];
+//                        
+//                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
                         [Cases updatedCasePropertyofCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCaseIsDeleted andValue:@1];
                         [self deleteCase:[[arrCases[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row]];
-                        
+
                         [self fetchCasesLocally:nil];
-                        [self.tableView endUpdates];
                     }
                     else {
                         UI_ALERT(@"", @"You have given access to one of your subordinate.\nSo, you can not modify any records.", nil);

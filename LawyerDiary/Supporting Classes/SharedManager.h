@@ -66,4 +66,9 @@ typedef NS_ENUM(NSUInteger, FetchSubordinateStatus) {
 - (void)syncUpdatedCaseRecords;
 - (void)syncDeletedCaseRecords;
 
+- (void)fetchCourts;
+- (void)fetchCourtsForSubordinate;
+- (void)fetchClients;
+- (void)fetchClientsForSubordinates;
+
 @end

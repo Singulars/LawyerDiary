@@ -310,12 +310,14 @@ SubordinateAdmin *selectedAdminObj;
 //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
-                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
-                                                                                                                                           kAPIadminId: existingAdminObj.adminId,
-                                                                                                                                           kAPIadminName: existingAdminObj.adminName,
-                                                                                                                                           kAPIhasAccess: existingAdminObj.hasAccess
-                                                                                                                                           } : nil];
+//                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+//                                                                                                                                           kAPIadminId: existingAdminObj.adminId,
+//                                                                                                                                           kAPIadminName: existingAdminObj.adminName,
+//                                                                                                                                           kAPIhasAccess: existingAdminObj.hasAccess
+//                                                                                                                                           } : nil];
 
+                        [Court updatedCourtPropertyofCourt:tempCourtObj withProperty:kCourtIsSynced andValue:@1];
+                        
                         POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
                         
                         if (courtObj) {

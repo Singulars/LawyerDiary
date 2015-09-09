@@ -70,13 +70,19 @@ BOOL isForSubordinate;
     }
     
     [arrCases removeAllObjects];
-    [arrCases addObjectsFromArray:[self sortCasesArray:[Cases fetchCasesForSubordinate]]];
     
-    [self.tableView reloadData];
+    [arrCases addObjectsFromArray:[self sortCasesArray:[Cases fetchCasesForSubordinate]]];
     
     if (arrCases.count > 0) {
         [self showSpinner:NO withError:NO];
     }
+    else {
+        [lblErrorMsg setText:@"No Cases Found."];
+        [self showSpinner:NO withError:YES];
+    }
+    
+    [self.tableView reloadData];
+    
 }
 
 - (NSMutableArray *)sortCasesArray:(NSArray *)toBeSortedArr
@@ -174,13 +180,11 @@ BOOL isForSubordinate;
     }
     else {
         
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        
         [self fetchCasesLocally:nil];
         
         [self setBarButton:AddBarButton];
         
-        if (arrCases.count > 0) {
+        if (arrCases.count > 0 || arrCases.count == 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
@@ -504,7 +508,7 @@ BOOL isForSubordinate;
             SubordinateAdmin *adminObj = [arrCases[indexPath.section] objectForKey:kAPIadminData];
             
             if ([adminObj.hasAccess isEqualToNumber:@1]) {
-                [self.tableView beginUpdates];
+//                [self.tableView beginUpdates];
                 
                 NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
                 
@@ -514,7 +518,7 @@ BOOL isForSubordinate;
                     NSInteger itemIndex = itemAndSubsectionIndex.row;
                     
                     
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+//                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
                     
                     
                     if (itemIndex != -1) {
@@ -523,11 +527,9 @@ BOOL isForSubordinate;
                         [Cases updatedCasePropertyofCase:caseObj withProperty:kCaseIsDeleted andValue:@1];
                         
                         [self deleteCase:caseObj forAdmin:adminObj];
+//                        [self.tableView endUpdates];
                         
                         [self fetchCasesLocally:nil];
-                        
-                        [self.tableView endUpdates];
-                        
                     }
                 }
                 

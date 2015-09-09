@@ -394,7 +394,7 @@ BOOL isForSubordinate;
             }
                 break;
             case 1: {
-                filterPredicateTerm = [NSPredicate predicateWithFormat:@"megistrateName CONTAINS[c] %@", searchText];
+                filterPredicateTerm = [NSPredicate predicateWithFormat:@"courtName CONTAINS[c] %@", searchText];
             }
                 break;
             case 2: {
@@ -411,6 +411,7 @@ BOOL isForSubordinate;
         }
         
         filteredCasesArray = [arrCases filteredArrayUsingPredicate:filterPredicateTerm];
+        NSLog(@"%@", filteredCasesArray);
     }
     
     [self.tableView reloadData];

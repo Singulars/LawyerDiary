@@ -45,6 +45,8 @@
     IBOutlet UIDatePicker *reminderDatePicker;
     
     IBOutlet UIBarButtonItem *barBtnSave;
+    
+    IBOutlet UISwitch *switchReminderDate;
 }
 
 @property (nonatomic, strong) id <UpdateCaseDelegate> delegate;

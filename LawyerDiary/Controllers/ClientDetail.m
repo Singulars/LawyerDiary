@@ -34,6 +34,10 @@ SubordinateAdmin *selectedAdminObj;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:WHITE_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
+    
+    [tfEmail setPlaceholder:@"Optional"];
+    [tvAddress setPlaceholder:@"Optional"];
+    
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
@@ -228,15 +232,13 @@ SubordinateAdmin *selectedAdminObj;
     if (indexPath.row == 5) {
         if (tfFirstName.text.length == 0 ||
             tfLastName.text.length == 0 ||
-            tfMobile.text.length == 0 ||
-            tfEmail.text.length == 0 ||
-            tvAddress.text.length == 0)
+            tfMobile.text.length == 0)
         {
             [Global showNotificationWithTitle:@"Client detail can't be blanked!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
-        else if (![Global validateEmail:tfEmail.text]) {
-            [Global showNotificationWithTitle:@"Please enter valid Email" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        }
+//        else if (![Global validateEmail:tfEmail.text]) {
+//            [Global showNotificationWithTitle:@"Please enter valid Email" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+//        }
         else {
             [self.view endEditing:YES];
             
@@ -294,9 +296,7 @@ SubordinateAdmin *selectedAdminObj;
     else {
         if (tfFirstName.text.length == 0 ||
             tfLastName.text.length == 0 ||
-            tfMobile.text.length == 0 ||
-            tfEmail.text.length == 0 ||
-            tvAddress.text.length == 0)
+            tfMobile.text.length == 0)
         {
             [Global showNotificationWithTitle:@"Client detail can't be blanked!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
@@ -371,12 +371,14 @@ SubordinateAdmin *selectedAdminObj;
                     }
                     else {
                         //[Client saveClient:responseObject[kAPIclientData] forUser:USER_ID];
-                        [Client saveClients:responseObject[kAPIclientData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
-                                                                                                                                  kAPIadminId: existingAdminObj.adminId,
-                                                                                                                                  kAPIadminName: existingAdminObj.adminName,
-                                                                                                                                  kAPIhasAccess: existingAdminObj.hasAccess
-                                                                                                                                  } : nil];
+//                        [Client saveClients:responseObject[kAPIclientData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+//                                                                                                                                  kAPIadminId: existingAdminObj.adminId,
+//                                                                                                                                  kAPIadminName: existingAdminObj.adminName,
+//                                                                                                                                  kAPIhasAccess: existingAdminObj.hasAccess
+//                                                                                                                                  } : nil];
 
+                        [Client updatedClientPropertyofClient:tempClientObj withProperty:kClientIsSynced andValue:@1];
+                        
                         POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateClients : kFetchClients, nil);
                         
                         if (clientObj) {

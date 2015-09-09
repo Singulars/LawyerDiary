@@ -116,13 +116,12 @@ BOOL isForSubordinate;
         }];
     }
     else {
-        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         
         [self fetchCourtsLocally:nil];
         
         [self setBarButton:AddBarButton];
         
-        if (arrCourts.count > 0) {
+        if (arrCourts.count > 0 || arrCourts.count == 0) {
             [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
         }
         else {
