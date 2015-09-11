@@ -13,6 +13,7 @@
 #import "SVPullToRefresh.h"
 #import "CourtDetail.h"
 
+BOOL isForSubordinate;
 SubordinateAdmin *selectedAdminObj;
 
 @interface Courts () <SWTableViewCellDelegate>
@@ -179,6 +180,8 @@ SubordinateAdmin *selectedAdminObj;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    isForSubordinate = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

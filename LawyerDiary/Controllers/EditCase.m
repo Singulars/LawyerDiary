@@ -595,12 +595,13 @@ SubordinateAdmin *selectedAdminObj;
 {
     existingClientObj = clientObj;
 
-    if (existingCaseObj != nil) {
-        [existingCaseObj setCourtId:existingClientObj.clientId];
-        [existingCaseObj setCourtName:existingClientObj.clientFirstName];
-        [existingCaseObj setCourtName:existingClientObj.clientLastName];
-        [existingCaseObj setMegistrateName:existingClientObj.mobile];
-    }
+//    if (existingCaseObj != nil) {
+//        [existingCaseObj setClientId:existingClientObj.clientId];
+//        [existingCaseObj setLocalClientId:existingClientObj.localClientId];
+//        [existingCaseObj setClientFirstName:existingClientObj.clientFirstName];
+//        [existingCaseObj setClientLastName:existingClientObj.clientLastName];
+//        [existingCaseObj setMobile:existingClientObj.mobile];
+//    }
     
     [lblClientName setText:[NSString stringWithFormat:@"%@ %@", CAPITALIZED_STRING(existingClientObj.clientFirstName), CAPITALIZED_STRING(existingClientObj.clientLastName)]];
     [lblClientMobile setText:existingClientObj.mobile];
@@ -612,12 +613,13 @@ SubordinateAdmin *selectedAdminObj;
 {
     existingCourtObj = courtObj;
     
-    if (existingCaseObj != nil) {
-        [existingCaseObj setCourtId:existingCourtObj.courtId];
-        [existingCaseObj setCourtName:existingCourtObj.courtName];
-        [existingCaseObj setCourtName:existingCourtObj.courtCity];
-        [existingCaseObj setMegistrateName:existingCourtObj.megistrateName];
-    }
+//    if (existingCaseObj != nil) {
+//        [existingCaseObj setCourtId:existingCourtObj.courtId];
+//        [existingCaseObj setLocalCourtId:existingCourtObj.localCourtId];
+//        [existingCaseObj setCourtName:existingCourtObj.courtName];
+//        [existingCaseObj setCourtCity:existingCourtObj.courtCity];
+//        [existingCaseObj setMegistrateName:existingCourtObj.megistrateName];
+//    }
     
     [lblCourtName setText:existingCourtObj.courtName];
     [lblMegistrateName setText:existingCourtObj.megistrateName];
@@ -684,7 +686,7 @@ SubordinateAdmin *selectedAdminObj;
                                      kAPIMode: ksaveCase,
                                      kAPIuserId: USER_ID,
                                      kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                     kAPIcaseId: existingCaseObj ? existingCaseObj.caseId : @"",
+                                     kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@0] ? existingCaseObj.caseId : @"",
                                      kAPIcaseNo: tempCaseObj.caseNo,
                                      kAPIlastHeardDate: tempCaseObj.lastHeardDate,
                                      kAPInextHearingDate: tempCaseObj.nextHearingDate,
@@ -793,7 +795,7 @@ SubordinateAdmin *selectedAdminObj;
             break;
         case IndicatorBarButton: {
             barBtnSave = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
-            [barBtnSave setTintColor:WHITE_COLOR];
+            [barBtnSave setTintColor:BLACK_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             [self.spinnerView startAnimating];
             

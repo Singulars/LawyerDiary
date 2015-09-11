@@ -114,10 +114,19 @@ Reachability *hostReach;
             UI_ALERT(@"Notification Received!", string, nil);
             
             NSLog(@"%@", userInfo);
-            
-            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-            [[UIApplication sharedApplication] cancelAllLocalNotifications];
         }
+        else {
+            NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+            
+//            NSString *string = [NSString stringWithFormat:@"%@", [[userInfo objectForKey:@"aps"] objectForKey:@"alert"]];
+//            
+//            UI_ALERT(@"Notification Received!", string, nil);
+//            
+//            NSLog(@"%@", userInfo);
+        }
+        
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
     }
     
     return YES;
@@ -281,6 +290,21 @@ Reachability *hostReach;
     
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    if (application.applicationState == UIApplicationStateActive ||
+        application.applicationState == UIApplicationStateBackground||
+        application.applicationState == UIApplicationStateInactive) {
+        
+        UI_ALERT(@"Notification Received!", notification.alertBody, nil);
+    }
+    
+    NSLog(@"%@", notification.alertBody);
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+}
+
 - (void)getCurrentNotificationSettings
 {
     UIUserNotificationSettings *userSettings = [[UIApplication sharedApplication] currentUserNotificationSettings];
@@ -360,9 +384,11 @@ Reachability *hostReach;
                         [UIView setAnimationsEnabled:oldState];
                     }
                     completion:^(BOOL finished) {
-                        [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
-                            
-                        }];
+                        if (IS_INTERNET_CONNECTED) {
+                            [ShareObj fetchSubordinatesWithCompletionHandler:^(BOOL finished) {
+                                
+                            }];
+                        }
                         
                         [ShareObj fetchCourts];
                         [ShareObj fetchCourtsForSubordinate];
@@ -431,8 +457,7 @@ Reachability *hostReach;
     [self.drawerViewController toggleDrawerWithSide:JVFloatingDrawerSideLeft animated:animated completion:nil];
 }
 
-#pragma mark Center
-
+#pragma mark Cent
 - (CasesTabBar *)casesTabBar {
     if (!_casesTabBar) {
         _casesTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];

@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) IBOutlet UILabel *lblClientName;
 @property (nonatomic, strong) IBOutlet UILabel *lblOppositionName;
+@property (nonatomic, strong) IBOutlet UILabel *lblCourt;
 @property (nonatomic, strong) IBOutlet UIImageView *imgViewProfile;
 
 @property (nonatomic, strong) Cases *caseObj;

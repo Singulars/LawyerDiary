@@ -66,4 +66,9 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 + (BOOL)isThisClientExist:(NSNumber *)localClientId;
 + (BOOL)isThisCourtExist:(NSNumber *)localCourtId;
 
++ (NSArray *)fetchCasesWhichBelongsToThisCourt:(NSNumber *)localCourtId;
++ (NSArray *)fetchCaseWhichBelongsToThisClient:(NSNumber *)localClientId;
+
++ (BOOL)isAnyCaseNotSynced;
+
 @end

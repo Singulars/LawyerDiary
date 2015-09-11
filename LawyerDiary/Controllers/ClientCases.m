@@ -14,6 +14,7 @@
 #import "UpdateCase.h"
 #import "EditCase.h"
 
+BOOL isForSubordinate;
 SubordinateAdmin *selectedAdminObj;
 
 @interface ClientCases ()<SWTableViewCellDelegate>
@@ -24,7 +25,6 @@ SubordinateAdmin *selectedAdminObj;
     
     BOOL isRequesting;
 }
-@property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 @property (nonatomic, strong) NSMutableArray *arrCases;
 @property (nonatomic, strong) NSMutableArray *arrIndexPaths;
 
@@ -50,7 +50,7 @@ SubordinateAdmin *selectedAdminObj;
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
-    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 64, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -153,6 +153,10 @@ SubordinateAdmin *selectedAdminObj;
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    isForSubordinate = NO;
+    
+    [self fetchCasesLocally:nil];
     
     //    if (!arrCases) {
     //        arrCases = [[NSMutableArray alloc] init];
@@ -557,7 +561,7 @@ SubordinateAdmin *selectedAdminObj;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44.f;
+    return 60.f;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

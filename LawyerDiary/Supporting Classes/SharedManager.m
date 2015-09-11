@@ -933,4 +933,118 @@ static SharedManager *sharedManager;
     }
 }
 
+- (void)saveCaseWhileUpdatingCourtOrClient:(Cases *)caseObj
+{
+    @try {
+        
+        NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
+        caseParams[kAPIuserId] = USER_ID;
+        caseParams[kAPIcaseNo] = caseObj.caseNo;
+        caseParams[kAPIlastHeardDate] = caseObj.lastHeardDate;
+        caseParams[kAPInextHearingDate] = caseObj.nextHearingDate;
+        caseParams[kAPIcaseStatus] = caseObj.caseStatus;
+        caseParams[kAPIlocalClientId] = caseObj.localClientId;
+        caseParams[kAPIclientId] = caseObj.clientId;
+        caseParams[kAPIclientFirstName] = caseObj.clientFirstName;
+        caseParams[kAPIclientLastName] = caseObj.clientLastName;
+        caseParams[kAPImobile] = caseObj.mobile;
+        caseParams[kAPIoppositionFirstName] = caseObj.oppositionFirstName;
+        caseParams[kAPIoppositionLastName] = caseObj.oppositionLastName;
+        caseParams[kAPIoppositionLawyerName] = caseObj.oppositionLawyerName;
+        caseParams[kAPIlocalCourtId] = caseObj.localCourtId;
+        caseParams[kAPIcourtId] = caseObj.courtId;
+        caseParams[kAPIcourtName] = caseObj.courtName;
+        caseParams[kAPImegistrateName] = caseObj.megistrateName;
+        caseParams[kAPIcourtCity] = caseObj.courtCity;
+        caseParams[kIsSynced] = @0;
+        
+        if (caseObj) {
+            if ([caseObj.isSynced isEqualToNumber:@1]) {
+                caseParams[kAPIcaseId] = caseObj.caseId;
+            }
+            
+            caseParams[kAPIlocalCaseId] = caseObj.localCaseId;
+        }
+        
+        BOOL isSubordinate;
+        if ([caseObj.isSubordinate isEqualToNumber:@1]) {
+            isSubordinate = YES;
+        }
+        
+        Cases *tempCaseObj = [Cases saveCase:caseParams forSubordiante:isSubordinate withAdminDetail:isSubordinate ? @{
+                                                                                                                       kAPIadminId: caseObj.adminId,
+                                                                                                                       kAPIadminName: caseObj.adminName,
+                                                                                                                       kAPIhasAccess: caseObj.hasAccess
+                                                                                                                       } : nil];
+        
+        if (IS_INTERNET_CONNECTED) {
+            
+            @try {
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveCase,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalCaseId: tempCaseObj.localCaseId,
+                                         kAPIcaseId: ![caseObj.caseId isEqualToNumber:@0] ? caseObj.caseId : @"",
+                                         kAPIcaseNo: tempCaseObj.caseNo,
+                                         kAPIlastHeardDate: tempCaseObj.lastHeardDate,
+                                         kAPInextHearingDate: tempCaseObj.nextHearingDate,
+                                         kAPIcaseStatus: tempCaseObj.caseStatus,
+                                         kAPIlocalClientId: tempCaseObj.localClientId,
+                                         kAPIclientId: tempCaseObj.clientId,
+                                         kAPIclientFirstName: tempCaseObj.clientFirstName,
+                                         kAPIclientLastName: tempCaseObj.clientLastName,
+                                         kAPImobile: tempCaseObj.mobile,
+                                         kAPIemail: @"",
+                                         kAPIaddress: @"",
+                                         kAPIoppositionFirstName: tempCaseObj.oppositionFirstName,
+                                         kAPIoppositionLastName: tempCaseObj.oppositionLastName,
+                                         kAPIoppositionLawyerName: tempCaseObj.oppositionLawyerName,
+                                         kAPIlocalCourtId: tempCaseObj.localCourtId,
+                                         kAPIcourtId: tempCaseObj.courtId,
+                                         kAPIcourtName: tempCaseObj.courtName,
+                                         kAPImegistrateName: tempCaseObj.megistrateName,
+                                         kAPIcourtCity: tempCaseObj.courtCity,
+                                         kAPIadminId: isForSubordinate ? caseObj.adminId : @0
+                                         };
+                
+                NSLog(@"%@", params);
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        
+                        if (responseObject == nil) {
+                            [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        else {
+                            if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                                [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                                //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                            }
+                            else {
+                                [Cases updateCase:responseObject forUser:USER_ID];
+                            }
+                        }
+                        
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        
+                    }];
+                });
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Exception => %@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exeption => %@", [exception debugDescription]);
+    }
+    @finally {
+        
+    }
+}
+
 @end

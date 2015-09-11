@@ -16,10 +16,6 @@
             <string>UnDotum-Bold</string>
             <string>UnDotum-Bold</string>
             <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
-            <string>UnDotum-Bold</string>
         </mutableArray>
         <mutableArray key="UnDotum.ttf">
             <string>UnDotum</string>
@@ -295,47 +291,38 @@
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CaseCell" rowHeight="44" id="r3Q-f4-r5y" userLabel="CaseCell" customClass="CaseCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CaseCell" rowHeight="60" id="r3Q-f4-r5y" userLabel="CaseCell" customClass="CaseCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r3Q-f4-r5y" id="46M-hY-SgN">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PVx-rH-7IG">
-                                                    <rect key="frame" x="60" y="2" width="230" height="40"/>
+                                                    <rect key="frame" x="64" y="9" width="220" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opposition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EgY-tW-qkb">
-                                                    <rect key="frame" x="186" y="8" width="100" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="IiJ-aq-Xi4">
-                                                    <rect key="frame" x="15" y="4" width="36" height="36"/>
+                                                    <rect key="frame" x="15" y="8" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                 </imageView>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v/s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="COz-ha-LAX">
-                                                    <rect key="frame" x="154" y="8" width="26" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="row-disclosure" id="09e-Yu-xKa">
                                                     <rect key="frame" x="298" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <animations/>
                                                     <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Court" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Zx-dQ-Yjc">
+                                                    <rect key="frame" x="64" y="32" width="230" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <animations/>
                                         </tableViewCellContentView>
@@ -343,7 +330,7 @@
                                         <connections>
                                             <outlet property="imgViewProfile" destination="IiJ-aq-Xi4" id="w3v-ei-njh"/>
                                             <outlet property="lblClientName" destination="PVx-rH-7IG" id="03q-Dt-BBn"/>
-                                            <outlet property="lblOppositionName" destination="EgY-tW-qkb" id="uBV-Fo-WDb"/>
+                                            <outlet property="lblCourt" destination="0Zx-dQ-Yjc" id="JRr-gB-bhK"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2743,55 +2730,46 @@ Will be fixed soon!</string>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CaseCell" rowHeight="44" id="0S9-nE-dZo" userLabel="CaseCell" customClass="CaseCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CaseCell" rowHeight="60" id="RPm-pe-aTM" userLabel="CaseCell" customClass="CaseCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0S9-nE-dZo" id="63z-4v-GhO">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RPm-pe-aTM" id="EG4-zQ-htG">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pbW-4K-PHs">
-                                                    <rect key="frame" x="60" y="2" width="230" height="40"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Client" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wot-DV-1mR">
+                                                    <rect key="frame" x="64" y="9" width="220" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <animations/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Opposition" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8hQ-BY-Xus">
-                                                    <rect key="frame" x="186" y="8" width="100" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="yFV-zJ-7Zr">
-                                                    <rect key="frame" x="15" y="4" width="36" height="36"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user-avatar-80" id="V5y-f3-Mau">
+                                                    <rect key="frame" x="15" y="8" width="44" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <animations/>
                                                 </imageView>
-                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v/s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="htl-Er-9dA">
-                                                    <rect key="frame" x="154" y="8" width="26" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <animations/>
-                                                    <fontDescription key="fontDescription" name="UnDotum-Bold" family="UnDotum" pointSize="16"/>
-                                                    <color key="textColor" red="0.16862745100000001" green="0.1647058824" blue="0.16078431369999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="row-disclosure" id="f46-HP-G3O">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="row-disclosure" id="Fdr-I6-n5S">
                                                     <rect key="frame" x="298" y="15" width="14" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
                                                     <animations/>
                                                     <color key="tintColor" red="0.31372549020000001" green="0.36470588240000001" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Court" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sBv-1u-tQf">
+                                                    <rect key="frame" x="64" y="32" width="230" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <animations/>
                                         </tableViewCellContentView>
                                         <animations/>
                                         <connections>
-                                            <outlet property="imgViewProfile" destination="yFV-zJ-7Zr" id="j91-Ff-XT4"/>
-                                            <outlet property="lblClientName" destination="pbW-4K-PHs" id="FGl-Ky-nlq"/>
-                                            <outlet property="lblOppositionName" destination="8hQ-BY-Xus" id="yug-gU-Z5j"/>
+                                            <outlet property="imgViewProfile" destination="V5y-f3-Mau" id="jl9-qF-Wa6"/>
+                                            <outlet property="lblClientName" destination="wot-DV-1mR" id="0R6-0r-EqX"/>
+                                            <outlet property="lblCourt" destination="sBv-1u-tQf" id="xgU-VR-3JG"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3798,6 +3776,7 @@ user of Lawyer App.</string>
                         <outlet property="datePicker" destination="haF-uR-k0c" id="3Os-rw-dOa"/>
                         <outlet property="lblCourtCity" destination="TQs-fL-b4e" id="VxO-dr-3Ef"/>
                         <outlet property="lblCourtName" destination="sNP-Rr-jJ6" id="ge5-Q2-tuJ"/>
+                        <outlet property="lblLastCaseStatus" destination="IVQ-da-wI2" id="tFd-Pu-7nc"/>
                         <outlet property="lblMegistrateName" destination="sEq-4o-gwM" id="ltY-bL-kCj"/>
                         <outlet property="lblReminderDate" destination="War-r9-brR" id="l6O-6a-OT1"/>
                         <outlet property="reminderDatePicker" destination="PkI-B4-rwW" id="SIT-Ox-LYn"/>
@@ -3807,6 +3786,7 @@ user of Lawyer App.</string>
                         <outlet property="tfLastCaseStatus" destination="SA6-8u-upS" id="WbS-se-PX6"/>
                         <outlet property="tfNHearingDate" destination="bhF-VT-wXP" id="pPp-PD-bco"/>
                         <outlet property="tfPHeardDate" destination="19B-3u-7UG" id="Txv-UT-Srb"/>
+                        <outlet property="txtViewLastCaseStatus" destination="ZlO-PL-Vpq" id="8UE-fT-RDV"/>
                     </connections>
                 </viewController>
                 <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="bc5-Zh-p0a" userLabel="ReminderDateCell">
@@ -3894,9 +3874,6 @@ user of Lawyer App.</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters" spellCheckingType="no" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="SdY-QX-gKq" id="kXx-hz-Ohn"/>
-                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tu5-Sh-EVg">
                                 <rect key="frame" x="15" y="0.0" width="82" height="43"/>
@@ -3908,6 +3885,22 @@ Status</string>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IVQ-da-wI2">
+                                <rect key="frame" x="110" y="0.0" width="200" height="43"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="ZlO-PL-Vpq">
+                                <rect key="frame" x="103" y="-5" width="205" height="48"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                <animations/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <animations/>
                     </tableViewCellContentView>

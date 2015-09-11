@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern BOOL isForSubordinate;
+
 @interface ClientCases : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;
@@ -19,6 +21,8 @@
     UIBarButtonItem *barBtnReload;
 
 }
+
+@property (nonatomic, strong) LLARingSpinnerView *spinnerView;
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 

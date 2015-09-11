@@ -35,7 +35,7 @@ BOOL isForSubordinate;
     
     [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
     
-    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
+    [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 64, 0, 0)];
     
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 35, 35)];
@@ -49,13 +49,15 @@ BOOL isForSubordinate;
     [self.navigationItem setBackBarButtonItem:[Global hideBackBarButtonTitle]];
     
     [self loadSubordinatesCases];
-    
-    isForSubordinate = YES;
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self fetchCasesLocally:nil];
+    
+    isForSubordinate = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -237,7 +239,7 @@ BOOL isForSubordinate;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat rowHeight = 44;
+    CGFloat rowHeight = 60;
     
     NSMutableArray *sectionItems = [self.arrCases[(NSUInteger) indexPath.section] objectForKey:@"data"];
     
@@ -252,7 +254,7 @@ BOOL isForSubordinate;
         }
     }
     else {
-        rowHeight = 44;
+        rowHeight = 60;
     }
     return rowHeight;
 }

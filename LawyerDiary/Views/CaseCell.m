@@ -18,16 +18,26 @@
 
 - (void)configureCellWithCaseObj:(Cases *)obj forIndexPath:(NSIndexPath *)indexPath
 {
-    _caseObj = obj;
-    _indexPath = indexPath;
-    
-    [_lblClientName setText:[NSString stringWithFormat:@"%@ V/S %@", _caseObj.clientFirstName, _caseObj.oppositionFirstName]];
-//    [_lblOppositionName setText:_caseObj.oppositionFirstName];
-    
-    Client *objClient = [Client fetchClient:_caseObj.clientId];
-    
-    if ([objClient.isTaskPlanner isEqualToNumber:@1]) {
-        [_imgViewProfile setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(objClient.clientId)] placeholderImage:image_placeholder_80];
+    @try {
+        _caseObj = obj;
+        _indexPath = indexPath;
+        
+        [_lblClientName setText:[NSString stringWithFormat:@"%@ V/S %@", _caseObj.clientFirstName, _caseObj.oppositionFirstName]];
+        //    [_lblOppositionName setText:_caseObj.oppositionFirstName];
+        
+        Client *objClient = [Client fetchClient:_caseObj.clientId];
+        
+        if ([objClient.isTaskPlanner isEqualToNumber:@1]) {
+            [_imgViewProfile setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(objClient.clientId)] placeholderImage:image_placeholder_80];
+        }
+        
+        [_lblCourt setText:_caseObj.courtName];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 

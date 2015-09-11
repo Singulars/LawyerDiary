@@ -339,6 +339,24 @@ SubordinateAdmin *selectedAdminObj;
                                                                                                                                   kAPIhasAccess: existingAdminObj.hasAccess
                                                                                                                                   } : nil];
     
+    if (clientObj) {
+        NSArray *caseArr = [Cases fetchCaseWhichBelongsToThisClient:clientObj.localClientId];
+        
+        
+        if (caseArr.count > 0) {
+            
+            for (Cases *caseObj in caseArr) {
+                [caseObj setLocalClientId:tempClientObj.localClientId];
+                [caseObj setClientId:tempClientObj.clientId];
+                [caseObj setClientFirstName:tempClientObj.clientFirstName];
+                [caseObj setClientLastName:tempClientObj.clientLastName];
+                [caseObj setMobile:tempClientObj.mobile];
+                
+                [ShareObj saveCaseWhileUpdatingCourtOrClient:caseObj];
+            }
+        }
+    }
+    
     if (IS_INTERNET_CONNECTED) {
         
         @try {

@@ -12,6 +12,7 @@
 #import "ClientDetail.h"
 #import "ClientCell.h"
 
+BOOL isForSubordinate;
 SubordinateAdmin *selectedAdminObj;
 
 typedef NS_ENUM(NSUInteger, InputFieldTags) {
@@ -108,6 +109,8 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    isForSubordinate = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

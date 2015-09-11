@@ -36,6 +36,9 @@
     IBOutlet FFTextField *tfNHearingDate;
     IBOutlet FFTextField *tfCaseStatus;
     
+    IBOutlet UITextView *txtViewLastCaseStatus;
+    
+    IBOutlet UILabel *lblLastCaseStatus;
     IBOutlet UILabel *lblCourtName;
     IBOutlet UILabel *lblMegistrateName;
     IBOutlet UILabel *lblCourtCity;

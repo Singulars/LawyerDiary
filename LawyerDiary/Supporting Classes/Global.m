@@ -1241,4 +1241,21 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
     return newDate;
 }
 
++ (NSDate *)addHours:(NSInteger)noOfHours inDate:(NSDate *)date
+{
+    NSCalendar* calendar = [NSCalendar currentCalendar] ;
+    
+    NSDateComponents* dateWithoutSecondsComponents = [calendar components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit) fromDate:date] ;
+    NSDate* dateWithoutSeconds = [calendar dateFromComponents:dateWithoutSecondsComponents];
+    
+    NSDateComponents* addOneMonthComponents = [NSDateComponents new] ;
+    addOneMonthComponents.hour = noOfHours;
+    NSDate* oneDayFromNowWithoutSeconds = [calendar dateByAddingComponents:addOneMonthComponents toDate:dateWithoutSeconds options:0] ;
+    NSDate *newDate = oneDayFromNowWithoutSeconds ;
+    
+    NSLog(@"Added hours date: %@", newDate);
+    
+    return newDate;
+}
+
 @end

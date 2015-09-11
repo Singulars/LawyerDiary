@@ -48,7 +48,7 @@
         
         Client *obj;
         
-        if ([dataDict objectForKey:kAPIlocalCaseId]) {
+        if ([dataDict objectForKey:kAPIlocalClientId]) {
             obj = [self fetchClientLocally:@([[dataDict objectForKey:kAPIlocalClientId] integerValue])];
         }
 //        if ([dataDict objectForKey:kAPIclientId]) {

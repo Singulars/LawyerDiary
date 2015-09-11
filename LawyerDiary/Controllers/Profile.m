@@ -123,6 +123,11 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     [super viewDidAppear:animated];
     
     [self setUserDetail];
+    
+    // Set the proper height of the content cell of the text
+    CGRect frame = tvAddress.frame;
+    frame.size.height = tvAddress.contentSize.height;
+    tvAddress.frame = frame;
 }
 
 #pragma mark - Misc
@@ -584,6 +589,14 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
             }
             else {
                 rowHeight = 88;
+                
+                if (indexPath.row == 1) {
+                    rowHeight = tvAddress.contentSize.height;
+                }
+                
+                if (rowHeight < 88) {
+                    rowHeight = 88;
+                }
             }
         }
             break;

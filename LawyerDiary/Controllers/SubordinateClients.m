@@ -45,13 +45,13 @@ BOOL isForSubordinate;
     
     [self loadSubordinatesClients];
     
-    isForSubordinate = YES;
-    
     // Do any additional setup after loading the view.
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    isForSubordinate = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

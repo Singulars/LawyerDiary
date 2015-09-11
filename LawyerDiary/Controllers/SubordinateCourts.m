@@ -43,12 +43,12 @@ BOOL isForSubordinate;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fetchCourtsLocally:) name:kFetchSubordinateCourts object:nil];
     
     [self loadSubordinatesCourts];
-    
-    isForSubordinate = YES;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    isForSubordinate = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

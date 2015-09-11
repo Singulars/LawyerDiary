@@ -45,7 +45,7 @@
         
         Court *obj;
        
-        if ([dataDict objectForKey:kAPIlocalCaseId]) {
+        if ([dataDict objectForKey:kAPIlocalCourtId]) {
             obj = [self fetchCourtLocally:@([[dataDict objectForKey:kAPIlocalCourtId] integerValue])];
         }
         
@@ -60,7 +60,7 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalCourtId:[dataDict objectForKey:kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : [Court generateID]];
-                [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
+                [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @0];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];
@@ -91,7 +91,7 @@
             @try {
                 [obj setUserId:USER_ID];
                 [obj setLocalCourtId:[dataDict objectForKey:kAPIlocalCourtId] ? @([[dataDict objectForKey:kAPIlocalCourtId] integerValue]) : [self generateID]];
-                [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @-1];
+                [obj setCourtId:dataDict[kAPIcourtId] ? @([[dataDict objectForKey:kAPIcourtId] integerValue]) : @0];
                 [obj setCourtName:dataDict[kAPIcourtName] ? dataDict[kAPIcourtName] : @""];
                 [obj setCourtCity:dataDict[kAPIcourtCity] ? dataDict[kAPIcourtCity] : @""];
                 [obj setMegistrateName:dataDict[kAPImegistrateName] ? dataDict[kAPImegistrateName] : @""];

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern BOOL isForSubordinate;
+
 @interface ClientsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     IBOutlet UILabel *lblErrorMsg;

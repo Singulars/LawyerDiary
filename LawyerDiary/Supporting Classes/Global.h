@@ -180,4 +180,6 @@ void AddGlowArc(CGContextRef context, CGFloat x, CGFloat y, CGFloat radius, CGFl
 + (NSDate *)addWeeks:(NSInteger)noOfWeek inDate:(NSDate *)date;
 + (NSDate *)addDays:(NSInteger)noOfDays inDate:(NSDate *)date;
 + (NSDate *)removeDays:(NSInteger)noOfDays fromDate:(NSDate *)date;
+
++ (NSDate *)addHours:(NSInteger)noOfHours inDate:(NSDate *)date;
 @end

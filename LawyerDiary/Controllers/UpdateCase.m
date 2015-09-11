@@ -72,7 +72,7 @@ SubordinateAdmin *selectedAdminObj;
     self.spinnerView = [[LLARingSpinnerView alloc] initWithFrame:CGRectZero];
     [self.spinnerView setBounds:CGRectMake(0, 0, 20, 20)];
     [self.spinnerView setHidesWhenStopped:YES];
-    [self.spinnerView setTintColor:WHITE_COLOR];
+    [self.spinnerView setTintColor:BLACK_COLOR];
     [self.spinnerView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds)-NavBarHeight)];
     [self.view addSubview:self.spinnerView];
     
@@ -111,6 +111,16 @@ SubordinateAdmin *selectedAdminObj;
     }
     
     [self validateInputFiledsAccessibility];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+    
+    // Set the proper height of the content cell of the text
+    CGRect frame = txtViewLastCaseStatus.frame;
+    frame.size.height = txtViewLastCaseStatus.contentSize.height;
+    txtViewLastCaseStatus.frame = frame;
 }
 
 - (void)validateInputFiledsAccessibility
@@ -183,7 +193,7 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)setCaseDetail
 {
-    [tfLastCaseStatus setText:existingCaseObj.caseStatus];
+    [txtViewLastCaseStatus setText:existingCaseObj.caseStatus];
     
     if (existingCaseObj.nextHearingDate.length == 0) {
         [tfPHeardDate setText:@"N/A"];
@@ -293,6 +303,14 @@ SubordinateAdmin *selectedAdminObj;
     switch (indexPath.section) {
         case 0: {
             rowHeight = 44;
+            
+            if (indexPath.row == 0) {
+                rowHeight = txtViewLastCaseStatus.contentSize.height;
+                if (rowHeight < 44) {
+                    rowHeight = 44;
+                }
+            }
+            
             if ((isPHCellExpanded && indexPath.row == 2) || (isNHCellExpanded && indexPath.row == 3)) {
                 rowHeight = 162;
             }
@@ -578,12 +596,13 @@ SubordinateAdmin *selectedAdminObj;
 {
     existingCourtObj = courtObj;
     
-    if (existingCaseObj != nil) {
-        [existingCaseObj setCourtId:existingCourtObj.courtId];
-        [existingCaseObj setCourtName:existingCourtObj.courtName];
-        [existingCaseObj setCourtName:existingCourtObj.courtCity];
-        [existingCaseObj setMegistrateName:existingCourtObj.megistrateName];
-    }
+//    if (existingCaseObj != nil) {
+//        [existingCaseObj setCourtId:existingCourtObj.courtId];
+//        [existingCaseObj setLocalCourtId:existingCourtObj.localCourtId];
+//        [existingCaseObj setCourtName:existingCourtObj.courtName];
+//        [existingCaseObj setCourtCity:existingCourtObj.courtCity];
+//        [existingCaseObj setMegistrateName:existingCourtObj.megistrateName];
+//    }
     
     [lblCourtName setText:existingCourtObj.courtName];
     [lblMegistrateName setText:existingCourtObj.megistrateName];
@@ -604,138 +623,157 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)saveCase
 {
-    [self.view endEditing:YES];
-    
-    NSLog(@"date - %@", [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]);
-    
-    NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
-    caseParams[kAPIuserId] = USER_ID;
-    caseParams[kAPIcaseNo] = existingCaseObj.caseNo;
-    caseParams[kAPIlastHeardDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:existingCaseObj.nextHearingDate ofFormat:DefaultBirthdateFormat];
-    caseParams[kAPInextHearingDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat];
-    caseParams[kAPIcaseStatus] = tfCaseStatus.text;
-    caseParams[kAPIlocalClientId] = existingCaseObj.localClientId;
-    caseParams[kAPIclientId] = existingCaseObj.clientId;
-    caseParams[kAPIclientFirstName] = existingCaseObj.clientFirstName;
-    caseParams[kAPIclientLastName] = existingCaseObj.clientLastName;
-    caseParams[kAPImobile] = existingCaseObj.mobile;
-    caseParams[kAPIoppositionFirstName] = existingCaseObj.oppositionFirstName;
-    caseParams[kAPIoppositionLastName] = existingCaseObj.oppositionLastName;
-    caseParams[kAPIoppositionLawyerName] = existingCaseObj.oppositionLawyerName;
-    caseParams[kAPIlocalCourtId] = existingCaseObj.localCourtId;
-    caseParams[kAPIcourtId] = existingCaseObj.courtId;
-    caseParams[kAPIcourtName] = existingCaseObj.courtName;
-    caseParams[kAPImegistrateName] = existingCaseObj.megistrateName;
-    caseParams[kAPIcourtCity] = existingCaseObj.courtCity;
-    caseParams[kIsSynced] = @0;
-    
-    if (existingCaseObj) {
-        if ([existingCaseObj.isSynced isEqualToNumber:@1]) {
-            caseParams[kAPIcaseId] = existingCaseObj.caseId;
-        }
+    @try {
+        [self.view endEditing:YES];
         
-        caseParams[kAPIlocalCaseId] = existingCaseObj.localCaseId;
-    }
-    Cases *tempCaseObj = [Cases saveCase:caseParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
-                                                                                                                         kAPIadminId: existingAdminObj.adminId,
-                                                                                                                         kAPIadminName: existingAdminObj.adminName,
-                                                                                                                         kAPIhasAccess: existingAdminObj.hasAccess
-                                                                                                                         } : nil];
-    
-    if (IS_INTERNET_CONNECTED) {
+        NSLog(@"date - %@", [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat]);
         
-        @try {
-            
-            NSDictionary *params = @{
-                                     kAPIMode: ksaveCase,
-                                     kAPIuserId: USER_ID,
-                                     kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                     kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@-1] ? existingCaseObj.caseId : @"",
-                                     kAPIcaseNo: tempCaseObj.caseNo,
-                                     kAPIlastHeardDate: tempCaseObj.lastHeardDate,
-                                     kAPInextHearingDate: tempCaseObj.nextHearingDate,
-                                     kAPIcaseStatus: tempCaseObj.caseStatus,
-                                     kAPIlocalClientId: tempCaseObj.localClientId,
-                                     kAPIclientId: tempCaseObj.clientId,
-                                     kAPIclientFirstName: tempCaseObj.clientFirstName,
-                                     kAPIclientLastName: tempCaseObj.clientLastName,
-                                     kAPImobile: tempCaseObj.mobile,
-                                     kAPIemail: @"",
-                                     kAPIaddress: @"",
-                                     kAPIoppositionFirstName: tempCaseObj.oppositionFirstName,
-                                     kAPIoppositionLastName: tempCaseObj.oppositionLastName,
-                                     kAPIoppositionLawyerName: tempCaseObj.oppositionLawyerName,
-                                     kAPIlocalCourtId: tempCaseObj.localCourtId,
-                                     kAPIcourtId: tempCaseObj.courtId,
-                                     kAPIcourtName: tempCaseObj.courtName,
-                                     kAPImegistrateName: tempCaseObj.megistrateName,
-                                     kAPIcourtCity: tempCaseObj.courtCity,
-                                     kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
-                                     };
-            
-            NSLog(@"%@", params);
-            
-            [self setBarButton:IndicatorBarButton];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    
-                    [self setBarButton:SaveBarButton];
-                    
-                    if (responseObject == nil) {
-                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                    }
-                    else {
-                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
-                        }
-                        else {
-                            [Cases updateCase:responseObject forUser:USER_ID];
-                            
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                POST_NOTIFICATION(kFetchCases, nil);
-                                [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-                            }];
-                        }
-                    }
-                    
-                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    
-                    [self setBarButton:SaveBarButton];
-                    
-                    if (error.code == kCFURLErrorTimedOut) {
-                        [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                    }
-                    else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                    }
-                    else {
-                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                    }
-                }];
-            });
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Exception => %@", [exception debugDescription]);
-        }
-        @finally {
-            
-        }
-    }
-    else {
-        //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        
-        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+        NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
+        caseParams[kAPIuserId] = USER_ID;
+        caseParams[kAPIcaseNo] = existingCaseObj.caseNo;
+        caseParams[kAPIlastHeardDate] = existingCaseObj.nextHearingDate;
+        caseParams[kAPInextHearingDate] = [Global getDateStringOfFormat:ServerBirthdateFormat fromDateString:tfNHearingDate.text ofFormat:DefaultBirthdateFormat];
+        caseParams[kAPIcaseStatus] = tfCaseStatus.text;
+        caseParams[kAPIlocalClientId] = existingCaseObj.localClientId;
+        caseParams[kAPIclientId] = existingCaseObj.clientId;
+        caseParams[kAPIclientFirstName] = existingCaseObj.clientFirstName;
+        caseParams[kAPIclientLastName] = existingCaseObj.clientLastName;
+        caseParams[kAPImobile] = existingCaseObj.mobile;
+        caseParams[kAPIoppositionFirstName] = existingCaseObj.oppositionFirstName;
+        caseParams[kAPIoppositionLastName] = existingCaseObj.oppositionLastName;
+        caseParams[kAPIoppositionLawyerName] = existingCaseObj.oppositionLawyerName;
+        caseParams[kAPIlocalCourtId] = existingCaseObj.localCourtId;
+        caseParams[kAPIcourtId] = existingCaseObj.courtId;
+        caseParams[kAPIcourtName] = existingCaseObj.courtName;
+        caseParams[kAPImegistrateName] = existingCaseObj.megistrateName;
+        caseParams[kAPIcourtCity] = existingCaseObj.courtCity;
+        caseParams[kIsSynced] = @0;
         
         if (existingCaseObj) {
-            [self.navigationController popViewControllerAnimated:YES];
-            [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+            if ([existingCaseObj.isSynced isEqualToNumber:@1]) {
+                caseParams[kAPIcaseId] = existingCaseObj.caseId;
+            }
+            
+            caseParams[kAPIlocalCaseId] = existingCaseObj.localCaseId;
+        }
+        Cases *tempCaseObj = [Cases saveCase:caseParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                             kAPIadminId: existingAdminObj.adminId,
+                                                                                                                             kAPIadminName: existingAdminObj.adminName,
+                                                                                                                             kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                             } : nil];
+        
+        if (IS_INTERNET_CONNECTED) {
+            
+            @try {
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveCase,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalCaseId: tempCaseObj.localCaseId,
+                                         kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@0] ? existingCaseObj.caseId : @"",
+                                         kAPIcaseNo: tempCaseObj.caseNo,
+                                         kAPIlastHeardDate: tempCaseObj.lastHeardDate,
+                                         kAPInextHearingDate: tempCaseObj.nextHearingDate,
+                                         kAPIcaseStatus: tempCaseObj.caseStatus,
+                                         kAPIlocalClientId: tempCaseObj.localClientId,
+                                         kAPIclientId: tempCaseObj.clientId,
+                                         kAPIclientFirstName: tempCaseObj.clientFirstName,
+                                         kAPIclientLastName: tempCaseObj.clientLastName,
+                                         kAPImobile: tempCaseObj.mobile,
+                                         kAPIemail: @"",
+                                         kAPIaddress: @"",
+                                         kAPIoppositionFirstName: tempCaseObj.oppositionFirstName,
+                                         kAPIoppositionLastName: tempCaseObj.oppositionLastName,
+                                         kAPIoppositionLawyerName: tempCaseObj.oppositionLawyerName,
+                                         kAPIlocalCourtId: tempCaseObj.localCourtId,
+                                         kAPIcourtId: tempCaseObj.courtId,
+                                         kAPIcourtName: tempCaseObj.courtName,
+                                         kAPImegistrateName: tempCaseObj.megistrateName,
+                                         kAPIcourtCity: tempCaseObj.courtCity,
+                                         kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
+                                         };
+                
+                NSLog(@"%@", params);
+                
+                [self setBarButton:IndicatorBarButton];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        
+                        [self setBarButton:SaveBarButton];
+                        
+                        if (responseObject == nil) {
+                            [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        else {
+                            if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                                [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                                //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                            }
+                            else {
+                                [Cases updateCase:responseObject forUser:USER_ID];
+                                
+                                [self scheduleNotification];
+                                
+                                POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+                                
+                                if (existingCaseObj) {
+                                    [self.navigationController popViewControllerAnimated:YES];
+                                    [Global showNotificationWithTitle:@"Case updated successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                }
+                                else {
+                                    [self dismissViewControllerAnimated:YES completion:^{
+                                        [Global showNotificationWithTitle:@"Case updated successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                    }];
+                                }
+                            }
+                        }
+                        
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        
+                        [self setBarButton:SaveBarButton];
+                        
+                        if (error.code == kCFURLErrorTimedOut) {
+                            [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                            [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                        else {
+                            [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                        }
+                    }];
+                });
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Exception => %@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
         }
         else {
-            [self dismissViewControllerAnimated:YES completion:^{
+            //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            
+            POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCases : kFetchCases, nil);
+            
+            [self scheduleNotification];
+            
+            if (existingCaseObj) {
+                [self.navigationController popViewControllerAnimated:YES];
                 [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-            }];
+            }
+            else {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [Global showNotificationWithTitle:@"Case saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                }];
+            }
         }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exeption => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
@@ -752,7 +790,7 @@ SubordinateAdmin *selectedAdminObj;
             break;
         case IndicatorBarButton: {
             barBtnSave = [[UIBarButtonItem alloc] initWithCustomView:self.spinnerView];
-            [barBtnSave setTintColor:WHITE_COLOR];
+            [barBtnSave setTintColor:BLACK_COLOR];
             [self.navigationItem setRightBarButtonItem:barBtnSave];
             [self.spinnerView startAnimating];
             
@@ -788,15 +826,15 @@ SubordinateAdmin *selectedAdminObj;
 }
 
 - (IBAction)datePickerValueChanged:(id)sender {
-    NSDate* oneSecondAfterPickersDate = [datePicker.date dateByAddingTimeInterval:1];
-    if ( [datePicker.date compare:datePicker.minimumDate] == NSOrderedSame) {
-        NSLog(@"date is at or below the minimum");
-        datePicker.date = oneSecondAfterPickersDate;
+//    NSDate* oneSecondAfterPickersDate = [datePicker.date dateByAddingTimeInterval:1];
+    if ( [datePicker.date compare:datePicker.minimumDate] == NSOrderedAscending) {
+        NSLog(@"date is at below the minimum");
+        datePicker.date = datePicker.minimumDate;
     }
-    else if ( [datePicker.date compare:datePicker.maximumDate] == NSOrderedSame) {
-        NSLog(@"date is at or above the maximum");
-        datePicker.date = oneSecondAfterPickersDate;
-    }
+//    else if ( [datePicker.date compare:datePicker.maximumDate] == NSOrderedSame) {
+//        NSLog(@"date is at or above the maximum");
+//        datePicker.date = oneSecondAfterPickersDate;
+//    }
     
     [tfNHearingDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:datePicker.date] ofFormat:DefaultBirthdateFormat]];
     
@@ -812,21 +850,73 @@ SubordinateAdmin *selectedAdminObj;
         
         [reminderDatePicker setDate:[Global getDateWithoutSeconds:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]]];
     }
+
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            });
 }
 
 - (IBAction)reminderDatePickerValueChanged:(id)sender {
     
-    NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1];
-    if ( [reminderDatePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedSame) {
+//    NSDate* oneSecondAfterPickersDate = [reminderDatePicker.date dateByAddingTimeInterval:1];
+    if ( [reminderDatePicker.date compare:reminderDatePicker.minimumDate] == NSOrderedAscending) {
         NSLog(@"date is at or below the minimum");
-        reminderDatePicker.date = oneSecondAfterPickersDate;
+        reminderDatePicker.date = reminderDatePicker.minimumDate;
     }
-    else if ( [reminderDatePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame) {
-        NSLog(@"date is at or above the maximum");
-        reminderDatePicker.date = oneSecondAfterPickersDate;
-    }
+//    else if ( [reminderDatePicker.date compare:reminderDatePicker.maximumDate] == NSOrderedSame) {
+//        NSLog(@"date is at or above the maximum");
+//        reminderDatePicker.date = oneSecondAfterPickersDate;
+//    }
     
     [lblReminderDate setText:[Global getDateStringFromDate:[Global getDateWithoutSeconds:reminderDatePicker.date] ofFormat:DefaultBirthdateFormat]];
+}
+
+- (void)scheduleNotification
+{
+    NSDate *reminderDate = [Global addHours:8 inDate:[Global getDatefromDateString:lblReminderDate.text ofFormat:DefaultBirthdateFormat]];
+    
+    NSString *eventText = [NSString stringWithFormat:@"Reminder: Case %@ V/S %@ is scheduled on %@.", existingCaseObj.clientFirstName, existingCaseObj.oppositionFirstName, lblReminderDate.text];
+    
+    NSCalendar *calendar = [NSCalendar autoupdatingCurrentCalendar];
+    
+    // Get the current date
+    NSDate *pickerDate = reminderDate;
+    
+    // Break the date up into components
+    NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit )
+                                                   fromDate:pickerDate];
+    NSDateComponents *timeComponents = [calendar components:( NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit )
+                                                   fromDate:pickerDate];
+    // Set up the fire time
+    NSDateComponents *dateComps = [[NSDateComponents alloc] init];
+    [dateComps setDay:[dateComponents day]];
+    [dateComps setMonth:[dateComponents month]];
+    [dateComps setYear:[dateComponents year]];
+    [dateComps setHour:[timeComponents hour]];
+    // Notification will fire in one minute
+    [dateComps setMinute:[timeComponents minute]];
+    [dateComps setSecond:[timeComponents second]];
+    NSDate *itemDate = [calendar dateFromComponents:dateComps];
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    if (localNotif == nil)
+        return;
+    localNotif.fireDate = itemDate;
+    localNotif.timeZone = [NSTimeZone timeZoneWithName:@"GMT"];
+    
+    // Notification details
+    localNotif.alertBody = eventText;
+    // Set the action button
+    localNotif.alertAction = @"View";
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    localNotif.applicationIconBadgeNumber = 1;
+    
+    // Specify custom data for the notification
+    NSDictionary *infoDict = [NSDictionary dictionaryWithObject:@"someValue" forKey:@"someKey"];
+    localNotif.userInfo = infoDict;
+    
+    // Schedule the notification
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
 }
 
 - (IBAction)switchReminderValueChanged:(id)sender

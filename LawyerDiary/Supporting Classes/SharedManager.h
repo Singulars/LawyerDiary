@@ -71,4 +71,6 @@ typedef NS_ENUM(NSUInteger, FetchSubordinateStatus) {
 - (void)fetchClients;
 - (void)fetchClientsForSubordinates;
 
+- (void)saveCaseWhileUpdatingCourtOrClient:(Cases *)caseObj;
+
 @end

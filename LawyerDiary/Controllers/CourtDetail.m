@@ -258,114 +258,138 @@ SubordinateAdmin *selectedAdminObj;
 
 - (void)saveCourt
 {
-    [activeTextField resignFirstResponder];
-    
-    NSMutableDictionary *courtParams = [[NSMutableDictionary alloc] init];
-    courtParams[kAPIuserId] = USER_ID;
-    courtParams[kAPIcourtName] = tfCourt.text;
-    courtParams[kAPImegistrateName] = tfMegistrate.text;
-    courtParams[kAPIcourtCity] = tfCity.text;
-    courtParams[kIsSynced] = @0;
-    
-    if (courtObj) {
-        if ([courtObj.isSynced isEqualToNumber:@1]) {
-            courtParams[kAPIcourtId] = courtObj.courtId;
-        }
+    @try {
+        [activeTextField resignFirstResponder];
         
-        courtParams[kAPIlocalCourtId] = courtObj.localCourtId;
-    }
-    
-    Court *tempCourtObj = [Court saveCourt:courtParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
-                                                                                                                            kAPIadminId: existingAdminObj.adminId,
-                                                                                                                            kAPIadminName: existingAdminObj.adminName,
-                                                                                                                            kAPIhasAccess: existingAdminObj.hasAccess
-                                                                                                                            } : nil];
-    
-    if (IS_INTERNET_CONNECTED) {
-        
-        @try {
-            
-            [self showIndicator:YES];
-            
-            NSDictionary *params = @{
-                                     kAPIMode: ksaveCourt,
-                                     kAPIuserId: USER_ID,
-                                     kAPIlocalCourtId: tempCourtObj.localCourtId,
-                                     kAPIcourtId: [tempCourtObj.courtId isEqualToNumber:@-1] ? @"" : tempCourtObj.courtId,
-                                     kAPIcourtName: tempCourtObj.courtName,
-                                     kAPImegistrateName: tempCourtObj.megistrateName,
-                                     kAPIcourtCity: tempCourtObj.courtCity,
-                                     kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
-                                     };
-            
-            [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                
-                [self showIndicator:NO];
-                if (responseObject == nil) {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                }
-                else {
-                    if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                        [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-//                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
-                    }
-                    else {
-//                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
-//                                                                                                                                           kAPIadminId: existingAdminObj.adminId,
-//                                                                                                                                           kAPIadminName: existingAdminObj.adminName,
-//                                                                                                                                           kAPIhasAccess: existingAdminObj.hasAccess
-//                                                                                                                                           } : nil];
-
-                        [Court updatedCourtPropertyofCourt:tempCourtObj withProperty:kCourtIsSynced andValue:@1];
-                        
-                        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
-                        
-                        if (courtObj) {
-                            [self.navigationController popViewControllerAnimated:YES];
-                            [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-                        }
-                        else {
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-                            }];
-                        }
-                    }
-                }
-                
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                
-                [self showIndicator:NO];
-                if (error.code == kCFURLErrorTimedOut) {
-                    [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                }
-                else if (error.code == kCFURLErrorNetworkConnectionLost) {
-                    [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                }
-                else {
-                    [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                }
-            }];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Exception => %@", [exception debugDescription]);
-        }
-        @finally {
-            
-        }
-    }
-    else {
-//        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-        POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
+        NSMutableDictionary *courtParams = [[NSMutableDictionary alloc] init];
+        courtParams[kAPIuserId] = USER_ID;
+        courtParams[kAPIcourtName] = tfCourt.text;
+        courtParams[kAPImegistrateName] = tfMegistrate.text;
+        courtParams[kAPIcourtCity] = tfCity.text;
+        courtParams[kIsSynced] = @0;
         
         if (courtObj) {
-            [self.navigationController popViewControllerAnimated:YES];
-            [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+            if ([courtObj.isSynced isEqualToNumber:@1]) {
+                courtParams[kAPIcourtId] = courtObj.courtId;
+            }
+            
+            courtParams[kAPIlocalCourtId] = courtObj.localCourtId;
+        }
+        
+        Court *tempCourtObj = [Court saveCourt:courtParams forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                                                                                                                                kAPIadminId: existingAdminObj.adminId,
+                                                                                                                                kAPIadminName: existingAdminObj.adminName,
+                                                                                                                                kAPIhasAccess: existingAdminObj.hasAccess
+                                                                                                                                } : nil];
+        if (courtObj) {
+            NSArray *caseArr = [Cases fetchCasesWhichBelongsToThisCourt:courtObj.localCourtId];
+            
+            if (caseArr.count > 0) {
+                
+                for (Cases *caseObj in caseArr) {
+                    [caseObj setLocalCourtId:tempCourtObj.localCourtId];
+                    [caseObj setCourtId:tempCourtObj.courtId];
+                    [caseObj setCourtName:tempCourtObj.courtName];
+                    [caseObj setMegistrateName:tempCourtObj.megistrateName];
+                    [caseObj setCourtCity:tempCourtObj.courtCity];
+                    
+                    [ShareObj saveCaseWhileUpdatingCourtOrClient:caseObj];
+                }
+            }
+        }
+        
+        if (IS_INTERNET_CONNECTED) {
+            
+            @try {
+                
+                [self showIndicator:YES];
+                
+                NSDictionary *params = @{
+                                         kAPIMode: ksaveCourt,
+                                         kAPIuserId: USER_ID,
+                                         kAPIlocalCourtId: tempCourtObj.localCourtId,
+                                         kAPIcourtId: [tempCourtObj.courtId isEqualToNumber:@-1] ? @"" : tempCourtObj.courtId,
+                                         kAPIcourtName: tempCourtObj.courtName,
+                                         kAPImegistrateName: tempCourtObj.megistrateName,
+                                         kAPIcourtCity: tempCourtObj.courtCity,
+                                         kAPIadminId: isForSubordinate ? existingAdminObj.adminId : @0
+                                         };
+                
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    [self showIndicator:NO];
+                    if (responseObject == nil) {
+                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
+                        }
+                        else {
+                            //                        [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
+                            //                                                                                                                                           kAPIadminId: existingAdminObj.adminId,
+                            //                                                                                                                                           kAPIadminName: existingAdminObj.adminName,
+                            //                                                                                                                                           kAPIhasAccess: existingAdminObj.hasAccess
+                            //                                                                                                                                           } : nil];
+                            
+                            [Court updatedCourtPropertyofCourt:tempCourtObj withProperty:kCourtIsSynced andValue:@1];
+                            
+                            POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
+                            
+                            if (courtObj) {
+                                [self.navigationController popViewControllerAnimated:YES];
+                                [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                            }
+                            else {
+                                [self dismissViewControllerAnimated:YES completion:^{
+                                    [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                                }];
+                            }
+                        }
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                    [self showIndicator:NO];
+                    if (error.code == kCFURLErrorTimedOut) {
+                        [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else if (error.code == kCFURLErrorNetworkConnectionLost) {
+                        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                }];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"Exception => %@", [exception debugDescription]);
+            }
+            @finally {
+                
+            }
         }
         else {
-            [self dismissViewControllerAnimated:YES completion:^{
+            //        [Global showNotificationWithTitle:kCHECK_INTERNET titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+            POST_NOTIFICATION(isForSubordinate ? kFetchSubordinateCourts : kFetchCourts, nil);
+            
+            if (courtObj) {
+                [self.navigationController popViewControllerAnimated:YES];
                 [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
-            }];
+            }
+            else {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [Global showNotificationWithTitle:@"Court saved successfully!" titleColor:WHITE_COLOR backgroundColor:APP_GREEN_COLOR forDuration:1];
+                }];
+            }
         }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
