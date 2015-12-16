@@ -642,11 +642,11 @@ SubordinateAdmin *selectedAdminObj;
         caseParams[kAPIoppositionFirstName] = existingCaseObj.oppositionFirstName;
         caseParams[kAPIoppositionLastName] = existingCaseObj.oppositionLastName;
         caseParams[kAPIoppositionLawyerName] = existingCaseObj.oppositionLawyerName;
-        caseParams[kAPIlocalCourtId] = existingCaseObj.localCourtId;
-        caseParams[kAPIcourtId] = existingCaseObj.courtId;
-        caseParams[kAPIcourtName] = existingCaseObj.courtName;
-        caseParams[kAPImegistrateName] = existingCaseObj.megistrateName;
-        caseParams[kAPIcourtCity] = existingCaseObj.courtCity;
+        caseParams[kAPIlocalCourtId] = existingCourtObj.localCourtId;
+        caseParams[kAPIcourtId] = existingCourtObj.courtId;
+        caseParams[kAPIcourtName] = existingCourtObj.courtName;
+        caseParams[kAPImegistrateName] = existingCourtObj.megistrateName;
+        caseParams[kAPIcourtCity] = existingCourtObj.courtCity;
         caseParams[kIsSynced] = @0;
         
         if (existingCaseObj) {
@@ -670,7 +670,7 @@ SubordinateAdmin *selectedAdminObj;
                                          kAPIMode: ksaveCase,
                                          kAPIuserId: USER_ID,
                                          kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                         kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@0] ? existingCaseObj.caseId : @"",
+                                         kAPIcaseId: (existingCaseObj && ![existingCaseObj.caseId isEqualToNumber:@0]) ? existingCaseObj.caseId : @"",
                                          kAPIcaseNo: tempCaseObj.caseNo,
                                          kAPIlastHeardDate: tempCaseObj.lastHeardDate,
                                          kAPInextHearingDate: tempCaseObj.nextHearingDate,

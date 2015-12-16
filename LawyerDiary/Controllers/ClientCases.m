@@ -140,7 +140,7 @@ SubordinateAdmin *selectedAdminObj;
         [resultArray sortUsingDescriptors:@[sortDescriptor]];
     }
     
-    NSLog(@"%@", resultArray);
+//    NSLog(@"%@", resultArray);
     
     return resultArray;
 }
@@ -586,7 +586,7 @@ SubordinateAdmin *selectedAdminObj;
     NSArray *caseRecords = [arrCases[indexPath.section] objectForKey:kAPIdata];
     
     [cell setDelegate:self];
-    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
+    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:60];
     [cell configureCellWithCaseObj:[caseRecords objectAtIndex:indexPath.row] forIndexPath:indexPath];
     
     return cell;

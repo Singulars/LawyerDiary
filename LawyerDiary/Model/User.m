@@ -126,7 +126,6 @@
         
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
-        
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...

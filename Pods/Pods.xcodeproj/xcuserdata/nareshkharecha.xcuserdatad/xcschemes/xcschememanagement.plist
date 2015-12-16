@@ -32,6 +32,11 @@
 			<key>orderHint</key>
 			<integer>5</integer>
 		</dict>
+		<key>Pods-SWTableViewCell.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>6</integer>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,6 +47,31 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>1E711E202612F54E9A8DB8C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>25B7F2F5EB1392DA11F81F70</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>87A2567AC433F2A458FEE654</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A1B8612245C08BD60E635A4C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B26088F1C337720BB593FD23</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C4CAEACE1198526E71544BC5</key>
 		<dict>
 			<key>primary</key>
@@ -53,6 +83,11 @@
 			<true/>
 		</dict>
 		<key>D331B33059C972AF29EDE0E4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD185DAAF19B41F96C7A8A7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

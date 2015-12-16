@@ -574,6 +574,8 @@ SubordinateAdmin *selectedAdminObj;
                 default:
                     break;
             }
+            
+            [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:

@@ -346,7 +346,7 @@ BOOL isForSubordinate;
                 cell=[[CaseCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             }
             [cell setDelegate:self];
-            [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:44];
+            [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:60];
             [cell configureCellWithCaseObj:[[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex] forIndexPath:indexPath];
             
             if ([[sectionItems[subsectionIndex] objectForKey:@"records"] objectAtIndex:itemIndex] == [[sectionItems[subsectionIndex] objectForKey:@"records"] lastObject]) {

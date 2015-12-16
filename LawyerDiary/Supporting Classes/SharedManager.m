@@ -937,46 +937,15 @@ static SharedManager *sharedManager;
 {
     @try {
         
-        NSMutableDictionary *caseParams = [[NSMutableDictionary alloc] init];
-        caseParams[kAPIuserId] = USER_ID;
-        caseParams[kAPIcaseNo] = caseObj.caseNo;
-        caseParams[kAPIlastHeardDate] = caseObj.lastHeardDate;
-        caseParams[kAPInextHearingDate] = caseObj.nextHearingDate;
-        caseParams[kAPIcaseStatus] = caseObj.caseStatus;
-        caseParams[kAPIlocalClientId] = caseObj.localClientId;
-        caseParams[kAPIclientId] = caseObj.clientId;
-        caseParams[kAPIclientFirstName] = caseObj.clientFirstName;
-        caseParams[kAPIclientLastName] = caseObj.clientLastName;
-        caseParams[kAPImobile] = caseObj.mobile;
-        caseParams[kAPIoppositionFirstName] = caseObj.oppositionFirstName;
-        caseParams[kAPIoppositionLastName] = caseObj.oppositionLastName;
-        caseParams[kAPIoppositionLawyerName] = caseObj.oppositionLawyerName;
-        caseParams[kAPIlocalCourtId] = caseObj.localCourtId;
-        caseParams[kAPIcourtId] = caseObj.courtId;
-        caseParams[kAPIcourtName] = caseObj.courtName;
-        caseParams[kAPImegistrateName] = caseObj.megistrateName;
-        caseParams[kAPIcourtCity] = caseObj.courtCity;
-        caseParams[kIsSynced] = @0;
-        
-        if (caseObj) {
-            if ([caseObj.isSynced isEqualToNumber:@1]) {
-                caseParams[kAPIcaseId] = caseObj.caseId;
-            }
-            
-            caseParams[kAPIlocalCaseId] = caseObj.localCaseId;
+        // Save the context.
+        NSError *error = nil;
+        if ([[APP_DELEGATE managedObjectContext] save:&error]) {
+            NSLog(@"Case saved succesfully");
         }
-        
-        BOOL isSubordinate;
-        if ([caseObj.isSubordinate isEqualToNumber:@1]) {
-            isSubordinate = YES;
+        else {
+            NSLog(@"Case save failed! %@, %@", error, [error userInfo]);
         }
-        
-        Cases *tempCaseObj = [Cases saveCase:caseParams forSubordiante:isSubordinate withAdminDetail:isSubordinate ? @{
-                                                                                                                       kAPIadminId: caseObj.adminId,
-                                                                                                                       kAPIadminName: caseObj.adminName,
-                                                                                                                       kAPIhasAccess: caseObj.hasAccess
-                                                                                                                       } : nil];
-        
+       
         if (IS_INTERNET_CONNECTED) {
             
             @try {
@@ -984,52 +953,50 @@ static SharedManager *sharedManager;
                 NSDictionary *params = @{
                                          kAPIMode: ksaveCase,
                                          kAPIuserId: USER_ID,
-                                         kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                         kAPIcaseId: ![caseObj.caseId isEqualToNumber:@0] ? caseObj.caseId : @"",
-                                         kAPIcaseNo: tempCaseObj.caseNo,
-                                         kAPIlastHeardDate: tempCaseObj.lastHeardDate,
-                                         kAPInextHearingDate: tempCaseObj.nextHearingDate,
-                                         kAPIcaseStatus: tempCaseObj.caseStatus,
-                                         kAPIlocalClientId: tempCaseObj.localClientId,
-                                         kAPIclientId: tempCaseObj.clientId,
-                                         kAPIclientFirstName: tempCaseObj.clientFirstName,
-                                         kAPIclientLastName: tempCaseObj.clientLastName,
-                                         kAPImobile: tempCaseObj.mobile,
+                                         kAPIlocalCaseId: caseObj.localCaseId,
+                                         kAPIcaseId: caseObj.caseId,
+                                         kAPIcaseNo: caseObj.caseNo,
+                                         kAPIlastHeardDate: caseObj.lastHeardDate,
+                                         kAPInextHearingDate: caseObj.nextHearingDate,
+                                         kAPIcaseStatus: caseObj.caseStatus,
+                                         kAPIlocalClientId: caseObj.localClientId,
+                                         kAPIclientId: caseObj.clientId,
+                                         kAPIclientFirstName: caseObj.clientFirstName,
+                                         kAPIclientLastName: caseObj.clientLastName,
+                                         kAPImobile: caseObj.mobile,
                                          kAPIemail: @"",
                                          kAPIaddress: @"",
-                                         kAPIoppositionFirstName: tempCaseObj.oppositionFirstName,
-                                         kAPIoppositionLastName: tempCaseObj.oppositionLastName,
-                                         kAPIoppositionLawyerName: tempCaseObj.oppositionLawyerName,
-                                         kAPIlocalCourtId: tempCaseObj.localCourtId,
-                                         kAPIcourtId: tempCaseObj.courtId,
-                                         kAPIcourtName: tempCaseObj.courtName,
-                                         kAPImegistrateName: tempCaseObj.megistrateName,
-                                         kAPIcourtCity: tempCaseObj.courtCity,
-                                         kAPIadminId: isForSubordinate ? caseObj.adminId : @0
+                                         kAPIoppositionFirstName: caseObj.oppositionFirstName,
+                                         kAPIoppositionLastName: caseObj.oppositionLastName,
+                                         kAPIoppositionLawyerName: caseObj.oppositionLawyerName,
+                                         kAPIlocalCourtId: caseObj.localCourtId,
+                                         kAPIcourtId: caseObj.courtId,
+                                         kAPIcourtName: caseObj.courtName,
+                                         kAPImegistrateName: caseObj.megistrateName,
+                                         kAPIcourtCity: caseObj.courtCity,
+                                         kAPIadminId: caseObj.adminId
                                          };
                 
                 NSLog(@"%@", params);
                 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                        
-                        if (responseObject == nil) {
-                            [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    
+                    if (responseObject == nil) {
+//                        [Global showNotificationWithTitle:kSOMETHING_WENT_WRONG titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                    }
+                    else {
+                        if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
+                            [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
+                            //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                         }
                         else {
-                            if ([responseObject[kAPIstatus] isEqualToString:@"0"]) {
-                                [Global showNotificationWithTitle:[responseObject valueForKey:kAPImessage] titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
-                                //                        UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
-                            }
-                            else {
-                                [Cases updateCase:responseObject forUser:USER_ID];
-                            }
+                            [Cases updateCase:responseObject forUser:USER_ID];
                         }
-                        
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        
-                    }];
-                });
+                    }
+                    
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    
+                }];
             }
             @catch (NSException *exception) {
                 NSLog(@"Exception => %@", [exception debugDescription]);

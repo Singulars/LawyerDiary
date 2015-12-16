@@ -396,6 +396,8 @@ BOOL isForSubordinate;
                 default:
                     break;
             }
+            
+            [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:

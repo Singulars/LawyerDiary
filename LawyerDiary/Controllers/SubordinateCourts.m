@@ -343,6 +343,8 @@ BOOL isForSubordinate;
                 [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
             }
+            
+            [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:

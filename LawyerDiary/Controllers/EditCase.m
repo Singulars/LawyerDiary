@@ -686,7 +686,7 @@ SubordinateAdmin *selectedAdminObj;
                                      kAPIMode: ksaveCase,
                                      kAPIuserId: USER_ID,
                                      kAPIlocalCaseId: tempCaseObj.localCaseId,
-                                     kAPIcaseId: ![existingCaseObj.caseId isEqualToNumber:@0] ? existingCaseObj.caseId : @"",
+                                     kAPIcaseId: (existingCaseObj && ![existingCaseObj.caseId isEqualToNumber:@0]) ? existingCaseObj.caseId : @"",
                                      kAPIcaseNo: tempCaseObj.caseNo,
                                      kAPIlastHeardDate: tempCaseObj.lastHeardDate,
                                      kAPInextHearingDate: tempCaseObj.nextHearingDate,

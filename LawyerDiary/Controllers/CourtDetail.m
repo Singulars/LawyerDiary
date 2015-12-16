@@ -292,6 +292,7 @@ SubordinateAdmin *selectedAdminObj;
                     [caseObj setCourtName:tempCourtObj.courtName];
                     [caseObj setMegistrateName:tempCourtObj.megistrateName];
                     [caseObj setCourtCity:tempCourtObj.courtCity];
+                    [caseObj setIsSynced:@0];
                     
                     [ShareObj saveCaseWhileUpdatingCourtOrClient:caseObj];
                 }

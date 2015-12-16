@@ -417,6 +417,8 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                 default:
                     break;
             }
+            
+            [cell hideUtilityButtonsAnimated:YES];
         }
             break;
         default:

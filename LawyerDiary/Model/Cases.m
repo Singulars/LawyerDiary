@@ -50,9 +50,9 @@
 {
     @try {
         
-        for (NSString *key in dataDict) {
-            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
-        }
+//        for (NSString *key in dataDict) {
+//            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
+//        }
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
@@ -285,9 +285,9 @@
 {
     @try {
         
-        for (NSString *key in dataDict) {
-            //            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
-        }
+//        for (NSString *key in dataDict) {
+//            NSLog(@"%@ - %@", key, [[dataDict objectForKey:key] class]);
+//        }
         
         NSManagedObjectContext *context = [APP_DELEGATE managedObjectContext];
         
@@ -508,7 +508,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localClientId = %@", localClientId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localClientId == %d", [localClientId intValue]];
         [request setPredicate:predicate];
         
         NSError *error;
@@ -539,7 +539,7 @@
         [request setReturnsObjectsAsFaults:NO];
         
         // Set example predicate and sort orderings...
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localCourtId = %@", localCourtId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"localCourtId == %d", [localCourtId intValue]];
         [request setPredicate:predicate];
         
         NSError *error;
@@ -704,7 +704,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSString *predicateString = [NSString stringWithFormat:@"localCaseId==\"%@\"", localCaseId];
+        NSString *predicateString = [NSString stringWithFormat:@"localCaseId = %@", localCaseId];
         
         // Set example predicate and sort orderings...
         NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateString];
