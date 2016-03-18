@@ -59,10 +59,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
-    
-    [self.view setBackgroundColor:GROUP_TABLEVIEW_COLOR];
-    [self.tableView setBackgroundColor:GROUP_TABLEVIEW_COLOR];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
     [self setBarButton:SaveBarButton];
     
@@ -518,7 +515,7 @@ typedef NS_ENUM(NSUInteger, ActiveTableSection) {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH(self.tableView), 44)];
-    [headerView setBackgroundColor:GROUP_TABLEVIEW_COLOR];
+    [headerView setBackgroundColor:UICOLOR(245, 245, 245, 1)];
     
     UILabel *lblHeader = [[UILabel alloc] initWithFrame:CGRectMake(15, headerView.frame.size.height-30, SCREEN_WIDTH(headerView)-30, 30)];
     [lblHeader setBackgroundColor:CLEARCOLOUR];

@@ -48,6 +48,8 @@
 
 #import "UIPlaceHolderTextView.h"
 
+#import "MBProgressHUD.h"
+
 typedef NS_ENUM(NSUInteger, PagingPriority) {
     kPriorityInitial = 0,
     kPriorityOlder,

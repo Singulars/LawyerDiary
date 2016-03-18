@@ -82,7 +82,10 @@ static NSString * const kProfileCellReuseIdentifier = @"ProfileCellReuseIdentifi
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DrawerCell *menuCell;
-    menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier forIndexPath:indexPath];
+    menuCell = [tableView dequeueReusableCellWithIdentifier:kDrawerCellReuseIdentifier];
+    if (!menuCell) {
+        menuCell = [[DrawerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kDrawerCellReuseIdentifier];
+    }
     
     switch (indexPath.row) {
         case kCellCaseIndex: {

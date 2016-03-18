@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
 //    [Global applyCornerRadiusToViews:@[btnAddClient] withRadius:ViewHeight(btnAddClient)/2 borderColor:CLEARCOLOUR andBorderWidth:0];
 
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
@@ -388,6 +388,7 @@ typedef NS_ENUM(NSUInteger, InputFieldTags) {
                             }
                             else {
                                 [Client updatedClientPropertyofClient:arrClients[indexPath.row] withProperty:kClientIsDeleted andValue:@1];
+                                [Client updatedClientPropertyofClient:arrClients[indexPath.row] withProperty:kClientIsSynced andValue:@0];
                                 [self deleteClient:arrClients[indexPath.row]];
                             }
                             

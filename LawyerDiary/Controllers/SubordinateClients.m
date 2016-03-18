@@ -30,7 +30,7 @@ BOOL isForSubordinate;
     
     [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -277,6 +277,7 @@ BOOL isForSubordinate;
             [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
             [cell addSubview:lblTitle];
             
+            [cell setBackgroundColor:UICOLOR(245, 245, 245, 1)];
             [cell setSeparatorInset:UIEdgeInsetsZero];
         }
         return cell;
@@ -332,77 +333,89 @@ BOOL isForSubordinate;
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    switch (index) {
-        case 0:
-        {
-            // Delete button was pressed
-            
-            switch (ShareObj.fetchSubordinateStatus) {
-                case kStatusUndetermined: {
-                    UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusFailed: {
-                    UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusFailedBecauseInternet: {
-                    UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
-                }
-                    break;
-                case kStatusSuccess: {
-                    SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
-                    
-                    if ([adminObj.hasAccess isEqualToNumber:@1]) {
+    @try {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        
+        switch (index) {
+            case 0:
+            {
+                // Delete button was pressed
+                
+                switch (ShareObj.fetchSubordinateStatus) {
+                    case kStatusUndetermined: {
+                        UI_ALERT(@"", @"The status of given access to subordinate is undermined yet.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusFailed: {
+                        UI_ALERT(@"", @"The approach to get status of access failed somehow.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusFailedBecauseInternet: {
+                        UI_ALERT(@"", @"The approach to get status of access failed because of internert inavailability.\nSo, you can not modify any records.", nil);
+                    }
+                        break;
+                    case kStatusSuccess: {
+                        SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
                         
-                        Client *toBeDeletedClientObj = [[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
-                        
-                        if (![Cases isThisClientExist:toBeDeletedClientObj.localClientId]) {
+                        if ([adminObj.hasAccess isEqualToNumber:@1]) {
                             
-                            [self.tableView beginUpdates];
-                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                            Client *toBeDeletedClientObj = [[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
                             
-                            if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
-                                [Client deleteClient:toBeDeletedClientObj.localClientId];
+                            if (![Cases isThisClientExist:toBeDeletedClientObj.localClientId]) {
+                                
+                                [self.tableView beginUpdates];
+                                
+                                if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
+                                    [Client deleteClient:toBeDeletedClientObj.localClientId];
+                                }
+                                else {
+                                    [Client updatedClientPropertyofClient:toBeDeletedClientObj withProperty:kClientIsDeleted andValue:@1];
+                                    [self deleteClient:toBeDeletedClientObj forAdmin:adminObj];
+                                }
+                                
+                                [arrClients removeAllObjects];
+                                [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
+                                
+                                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                                if ([[arrClients[indexPath.section] objectForKey:kAPIdata] count] == 0) {
+                                    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                                }
+                                
+                                [self.tableView endUpdates];
+                                
+                                if (arrClients.count == 0) {
+                                    [lblErrorMsg setText:@"No Clients found."];
+                                    [self showSpinner:NO withError:YES];
+                                }
+                                
                             }
                             else {
-                                [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
-                                [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+                                UI_ALERT(@"", @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
                             }
-                            
-                            [arrClients removeAllObjects];
-                            [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
-                            
-                            [self.tableView endUpdates];
-                            
-                            if (arrClients.count == 0) {
-                                [lblErrorMsg setText:@"No Clients found."];
-                                [self showSpinner:NO withError:YES];
-                            }
-
                         }
                         else {
-                            UI_ALERT(@"", @"This Client is belongs to one of the existing Case. So you can't delete this Client. To delete this Court, you've to delete Case first.", nil);
+                            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                            UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
                         }
                     }
-                    else {
-                        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
-                    }
+                        break;
+                    default:
+                        break;
                 }
-                    break;
-                default:
-                    break;
+                
+                [cell hideUtilityButtonsAnimated:YES];
             }
-            
-            [cell hideUtilityButtonsAnimated:YES];
+                break;
+            default:
+                break;
+                
         }
-            break;
-        default:
-            break;
-            
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
@@ -447,37 +460,6 @@ BOOL isForSubordinate;
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    SubordinateAdmin *adminObj = [arrClients[indexPath.section] objectForKey:kAPIadminData];
-    
-    if ([adminObj.hasAccess isEqualToNumber:@1]) {
-        [tableView beginUpdates];
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
-            
-            Client *toBeDeletedClientObj = [[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
-            
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-            
-            if ([toBeDeletedClientObj.isSynced isEqualToNumber:@0] && [toBeDeletedClientObj.clientId isEqualToNumber:@-1]) {
-                [Client deleteClient:toBeDeletedClientObj.localClientId];
-            }
-            else {
-                [Client updatedClientPropertyofClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kClientIsDeleted andValue:@1];
-                [self deleteClient:[[arrClients[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
-            }
-            
-            [arrClients removeAllObjects];
-            [arrClients addObjectsFromArray:[Client fetchClientsForSubordinate]];
-        }
-        [tableView endUpdates];
-    }
-    else {
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
-    }
-}
-
 - (void)deleteClient:(Client *)objClient forAdmin:(SubordinateAdmin *)adminObj
 {
     if (IS_INTERNET_CONNECTED) {
@@ -485,7 +467,7 @@ BOOL isForSubordinate;
         @try {
             
             NSDictionary *params = @{
-                                     kAPIMode: kdeleteCourt,
+                                     kAPIMode: kdeleteClient,
                                      kAPIuserId: USER_ID,
                                      kAPIclientId: objClient.clientId,
                                      kAPIadminId: adminObj.adminId
@@ -564,6 +546,7 @@ BOOL isForSubordinate;
                         
                         if (arrSubordinates.count > 0) {
                             
+                            [SubordinateAdmin deleteSubordinateAdmins];
                             [Client deleteCientsForSubordinate];
                             
                             for (NSDictionary *obj in arrSubordinates) {

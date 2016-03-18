@@ -33,7 +33,7 @@ BOOL isForSubordinate;
     [super viewDidLoad];
     [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 64, 0, 0)];
     
@@ -254,7 +254,14 @@ BOOL isForSubordinate;
         }
     }
     else {
-        rowHeight = 60;
+        
+        NSUInteger numberOfRows = sectionItems.count; // For second level section headers
+        if (numberOfRows == 0) {
+            rowHeight = 44;
+        }
+        else {
+            rowHeight = 60;
+        }
     }
     return rowHeight;
 }
@@ -373,6 +380,7 @@ BOOL isForSubordinate;
             [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
             [cell addSubview:lblTitle];
             
+            [cell setBackgroundColor:UICOLOR(245, 245, 245, 1)];
             [cell setSeparatorInset:UIEdgeInsetsZero];
         }
         return cell;
@@ -707,6 +715,7 @@ BOOL isForSubordinate;
                         
                         if (arrSubordinates.count > 0) {
                             
+                            [SubordinateAdmin deleteSubordinateAdmins];
                             [Cases deleteCaseForSubordinate];
                             
                             for (NSDictionary *obj in arrSubordinates) {

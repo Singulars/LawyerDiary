@@ -247,7 +247,7 @@ static SharedManager *sharedManager;
                         else {
                             [Court saveCourt:responseObject[kAPIcourData] forSubordiante:isForSubordinate withAdminDetail:isForSubordinate ? @{
                                                                                                                                                kAPIadminId: courtObj.adminId,
-                                                                                                                                               kAPIadminName: courtObj.adminName,
+                                                                                                                                    kAPIadminName: courtObj.adminName,
                                                                                                                                                kAPIhasAccess: courtObj.hasAccess
                                                                                                                                                } : nil];
                         }
@@ -416,7 +416,7 @@ static SharedManager *sharedManager;
             
             __block NSInteger notSyncedRecordCount = 0;
             
-            NSArray *clients = [Court fetchDeletedNotSyncedCourts];
+            NSArray *clients = [Client fetchDeletedNotSyncedClients];
             
             if (clients.count > 0) {
                 Client *clientObj = clients[notSyncedRecordCount];
@@ -559,7 +559,7 @@ static SharedManager *sharedManager;
             
             __block NSInteger notSyncedRecordCount = 0;
             
-            NSArray *cases = [Cases fetchDeletedNotSyncedClients];
+            NSArray *cases = [Cases fetchDeletedNotSyncedCases];
             
             if (cases.count > 0) {
                 Cases *caseObj = cases[notSyncedRecordCount];

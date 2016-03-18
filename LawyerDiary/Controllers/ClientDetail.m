@@ -38,7 +38,7 @@ SubordinateAdmin *selectedAdminObj;
     [tfEmail setPlaceholder:@"Optional"];
     [tvAddress setPlaceholder:@"Optional"];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 0)];
     
@@ -351,6 +351,7 @@ SubordinateAdmin *selectedAdminObj;
                 [caseObj setClientFirstName:tempClientObj.clientFirstName];
                 [caseObj setClientLastName:tempClientObj.clientLastName];
                 [caseObj setMobile:tempClientObj.mobile];
+                [caseObj setIsSynced:@0];
                 
                 [ShareObj saveCaseWhileUpdatingCourtOrClient:caseObj];
             }

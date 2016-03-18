@@ -1151,7 +1151,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
 
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, tfEmail.frame.size.width, 1) withImage:IMAGE_WITH_NAME(@"seprator") andBackgroundColor:CLEARCOLOUR]];
                         }
                             break;
                         case 1: {
@@ -1227,12 +1227,12 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [tfFirstName setFrame:CGRectMake(80, 0, ViewWidth(cell)-(ViewWidth(imgViewProPic)+18), ViewHeight(cell)/2)];
                             [cell.contentView addSubview:tfFirstName];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(88, 43, tfFirstName.frame.size.width+15, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(88, 43, tfFirstName.frame.size.width+15, 1) withImage:IMAGE_WITH_NAME(@"seprator") andBackgroundColor:CLEARCOLOUR]];
                             
                             [tfLastName setFrame:CGRectMake(80, 44, ViewWidth(cell)-(ViewWidth(imgViewProPic)+18), ViewHeight(cell)/2)];
                             [cell.contentView addSubview:tfLastName];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, cell.frame.size.height-1, cell.frame.size.width, 1) withImage:IMAGE_WITH_NAME(@"seprator") andBackgroundColor:CLEARCOLOUR]];
                         }
                             break;
                         case 1: {
@@ -1244,7 +1244,7 @@ typedef NS_ENUM(NSUInteger, AlertMsgType) {
                             [tfEmail setFrame:CGRectMake(0, 0, ViewWidth(cell), ViewHeight(cell))];
                             [cell.contentView addSubview:tfEmail];
                             
-                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:nil andBackgroundColor:TABLEVIEW_SEPRATOR_COLOR]];
+                            [cell.contentView addSubview:[Global getImgViewOfRect:CGRectMake(0, ViewHeight(cell)-1, ViewWidth(cell), 1) withImage:IMAGE_WITH_NAME(@"seprator") andBackgroundColor:CLEARCOLOUR]];
                         }
                             break;
 //                        case 2: {

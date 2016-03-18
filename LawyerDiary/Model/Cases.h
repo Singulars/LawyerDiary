@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, CaseProperty) {
 + (NSArray *)fetchCasesForSubordinate;
 + (NSArray *)fetchCasesForAdmin:(NSNumber *)adminId;
 
-+ (NSArray *)fetchDeletedNotSyncedClients;
++ (NSArray *)fetchDeletedNotSyncedCases;
 + (NSArray *)fetchNotSyncedCases;
 
 + (BOOL)isThisClientExist:(NSNumber *)localClientId;

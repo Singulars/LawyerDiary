@@ -154,6 +154,7 @@
         switch (property) {
             case kClientIsDeleted: {
                 [clientObj setIsClientDeleted:propertyValue];
+                [clientObj setIsSynced:@0];
             }
                 break;
             case kClientIsSynced: {
@@ -235,7 +236,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @0];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && isSynced = %@)", @0, @1];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -268,7 +269,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@)", @1];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && isSynced = %@)", @1, @1];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];
@@ -301,7 +302,7 @@
         
         [request setReturnsObjectsAsFaults:NO];
         
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && adminId = %@)", @0, adminId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(isSubordinate = %@ && adminId = %@ && isSynced = %@)", @0, adminId, @1];
         [request setPredicate:predicate];
         NSError *error;
         NSArray *objects = [context executeFetchRequest:request error:&error];

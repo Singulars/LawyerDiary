@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong) Cases *caseObj;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (weak, nonatomic) IBOutlet UILabel *lblDate;
 
 - (void)configureCellWithCaseObj:(Cases *)obj forIndexPath:(NSIndexPath *)indexPath;
 

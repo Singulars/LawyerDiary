@@ -42,7 +42,7 @@ SubordinateAdmin *selectedAdminObj;
     //    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:APP_TINT_COLOR] forBarMetrics:UIBarMetricsDefault];
     //    [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:APP_TINT_COLOR]];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
 //    [btnAddCourt setBackgroundColor:APP_TINT_COLOR];
 //    [btnAddCourt setTintColor:WHITE_COLOR];
@@ -551,6 +551,7 @@ SubordinateAdmin *selectedAdminObj;
                             }
                             else {
                                 [Court updatedCourtPropertyofCourt:arrCourts[indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
+                                
                                 [self deleteCourt:arrCourts[indexPath.row]];
                             }
                             

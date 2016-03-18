@@ -219,13 +219,13 @@
 		C0B3FFBA1B728A0C00061A5C /* AddSubordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSubordinate.h; sourceTree = "<group>"; };
 		C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSubordinate.m; sourceTree = "<group>"; };
 		C0B3FFBD1B72AAA400061A5C /* SubordinateCases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCases.h; sourceTree = "<group>"; };
-		C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCases.m; sourceTree = "<group>"; };
+		C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubordinateCases.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C0B3FFC01B72AAB700061A5C /* SubordinateClients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateClients.h; sourceTree = "<group>"; };
-		C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateClients.m; sourceTree = "<group>"; };
+		C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubordinateClients.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubordinateCourts.h; sourceTree = "<group>"; };
-		C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubordinateCourts.m; sourceTree = "<group>"; };
+		C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SubordinateCourts.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C0C3A7451B948D2B00D858AB /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
-		C0C3A7461B948D2B00D858AB /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
+		C0C3A7461B948D2B00D858AB /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Search.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C0D3C6531B6174C6008D5217 /* EditCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCase.h; sourceTree = "<group>"; };
 		C0D3C6541B6174C6008D5217 /* EditCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCase.m; sourceTree = "<group>"; };
 		C0DCAAF71B28203F00A2335F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -276,19 +276,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9D64BD621AE2F87B001230C0 /* Controllers */ = {
+		9D1C5FB21C9C903800DC3CC2 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				9DE1E51C1AE3CC99001060F4 /* Home.h */,
 				9DE1E51D1AE3CC99001060F4 /* Home.m */,
 				C0B2976E1B6FE17B00673875 /* HomeTwo.h */,
 				C0B2976F1B6FE17B00673875 /* HomeTwo.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		9D1C5FB31C9C904E00DC3CC2 /* Register */ = {
+			isa = PBXGroup;
+			children = (
 				9DE1E51F1AE3D4A5001060F4 /* Register.h */,
 				9DE1E5201AE3D4A5001060F4 /* Register.m */,
-				9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */,
-				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
+		9D1C5FB41C9C905D00DC3CC2 /* Cases */ = {
+			isa = PBXGroup;
+			children = (
 				C012EDAB1B6E871400196629 /* CasesTabBar.h */,
 				C012EDAC1B6E871500196629 /* CasesTabBar.m */,
+				9D1C5FB71C9C908100DC3CC2 /* User Cases */,
+				9D1C5FB81C9C90AF00DC3CC2 /* Subordinate Cases */,
+			);
+			name = Cases;
+			sourceTree = "<group>";
+		};
+		9D1C5FB51C9C906300DC3CC2 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				C0F85FA11B8707BE00457C4A /* ClientsTabBar.h */,
+				C0F85FA21B8707BE00457C4A /* ClientsTabBar.m */,
+				9D1C5FB91C9C90E100DC3CC2 /* User Clients */,
+				9D1C5FBB1C9C90FD00DC3CC2 /* Subordinate Cases */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		9D1C5FB61C9C906A00DC3CC2 /* Courts */ = {
+			isa = PBXGroup;
+			children = (
+				C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */,
+				C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */,
+				9D1C5FBC1C9C916D00DC3CC2 /* User Courts */,
+				9D1C5FBD1C9C917800DC3CC2 /* Subordinate Courts */,
+			);
+			name = Courts;
+			sourceTree = "<group>";
+		};
+		9D1C5FB71C9C908100DC3CC2 /* User Cases */ = {
+			isa = PBXGroup;
+			children = (
 				9DA282941AECE48000024121 /* ClientCases.h */,
 				9DA282951AECE48000024121 /* ClientCases.m */,
 				C062CBB21B5EE4BC00F46729 /* ChooseClient.h */,
@@ -299,34 +342,169 @@
 				C0D3C6541B6174C6008D5217 /* EditCase.m */,
 				C0F85FA41B879E4800457C4A /* UpdateCase.h */,
 				C0F85FA51B879E4800457C4A /* UpdateCase.m */,
-				C0F85FA11B8707BE00457C4A /* ClientsTabBar.h */,
-				C0F85FA21B8707BE00457C4A /* ClientsTabBar.m */,
+			);
+			name = "User Cases";
+			sourceTree = "<group>";
+		};
+		9D1C5FB81C9C90AF00DC3CC2 /* Subordinate Cases */ = {
+			isa = PBXGroup;
+			children = (
+				C0B3FFBD1B72AAA400061A5C /* SubordinateCases.h */,
+				C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */,
+				C07CFC781B768DC600D7741A /* ChooseAdmin.h */,
+				C07CFC791B768DC600D7741A /* ChooseAdmin.m */,
+			);
+			name = "Subordinate Cases";
+			sourceTree = "<group>";
+		};
+		9D1C5FB91C9C90E100DC3CC2 /* User Clients */ = {
+			isa = PBXGroup;
+			children = (
 				9DA2829D1AECFE3A00024121 /* ClientsViewController.h */,
 				9DA2829E1AECFE3A00024121 /* ClientsViewController.m */,
 				C05CF8DE1B2852E4007BD697 /* ClientDetail.h */,
 				C05CF8DF1B2852E4007BD697 /* ClientDetail.m */,
-				C0887B701B6E9A7900B55A7C /* CourtsTabBar.h */,
-				C0887B711B6E9A7900B55A7C /* CourtsTabBar.m */,
+			);
+			name = "User Clients";
+			sourceTree = "<group>";
+		};
+		9D1C5FBB1C9C90FD00DC3CC2 /* Subordinate Cases */ = {
+			isa = PBXGroup;
+			children = (
+				C0B3FFC01B72AAB700061A5C /* SubordinateClients.h */,
+				C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */,
+			);
+			name = "Subordinate Cases";
+			sourceTree = "<group>";
+		};
+		9D1C5FBC1C9C916D00DC3CC2 /* User Courts */ = {
+			isa = PBXGroup;
+			children = (
 				9DA282A01AECFE4C00024121 /* Courts.h */,
 				9DA282A11AECFE4C00024121 /* Courts.m */,
 				C060C2241AF66FD0009BA8B4 /* CourtDetail.h */,
 				C060C2251AF66FD0009BA8B4 /* CourtDetail.m */,
+			);
+			name = "User Courts";
+			sourceTree = "<group>";
+		};
+		9D1C5FBD1C9C917800DC3CC2 /* Subordinate Courts */ = {
+			isa = PBXGroup;
+			children = (
+				C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */,
+				C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */,
+			);
+			name = "Subordinate Courts";
+			sourceTree = "<group>";
+		};
+		9D1C5FBE1C9C91C100DC3CC2 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				9DA2829A1AECFACE00024121 /* DrawerTableViewController.h */,
+				9DA2829B1AECFACE00024121 /* DrawerTableViewController.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		9D1C5FBF1C9C91CC00DC3CC2 /* Subordinates */ = {
+			isa = PBXGroup;
+			children = (
 				C0FB38421B71454700443451 /* Subordinates.h */,
 				C0FB38431B71454700443451 /* Subordinates.m */,
 				C0B3FFBA1B728A0C00061A5C /* AddSubordinate.h */,
 				C0B3FFBB1B728A0C00061A5C /* AddSubordinate.m */,
+			);
+			name = Subordinates;
+			sourceTree = "<group>";
+		};
+		9D1C5FC01C9C91D800DC3CC2 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
 				C03D2ED81AFA9BE40000665E /* Profile.h */,
 				C03D2ED91AFA9BE40000665E /* Profile.m */,
-				C0B3FFBD1B72AAA400061A5C /* SubordinateCases.h */,
-				C0B3FFBE1B72AAA400061A5C /* SubordinateCases.m */,
-				C0B3FFC01B72AAB700061A5C /* SubordinateClients.h */,
-				C0B3FFC11B72AAB700061A5C /* SubordinateClients.m */,
-				C0B3FFC31B72AAC700061A5C /* SubordinateCourts.h */,
-				C0B3FFC41B72AAC700061A5C /* SubordinateCourts.m */,
-				C07CFC781B768DC600D7741A /* ChooseAdmin.h */,
-				C07CFC791B768DC600D7741A /* ChooseAdmin.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		9D1C5FC11C9C91DE00DC3CC2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
 				C0C3A7451B948D2B00D858AB /* Search.h */,
 				C0C3A7461B948D2B00D858AB /* Search.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		9D1C5FC21C9C91F800DC3CC2 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				9DA282971AECF9FC00024121 /* DrawerCell.h */,
+				9DA282981AECF9FC00024121 /* DrawerCell.m */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		9D1C5FC31C9C91FD00DC3CC2 /* Courts */ = {
+			isa = PBXGroup;
+			children = (
+				C067C0551AF40736004FE159 /* CourtCell.h */,
+				C067C0561AF40736004FE159 /* CourtCell.m */,
+			);
+			name = Courts;
+			sourceTree = "<group>";
+		};
+		9D1C5FC41C9C921200DC3CC2 /* Subordinates */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB38381B70F4EE00443451 /* SubordinateCell.h */,
+				C0FB38391B70F4EE00443451 /* SubordinateCell.m */,
+			);
+			name = Subordinates;
+			sourceTree = "<group>";
+		};
+		9D1C5FC51C9C921B00DC3CC2 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				C05CF8E11B285411007BD697 /* ClientCell.h */,
+				C05CF8E21B285411007BD697 /* ClientCell.m */,
+			);
+			name = Clients;
+			sourceTree = "<group>";
+		};
+		9D1C5FC61C9C922000DC3CC2 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */,
+				C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */,
+			);
+			name = Admin;
+			sourceTree = "<group>";
+		};
+		9D1C5FC71C9C922A00DC3CC2 /* Cases */ = {
+			isa = PBXGroup;
+			children = (
+				C062CBAF1B5ED5CF00F46729 /* CaseCell.h */,
+				C062CBB01B5ED5CF00F46729 /* CaseCell.m */,
+				C062CBB51B5EE4E500F46729 /* CaseClientCell.h */,
+				C062CBB61B5EE4E500F46729 /* CaseClientCell.m */,
+				C010C9FB1B61499A000247F0 /* CaseCourtCell.h */,
+				C010C9FC1B61499A000247F0 /* CaseCourtCell.m */,
+			);
+			name = Cases;
+			sourceTree = "<group>";
+		};
+		9D64BD621AE2F87B001230C0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D1C5FBE1C9C91C100DC3CC2 /* Menu */,
+				9D1C5FB31C9C904E00DC3CC2 /* Register */,
+				9D1C5FB21C9C903800DC3CC2 /* Login */,
+				9D1C5FB41C9C905D00DC3CC2 /* Cases */,
+				9D1C5FB51C9C906300DC3CC2 /* Clients */,
+				9D1C5FB61C9C906A00DC3CC2 /* Courts */,
+				9D1C5FBF1C9C91CC00DC3CC2 /* Subordinates */,
+				9D1C5FC01C9C91D800DC3CC2 /* Profile */,
+				9D1C5FC11C9C91DE00DC3CC2 /* Search */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -426,22 +604,12 @@
 		9D64BD6A1AE2F87B001230C0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9DA282971AECF9FC00024121 /* DrawerCell.h */,
-				9DA282981AECF9FC00024121 /* DrawerCell.m */,
-				C062CBAF1B5ED5CF00F46729 /* CaseCell.h */,
-				C062CBB01B5ED5CF00F46729 /* CaseCell.m */,
-				C067C0551AF40736004FE159 /* CourtCell.h */,
-				C067C0561AF40736004FE159 /* CourtCell.m */,
-				C05CF8E11B285411007BD697 /* ClientCell.h */,
-				C05CF8E21B285411007BD697 /* ClientCell.m */,
-				C062CBB51B5EE4E500F46729 /* CaseClientCell.h */,
-				C062CBB61B5EE4E500F46729 /* CaseClientCell.m */,
-				C07CFC7B1B769EB800D7741A /* ChooseAdminCell.h */,
-				C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */,
-				C010C9FB1B61499A000247F0 /* CaseCourtCell.h */,
-				C010C9FC1B61499A000247F0 /* CaseCourtCell.m */,
-				C0FB38381B70F4EE00443451 /* SubordinateCell.h */,
-				C0FB38391B70F4EE00443451 /* SubordinateCell.m */,
+				9D1C5FC71C9C922A00DC3CC2 /* Cases */,
+				9D1C5FC51C9C921B00DC3CC2 /* Clients */,
+				9D1C5FC31C9C91FD00DC3CC2 /* Courts */,
+				9D1C5FC61C9C922000DC3CC2 /* Admin */,
+				9D1C5FC41C9C921200DC3CC2 /* Subordinates */,
+				9D1C5FC21C9C91F800DC3CC2 /* Menu */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -611,6 +779,7 @@
 				C07572ED1AE2F2B40017E0F9 /* Frameworks */,
 				C07572EE1AE2F2B40017E0F9 /* Resources */,
 				995B3E74B5475DA6DD06D242 /* Copy Pods Resources */,
+				E92488F52C5DFE53ADE69281 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -648,6 +817,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Singularsllp;
 				TargetAttributes = {
+					C07572EF1AE2F2B40017E0F9 = {
+						DevelopmentTeam = 263NGAE3CY;
+					};
 					C07573101AE2F2B40017E0F9 = {
 						TestTargetID = C07572EF1AE2F2B40017E0F9;
 					};
@@ -729,6 +901,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E92488F52C5DFE53ADE69281 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -879,7 +1066,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -912,7 +1099,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -925,6 +1112,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Naresh Kharecha (3YTKYUGB78)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiary/LawyerDiary-Info.plist";
@@ -933,7 +1121,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -954,7 +1142,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -976,7 +1164,7 @@
 				);
 				INFOPLIST_FILE = "LawyerDiaryTests/LawyerDiaryTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -995,7 +1183,7 @@
 				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
 				INFOPLIST_FILE = "LawyerDiaryTests/LawyerDiaryTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6018072-0dcf-46e2-b6d1-c91f382f85c5";
+				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};

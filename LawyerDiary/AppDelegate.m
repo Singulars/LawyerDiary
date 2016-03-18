@@ -459,9 +459,10 @@ Reachability *hostReach;
 
 #pragma mark Cent
 - (CasesTabBar *)casesTabBar {
-    if (!_casesTabBar) {
-        _casesTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
-    }
+//    if (!_casesTabBar) {
+//        _casesTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
+//    }
+    _casesTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCasesViewControllerStoryboardID];
     
     return _casesTabBar;
 }
@@ -489,40 +490,45 @@ Reachability *hostReach;
 //        [itemTwo setTitle:@"Subordinates"];
 //        [itemTwo setImage:IMAGE_WITH_NAME(@"icon-tab-subordinate")];
         
-        _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
+//        _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
     }
+    _clientsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kClientsViewControllerStoryboardID];
     
     return _clientsTabBar;
 }
 
 - (CourtsTabBar *)courtsTabBar {
     if (!_courtsTabBar) {
-        _courtsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
+//        _courtsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
     }
+    _courtsTabBar = [self.mainStoryboard instantiateViewControllerWithIdentifier:kCourtsViewControllerStoryboardID];
     
     return _courtsTabBar;
 }
 
 - (Profile *)profileViewController {
-    if (!_profileViewController) {
-        _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
-    }
+//    if (!_profileViewController) {
+//        _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
+//    }
+    _profileViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kProfileViewControllerStoryboardID];
     
     return _profileViewController;
 }
 
 - (Subordinates *)subordinatesViewController {
-    if (!_subordinatesViewController) {
-        _subordinatesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSubordinatesViewControllerStoryboardID];
-    }
+//    if (!_subordinatesViewController) {
+//        _subordinatesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSubordinatesViewControllerStoryboardID];
+//    }
+    _subordinatesViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSubordinatesViewControllerStoryboardID];
     
     return _subordinatesViewController;
 }
 
 - (Search *)searchViewController {
-    if (!_searchViewController) {
-        _searchViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSearchViewControllerStoryborrdID];
-    }
+//    if (!_searchViewController) {
+//        _searchViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSearchViewControllerStoryborrdID];
+//    }
+    _searchViewController = [self.mainStoryboard instantiateViewControllerWithIdentifier:kSearchViewControllerStoryborrdID];
     
     return _searchViewController;
 }

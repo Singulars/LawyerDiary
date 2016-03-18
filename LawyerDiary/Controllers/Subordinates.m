@@ -36,7 +36,7 @@
     
     [self.navigationController.navigationBar setTintColor:BLACK_COLOR];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -182,6 +182,9 @@
                         UI_ALERT(@"ERROR", [responseObject valueForKey:kAPImessage], nil);
                     }
                     else {
+                        
+                        [Subordinate deleteSubordinates];
+                        
                         NSArray *arrSubordinates = [responseObject valueForKey:kAPIsubordinateData];
                         
                         if (arrSubordinates.count > 0) {
@@ -308,10 +311,10 @@
     
     Subordinate *obj = arrUsers[indexPath.row];
     if ([obj.hasAccess isEqualToNumber:@1]) {
-        [cell setRightUtilityButtons:[self rightButtonsWithAccess:NO] WithButtonWidth:60];
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:NO] WithButtonWidth:40];
     }
     else {
-        [cell setRightUtilityButtons:[self rightButtonsWithAccess:YES] WithButtonWidth:60];
+        [cell setRightUtilityButtons:[self rightButtonsWithAccess:YES] WithButtonWidth:40];
     }
     
     [cell configureCellWithSubordinateObj:arrUsers[indexPath.row] forIndexPath:indexPath];
@@ -428,15 +431,19 @@
                     [alertController addAction:cancelAction];
                     [alertController addAction:okAction];
                     
+                    [cell hideUtilityButtonsAnimated:YES];
+                    
                     [self presentViewController:alertController animated:YES completion:nil];
                 }
                 else {
                     params[kAPIhasAccess] = @1;
+                    [cell hideUtilityButtonsAnimated:YES];
                     [self controlAccessForSubordinate:params];
                 }
             }
             else {
                 params[kAPIhasAccess] = @0;
+                [cell hideUtilityButtonsAnimated:YES];
                 [self controlAccessForSubordinate:params];
             }
             
@@ -521,7 +528,12 @@
         
         @try {
             
+            ShowNetworkActivityIndicator();
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                HideNetworkActivityIndicator();
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 if (responseObject == nil) {
                     [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -566,6 +578,8 @@
                 [ShareObj updateAdminAccessVariablesValue];
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                HideNetworkActivityIndicator();
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 [Global showNotificationWithTitle:@"You can't give/revoke access right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
             }];
         }
@@ -593,7 +607,12 @@
                                      kAPIadminId: USER_ID
                                      };
             
+            ShowNetworkActivityIndicator();
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             [NetworkManager startPostOperationWithParams:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                
+                HideNetworkActivityIndicator();
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 if (responseObject == nil) {
                     [Global showNotificationWithTitle:@"Subordinate can't be deleted right now!" titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
@@ -612,6 +631,8 @@
                 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 
+                HideNetworkActivityIndicator();
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
                 if (error.code == kCFURLErrorTimedOut) {
                     [Global showNotificationWithTitle:kREQUEST_TIME_OUT titleColor:WHITE_COLOR backgroundColor:APP_RED_COLOR forDuration:1];
                 }

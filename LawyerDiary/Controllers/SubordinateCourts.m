@@ -29,7 +29,7 @@ BOOL isForSubordinate;
     
     [lblErrorMsg setTextColor:DARK_GRAY_COLOR];
     
-    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:20 andStrokeColor:CLEARCOLOUR]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[Global setNavigationBarTitleTextAttributesLikeFont:APP_FONT_BOLD fontColor:BLACK_COLOR andFontSize:18 andStrokeColor:CLEARCOLOUR]];
 
     [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 60, 0, 0)];
     
@@ -243,6 +243,7 @@ BOOL isForSubordinate;
             [lblTitle setTextColor:UICOLOR(109, 109, 114, 1)];
             [cell addSubview:lblTitle];
             
+            [cell setBackgroundColor:UICOLOR(245, 245, 245, 1)];
             [cell setSeparatorInset:UIEdgeInsetsZero];
         }
         return cell;
@@ -298,58 +299,70 @@ BOOL isForSubordinate;
 }
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    switch (index) {
-        case 0:
-        {
-            // Delete button was pressed
-            
-            SubordinateAdmin *adminObj = [arrCourts[indexPath.section] objectForKey:kAPIadminData];
-            
-            if ([adminObj.hasAccess isEqualToNumber:@1]) {
+    @try {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        
+        switch (index) {
+            case 0:
+            {
+                // Delete button was pressed
                 
-                Court *toBeDeletedCourtObj = [[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
+                SubordinateAdmin *adminObj = [arrCourts[indexPath.section] objectForKey:kAPIadminData];
                 
-                if (![Cases isThisCourtExist:toBeDeletedCourtObj.localCourtId]) {
+                if ([adminObj.hasAccess isEqualToNumber:@1]) {
                     
-                    [self.tableView beginUpdates];
+                    Court *toBeDeletedCourtObj = [[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
                     
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-                    
-                    if ([toBeDeletedCourtObj.isSynced isEqualToNumber:@0] && [toBeDeletedCourtObj.courtId isEqualToNumber:@-1]) {
-                        [Court deleteCourt:toBeDeletedCourtObj.localCourtId];
+                    if (![Cases isThisCourtExist:toBeDeletedCourtObj.localCourtId]) {
+                        
+                        [self.tableView beginUpdates];
+                        
+                        if ([toBeDeletedCourtObj.isSynced isEqualToNumber:@0] && [toBeDeletedCourtObj.courtId isEqualToNumber:@-1]) {
+                            [Court deleteCourt:toBeDeletedCourtObj.localCourtId];
+                        }
+                        else {
+                            [Court updatedCourtPropertyofCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
+                            [self deleteCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
+                        }
+                        
+                        [arrCourts removeAllObjects];
+                        [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
+                        
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
+                        
+                        if ([[arrCourts[indexPath.section] objectForKey:kAPIdata] count] == 0) {
+                            [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                        }
+                        
+                        [self.tableView endUpdates];
+                        
+                        if (arrCourts.count == 0) {
+                            [lblErrorMsg setText:@"No Subordiantes Courts Found."];
+                            [self showSpinner:NO withError:YES];
+                        }
                     }
                     else {
-                        [Court updatedCourtPropertyofCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
-                        [self deleteCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
-                    }
-                    
-                    [arrCourts removeAllObjects];
-                    [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
-                    
-                    [self.tableView endUpdates];
-                    
-                    if (arrCourts.count == 0) {
-                        [lblErrorMsg setText:@"No Subordiantes Courts Found."];
-                        [self showSpinner:NO withError:YES];
+                        UI_ALERT(@"", @"This Court is belongs to one of the existing Case. So you can't delete this Court. To delete this Court, you've to delete Case first.", nil);
                     }
                 }
                 else {
-                    UI_ALERT(@"", @"This Court is belongs to one of the existing Case. So you can't delete this Court. To delete this Court, you've to delete Case first.", nil);
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                    UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
                 }
+                
+                [cell hideUtilityButtonsAnimated:YES];
             }
-            else {
-                [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
-            }
-            
-            [cell hideUtilityButtonsAnimated:YES];
+                break;
+            default:
+                break;
+                
         }
-            break;
-        default:
-            break;
-            
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception => %@", [exception debugDescription]);
+    }
+    @finally {
+        
     }
 }
 
@@ -411,39 +424,6 @@ BOOL isForSubordinate;
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
-
-/*
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    SubordinateAdmin *adminObj = [arrCourts[indexPath.section] objectForKey:kAPIadminData];
-    
-    if ([adminObj.hasAccess isEqualToNumber:@1]) {
-        [tableView beginUpdates];
-        if (editingStyle == UITableViewCellEditingStyleDelete) {
-            
-            Court *toBeDeletedCourtObj = [[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row];
-            
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationTop];
-            
-            if ([toBeDeletedCourtObj.isSynced isEqualToNumber:@0] && [toBeDeletedCourtObj.courtId isEqualToNumber:@-1]) {
-                [Court deleteCourt:toBeDeletedCourtObj.localCourtId];
-            }
-            else {
-                [Court updatedCourtPropertyofCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] withProperty:kCourtIsDeleted andValue:@1];
-                [self deleteCourt:[[arrCourts[indexPath.section] valueForKey:@"data"] objectAtIndex:indexPath.row] forAdmin:adminObj];
-            }
-            
-            [arrCourts removeAllObjects];
-            [arrCourts addObjectsFromArray:[Court fetchCourtsForSubordinate]];
-        }
-        [tableView endUpdates];
-    }
-    else {
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        UI_ALERT(@"Warning", @"You don't have access to perform this operation.", nil);
-    }
-}
-*/
 
 - (void)deleteCourt:(Court *)objCourt forAdmin:(SubordinateAdmin *)adminObj
 {
@@ -587,6 +567,7 @@ BOOL isForSubordinate;
                         
                         if (arrSubordinates.count > 0) {
                             
+                            [SubordinateAdmin deleteSubordinateAdmins];
                             [Court deleteCourtsForSubordinate];
                             
                             for (NSDictionary *obj in arrSubordinates) {
