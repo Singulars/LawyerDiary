@@ -26,6 +26,8 @@
     if ([_subordinateObj.isProfile isEqualToNumber:@1]) {
         [_imgViewProfile setImageWithURL:[NSURL URLWithString:GetProPicURLForUser(_subordinateObj.userId)] placeholderImage:image_placeholder_80];
     }
+    
+    [_hasAccessIndicator setHidden:![_subordinateObj.hasAccess isEqualToNumber:@1]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

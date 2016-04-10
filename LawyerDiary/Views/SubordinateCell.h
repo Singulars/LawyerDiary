@@ -16,6 +16,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *lblSubordinateName;
 @property (nonatomic, strong) IBOutlet UILabel *lblMobile;
 @property (nonatomic, strong) IBOutlet UIImageView *imgViewProfile;
+@property (nonatomic, strong) IBOutlet UIImageView *hasAccessIndicator;
 
 @property (nonatomic, strong) Subordinate *subordinateObj;
 @property (nonatomic, strong) NSIndexPath *indexPath;

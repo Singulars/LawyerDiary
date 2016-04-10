@@ -59,11 +59,6 @@
 		C07573041AE2F2B40017E0F9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C07573031AE2F2B40017E0F9 /* AppDelegate.m */; };
 		C07573071AE2F2B40017E0F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C07573051AE2F2B40017E0F9 /* Main.storyboard */; };
 		C075730C1AE2F2B40017E0F9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C075730B1AE2F2B40017E0F9 /* Images.xcassets */; };
-		C07573131AE2F2B40017E0F9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07573121AE2F2B40017E0F9 /* XCTest.framework */; };
-		C07573141AE2F2B40017E0F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F31AE2F2B40017E0F9 /* Foundation.framework */; };
-		C07573151AE2F2B40017E0F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C07572F71AE2F2B40017E0F9 /* UIKit.framework */; };
-		C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */; };
-		C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */; };
 		C07CEC201AF21A7F0058C25C /* CRToast.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CEC1F1AF21A7F0058C25C /* CRToast.m */; };
 		C07CFC7A1B768DC600D7741A /* ChooseAdmin.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC791B768DC600D7741A /* ChooseAdmin.m */; };
 		C07CFC7D1B769EB800D7741A /* ChooseAdminCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C07CFC7C1B769EB800D7741A /* ChooseAdminCell.m */; };
@@ -86,16 +81,6 @@
 		C0FB38411B71413600443451 /* Subordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB38401B71413600443451 /* Subordinate.m */; };
 		C0FB38441B71454700443451 /* Subordinates.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB38431B71454700443451 /* Subordinates.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C07573161AE2F2B40017E0F9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C07572E81AE2F2B40017E0F9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C07572EF1AE2F2B40017E0F9;
-			remoteInfo = LawyerDiary;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9D64BD6C1AE2FFC8001230C0 /* LawyerDiary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LawyerDiary.xcdatamodel; sourceTree = "<group>"; };
@@ -201,11 +186,7 @@
 		C07573031AE2F2B40017E0F9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		C07573061AE2F2B40017E0F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C075730B1AE2F2B40017E0F9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C07573111AE2F2B40017E0F9 /* LawyerDiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LawyerDiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C07573121AE2F2B40017E0F9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		C075731A1AE2F2B40017E0F9 /* LawyerDiaryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LawyerDiaryTests-Info.plist"; sourceTree = "<group>"; };
-		C075731C1AE2F2B40017E0F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LawyerDiaryTests.m; sourceTree = "<group>"; };
 		C07CEC1E1AF21A7F0058C25C /* CRToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRToast.h; sourceTree = "<group>"; };
 		C07CEC1F1AF21A7F0058C25C /* CRToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRToast.m; sourceTree = "<group>"; };
 		C07CFC781B768DC600D7741A /* ChooseAdmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseAdmin.h; sourceTree = "<group>"; };
@@ -260,16 +241,6 @@
 				C07572F61AE2F2B40017E0F9 /* CoreGraphics.framework in Frameworks */,
 				C07572F81AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
 				C07572F41AE2F2B40017E0F9 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C075730E1AE2F2B40017E0F9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C07573131AE2F2B40017E0F9 /* XCTest.framework in Frameworks */,
-				C07573151AE2F2B40017E0F9 /* UIKit.framework in Frameworks */,
-				C07573141AE2F2B40017E0F9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +623,6 @@
 				C0DCAAF91B28203F00A2335F /* Default-736h@3x.png */,
 				C0DCAAFA1B28203F00A2335F /* Default@2x.png */,
 				C07572F91AE2F2B40017E0F9 /* LawyerDiary */,
-				C07573181AE2F2B40017E0F9 /* LawyerDiaryTests */,
 				C07572F21AE2F2B40017E0F9 /* Frameworks */,
 				C07572F11AE2F2B40017E0F9 /* Products */,
 				CD28515BC07A3F7D00EF024A /* Pods */,
@@ -663,7 +633,6 @@
 			isa = PBXGroup;
 			children = (
 				C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */,
-				C07573111AE2F2B40017E0F9 /* LawyerDiaryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -722,24 +691,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		C07573181AE2F2B40017E0F9 /* LawyerDiaryTests */ = {
-			isa = PBXGroup;
-			children = (
-				C075731E1AE2F2B40017E0F9 /* LawyerDiaryTests.m */,
-				C07573191AE2F2B40017E0F9 /* Supporting Files */,
-			);
-			path = LawyerDiaryTests;
-			sourceTree = "<group>";
-		};
-		C07573191AE2F2B40017E0F9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C075731A1AE2F2B40017E0F9 /* LawyerDiaryTests-Info.plist */,
-				C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		C07CEC1D1AF21A730058C25C /* CRToast */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,24 +741,6 @@
 			productReference = C07572F01AE2F2B40017E0F9 /* LawyerDiary.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C07573101AE2F2B40017E0F9 /* LawyerDiaryTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C07573251AE2F2B40017E0F9 /* Build configuration list for PBXNativeTarget "LawyerDiaryTests" */;
-			buildPhases = (
-				C075730D1AE2F2B40017E0F9 /* Sources */,
-				C075730E1AE2F2B40017E0F9 /* Frameworks */,
-				C075730F1AE2F2B40017E0F9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C07573171AE2F2B40017E0F9 /* PBXTargetDependency */,
-			);
-			name = LawyerDiaryTests;
-			productName = LawyerDiaryTests;
-			productReference = C07573111AE2F2B40017E0F9 /* LawyerDiaryTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -819,9 +752,6 @@
 				TargetAttributes = {
 					C07572EF1AE2F2B40017E0F9 = {
 						DevelopmentTeam = 263NGAE3CY;
-					};
-					C07573101AE2F2B40017E0F9 = {
-						TestTargetID = C07572EF1AE2F2B40017E0F9;
 					};
 				};
 			};
@@ -839,7 +769,6 @@
 			projectRoot = "";
 			targets = (
 				C07572EF1AE2F2B40017E0F9 /* LawyerDiary */,
-				C07573101AE2F2B40017E0F9 /* LawyerDiaryTests */,
 			);
 		};
 /* End PBXProject section */
@@ -859,14 +788,6 @@
 				C0DCAAFB1B28203F00A2335F /* Default-568h@2x.png in Resources */,
 				C03766561AE96D0A00ACA623 /* Launch Screen.xib in Resources */,
 				C0DCAAFD1B28203F00A2335F /* Default-736h@3x.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C075730F1AE2F2B40017E0F9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C075731D1AE2F2B40017E0F9 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,23 +906,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C075730D1AE2F2B40017E0F9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C075731F1AE2F2B40017E0F9 /* LawyerDiaryTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C07573171AE2F2B40017E0F9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C07572EF1AE2F2B40017E0F9 /* LawyerDiary */;
-			targetProxy = C07573161AE2F2B40017E0F9 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C07572FC1AE2F2B40017E0F9 /* InfoPlist.strings */ = {
@@ -1018,14 +923,6 @@
 				C07573061AE2F2B40017E0F9 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		C075731B1AE2F2B40017E0F9 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C075731C1AE2F2B40017E0F9 /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1120,6 +1017,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.singulars.lawyerdiarytest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				WRAPPER_EXTENSION = app;
@@ -1141,51 +1039,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.singulars.lawyerdiarytest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		C07573261AE2F2B40017E0F9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LawyerDiary.app/LawyerDiary";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "LawyerDiaryTests/LawyerDiaryTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		C07573271AE2F2B40017E0F9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LawyerDiary.app/LawyerDiary";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "LawyerDiary/LawyerDiary-Prefix.pch";
-				INFOPLIST_FILE = "LawyerDiaryTests/LawyerDiaryTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56aa5722-13ab-4f36-b504-d3529f9309b2";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -1206,15 +1063,6 @@
 			buildConfigurations = (
 				C07573231AE2F2B40017E0F9 /* Debug */,
 				C07573241AE2F2B40017E0F9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C07573251AE2F2B40017E0F9 /* Build configuration list for PBXNativeTarget "LawyerDiaryTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C07573261AE2F2B40017E0F9 /* Debug */,
-				C07573271AE2F2B40017E0F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
